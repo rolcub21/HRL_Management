@@ -1,0 +1,4 @@
+from simpleoptions.renderers.room_renderer import RoomRenderer
+from simpleoptions.renderers.hanoi_renderer import HanoiRenderer
+from simpleoptions.renderers.taxi_renderer import TaxiRenderer
+from simpleoptions.renderers.grid_pacman_renderer import GridPacManRenderer
