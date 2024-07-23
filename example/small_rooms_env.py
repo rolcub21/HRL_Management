@@ -1,10 +1,10 @@
 import numpy as np
 import random
-from pynput.keyboard import Key, Controller
+#from pynput.keyboard import Key, Controller
 
 from copy import deepcopy
 
-from simpleoptions import BaseEnvironment
+from environment import BaseEnvironment
 from passenger_instance import Passenger
 
 #  The environment's layout, consisting of two 3x3 rooms connected by a small doorway.
@@ -34,7 +34,9 @@ class SmallRoomsEnv(BaseEnvironment):
         self.start_state = (1, 1)
         self.goal_state = (7, 7)
         self.current_state = None
-        self.number_passenger = 4
+        self.number_passenger = 6
+        self.passengers = []
+        self.reset()
 
     def get_state_space(self):
         return (8, 8)
@@ -42,11 +44,13 @@ class SmallRoomsEnv(BaseEnvironment):
     def reset(self):
         self.current_state = self.start_state
         self.passengers = []
-        occupied_positions = set([self.start_state, self.goal_state])  # Keep track of already occupied positions # Keep track of already occupied positions
+        occupied_positions = set([self.start_state, self.goal_state])  # Keep track of already occupied positions
 
         for i in range(self.number_passenger):
             passenger = Passenger()
             passenger.label = f"P{i+1}"
+            passenger.carrying = False
+            passenger.delivered = False
             # Generate a unique position for each passenger
             while True:
                 new_position = (random.randint(1, 7), random.randint(1, 7))
@@ -60,15 +64,50 @@ class SmallRoomsEnv(BaseEnvironment):
 
     def step(self, action):
         next_state = self._get_intended_cell(self.current_state, action)
-        self.passenger_moves(action)
-        self.current_state = next_state
-        reward = -1
+        reward = 0  # Initialize reward for this step
 
-        if self.is_state_terminal(self.current_state):
-            reward += 20
+        is_wall = self.rooms[next_state] == "#"
+        if is_wall:
+            reward -= 3  # Penalty for running into a wall
+        else:
+            self.passenger_moves(action)
+            self.current_state = next_state
+            reward -= 2  # Time step penalty
+
+        if any(passenger.carrying for passenger in self.passengers):
+            reward += 0.5  # Bonus for carrying a passenger
+
+        if self.ACTION_NAMES[action] == "PICKUP":
+            if any(passenger.carrying for passenger in self.passengers):
+                reward -= 5  # Penalty if trying to pick up when already carrying
+            else:
+                for passenger in self.passengers:
+                    if not passenger.carrying and self.current_state == passenger.position and not passenger.delivered:
+                        passenger.carrying = True
+                        reward += 5  # Bonus for successfully picking up a passenger
+                        break
+
+        if self.ACTION_NAMES[action] == "PUTDOWN":
+            if not any(passenger.carrying for passenger in self.passengers):
+                reward -= 5  # Penalty if trying to put down when not carrying
+            else:
+                for passenger in self.passengers:
+                    if passenger.carrying:
+                        passenger.carrying = False
+                        if passenger.position == self.goal_state:
+                            passenger.delivered = True
+                            reward += 20  # Bonus for delivering a passenger
+                            print(f"Passenger {passenger.label} delivered!")
+                        else:
+                            reward -= 5  # Penalty for putting down in the wrong place
+                        break
+
+        if self.is_state_terminal():
+            reward += 40  # Bonus for delivering all passengers and reaching the goal
             print("Goal Reached")
 
-        return self.current_state, reward, self.is_state_terminal(self.current_state), {}
+        return self.current_state, reward, self.is_state_terminal(), {}
+
 
     def get_action_space(self):
         return list([0, 1, 2, 3, 4, 5])
@@ -76,7 +115,7 @@ class SmallRoomsEnv(BaseEnvironment):
     def get_available_actions(self, state):
         return self.get_action_space()
 
-    def is_state_terminal(self, state):
+    def is_state_terminal(self):
         return all(passenger.delivered for passenger in self.passengers)
 
     def get_initial_states(self):
@@ -115,7 +154,6 @@ class SmallRoomsEnv(BaseEnvironment):
     def _initialise_rooms(self):
         rooms = np.full((9, 9), "#", dtype=str)
         rooms[1:-1, 1:-1] = "."
-        rooms[:, 4] = "#"
         rooms[4, 4] = "."
         return rooms
 
@@ -123,7 +161,6 @@ class SmallRoomsEnv(BaseEnvironment):
         for passenger in self.passengers:
             if passenger.carrying:
                 passenger.position = self._get_intended_cell(passenger.position, action)
-
 
     def _get_intended_cell(self, current_state, action):
         intended_next_state = current_state
@@ -140,21 +177,23 @@ class SmallRoomsEnv(BaseEnvironment):
             for passenger in self.passengers:
                 if not passenger.carrying and self.current_state == passenger.position and not passenger.delivered:
                     passenger.carrying = True
-                    break  # Assuming you can only pick up one passenger at a time
+                    break
         elif self.ACTION_NAMES[action] == "PUTDOWN":
             for passenger in self.passengers:
                 if passenger.carrying:
                     passenger.carrying = False
                     if passenger.position == self.goal_state:
                         passenger.delivered = True
-                        print(f"Passenger {passenger.label} delivered!")
-                    break  # Assuming you put down one passenger at a time
+                        #print(f"Passenger {passenger.label} delivered!")
+                    break
 
         if self.rooms[intended_next_state] == "#":
             intended_next_state = current_state
 
         return intended_next_state
+
 '''
+
 if __name__ == "__main__":
     env = SmallRoomsEnv()
     env.reset()

@@ -5,7 +5,7 @@ from typing import List, Set
 from typing import Hashable, Tuple
 from abc import ABC, abstractmethod
 
-from simpleoptions.option import BaseOption
+from option import BaseOption
 
 
 class BaseEnvironment(ABC):
@@ -136,7 +136,7 @@ class BaseEnvironment(ABC):
         
 
         # By definition, no options are available in the terminal state.
-        if self.is_state_terminal(state):
+        if self.is_state_terminal():
             return []
         # Otherwise, options whose initiation set contains the given state are returned.
         else:

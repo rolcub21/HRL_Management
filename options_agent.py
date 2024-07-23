@@ -9,8 +9,8 @@ from copy import copy
 from collections import defaultdict
 from typing import Tuple, Hashable, List, Union, DefaultDict
 
-from simpleoptions.option import BaseOption
-from simpleoptions.environment import BaseEnvironment
+from option import BaseOption
+from environment import BaseEnvironment
 
 
 class OptionAgent:
@@ -23,10 +23,10 @@ class OptionAgent:
         self,
         env: "BaseEnvironment",
         test_env: "BaseEnvironment" = None,
-        epsilon: float = 0.15,
-        macro_alpha: float = 0.2,
-        intra_option_alpha: float = 0.2,
-        gamma: float = 1.0,
+        epsilon: float = 0.20,
+        macro_alpha: float = 0.15,
+        intra_option_alpha: float = 0.15,
+        gamma: float = 0.99,
         default_action_value=0.0,
         n_step_updates=False,
         rng: RNG = None,
@@ -58,6 +58,7 @@ class OptionAgent:
         self.q_values_log_macro = defaultdict(list)
         self.n_step_updates = n_step_updates
         self.rng = rng if rng else random
+        self.step_counter = []  # Initialize the step counter list
 
         self.env = env
         self.test_env = test_env if test_env is not None else None
@@ -103,12 +104,13 @@ class OptionAgent:
             initiation_state = state_trajectory[i]
 
             old_value = self.q_table[(hash(initiation_state), hash(option))]
+            
 
             # Compute discounted sum of rewards.
             discounted_sum_of_rewards = self._discounted_return(rewards[i:], self.gamma)
 
             # Get Q-Values for Next State.
-            if not self.env.is_state_terminal(termination_state):
+            if not self.env.is_state_terminal():
                 q_values = [
                     self.q_table[(hash(termination_state), hash(o))]
                     for o in self.env.get_available_options(termination_state)
@@ -121,8 +123,10 @@ class OptionAgent:
             self.q_table[(hash(initiation_state), hash(option))] = old_value + self.macro_q_alpha * (
                 discounted_sum_of_rewards + math.pow(self.gamma, len(rewards) - i) * max(q_values) - old_value
             )
-            if initiation_state == (2,3):
+            if initiation_state == (2,6):
                 q_value = self.q_table[(hash(initiation_state), hash(option))] 
+                #print("Old value:", old_value)
+                #print("Update value:", q_value)
                 self.q_values_log_macro[str(option)].append(q_value)
                 #print(f"Q-value for option {other_option}: {q_value}")
                 #print(f"Q-value for option {other_option}: {self.q_values_log}")
@@ -190,7 +194,7 @@ class OptionAgent:
                         + math.pow(self.gamma, len(rewards) - i) * (next_q_continues + next_q_terminates)
                         - old_value
                     )
-                if initiation_state == (2,3):
+                if initiation_state == (2,6):
                     q_value = self.q_table[(hash(initiation_state), hash(other_option))] 
                     self.q_values_log_intra[str(other_option)].append(q_value)
                     #print(f"Q-value for option {other_option}: {q_value}")
@@ -295,6 +299,7 @@ class OptionAgent:
             # Initialise initial state variables.
             state = self.env.reset()
             terminal = False
+            episode_steps = 0  # Initialize step counter for the episode
             if render_interval > 0:
                 self.env.render()
 
@@ -397,8 +402,9 @@ class OptionAgent:
                         self.executing_options_states.pop()
                         self.executing_options_rewards.pop()
                         self.executing_options.pop()
-
             episode += 1
+            self.step_counter.append(time_steps)
+            #print("----end of episode")
         gc.collect()
 
         if verbose_logging:

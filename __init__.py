@@ -1,4 +1,5 @@
-from simpleoptions.option import BaseOption
-from simpleoptions.primitive_option import PrimitiveOption
-from simpleoptions.options_agent import OptionAgent
-from simpleoptions.environment import BaseEnvironment
+from .option import BaseOption
+from .primitive_option import PrimitiveOption
+from .options_agent import OptionAgent
+from .environment import BaseEnvironment
+

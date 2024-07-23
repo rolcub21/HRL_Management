@@ -1,5 +1,5 @@
 import numpy as np
-from simpleoptions import BaseEnvironment
+from environment import BaseEnvironment
 
 
 class Passenger:
