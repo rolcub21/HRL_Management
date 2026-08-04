@@ -1,0 +1,7 @@
+# Install a CPU- or CUDA-appropriate PyTorch build separately.
+numpy
+pandas
+matplotlib
+networkx
+scipy
+tensorboard

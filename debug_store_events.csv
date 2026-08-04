@@ -1,0 +1,4 @@
+episode,t_step,phase,block_label,row,col,path_exit,urgency,imm_cost,time_left_at_pick,error_t,delayed_R,total_R
+1000,0.0,chosen,B1,4,1,5.0,2.0,-1.547619047619048,,,,
+1000,,,B1,4,1,,,,2.0,,,
+1000,200.0,delivered,B1,4,1,,,,,20.0,-47.142857142857146,-3.904761904761905

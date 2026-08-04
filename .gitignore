@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Experiment outputs
+results/
+runs/
+*.pth
+*.tfevents.*
+*.npz
+*.png
+*.eps
+render_log.txt
+recovered-results
+
+# Local logs and caches
+*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store

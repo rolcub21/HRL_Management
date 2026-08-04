@@ -8,8 +8,8 @@ class BaseOption(ABC):
     Interface for a hierarchical reinforcement learning option.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, is_primitive: bool = False):
+        self.is_primitive = is_primitive
 
     @abstractmethod
     def initiation(self, state: Hashable) -> bool:
@@ -23,6 +23,7 @@ class BaseOption(ABC):
                 bool -- [description]
         """
         pass
+
 
     @abstractmethod
     def policy(self, state: Hashable, test: bool = False) -> Hashable:
