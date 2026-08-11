@@ -1,7 +1,7 @@
 import random
 from option import BaseOption
-from small_rooms_env import SmallRoomsEnv
-from helper.tools import _astar, _action_between
+from example.small_rooms_env import SmallRoomsEnv
+from example.helper.tools import _astar, _action_between
 
 class DeliverOption(BaseOption):
     """
@@ -62,16 +62,24 @@ class DeliverOption(BaseOption):
             next_pos = self.path.pop(0) # Get and remove the next step
             return _action_between(agent_pos, next_pos)
 
-        # If path is empty but we're not at an exit, something is wrong. Wait.
+        # Dynamic occupancy may invalidate a previous route. Replan rather
+        # than waiting until timeout while another exit remains reachable.
+        if self._plan_path(agent_pos) and self.path:
+            next_pos = self.path.pop(0)
+            return _action_between(agent_pos, next_pos)
+
+        self.planning_failed = True
         return SmallRoomsEnv.ACTION_IDS['WAIT']
 
     def termination(self, state):
         # Success condition: The block has been delivered.
         if self.block_to_deliver and self.block_to_deliver.delivered:
+            self.reset_internal()
             return True
 
         # Failure condition: We have run out of time or planning failed.
         if self.steps_taken >= self.timeout or self.planning_failed:
+            self.reset_internal()
             return True
             
         return False
@@ -86,15 +94,19 @@ class DeliverOption(BaseOption):
             if b is not self.block_to_deliver and not b.delivered
         }
         
-        # The target is always the closest exit.
-        target = min(self.env.exit_cells, key=lambda c: self.env.manhattan_distance(start, c))
+        candidates = []
+        for target in self.env.exit_cells:
+            if target in blocked:
+                continue
+            raw_path = _astar(self.env.rooms, start, target, blocked)
+            if raw_path:
+                candidates.append(raw_path)
 
-        raw_path = _astar(self.env.rooms, start, target, blocked)
-
-        if not raw_path:
+        if not candidates:
             self.path = []
             return False  # Planning failed
 
+        raw_path = min(candidates, key=len)
         self.path = raw_path[1:]  # Exclude the agent's starting position
         return True
 

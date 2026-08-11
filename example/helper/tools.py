@@ -3,7 +3,7 @@ from __future__ import annotations
 import heapq
 import numpy as np
 from option import BaseOption
-from small_rooms_env import SmallRoomsEnv
+from example.small_rooms_env import SmallRoomsEnv
 MAX_TIMER = 15
 
 __all__ = [

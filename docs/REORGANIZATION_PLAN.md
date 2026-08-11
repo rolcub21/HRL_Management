@@ -83,7 +83,8 @@ shipyard-hrl/
 - Whether the official project name is `shipyard-hrl`, `hrl-eval`, or
   `HRL_Management`.
 - Whether GA-assisted HRL is called `GA`, `GA-HRL`, or another unambiguous name.
-- Whether delivery error is a signed timing offset or an absolute-error metric.
+- Delivery error is a signed timing offset. Accuracy, earliness, and tardiness
+  are reported separately by the common evaluator.
 - Whether the two timing features described in `get_current_state()` should be
   restored or removed from its docstring permanently.
 - Which DQN implementation is authoritative and which files are archival.

@@ -10,6 +10,7 @@ from math import exp
 from copy import deepcopy
 from environment import BaseEnvironment
 from example.block_instance import Blocks   # Your Blocks class
+from example.episode_instance import EpisodeInstance
 from GA.helper_functions import plan_store_block, plan_retrieve_block
 from collections import deque
 
@@ -26,6 +27,9 @@ class SmallRoomsEnv(BaseEnvironment):
     # ───────────── static action maps ─────────────
     ACTION_NAMES = {0:"UP",1:"DOWN",2:"LEFT",3:"RIGHT",4:"PICKUP",5:"PUTDOWN",6:"WAIT"}
     ACTION_IDS   = {v:k for k,v in ACTION_NAMES.items()}
+    DELIVERY_BASE_REWARD = 10.0
+    DELIVERY_MAX_TIMING_BONUS = 30.0
+    DELIVERY_TARGET_WINDOW = 20.0
 
     # ─────────────────────────── ctor ────────────────────────────
     def __init__(self,
@@ -38,6 +42,7 @@ class SmallRoomsEnv(BaseEnvironment):
                  exit_cells:     list[tuple[int,int]] | None = None,
                  pickup_cells:   tuple[int,int] | None = None,
                  choose_storage: bool = False,
+                 number_blocks:  int  = 40,
                  #
                  # NEW stochastic parameters
                  arrival_rate:   float = 1.5,   # λ  (mean inter-arrival = 1/λ)
@@ -45,8 +50,6 @@ class SmallRoomsEnv(BaseEnvironment):
     ):
         super().__init__()
         options = set(options or [])
-        opts = set(options or [])
-        super().__init__()
         self.options        = options
         self.grid_rows      = grid_rows
         self.grid_cols      = grid_cols
@@ -89,7 +92,9 @@ class SmallRoomsEnv(BaseEnvironment):
         self.storage_counts     = {cell: 0 for cell in self.storage_positions}
 
         # ───────────── block population ─────────────
-        self.number_blocks = 40
+        self.number_blocks = int(number_blocks)
+        if self.number_blocks <= 0:
+            raise ValueError("number_blocks must be positive")
         self.blocks        = [Blocks(label=f"B{i+1}") for i in range(self.number_blocks)]
 
         # Fixed or uniformly random storage durations -----------------------------
@@ -115,18 +120,58 @@ class SmallRoomsEnv(BaseEnvironment):
         self.store_events          = []
         self.delivery_error_times  = []
         self.current_state         = None
+        self.current_episode       = 0
 
 
-    def reset(self):
-        """Resets episode state; first block arrives immediately, others wait."""
+    def sample_episode_instance(self, seed=None) -> EpisodeInstance:
+        """Sample an immutable episode without mutating environment state."""
+
+        rng = np.random if seed is None else np.random.default_rng(seed)
+        storage_deadlines = rng.poisson(
+            lam=self.proc_mean, size=self.number_blocks
+        )
+        storage_deadlines = np.maximum(storage_deadlines, 1)
+        if self.arrival_rate > 0:
+            inter_arrivals = rng.exponential(
+                scale=1.0 / self.arrival_rate,
+                size=self.number_blocks,
+            )
+            arrival_steps = np.cumsum(inter_arrivals).astype(int)
+        else:
+            arrival_steps = np.zeros(self.number_blocks, dtype=int)
+        arrival_steps[0] = 0
+        return EpisodeInstance(
+            schema_version=EpisodeInstance.SCHEMA_VERSION,
+            seed=None if seed is None else int(seed),
+            arrival_rate=float(self.arrival_rate),
+            proc_mean=float(self.proc_mean),
+            arrival_steps=tuple(int(value) for value in arrival_steps),
+            storage_steps_needed=tuple(
+                int(value) for value in storage_deadlines
+            ),
+            grid_rows=int(self.grid_rows),
+            grid_cols=int(self.grid_cols),
+            start_state=tuple(self.start_state),
+            door_cell=tuple(self.door_cell),
+            pickup_cell=tuple(self.pickup_cell),
+            waiting_cell=tuple(self.waiting_cell),
+            exit_cells=tuple(self.exit_cells),
+            storage_positions=tuple(self.storage_positions),
+            room_rows=tuple("".join(row) for row in self.rooms),
+        )
+
+    def reset(self, instance: EpisodeInstance | None = None):
+        """Reset from an exact instance or sample a backward-compatible one."""
         self.current_state  = self.start_state
         self.store_events.clear()
+        self.delivery_error_times.clear()
         self.time_steps     = 0
         self.current_time   = time.time()
-        self.current_episode = getattr(self, "current_episode", 0) or 0
+        self.current_episode = getattr(self, "current_episode", 0)
 
         # storage map may have changed
         self.storage_positions = self._get_storage_positions()
+        self.storage_counts = {cell: 0 for cell in self.storage_positions}
 
         # re-initialise each block
         #for i, blk in enumerate(self.blocks):
@@ -138,19 +183,15 @@ class SmallRoomsEnv(BaseEnvironment):
             # first block at pickup, rest at waiting cell
             #blk.position = self.pickup_cell if i == 0 else self.waiting_cell
 
-        # sample new storage durations (Poisson with mean proc_mean)
-        storage_deadlines = np.random.poisson(lam=self.proc_mean, size=self.number_blocks)
-        storage_deadlines = np.maximum(storage_deadlines, 1)
-
-        # sample new arrival schedule (Exponential inter-arrivals with mean 1/arrival_rate)
-        if self.arrival_rate > 0:
-            inter_arrivals = np.random.exponential(scale=1.0 / self.arrival_rate, size=self.number_blocks)
-            arrival_steps = np.cumsum(inter_arrivals).astype(int)
+        if instance is None:
+            instance = self.sample_episode_instance()
         else:
-            arrival_steps = np.zeros(self.number_blocks, dtype=int)
-
-        # make first block immediately available
-        arrival_steps[0] = 0
+            if not isinstance(instance, EpisodeInstance):
+                raise TypeError("instance must be an EpisodeInstance")
+            instance.validate_for(self)
+        self.current_episode_instance = instance
+        storage_deadlines = instance.storage_steps_needed
+        arrival_steps = instance.arrival_steps
 
         # re-initialise each block
         for i, blk in enumerate(self.blocks):
@@ -179,6 +220,11 @@ class SmallRoomsEnv(BaseEnvironment):
             random.shuffle(avail)
             for blk in self.blocks:
                 blk.storage_location = avail.pop()
+
+        for option in tuple(self.options):
+            on_env_reset = getattr(option, "on_env_reset", None)
+            if callable(on_env_reset):
+                on_env_reset()
 
         return self.get_current_state()
 
@@ -213,7 +259,13 @@ class SmallRoomsEnv(BaseEnvironment):
         self.time_steps += 1
         next_state = self._get_intended_cell(self.current_state, action)
         reward = -0.09  # default per-step cost.
-        info = {'stored_block': False, 'delivered_block': False, 'goal_reached': False}
+        info = {
+            'stored_block': False,
+            'relocated_block': False,
+            'delivered_block': False,
+            'goal_reached': False,
+            'episode_instance_id': self.current_episode_instance.instance_id,
+        }
         
         # Movement: update state if the intended cell is not a wall.
         if self.rooms[next_state[0]][next_state[1]] != "#":
@@ -247,6 +299,7 @@ class SmallRoomsEnv(BaseEnvironment):
                         block.picked = True
                         block.position = self.current_state
                         info["picked_block"] = block.label
+                        break
                         #print(f"Block {block.label} picked up at time step {self.time_steps}.")
                         #reward += 3.0  # Un-commented to add reward for picking up a block
                     
@@ -286,13 +339,25 @@ class SmallRoomsEnv(BaseEnvironment):
                             info['delivery_error_time'] = error_time
                             self.delivery_error_times.append((block.label, error_time, self.current_episode))
                             #reward += 30.0  # Un-commented to add reward for delivering a block
-                            reward += self._delivery_reward(block.storage_location, error_time)  # +10 for delivery
+                            delivery_reward = self._delivery_reward(block.storage_location, error_time)
+                            reward += delivery_reward
+                            info["delivery_reward"] = delivery_reward
                             #print(f"Block {block.label} delivered at time step {self.time_steps}, with error time {error_time} and reward {reward}.")
                             
                             block.delivered = True
                             block.carrying = False
                             block.delivered_time_step = self.time_steps
                             info['delivered_block'] = block.label
+                        elif (
+                            block.storage_location
+                            and self.current_state == block.storage_location
+                        ):
+                            # A PSLAP relocation preserves the original storage
+                            # event and clock. It is not a second placement and
+                            # must not receive another placement reward.
+                            block.carrying = False
+                            block.position = self.current_state
+                            info['relocated_block'] = block.label
                         else:
                             block.carrying = False
                             info['illegal_drop'] = block.label
@@ -493,14 +558,14 @@ class SmallRoomsEnv(BaseEnvironment):
         Compute reward for delivering a block to storage.
 
         - Guaranteed base reward of 10 for any delivery
-        - Sliding bonus of up to 10:
+        - Sliding bonus of up to 30:
             • Max bonus for on-time delivery (error_time == 0)
             • Bonus drops to 0 as abs(error_time) → max_allowable_error
         - Early deliveries (error_time < 0) are still rewarded, but with reduced bonus
         """
-        base_reward = 10.0
-        max_bonus = 30.0
-        max_allowable_error = 20.0  # cap where bonus = 0 (adjust as needed)
+        base_reward = self.DELIVERY_BASE_REWARD
+        max_bonus = self.DELIVERY_MAX_TIMING_BONUS
+        max_allowable_error = self.DELIVERY_TARGET_WINDOW
 
         try:
             path_len = min(self.manhattan_distance(storage_loc, ec)
@@ -592,6 +657,21 @@ class SmallRoomsEnv(BaseEnvironment):
         Returns the Manhattan distance between two points p1 and p2.
         """
         return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
+
+    def signed_remaining_storage_time(self, block):
+        """Return reward-consistent signed steps until a stored deadline.
+
+        Delivery error is defined against
+        ``stored_time_step + storage_steps_needed``.  Deriving remaining time
+        from that same deadline avoids the one-step offset in the auxiliary
+        ``storage_steps_elapsed`` counter and preserves negative overdue time.
+        ``None`` means that the storage clock has not started.
+        """
+
+        if block.stored_time_step is None or not block.stored:
+            return None
+        deadline = block.stored_time_step + block.storage_steps_needed
+        return float(deadline - self.time_steps)
 
     def get_current_state(self):
         """
@@ -770,7 +850,57 @@ class SmallRoomsEnv(BaseEnvironment):
         return [0, 1, 2, 3, 4, 5, 6]
 
     def get_available_actions(self, state):
-        return self.get_action_space()
+        """Return only primitives that are physically meaningful right now.
+
+        The temporal-mode controller treats this set as :math:`A(s)`.  Keeping
+        impossible pickup/putdown commands or wall/occupied moves in that set
+        gives a regularized policy positive probability of executing illegal
+        controls and also contaminates its Bellman aggregation.
+        """
+
+        if state is None:
+            agent_position = self.current_state
+        elif (
+            isinstance(state, tuple)
+            and len(state) == 2
+            and all(isinstance(value, (int, np.integer)) for value in state)
+        ):
+            agent_position = tuple(int(value) for value in state)
+        else:
+            agent_position = state[0]
+
+        available = []
+        for name in ("UP", "DOWN", "LEFT", "RIGHT"):
+            action = self.ACTION_IDS[name]
+            if self._get_intended_cell(agent_position, action) != agent_position:
+                available.append(action)
+
+        carried = next((block for block in self.blocks if block.carrying), None)
+        if carried is None and any(
+            block.position == agent_position
+            and not block.delivered
+            and not block.carrying
+            for block in self.blocks
+        ):
+            available.append(self.ACTION_IDS["PICKUP"])
+
+        if carried is not None:
+            valid_inbound_drop = (
+                not carried.stored
+                and carried.storage_location is not None
+                and agent_position == carried.storage_location
+            )
+            valid_delivery = carried.stored and agent_position in self.exit_cells
+            valid_relocation = (
+                carried.stored
+                and carried.storage_location is not None
+                and agent_position == carried.storage_location
+            )
+            if valid_inbound_drop or valid_delivery or valid_relocation:
+                available.append(self.ACTION_IDS["PUTDOWN"])
+
+        available.append(self.ACTION_IDS["WAIT"])
+        return available
 
     def is_state_terminal(self, state):
         return all(block.delivered for block in self.blocks)

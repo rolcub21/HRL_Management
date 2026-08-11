@@ -84,6 +84,13 @@ def save_run_npz(run_logs, out_dir, exp_name, seed, lam, mu):
             [np.nan if v is None else v for v in run_logs["episode_avg_error"]],
             dtype=np.float32
         ),
+        episode_mean_signed_deviation=np.asarray(run_logs["episode_mean_signed_deviation"], dtype=np.float32),
+        episode_mean_absolute_error=np.asarray(run_logs["episode_mean_absolute_error"], dtype=np.float32),
+        episode_mean_tardiness=np.asarray(run_logs["episode_mean_tardiness"], dtype=np.float32),
+        episode_mean_earliness=np.asarray(run_logs["episode_mean_earliness"], dtype=np.float32),
+        episode_within_target_window_rate=np.asarray(run_logs["episode_within_target_window_rate"], dtype=np.float32),
+        episode_tardy_delivery_rate=np.asarray(run_logs["episode_tardy_delivery_rate"], dtype=np.float32),
+        episode_p90_tardiness=np.asarray(run_logs["episode_p90_tardiness"], dtype=np.float32),
         episode_success=np.asarray(run_logs["episode_success"], dtype=np.float32),
         manager_losses=np.asarray(run_logs["manager_losses"], dtype=np.float32),
         worker_losses=np.asarray(run_logs["worker_losses"], dtype=np.float32),
@@ -106,7 +113,7 @@ def make_setting_plot(all_run_logs, exp_name, lam, mu, plot_window, plot_dir):
     err = np.nanmean(
         [
             np.asarray(
-                [np.nan if v is None else v for v in log["episode_avg_error"]],
+                [np.nan if v is None else v for v in log["episode_mean_absolute_error"]],
                 dtype=np.float32
             )
             for log in all_run_logs
@@ -146,7 +153,7 @@ def make_setting_plot(all_run_logs, exp_name, lam, mu, plot_window, plot_dir):
         alpha=0.9,
         label=f"{exp_name} Error",
     )
-    ax2.set_ylabel("Mean |Delivery Error|", color="black")
+    ax2.set_ylabel("Mean Absolute Timing Error", color="black")
     ax2.tick_params(axis="y", colors="black")
 
     all_err = err_s[np.isfinite(err_s)]

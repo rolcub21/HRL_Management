@@ -1,3 +1,4 @@
+import argparse
 import os
 import gc
 import random
@@ -11,6 +12,14 @@ from datetime import datetime
 from pathlib import Path
 
 from example.small_rooms_env import SmallRoomsEnv
+from PSLAP.baselines import (
+    ACCEPTED_BASELINES,
+    DYNAMIC_PSLAP,
+    LEGACY_ADAPTED_PSLAP,
+    PSLAP_GA_2009_OFFLINE,
+    PSLAP_GA_2009_ROLLING,
+    normalize_baseline,
+)
 from PSLAP.run_pslap import run_pslap_experiment
 
 
@@ -20,13 +29,6 @@ out_dir = os.path.join("./results", exp_id)
 LOG_DIR   = os.path.join(out_dir, "logs")
 NPZ_DIR   = os.path.join(out_dir, "datalogs")
 PLOT_DIR  = os.path.join(out_dir, "plots")
-
-os.makedirs(LOG_DIR, exist_ok=True)
-os.makedirs(NPZ_DIR, exist_ok=True)
-os.makedirs(PLOT_DIR, exist_ok=True)
-
-print("Writing outputs to:", out_dir)
-
 
 def moving_average(data, window_size):
     return pd.Series(data).rolling(window=window_size, center=True, min_periods=1).mean().values
@@ -67,6 +69,18 @@ def save_run_npz(run_logs, out_dir, exp_name, seed, lam, mu):
             [np.nan if v is None else v for v in run_logs["episode_avg_error"]],
             dtype=np.float32
         ),
+        episode_mean_signed_deviation=np.asarray(run_logs["episode_mean_signed_deviation"], dtype=np.float32),
+        episode_mean_absolute_error=np.asarray(run_logs["episode_mean_absolute_error"], dtype=np.float32),
+        episode_mean_tardiness=np.asarray(run_logs["episode_mean_tardiness"], dtype=np.float32),
+        episode_mean_earliness=np.asarray(run_logs["episode_mean_earliness"], dtype=np.float32),
+        episode_within_target_window_rate=np.asarray(run_logs["episode_within_target_window_rate"], dtype=np.float32),
+        episode_tardy_delivery_rate=np.asarray(run_logs["episode_tardy_delivery_rate"], dtype=np.float32),
+        episode_p90_tardiness=np.asarray(run_logs["episode_p90_tardiness"], dtype=np.float32),
+        episode_obstructive_moves=np.asarray(run_logs["episode_obstructive_moves"], dtype=np.int32),
+        episode_illegal_drops=np.asarray(run_logs["episode_illegal_drops"], dtype=np.int32),
+        episode_assignment_fallbacks=np.asarray(
+            run_logs["episode_assignment_fallbacks"], dtype=np.int32
+        ),
         episode_success=np.asarray(run_logs["episode_success"], dtype=np.float32),
         manager_losses=np.asarray(run_logs["manager_losses"], dtype=np.float32),
         worker_losses=np.asarray(run_logs["worker_losses"], dtype=np.float32),
@@ -87,7 +101,7 @@ def make_setting_plot(all_run_logs, exp_name, lam, mu, plot_window, plot_dir):
     err = np.nanmean(
         [
             np.asarray(
-                [np.nan if v is None else v for v in log["episode_avg_error"]],
+                [np.nan if v is None else v for v in log["episode_mean_absolute_error"]],
                 dtype=np.float32
             )
             for log in all_run_logs
@@ -126,7 +140,7 @@ def make_setting_plot(all_run_logs, exp_name, lam, mu, plot_window, plot_dir):
         alpha=0.9,
         label=f"{exp_name} Error",
     )
-    ax2.set_ylabel("Mean |Delivery Error|", color="black")
+    ax2.set_ylabel("Mean Absolute Timing Error", color="black")
     ax2.tick_params(axis="y", colors="black")
 
     all_err = err_s[np.isfinite(err_s)]
@@ -160,7 +174,25 @@ def make_setting_plot(all_run_logs, exp_name, lam, mu, plot_window, plot_dir):
 
 
 if __name__ == "__main__":
-    is_quick_test = True
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--baseline",
+        choices=ACCEPTED_BASELINES,
+        default=DYNAMIC_PSLAP,
+        help="explicit PSLAP implementation to evaluate",
+    )
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="run the longer 10-episode setting instead of the smoke grid",
+    )
+    args = parser.parse_args()
+    baseline = normalize_baseline(args.baseline)
+    os.makedirs(LOG_DIR, exist_ok=True)
+    os.makedirs(NPZ_DIR, exist_ok=True)
+    os.makedirs(PLOT_DIR, exist_ok=True)
+    print("Writing outputs to:", out_dir)
+    is_quick_test = not args.full
 
     if is_quick_test:
         print("--- RUNNING IN QUICK TEST MODE ---")
@@ -171,7 +203,12 @@ if __name__ == "__main__":
     lambda_values = [0.2, 0.5, 1.0]
     mu_values = [20, 50, 80]
 
-    exp_name = "PSLaP"
+    exp_name = {
+        DYNAMIC_PSLAP: "DynamicPSLAP",
+        PSLAP_GA_2009_OFFLINE: "PSLAPGA2009OfflineReference",
+        PSLAP_GA_2009_ROLLING: "PSLAPGA2009Rolling",
+        LEGACY_ADAPTED_PSLAP: "LegacyAdaptedPSLAP",
+    }[baseline]
     exp_data = defaultdict(list)
 
     for lam in lambda_values:
@@ -201,6 +238,7 @@ if __name__ == "__main__":
                     env=env,
                     n_episodes=n_episodes,
                     max_steps=max_steps,
+                    baseline=baseline,
                 )
 
                 save_run_logs(run_logs, out_dir=LOG_DIR, exp_name=safe_exp, seed=seed, lam=lam, mu=mu)

@@ -1,6 +1,6 @@
 from option import BaseOption
-from small_rooms_env import SmallRoomsEnv
-from helper.tools import _astar, _action_between
+from example.small_rooms_env import SmallRoomsEnv
+from example.helper.tools import _astar, _action_between
 
 class StoreOption(BaseOption):
     """
@@ -21,6 +21,7 @@ class StoreOption(BaseOption):
         self.planning_failed = False
 
     def initiation(self, state):
+        self.reset_internal()
         # Only start when already carrying a block that needs storing
         carrying = next(
             (b for b in self.env.blocks
@@ -28,6 +29,13 @@ class StoreOption(BaseOption):
             None
         )
         if carrying:
+            occupied = {
+                b.position for b in self.env.blocks
+                if b is not carrying and not b.delivered
+            }
+            if carrying.storage_location in occupied:
+                self.reset_internal()
+                return False
             self.block = carrying
             self.phase = 'store'
             return True
@@ -37,17 +45,17 @@ class StoreOption(BaseOption):
         agent_pos = state[0]
         self.steps += 1
 
+        # A zero-length route is a valid plan: store immediately.
+        if self.phase == 'store' and agent_pos == self.block.storage_location:
+            return SmallRoomsEnv.ACTION_IDS['PUTDOWN']
+
         # Plan if needed
-        if not self.path and not self.planning_failed:
+        if (not self.path or self.cursor >= len(self.path)) and not self.planning_failed:
             if not self._plan_path(agent_pos):
                 self.planning_failed = True
 
         if self.planning_failed:
             return SmallRoomsEnv.ACTION_IDS['WAIT']
-
-        # Store phase dropoff
-        if self.phase == 'store' and agent_pos == self.block.storage_location:
-            return SmallRoomsEnv.ACTION_IDS['PUTDOWN']
 
         # Follow planned path
         if self.cursor < len(self.path):
@@ -79,7 +87,7 @@ class StoreOption(BaseOption):
             if b is not self.block and not b.delivered
         }
         raw = _astar(self.env.rooms, start, target, blocked)
-        if not raw or len(raw) <= 1:
+        if not raw:
             self.path = []
             return False
         self.path = raw[1:]

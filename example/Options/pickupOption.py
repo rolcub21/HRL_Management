@@ -1,6 +1,6 @@
 from option import BaseOption
-from small_rooms_env import SmallRoomsEnv
-from helper.tools import _astar, _action_between
+from example.small_rooms_env import SmallRoomsEnv
+from example.helper.tools import _astar, _action_between
 
 class PickupOption(BaseOption):
     """Navigate to a free block at the pickup cell via A* and execute PICKUP exactly once."""
@@ -37,18 +37,6 @@ class PickupOption(BaseOption):
             ),
             None
         )
-
-        # 3) otherwise choose an arrived, available block
-        if candidate is None:
-            candidate = next(
-                (
-                    b for b in self.env.blocks
-                    if b.position is not None
-                    and not b.stored
-                    and not b.delivered
-                ),
-                None
-            )
 
         if candidate is None:
             return False
@@ -98,7 +86,7 @@ class PickupOption(BaseOption):
 
     def termination(self, state):
         # succeed once carrying, or when timeout expires
-        carrying = any(b.carrying for b in self.env.blocks)
+        carrying = self.block is not None and self.block.carrying
         done = carrying or (self.steps >= self.timeout)
         if done:
             self.reset_internal()

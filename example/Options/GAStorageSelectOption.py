@@ -4,11 +4,12 @@ from example.small_rooms_env import SmallRoomsEnv
 
 
 class GAStorageSelectOption(BaseOption):
+    is_storage_selector = True
     def __init__(self, env: SmallRoomsEnv, assignment_path: str):
         super().__init__(is_primitive=False)
         self.env = env
         self.assignment_path = assignment_path
-        self.assignment = self._load_assignment()
+        self.assignment = [tuple(position) for position in self._load_assignment()]
 
         if len(self.assignment) != len(self.env.blocks):
             raise ValueError(
@@ -19,6 +20,8 @@ class GAStorageSelectOption(BaseOption):
         for pos in self.assignment:
             if pos not in self.env.storage_positions:
                 raise ValueError(f"Invalid GA storage position: {pos}")
+        if len(set(self.assignment)) != len(self.assignment):
+            raise ValueError("GA assignment contains duplicate storage positions")
 
         self.block = None
 
@@ -46,6 +49,10 @@ class GAStorageSelectOption(BaseOption):
 
         block_idx = int(self.block.label[1:]) - 1
         chosen_cell = self.assignment[block_idx]
+        if chosen_cell not in self.env.get_available_storage_positions():
+            raise RuntimeError(
+                f"Assigned GA storage position is unavailable: {chosen_cell}"
+            )
         self.block.storage_location = chosen_cell
 
         self.env.store_events.append({
@@ -68,7 +75,7 @@ class GAStorageSelectOption(BaseOption):
     def on_env_reset(self):
         pass
 
-    def on_delivery(self, block_label, error_time):
+    def on_delivery(self, block_label, error_time, delivery_reward=None):
         pass
 
     def on_episode_end(self):

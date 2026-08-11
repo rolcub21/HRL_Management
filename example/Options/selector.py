@@ -2,8 +2,8 @@
 import random, numpy as np, torch, torch.nn as nn, torch.nn.functional as F
 from collections import deque
 from option import BaseOption
-from small_rooms_env import SmallRoomsEnv
-from helper.tools import _astar
+from example.small_rooms_env import SmallRoomsEnv
+from example.helper.tools import _astar
 from typing import Tuple, List
 # ───────────────────────── tiny network ──────────────────────────
 
@@ -26,6 +26,16 @@ class TinyQ(nn.Module):
 
 class StorageSelectOption(BaseOption):
 
+    # v3 removes required-duration leakage from blocks that have not arrived.
+    FEATURE_VERSION = 3
+    is_storage_selector = True
+    RETURN_FULL_ENVIRONMENT = "full_environment"
+    RETURN_EXPLICIT_TERMINAL = "explicit_terminal"
+    RETURN_DEFINITION_VERSION = 1
+    RETURN_MODES = frozenset(
+        (RETURN_FULL_ENVIRONMENT, RETURN_EXPLICIT_TERMINAL)
+    )
+
 # -------------------------------------------------------------
     def __init__(self,
                 env:           SmallRoomsEnv,
@@ -33,12 +43,19 @@ class StorageSelectOption(BaseOption):
                 buffer_size:   int   = 100_000,
                 batch_size:    int   = 256,
                 gamma:         float = 0.99,
-                update_freq:   int   = 10):
+                update_freq:   int   = 10,
+                return_mode:   str   = RETURN_FULL_ENVIRONMENT):
         super().__init__(is_primitive=False)
+
+        if return_mode not in self.RETURN_MODES:
+            valid = ", ".join(sorted(self.RETURN_MODES))
+            raise ValueError(
+                f"Unknown selector return mode {return_mode!r}; expected {valid}"
+            )
 
         # ---------- env & bookkeeping --------------------------------------
         self.env          = env
-        self.cells        = env.storage_positions          # fixed order
+        self.cells        = list(env.storage_positions)    # fixed order
         self.n_cells      = len(self.cells)
         #self.device       = torch.device("cuda" if torch.cuda.is_available()
                                         #else "cpu")
@@ -53,7 +70,7 @@ class StorageSelectOption(BaseOption):
                                     for c in self.cells], np.float32)
         self.f_usage = np.zeros(self.n_cells, dtype=np.float32)
         self.MAX_B = 5
-        self.MAX_T = 15
+        self.MAX_T = max(1, int(getattr(env, "MAX_T", 150)))
 
         state_dim       = 5 * self.n_cells + 2  + self.MAX_B * 5 + 2
 
@@ -70,8 +87,13 @@ class StorageSelectOption(BaseOption):
         self.batch_size   = batch_size
         self.gamma        = gamma
         self.update_freq  = update_freq
+        self.return_mode  = return_mode
+        self.return_definition = (
+            f"selector_event_{return_mode}_v{self.RETURN_DEFINITION_VERSION}"
+        )
         self.learn_calls  = 0
         self.learn_steps  = 0 
+        self.learning_enabled = True
         self.soft_tau     = 0.01            # target-net soft-update factordd
         self.pending      = {}                # for the option initiation predicate
         self.fail_R       = -50.0              # penalty for failed initiation
@@ -96,19 +118,41 @@ class StorageSelectOption(BaseOption):
 
     def _block_feats(self) -> np.ndarray:
         feats: List[float] = []
-        order = sorted(
-            self.env.blocks,
-            key=lambda b: (b.delivered, b.stored, b.carrying)
-        )
+        carried = next((b for b in self.env.blocks if b.carrying), None)
+        remaining = [b for b in self.env.blocks if b is not carried]
+
+        def remaining_storage_steps(block):
+            required = getattr(block, "storage_steps_needed", self.MAX_T)
+            if block.stored and block.stored_time_step is not None:
+                elapsed = max(0, self.env.time_steps - block.stored_time_step)
+                return max(0, required - elapsed)
+            return required
+
+        def information_safe_order(block):
+            if block.delivered:
+                return 3, 0, block.label
+            if block.stored:
+                return 0, remaining_storage_steps(block), block.label
+            if block.position is not None:
+                # Required duration is observable once the block has arrived.
+                return 1, remaining_storage_steps(block), block.label
+            # Unarrived blocks are ordered without consulting hidden duration.
+            return 2, 0, block.label
+
+        remaining.sort(key=information_safe_order)
+        order = ([carried] if carried is not None else []) + remaining
         max_len = self.env.grid_rows + self.env.grid_cols
+
+        def normalise_time(value):
+            return float(np.clip(value / float(self.MAX_T), 0.0, 1.0))
 
         for b in order[:self.MAX_B]:
             if b.delivered:
                 t = 3
-            elif b.stored:
-                t = 2
             elif b.carrying:
                 t = 1
+            elif b.stored:
+                t = 2
             else:
                 t = 0
 
@@ -117,7 +161,7 @@ class StorageSelectOption(BaseOption):
                 d_agent = 1.0
                 d_stor = 1.0 if b.storage_location is None else 0.0
                 d_exit = 1.0
-                rem_t = 0.0 if not hasattr(b, "storage_steps_needed") else min(b.storage_steps_needed / float(self.MAX_T), 1.0)
+                rem_t = 0.0
                 feats += [t/3.0, d_agent, d_stor, d_exit, rem_t]
                 continue
 
@@ -139,7 +183,7 @@ class StorageSelectOption(BaseOption):
             ) / max_len
 
             if b.carrying:
-                rem_t = b.storage_steps_needed / float(self.MAX_T)
+                rem_t = normalise_time(b.storage_steps_needed)
             elif b.stored and not b.delivered:
                 if b.stored_time_step is not None:
                     elapsed = min(
@@ -149,7 +193,7 @@ class StorageSelectOption(BaseOption):
                 else:
                     elapsed = 0
                 rem = b.storage_steps_needed - elapsed
-                rem_t = rem / float(self.MAX_T)
+                rem_t = normalise_time(rem)
             else:
                 rem_t = 0.0
 
@@ -171,7 +215,9 @@ class StorageSelectOption(BaseOption):
 
         blk_feats = self._block_feats()
 
-        stored_blocks = [b for b in self.env.blocks if b.stored]
+        stored_blocks = [
+            b for b in self.env.blocks if b.stored and not b.delivered
+        ]
         if stored_blocks:
             mean_exit_dist = np.mean([
                 self.env.compute_goal_distance(b.position, self.env.exit_cells)
@@ -180,8 +226,9 @@ class StorageSelectOption(BaseOption):
         else:
             mean_exit_dist = 0.0  # Default when no stored blocks
 
+        block_count = max(1, len(self.env.blocks))
         globals = np.array([
-            sum(not b.stored for b in self.env.blocks) / self.MAX_B,
+            sum(not b.delivered for b in self.env.blocks) / block_count,
             mean_exit_dist  # Use computed or default value
         ], dtype=np.float32)
 
@@ -249,7 +296,7 @@ class StorageSelectOption(BaseOption):
         if len(free_idx) == 0:
             return SmallRoomsEnv.ACTION_IDS["WAIT"]
 
-        if random.random() < self.eps:
+        if self.learning_enabled and random.random() < self.eps:
             self.last_a = int(random.choice(free_idx))
         else:
             with torch.no_grad():
@@ -274,7 +321,7 @@ class StorageSelectOption(BaseOption):
         blk = self.block
 
         # urgency 1 = needs to be delivered soon, 0 = relaxed
-        urgency = 1.0 - blk.storage_steps_needed / float(self.MAX_T)
+        urgency = 1.0 - np.clip(blk.storage_steps_needed / float(self.MAX_T), 0.0, 1.0)
 
         α_exit, α_door = 5.0, 3.0          # weights
         α_path = 0.05
@@ -307,13 +354,15 @@ class StorageSelectOption(BaseOption):
         blk.storage_location      = chosen
         blk.storage_chosen_state  = self.last_s.copy()
         blk.storage_chosen_idx    = self.last_a
-        self.pending[blk.label] = {
-                        'phi_s': blk.storage_chosen_state,   # φ_s at pick time
-                        'a':     blk.storage_chosen_idx,     # action idx
-                        'imm':   imm_cost,                   # your shaping cost
-                        'acc':   0.0,                        # running sum of γ^t * r_env
-                        'disc':  1.0                         # current γ^t multiplier
-                    }
+        if self.learning_enabled:
+            self.pending[blk.label] = {
+                'phi_s': blk.storage_chosen_state,
+                'a':     blk.storage_chosen_idx,
+                'imm':   imm_cost,
+                'acc':   0.0,
+                'disc':  1.0,
+                'steps':  0,
+            }
         # record storage info
         self.env.store_events.append({
             "episode":           self.env.current_episode,
@@ -325,10 +374,14 @@ class StorageSelectOption(BaseOption):
 
         # 4) no actual movement: WAIT to terminate the option
         #    learning (self._learn) and buffer-append happen in your on_delivery / on_episode_end hooks
-        self._update_epsilon()
-        self.learn_calls += 1
-        if len(self.buffer) >= self.batch_size:
-            self._learn()
+        if self.learning_enabled:
+            self._update_epsilon()
+            self.learn_calls += 1
+            if (
+                len(self.buffer) >= self.batch_size
+                and self.learn_calls % self.update_freq == 0
+            ):
+                self._learn()
         return SmallRoomsEnv.ACTION_IDS["WAIT"]
     
     def _path_length_reward(self) -> float:
@@ -353,14 +406,36 @@ class StorageSelectOption(BaseOption):
 
 
     def on_env_reset(self):
-            # recompute per‐episode quantities
-            self.cells   = list(self.env.storage_positions)
-            self.n_cells = len(self.cells)
-            self.f_cong  = np.zeros(self.n_cells, dtype=np.float32)
+        # recompute per-episode quantities
+        cells = list(self.env.storage_positions)
+        if len(cells) != self.n_cells:
+            raise RuntimeError(
+                "Storage-cell count changed after selector construction; "
+                "the selector output layer is no longer compatible"
+            )
+        self.cells = cells
+        self.f_usage = np.zeros(self.n_cells, dtype=np.float32)
+        self.f_cong = np.zeros(self.n_cells, dtype=np.float32)
+        self.pending.clear()
+        self.block = None
+        self.last_s = None
+        self.last_a = None
+
+    def set_learning_enabled(self, enabled: bool):
+        """Enable training behavior or freeze the selector for evaluation."""
+        self.learning_enabled = bool(enabled)
+        if not self.learning_enabled:
+            self.eps = 0.0
+            self.pending.clear()
 
     # ───────────────────────── learn from replay ──────────────────────────
     # -------------------------------------------------------------
-    def on_delivery(self, block_label: str, error_time: float):
+    def on_delivery(
+        self,
+        block_label: str,
+        error_time: float,
+        delivery_reward: float | None = None,
+    ):
         # 1) Pop the pending dict entry
         entry = self.pending.pop(block_label, None)
         if entry is None:
@@ -371,7 +446,7 @@ class StorageSelectOption(BaseOption):
         a     = entry['a']       # chosen action index
         imm   = entry['imm']     # immediate shaping cost
         acc   = entry['acc']     # accumulated discounted transit rewards
-        disc  = entry['disc']    # γ^T multiplier at delivery
+        disc  = entry['disc']    # multiplier for the next reward after closure
 
         # 2) Recompute “after delivery” mask & usage exactly as in policy()
         free        = set(self.env.get_available_storage_positions())
@@ -390,12 +465,29 @@ class StorageSelectOption(BaseOption):
         # 4) Build φ_s2 from the current env state
         φ_s2 = self._φ(mask2, f_usage, self.f_cong, self.env.current_state)
 
-        # 5) Compute the final delivery bonus
-        delayed_R = self.env._delivery_reward(storage_loc, error_time)
-
-        # 6) Combine into one SMDP‐correct option reward:
-        #    R_o = imm + sum_{t=1..T-1} γ^t r_t  +  γ^T * delayed_R
-        R_option = imm + acc + disc * delayed_R
+        # 5) Close one complete placement-to-delivery event return.  The
+        # default full-environment definition has already accumulated the
+        # delivery step, including its base and timing bonus.  The explicit
+        # terminal definition removes that component during accumulation and
+        # adds it here at exactly the same exponent.
+        if self.return_mode == self.RETURN_FULL_ENVIRONMENT:
+            terminal_reward = 0.0
+            terminal_discount = 0.0
+            R_option = imm + acc
+        else:
+            if delivery_reward is None:
+                raise RuntimeError(
+                    "explicit_terminal selector return requires the delivery "
+                    "reward emitted by the environment"
+                )
+            if "terminal_discount" not in entry:
+                raise RuntimeError(
+                    "explicit_terminal selector return was closed before its "
+                    "delivery step was accumulated"
+                )
+            terminal_reward = float(delivery_reward)
+            terminal_discount = float(entry["terminal_discount"])
+            R_option = imm + acc + terminal_discount * terminal_reward
 
         # 7) (Optional) Log everything for analysis
         self.env.store_events.append({
@@ -409,12 +501,17 @@ class StorageSelectOption(BaseOption):
             "imm_cost":    imm,
             "acc_transit": acc,
             "disc":        disc,
-            "delayed_R":   delayed_R,
+            "duration":    entry.get("steps", None),
+            "return_definition": self.return_definition,
+            "delivery_reward": float(delivery_reward or 0.0),
+            "terminal_reward": terminal_reward,
+            "terminal_discount": terminal_discount,
             "total_R":     R_option
         })
 
-        # 8) Push the complete transition into the replay buffer
-        #    done=1.0 since the option terminated on success
+        # Treat each block assignment as a delayed contextual decision. Its
+        # target terminates when that block is delivered, so no later storage
+        # assignment is bootstrapped into this return.
         self.buffer.append((φ_s, a, R_option, φ_s2, 1.0))
 
 
@@ -453,8 +550,8 @@ class StorageSelectOption(BaseOption):
                 "total_R":     R_option
             })
 
-            # 3) Push the “failure” transition: done=0.0 since it terminated abnormally
-            self.buffer.append((φ_s, a, R_option, φ_s2, 0.0))
+            # Episode truncation also terminates this delayed assignment.
+            self.buffer.append((φ_s, a, R_option, φ_s2, 1.0))
 
         # 4) Clear all pending entries for the next episode
         self.pending.clear()
@@ -477,16 +574,17 @@ class StorageSelectOption(BaseOption):
         r     = torch.from_numpy(r).float().unsqueeze(1).to(self.device)
         d     = torch.from_numpy(d).float().unsqueeze(1).to(self.device)
 
+        if not bool(torch.all(d == 1.0)):
+            raise RuntimeError(
+                "Selector replay contains a non-terminal event. Placement-to-"
+                "delivery records must use complete returns without bootstrap."
+            )
+
         q     = self.q(s).gather(1, a)
-        with torch.no_grad():
-            q_s2 = self.q(s2)
-            # Extract mask from state features (already a tensor)
-            mask2 = s2[:, :self.n_cells]  # Shape: [batch_size, n_cells]
-            # Mask invalid actions by adding large negative values
-            q_s2_masked = q_s2 + (mask2 - 1.0) * 1e8  # 0 becomes -1e8, 1 remains
-            best = q_s2_masked.argmax(dim=1, keepdim=True)
-            q_t = self.q_targ(s2).gather(1, best)
-            y    = r + (1-d)*self.gamma*q_t
+        # Every replay row is a complete selector event, so its Monte Carlo
+        # return is the target.  The delivery state is not asserted to be a
+        # selector decision state and no Q-value is bootstrapped from it.
+        y = r
 
         loss  = F.mse_loss(q, y)
         self.loss_history.append(loss.item())
@@ -503,7 +601,7 @@ class StorageSelectOption(BaseOption):
                 #θ_t.data.mul_(1-τ).add_(τ*θ.data)
 
         # hard target-update
-        if self.learn_steps % 1000 == 0:
+        if (self.learn_steps + 1) % 1000 == 0:
             self.q_targ.load_state_dict(self.q.state_dict())
 
         # one-shot LR decay

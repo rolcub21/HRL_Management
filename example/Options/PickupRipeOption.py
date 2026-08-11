@@ -1,16 +1,24 @@
 from option import BaseOption
-from small_rooms_env import SmallRoomsEnv
-from helper.tools import _astar, _action_between
+from example.small_rooms_env import SmallRoomsEnv
+from example.helper.tools import _astar, _action_between
 
 class PickupRipeOption(BaseOption):
     """
     Navigates to a ripe, stored block and picks it up. This option acts as the
     bridge between a block finishing storage and the DeliverOption.
     """
-    def __init__(self, env: SmallRoomsEnv, timeout: int = 25):
+    def __init__(
+        self,
+        env: SmallRoomsEnv,
+        timeout: int = 25,
+        retrieval_lead_time: float = 20.0,
+        include_handling_steps: bool = False,
+    ):
         super().__init__(is_primitive=False)
         self.env = env
         self.timeout = timeout
+        self.retrieval_lead_time = float(retrieval_lead_time)
+        self.include_handling_steps = bool(include_handling_steps)
         self.reset_internal()
 
     def reset_internal(self):
@@ -63,22 +71,34 @@ class PickupRipeOption(BaseOption):
             # 1b) block → exit via A*
             # pick whichever exit gives the shortest A* path
             best = 1e9
+            exit_blockers = {
+                blk.position for blk in self.env.blocks
+                if blk is not b and not blk.delivered
+            }
             for ex in self.env.exit_cells:
+                if ex in exit_blockers:
+                    continue
                 path_be = _astar(self.env.rooms, b.position, ex,
-                                {blk.position for blk in self.env.blocks
-                                if blk is not b and not blk.delivered})
+                                exit_blockers)
                 if path_be:
                     best = min(best, len(path_be)-1)
+            if best == 1e9:
+                continue
             t_be = best
 
             total_travel = t_ab + t_be
+            if self.include_handling_steps:
+                # PICKUP at the block and PUTDOWN at the exit are environment
+                # actions and therefore part of the departure-time estimate.
+                total_travel += 2
 
             # slack = how many steps we *can still wait* until the deadline
             slack = (b.storage_steps_needed - elapsed) - total_travel
 
-            # consider the block “ripe” if slack ≤ 10   (i.e. we must leave *now*)
-            # You can relax this inequality if you want earlier pick-ups.
-            if slack <= 20:
+            # A positive lead time is an explicit safety-margin ablation.  The
+            # corrected foundation uses zero: leave when complete-plan slack
+            # reaches zero, matching the deterministic dispatch contract.
+            if slack <= self.retrieval_lead_time:
                 ripe_candidates.append((b, total_travel, slack))
 
         # nothing urgent → option not available
@@ -124,17 +144,30 @@ class PickupRipeOption(BaseOption):
             next_cell = self.path.pop(0)
             return _action_between(agent_pos, next_cell)
 
-        # If path is empty but not at target, something went wrong.
+        blocked_cells = {
+            blk.position for blk in self.env.blocks
+            if blk is not self.target_block and not blk.delivered
+        }
+        path = _astar(
+            self.env.rooms, agent_pos, self.target_pos, blocked_cells
+        )
+        if path and len(path) > 1:
+            self.path = path[1:]
+            next_cell = self.path.pop(0)
+            return _action_between(agent_pos, next_cell)
+
         self.failed = True
         return SmallRoomsEnv.ACTION_IDS['WAIT']
 
     def termination(self, state):
         # Success condition: The target block is now being carried.
         if self.target_block and self.target_block.carrying:
+            self.reset_internal()
             return True
 
         # Failure condition: Timeout or internal failure.
         if self.steps_taken >= self.timeout or self.failed:
+            self.reset_internal()
             return True
             
         return False

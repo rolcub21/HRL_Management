@@ -1,5 +1,5 @@
 from option import BaseOption
-from small_rooms_env import SmallRoomsEnv
+from example.small_rooms_env import SmallRoomsEnv
 
 class WaitOption(BaseOption):
     """A no-op option: execute WAIT exactly once, then terminate."""

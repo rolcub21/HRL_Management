@@ -5,3 +5,5 @@ matplotlib
 networkx
 scipy
 tensorboard
+Pillow
+pytest

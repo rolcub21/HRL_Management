@@ -21,8 +21,21 @@ from options_agent import DQNAgent
 from example.helper.tools import flat
 
 
+SELECTOR_RETURN_MODE = os.environ.get(
+    "HRL_SELECTOR_RETURN_MODE",
+    StorageSelectOption.RETURN_FULL_ENVIRONMENT,
+)
+if SELECTOR_RETURN_MODE not in StorageSelectOption.RETURN_MODES:
+    valid = ", ".join(sorted(StorageSelectOption.RETURN_MODES))
+    raise ValueError(
+        f"HRL_SELECTOR_RETURN_MODE={SELECTOR_RETURN_MODE!r}; expected {valid}"
+    )
+
 # Clear experiment naming: learned selector, diagonal settings, seeds 3 and 4
-exp_id = f"learned_selector_diagpairs_seeds3-4_{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+exp_id = (
+    f"learned_selector_{SELECTOR_RETURN_MODE}_diagpairs_seeds3-4_"
+    f"{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+)
 out_dir = os.path.join("./results", exp_id)
 
 LOG_DIR   = os.path.join(out_dir, "logs")
@@ -82,6 +95,13 @@ def save_run_npz(run_logs, out_dir, exp_name, seed, lam, mu):
             [np.nan if v is None else v for v in run_logs["episode_avg_error"]],
             dtype=np.float32
         ),
+        episode_mean_signed_deviation=np.asarray(run_logs["episode_mean_signed_deviation"], dtype=np.float32),
+        episode_mean_absolute_error=np.asarray(run_logs["episode_mean_absolute_error"], dtype=np.float32),
+        episode_mean_tardiness=np.asarray(run_logs["episode_mean_tardiness"], dtype=np.float32),
+        episode_mean_earliness=np.asarray(run_logs["episode_mean_earliness"], dtype=np.float32),
+        episode_within_target_window_rate=np.asarray(run_logs["episode_within_target_window_rate"], dtype=np.float32),
+        episode_tardy_delivery_rate=np.asarray(run_logs["episode_tardy_delivery_rate"], dtype=np.float32),
+        episode_p90_tardiness=np.asarray(run_logs["episode_p90_tardiness"], dtype=np.float32),
         episode_success=np.asarray(run_logs["episode_success"], dtype=np.float32),
         manager_losses=np.asarray(run_logs["manager_losses"], dtype=np.float32),
         worker_losses=np.asarray(run_logs["worker_losses"], dtype=np.float32),
@@ -107,7 +127,7 @@ def make_setting_plot(all_run_logs, exp_name, lam, mu, plot_window, plot_dir):
     err = np.nanmean(
         [
             np.asarray(
-                [np.nan if v is None else v for v in log["episode_avg_error"]],
+                [np.nan if v is None else v for v in log["episode_mean_absolute_error"]],
                 dtype=np.float32
             )
             for log in all_run_logs
@@ -147,7 +167,7 @@ def make_setting_plot(all_run_logs, exp_name, lam, mu, plot_window, plot_dir):
         alpha=0.9,
         label=f"{exp_name} Error",
     )
-    ax2.set_ylabel("Mean |Delivery Error|", color="black")
+    ax2.set_ylabel("Mean Absolute Timing Error", color="black")
     ax2.tick_params(axis="y", colors="black")
 
     all_err = err_s[np.isfinite(err_s)]
@@ -240,7 +260,10 @@ if __name__ == "__main__":
                 env.options.add(PrimitiveOption(a, env))
 
             for C in OptionClasses:
-                env.options.add(C(env))
+                if C is StorageSelectOption:
+                    env.options.add(C(env, return_mode=SELECTOR_RETURN_MODE))
+                else:
+                    env.options.add(C(env))
 
             safe_exp = exp_name.replace(" ", "_").replace("/", "_")
             state_dim = len(flat(env.reset()))
