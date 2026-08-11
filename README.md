@@ -15,7 +15,7 @@ artifacts can be reproduced from this copy alone.
 - [Experiments](docs/EXPERIMENTS.md) lists the runnable entry points, current
   parameter grids, outputs, and known external inputs.
 - [Unified VCG](docs/UNIFIED_VCG.md) gives the current paper-facing variants,
-  experiment lifecycle, confirmed result, protocol repair, and behavior views.
+  nested handling architecture, confirmed lambda frontier, and matched results.
 - [Fully learned hierarchy](docs/FULLY_LEARNED_HIERARCHY.md) documents the
   parameterized mode/cell controller, phased training, and strict evaluation.
 - [Current layout](docs/CURRENT_LAYOUT.md) maps files to their roles and
@@ -58,7 +58,7 @@ evaluation scripts also impose a maximum number of steps.
 | Legacy adapted PSLAP | frozen pre-audit heuristic | internal ablation only |
 | Duration-aware REG hybrid | frozen REG-v5 assignment | deterministic one-step timing lookahead with strict atomic macros |
 | Fully learned hierarchy v2 | learned temporal mode, retrieval target, and exact cell | strict reserved atomic macros with one common mode-regularized SMDP target |
-| Unified VCG | safe graph candidates and two-headed critic | common SMDP controller with optional fixed handling-cost scalarization |
+| Unified VCG | frozen VCG 1.1 operational controller plus detached handling predictor | exact-safe VCG selection with an optional inference-time handling cost |
 
 The HRL agent maintains separate manager and worker Q-networks. The manager
 selects temporally extended options; the worker selects primitive actions.

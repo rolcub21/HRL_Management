@@ -1,112 +1,131 @@
 # Unified VCG: current experiment program
 
-This page is the short index for the unified viability-constrained graph (VCG)
-work. The version-specific VCG documents remain the source for historical
-controller development; the paper-facing endpoint is one controller with an
-optional handling-cost term.
+This page records the paper-facing viability-constrained graph (VCG) family
+and separates it from the versioned controllers that led to it.
 
-## Paper-facing variants
+## Current architecture
 
-Both variants use the same safe candidate set, graph encoder, two-headed
-critic, Hold semantics, SMDP policy mechanism, and frozen checkpoint weights:
+The current method starts from the authenticated VCG 1.1 operational
+controller and adds a detached handling-cost predictor. For each frozen model
+seed, deployment uses
 
 ```text
-VCG                      M(s,c) = Q_op(s,c)                 (lambda = 0)
-VCG + handling cost      M(s,c) = Q_op(s,c) - 0.05 Q_N(s,c)
+VCG                       original VCG 1.1 selector              (lambda = 0)
+VCG + handling            M(s,c) = Q_op(s,c) - lambda Q_N(s,c)   (lambda > 0)
 ```
 
-`Q_op` estimates operational value and `Q_N` estimates future physical
-rehandles. The viability layer still decides which candidates are allowed;
-the handling weight only changes the ranking within that safe set. The final
-comparison therefore concerns two operating points of one architecture, not
-two independently trained proposed methods. `VCG 1.1` and `VCG 2.3` are useful
-development-history labels, not the preferred final names.
+The hard viability layer still determines which candidates may be selected.
+`Q_op` and the original graph/action encoders are frozen. `Q_N` consumes
+detached features from that controller and is trained separately from
+historical replay; its optimizer cannot update `Q_op`. At `lambda=0`, the
+wrapper delegates directly to the original VCG 1.1 `select()` implementation
+and does not call the cost head. Positive lambda values retain the same safe
+frontier and VCG 1.1 mode-selection semantics, changing only the candidate
+merit.
 
-The selected `lambda=0.05` is a fixed evaluation-time scalarization. It is not
-presented as a converged active-budget or KKT solution.
+Here `lambda` is the handling preference (`lambda_h`), not the environment's
+arrival-rate parameter. This is an augmentation of VCG 1.1, not teacher-student distillation and not
+VCG 2.3 retraining. The current cost head is a historical-behavior Monte Carlo
+handling predictor rather than a converged constrained-RL critic; lambda is an
+inference-time preference, not a dual variable or KKT certificate.
+
+## Frozen lambda family
+
+The development sweep used the same three frozen operational checkpoints and
+handling heads at
+
+```text
+lambda in {0, 0.025, 0.05, 0.10, 0.20}.
+```
+
+All five operating points advanced from the opened 85k development panel to a
+new 30-instance 89k confirmation panel. The confirmation contained exactly
+`3 model seeds x 5 lambda values x 30 EpisodeInstances = 450` deterministic,
+strict-safe-complete rows. No training, checkpoint selection, or lambda
+selection occurred on 89k.
+
+| Frozen lambda | Dense return | MAE | Steps | Rehandles/100 |
+|---:|---:|---:|---:|---:|
+| `0` | **199.87** | **11.34** | 191.52 | 22.92 |
+| `0.025` | 186.35 | 12.39 | 186.39 | 20.42 |
+| `0.05` | 179.72 | 12.89 | 181.48 | 15.00 |
+| `0.10` | 170.36 | 13.68 | 168.84 | 7.50 |
+| `0.20` | 158.19 | 14.55 | **159.22** | **3.61** |
+
+Rehandles decreased monotonically in the equal-seed aggregate. All five
+sampled points were nondominated in the MAE-rehandles plane and each was
+nondominated for at least two of the three frozen model seeds. This supports a
+sampled operating frontier for one controller family: `lambda=0` prioritizes
+timing and return, while larger values progressively prioritize handling.
+
+The evidence remains specific to the tested 5x5 yard, eight blocks, arrival
+rate 10 (exponential mean interarrival 0.1), Poisson stay mean 80, and the
+three frozen model seeds.
+
+## Matched 89k comparators
+
+A secondary analysis evaluated the established comparators on the exact same
+serialized 89k `EpisodeInstance`s. The plot retains only the two endpoint VCG
+operating points.
+
+| Method | Dense return | MAE | Rehandles/100 | Eligibility |
+|---|---:|---:|---:|---|
+| VCG (`lambda=0`) | **199.87** | **11.34** | 22.92 | 90/90 |
+| VCG + handling (`lambda=0.20`) | 158.19 | 14.55 | **3.61** | 90/90 |
+| Historical VCG 2.3 | 102.43 | 18.26 | 8.19 | 360/360 |
+| Dynamic PSLAP | 24.03 | 22.68 | 3.75 | 30/30 |
+| Capacity-aware GA | 139.23 | 15.11 | 14.58 | 120/120 |
+| Kim2020 adaptation | -- | -- | -- | 446/450; suppressed |
+
+At the point-estimate level, `lambda=0.20` is better than every eligible
+comparator in return, MAE, and rehandles. Together, the two VCG endpoints are
+the nondominated methods in the matched table. Kim2020 had four stochastic
+rows in which its placements left inbound work infeasible with no strict
+retrieval able to release capacity; its whole-method metrics are therefore
+suppressed rather than computed from successful rows.
+
+The comparator extension was specified after the 89k VCG confirmation outcome
+was known. It is a matched post-confirmation secondary analysis, not a
+preregistered statistical superiority test. The prospective claim is the
+replication of the VCG lambda frontier itself; baseline dominance here refers
+to matched 89k point estimates.
 
 ## Evidence lifecycle
 
-| Stage | What changed | Panel and scale | Scientific role |
-|---|---|---|---|
-| [Initial lambda pair](../experiments/vcg_unified_lambda_pair_85k/README.md) | separately trained `lambda=0` and adaptive `B_N=20` arms | opened 85k development panel | established a trade-off but mixed scalarization with training path |
-| [Three-seed lambda pair](../experiments/vcg_unified_lambda_pair_seed_stability_85k/README.md) | repeated the paired training on seeds 15--17 | opened 85k development panel | produced the frozen `lambda=0` checkpoints used below |
-| [Budget sweep](../experiments/vcg_unified_budget_sweep_85k/README.md) | adaptive budgets 10, 8, and 5 | one development seed | all constrained terminal points were classified unconverged; no active-budget claim |
-| [Retrained fixed-weight sweep](../experiments/vcg_unified_fixed_lambda_sweep_85k/README.md) | separate training paths for weights 0.05--0.30 | one development seed | exposed non-monotone, path-dependent training behavior |
-| [Frozen-weight sweep](../experiments/vcg_unified_frozen_lambda_sweep_85k/README.md) | changed only evaluation-time weight | 240 rows on opened 85k | selected `lambda=0.05` as the small handling-cost candidate |
-| [Frozen-weight seed stability](../experiments/vcg_unified_frozen_lambda_seed_stability_85k/README.md) | applied 0 and 0.05 to the same weights within seeds 15--17 | 288 inference-only rows on opened 85k | passed the development continuation rule; rehandles fell for 3/3 seeds |
-| [Prospective confirmation](../experiments/vcg_unified_frozen_lambda_confirmation_87k/README.md) | tested the frozen two-arm hypothesis | 720 inference-only rows on 30 new 87k instances | passed both predeclared primary tests |
-| Qualitative casebook | replayed three selected matched pairs | six inference-only replays | explanatory behavior views; not replacement confirmation rows |
+The current nested-controller path is:
 
-The earlier 86k baseline panel was not reused for candidate selection or this
-confirmation.
+| Stage | Role |
+|---|---|
+| [Seed-0 nested pilot](../experiments/vcg_v11_nested_handling_85k/README.md) | established bit-exact `lambda=0` nesting and selected `lambda=0.025` for replication |
+| [Three-seed replication](../experiments/vcg_v11_nested_handling_seed_stability_85k/README.md) | fitted independent handling heads for seeds 1 and 2 while keeping all operational controllers frozen |
+| [Five-level development sweep](../experiments/vcg_v11_nested_lambda_frontier_85k/README.md) | tested the fixed lambda grid and authorized unseen confirmation |
+| [89k frontier confirmation](../experiments/vcg_v11_nested_lambda_confirmation_89k/README.md) | confirmed all five operating points on 30 unseen instances |
+| [89k matched comparators](../experiments/vcg_v11_nested_all_baselines_89k/README.md) | added historical VCG 2.3, Dynamic PSLAP, capacity-aware GA, and Kim2020 on the same instances |
 
-## Confirmed result
+The earlier V2.3-based unified program remains useful development history. It
+tested adaptive budgets, separately trained fixed weights, frozen-weight
+sweeps, seed stability, and a prospective 87k `lambda=0` versus `lambda=0.05`
+confirmation. Those experiments motivated the handling mechanism, but their
+`lambda=0` controller did not reproduce VCG 1.1. The nested VCG family above
+replaced that architecture as the paper-facing endpoint.
 
-The confirmation averages four action RNGs within each
-model-seed/`EpisodeInstance`, averages model seeds 15--17 equally within each
-instance, and uses the 30 paired instances as the statistical units.
+## Reproduction
 
-| Frozen policy | Return | MAE | Steps | Rehandles/100 | Within +/-20 |
-|---|---:|---:|---:|---:|---:|
-| `lambda=0` | 80.64 | 19.62 | 188.89 | 9.13 | 63.85% |
-| `lambda=0.05` | 77.47 | 19.88 | 188.81 | 8.19 | 62.85% |
-| Difference (`0.05 - 0`) | -3.17 | +0.26 | -0.09 | **-0.94** | -1.01 pp |
-
-All 720 rows were strict-safe and complete. The simultaneous one-sided 95%
-upper bound was `-0.118` for the rehandle difference and `0.675` for the MAE
-difference, below the predeclared bounds of zero and `+2.0`, respectively.
-Thus the predeclared aggregate rehandle-reduction and MAE-noninferiority tests
-both passed. Rehandles improved for model seeds 15 and 17 but increased slightly
-for seed 16, so the result is an aggregate effect rather than a per-seed
-guarantee.
-
-The concise supported claim is:
-
-> With frozen weights, adding a handling weight of `lambda=0.05` reduced
-> physical rehandles while preserving timing accuracy on the prospective
-> 30-instance confirmation panel.
-
-This evidence is specific to the tested 5x5 yard, eight blocks, arrival rate
-10, Poisson duration mean 80, and the frozen model seeds. It does not establish
-the same operating point for other yard sizes, block counts, arrival processes,
-or storage-duration regimes.
-
-## Confirmation lifecycle repair
-
-The first confirmation execution exposed an inherited normalization helper
-whose coordinate domain covered the old 12-instance development grid rather
-than the predeclared 30-instance panel. The panel had already been materialized,
-but zero evaluation rows and no panel metrics were persisted or reported before
-the repair.
-
-`run_vcg_unified_frozen_lambda_confirmation.py` installs the bound mechanical
-repair and `normalization-grid-repair.json` records it. Only the accepted
-instance-index domain changed. The frozen instances, checkpoints, policy RNG
-formula, metrics, hypotheses, and success rule did not change. This repair
-should accompany any report of the prospective result.
-
-## Reproduction and qualitative views
-
-Run the completed confirmation protocol (completed ledgers are reused):
+From the repository root, completed ledgers are authenticated and reused:
 
 ```bash
-bash experiments/vcg_unified_frozen_lambda_confirmation_87k/run.sh run
+bash experiments/vcg_v11_nested_lambda_confirmation_89k/run.sh analyze
+bash experiments/vcg_v11_nested_all_baselines_89k/run.sh plot
 ```
 
-Replay and render the three explanatory side-by-side GIFs:
+A clean clone must first be supplied with the authenticated checkpoints, cost
+heads, and result manifests named in the experiment READMEs; these generated
+artifacts are intentionally not stored in Git.
 
-```bash
-.venv/bin/python render_vcg_unified_behavior_gifs.py --device cuda
-```
+To execute missing rows instead, use the corresponding `run` or `run-all`
+command documented in each experiment README. Generated reports, checkpoints,
+and figures live below `results/`, which is intentionally ignored by Git.
 
-The renderer refuses to write a GIF unless each replay exactly matches its
-saved confirmation row. The views align macro-decision index, while each panel
-shows its own simulation time. The included cases illustrate handling
-avoidance, a counterexample, and different timing behavior at equal realized
-rehandles. MP4 files are convenience transcodes for pausing and seeking; the
-GIFs and `behavior-casebook.json` are the renderer's authenticated outputs.
-
-Generated reports and media live below `results/`, which is intentionally
-ignored by Git. Experiment contracts and commands are documented in the linked
-experiment READMEs.
+The qualitative filmstrips and replay utilities describe the earlier
+V2.3-based mechanism and remain post-hoc illustrations rather than evidence
+for the nested VCG checkpoints.

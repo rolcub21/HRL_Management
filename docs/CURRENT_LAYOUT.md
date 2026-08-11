@@ -16,8 +16,11 @@ HRL_Management/
 ├── train_reg_selector.py          configurable flat REG-v3 trainer
 ├── train_reg_selector_v4.py       Track A-native set/candidate REG trainer
 ├── compare_pslap_baselines.py     matched-seed PSLAP geometry comparison
-├── train_vcg_unified*.py          unified controller development trainers
-├── evaluate_vcg_unified_*.py      frozen-weight evaluation protocols
+├── train_vcg_unified*.py          earlier unified-controller development trainers
+├── evaluate_vcg_unified_*.py      earlier frozen-weight evaluation protocols
+├── vcg_v11_nested_handling.py     current detached handling augmentation
+├── run_vcg_v11_nested_*.py        current nested-VCG experiment protocols
+├── plot_vcg_v11_nested_*.py       current confirmation/comparison figures
 ├── render_vcg_unified_behavior_gifs.py
 │                                   authenticated qualitative replay renderer
 ├── experiments/                    versioned launchers and local protocol notes
@@ -63,7 +66,8 @@ HRL_Management/
 | compare PSLAP assignment baselines | `compare_pslap_baselines.py` |
 | inspect frozen PSLAP ablation | `PSLAP/legacy.py`, then `PSLAP/PSLAPPolicy.py` |
 | follow the current unified VCG evidence | `docs/UNIFIED_VCG.md` |
-| reproduce frozen-weight confirmation | `experiments/vcg_unified_frozen_lambda_confirmation_87k/` |
+| reproduce the current lambda-frontier confirmation | `experiments/vcg_v11_nested_lambda_confirmation_89k/` |
+| reproduce the matched 89k comparison | `experiments/vcg_v11_nested_all_baselines_89k/` |
 | render authenticated VCG behavior views | `render_vcg_unified_behavior_gifs.py` |
 
 ## Generated and historical material

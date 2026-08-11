@@ -1,9 +1,10 @@
 # Experiments and evaluation
 
-The current unified VCG experiment chain, including the selected frozen
-handling weight, prospective 87k confirmation, and lifecycle repair, is indexed
-separately in [Unified VCG](UNIFIED_VCG.md). The sections below document the
-broader repository and historical experiment families.
+The current unified VCG experiment chain—including exact VCG 1.1 nesting, the
+five-level handling-weight family, unseen 89k confirmation, and matched 89k
+comparators—is indexed separately in [Unified VCG](UNIFIED_VCG.md). The
+sections below document the broader repository and historical experiment
+families.
 
 ## Terminology
 
