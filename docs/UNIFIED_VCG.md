@@ -1,131 +1,116 @@
 # Unified VCG: current experiment program
 
-This page records the paper-facing viability-constrained graph (VCG) family
+This page indexes the paper-facing viability-constrained graph (VCG) family
 and separates it from the versioned controllers that led to it.
 
 ## Current architecture
 
-The current method starts from the authenticated VCG 1.1 operational
-controller and adds a detached handling-cost predictor. For each frozen model
-seed, deployment uses
+The current controller freezes the authenticated VCG 1.1 operational critic
+and learns a lambda-conditioned estimate of future physical rehandles. For a
+certified candidate `c`, deployment uses
 
 ```text
-VCG                       original VCG 1.1 selector              (lambda = 0)
-VCG + handling            M(s,c) = Q_op(s,c) - lambda Q_N(s,c)   (lambda > 0)
+VCG              original VCG 1.1 selector                         lambda = 0
+VCG + handling   Qop_V1.1(s,c) - lambda * QN(s,c,lambda)           lambda > 0
 ```
 
-The hard viability layer still determines which candidates may be selected.
-`Q_op` and the original graph/action encoders are frozen. `Q_N` consumes
-detached features from that controller and is trained separately from
-historical replay; its optimizer cannot update `Q_op`. At `lambda=0`, the
-wrapper delegates directly to the original VCG 1.1 `select()` implementation
-and does not call the cost head. Positive lambda values retain the same safe
-frontier and VCG 1.1 mode-selection semantics, changing only the candidate
-merit.
+The hard exact-safe frontier and recovery-witness guard determine what may be
+selected before preference affects ranking. The immediate Reconfigure cost is
+encoded structurally; the learned nonnegative term estimates only later
+rehandles under the lambda-induced continuation policy. At lambda zero the
+wrapper bypasses the handling head and invokes VCG 1.1 exactly.
 
-Here `lambda` is the handling preference (`lambda_h`), not the environment's
-arrival-rate parameter. This is an augmentation of VCG 1.1, not teacher-student distillation and not
-VCG 2.3 retraining. The current cost head is a historical-behavior Monte Carlo
-handling predictor rather than a converged constrained-RL critic; lambda is an
-inference-time preference, not a dual variable or KKT certificate.
+Here `lambda` is the handling preference, not the environment arrival-rate
+parameter. It is an inference-time preference rather than a dual variable or
+KKT certificate. Full equations and training details are in
+[Preference-conditioned VCG](PREFERENCE_CONDITIONED_VCG.md).
 
-## Frozen lambda family
+## Final 90k comparison
 
-The development sweep used the same three frozen operational checkpoints and
-handling heads at
+The final CPU-v3 protocol evaluated ten fixed preferences and four baselines
+on the same serialized `90000..90029` EpisodeInstances. It contains 1,860
+ledgered evaluation rows and no training, checkpoint selection, lambda
+selection, redraw, or complete-case filtering.
 
-```text
-lambda in {0, 0.025, 0.05, 0.10, 0.20}.
-```
+| Method | Dense return | MAE | Steps | Rehandles/100 | Eligibility |
+|---|---:|---:|---:|---:|---:|
+| VCG (`lambda=0`) | **185.36** | **12.38** | 188.49 | 24.58 | 90/90 |
+| VCG + handling (`lambda=.05`) | 168.02 | 13.72 | 162.72 | 8.47 | 90/90 |
+| VCG + handling (`lambda=.10`) | 161.34 | 14.17 | 153.24 | 3.06 | 90/90 |
+| VCG + handling (`lambda=.20`) | 157.10 | 14.48 | **152.09** | **1.67** | 90/90 |
+| Historical VCG 2.3 | 108.92 | 17.80 | 230.96 | 6.25 | 360/360 |
+| Capacity-aware GA | 141.73 | 14.91 | 167.77 | 13.75 | 120/120 |
+| Dynamic PSLAP | -- | -- | -- | -- | 28/30; suppressed |
+| Kim2020 adaptation | -- | -- | -- | -- | 448/450; suppressed |
 
-All five operating points advanced from the opened 85k development panel to a
-new 30-instance 89k confirmation panel. The confirmation contained exactly
-`3 model seeds x 5 lambda values x 30 EpisodeInstances = 450` deterministic,
-strict-safe-complete rows. No training, checkpoint selection, or lambda
-selection occurred on 89k.
+All 900 conditioned rows are strict-safe-complete. Nine of the ten conditioned
+coordinates are on the point-estimate MAE--rehandles frontier; `.075` is
+dominated by `.10` because of a small local nonmonotonicity.
 
-| Frozen lambda | Dense return | MAE | Steps | Rehandles/100 |
-|---:|---:|---:|---:|---:|
-| `0` | **199.87** | **11.34** | 191.52 | 22.92 |
-| `0.025` | 186.35 | 12.39 | 186.39 | 20.42 |
-| `0.05` | 179.72 | 12.89 | 181.48 | 15.00 |
-| `0.10` | 170.36 | 13.68 | 168.84 | 7.50 |
-| `0.20` | 158.19 | 14.55 | **159.22** | **3.61** |
+The two endpoints give the intended interpretation:
 
-Rehandles decreased monotonically in the equal-seed aggregate. All five
-sampled points were nondominated in the MAE-rehandles plane and each was
-nondominated for at least two of the three frozen model seeds. This supports a
-sampled operating frontier for one controller family: `lambda=0` prioritizes
-timing and return, while larger values progressively prioritize handling.
+- `lambda=0` is the best eligible operating point for return and timing MAE;
+- `lambda=.20` reduces rehandles by 93.2% relative to lambda zero;
+- `lambda=.20` improves on historical VCG 2.3 in return, MAE, steps, and
+  rehandles, with all four paired nominal 95% intervals excluding zero.
 
-The evidence remains specific to the tested 5x5 yard, eight blocks, arrival
-rate 10 (exponential mean interarrival 0.1), Poisson stay mean 80, and the
-three frozen model seeds.
-
-## Matched 89k comparators
-
-A secondary analysis evaluated the established comparators on the exact same
-serialized 89k `EpisodeInstance`s. The plot retains only the two endpoint VCG
-operating points.
-
-| Method | Dense return | MAE | Rehandles/100 | Eligibility |
-|---|---:|---:|---:|---|
-| VCG (`lambda=0`) | **199.87** | **11.34** | 22.92 | 90/90 |
-| VCG + handling (`lambda=0.20`) | 158.19 | 14.55 | **3.61** | 90/90 |
-| Historical VCG 2.3 | 102.43 | 18.26 | 8.19 | 360/360 |
-| Dynamic PSLAP | 24.03 | 22.68 | 3.75 | 30/30 |
-| Capacity-aware GA | 139.23 | 15.11 | 14.58 | 120/120 |
-| Kim2020 adaptation | -- | -- | -- | 446/450; suppressed |
-
-At the point-estimate level, `lambda=0.20` is better than every eligible
-comparator in return, MAE, and rehandles. Together, the two VCG endpoints are
-the nondominated methods in the matched table. Kim2020 had four stochastic
-rows in which its placements left inbound work infeasible with no strict
-retrieval able to release capacity; its whole-method metrics are therefore
-suppressed rather than computed from successful rows.
-
-The comparator extension was specified after the 89k VCG confirmation outcome
-was known. It is a matched post-confirmation secondary analysis, not a
-preregistered statistical superiority test. The prospective claim is the
-replication of the VCG lambda frontier itself; baseline dominance here refers
-to matched 89k point estimates.
+Dynamic PSLAP failed to complete instances 90010 and 90012. Kim2020 produced
+two blocked model-seed-0 rolls on instances 90004 and 90023. Their aggregate
+metrics are therefore suppressed rather than averaged over successful rows.
 
 ## Evidence lifecycle
 
-The current nested-controller path is:
-
 | Stage | Role |
 |---|---|
-| [Seed-0 nested pilot](../experiments/vcg_v11_nested_handling_85k/README.md) | established bit-exact `lambda=0` nesting and selected `lambda=0.025` for replication |
-| [Three-seed replication](../experiments/vcg_v11_nested_handling_seed_stability_85k/README.md) | fitted independent handling heads for seeds 1 and 2 while keeping all operational controllers frozen |
-| [Five-level development sweep](../experiments/vcg_v11_nested_lambda_frontier_85k/README.md) | tested the fixed lambda grid and authorized unseen confirmation |
-| [89k frontier confirmation](../experiments/vcg_v11_nested_lambda_confirmation_89k/README.md) | confirmed all five operating points on 30 unseen instances |
-| [89k matched comparators](../experiments/vcg_v11_nested_all_baselines_89k/README.md) | added historical VCG 2.3, Dynamic PSLAP, capacity-aware GA, and Kim2020 on the same instances |
+| [Joint-vector architecture screen](../experiments/vcg_preference_conditioned_architecture_screen_85k/README.md) | showed that conditioning can create intermediate behavior but did not preserve the operational endpoint |
+| [Anchored residual screen](../experiments/vcg_v11_anchored_preference_seed0_85k/README.md) | preserved lambda zero but failed the high-lambda handling endpoint |
+| [Seed-0 conditioned screen](../experiments/vcg_v11_conditioned_handling_seed0_85k/README.md) | froze VCG 1.1 and learned only policy-conditioned future handling |
+| [Seed-0 damped convergence](../experiments/vcg_v11_conditioned_handling_damped_convergence/README.md) | stabilized fitted-policy iteration to its fixed round-8 terminal |
+| [Seed-1/2 matched training](../experiments/vcg_v11_conditioned_handling_two_phase_seeds12/README.md) | replicated the fixed recipe without opening an evaluation panel |
+| [Seed-1 continuation](../experiments/vcg_v11_conditioned_handling_seed1_convergence_continuation/README.md) | applied the predeclared convergence-controlled continuation to round 10 |
+| [Fixed merit bank](../experiments/vcg_v11_conditioned_handling_fixed_merit_bank/README.md) | diagnosed `Qop`, `QN`, `lambda*QN`, and merit without affecting selection |
+| [Final 90k comparison](../experiments/vcg_conditioned_final_comparison_90k/README.md) | evaluated the ten-point family and all comparators on one prospective panel |
 
-The earlier V2.3-based unified program remains useful development history. It
-tested adaptive budgets, separately trained fixed weights, frozen-weight
-sweeps, seed stability, and a prospective 87k `lambda=0` versus `lambda=0.05`
-confirmation. Those experiments motivated the handling mechanism, but their
-`lambda=0` controller did not reproduce VCG 1.1. The nested VCG family above
-replaced that architecture as the paper-facing endpoint.
+## Predecessor nested controller
+
+The earlier nested controller used a detached handling predictor fitted from
+historical behavior rather than a policy-conditioned future-cost model. Its
+five-point 89k confirmation established the central timing--handling mechanism
+and exact lambda-zero nesting. The matched 89k comparator extension then
+motivated the conditioned architecture.
+
+Those results remain valid predecessor evidence:
+
+- [89k frontier confirmation](../experiments/vcg_v11_nested_lambda_confirmation_89k/README.md)
+- [89k matched comparators](../experiments/vcg_v11_nested_all_baselines_89k/README.md)
+
+The older VCG 2.3-based unified program is also retained as development
+history. Its lambda-zero controller did not reproduce VCG 1.1 and it is not a
+separate proposed final method.
 
 ## Reproduction
 
-From the repository root, completed ledgers are authenticated and reused:
+From the repository root, completed final ledgers can be inspected and
+reanalyzed with:
 
 ```bash
-bash experiments/vcg_v11_nested_lambda_confirmation_89k/run.sh analyze
-bash experiments/vcg_v11_nested_all_baselines_89k/run.sh plot
+bash experiments/vcg_conditioned_final_comparison_90k/run.sh inspect
+bash experiments/vcg_conditioned_final_comparison_90k/run.sh analyze
+bash experiments/vcg_conditioned_final_comparison_90k/run.sh plot
 ```
 
-A clean clone must first be supplied with the authenticated checkpoints, cost
-heads, and result manifests named in the experiment READMEs; these generated
-artifacts are intentionally not stored in Git.
+A clean clone must first be supplied with the authenticated checkpoints,
+conditioned terminals, and result manifests named in the experiment READMEs.
+Generated artifacts live below ignored `results/` paths and are not stored in
+Git.
 
-To execute missing rows instead, use the corresponding `run` or `run-all`
-command documented in each experiment README. Generated reports, checkpoints,
-and figures live below `results/`, which is intentionally ignored by Git.
+The qualitative filmstrips remain post-hoc mechanism illustrations. The
+robust-certificate experiments are a separate theoretical extension and do
+not change the deterministic final90 performance claim.
 
-The qualitative filmstrips and replay utilities describe the earlier
-V2.3-based mechanism and remain post-hoc illustrations rather than evidence
-for the nested VCG checkpoints.
+## Scope
+
+The final result is specific to the tested 5x5 yard, eight blocks, arrival rate
+10, Poisson stay mean 80, and three frozen operational model seeds. A frontier
+over other geometries, loads, arrival processes, or stay distributions needs a
+separately frozen generalization experiment.

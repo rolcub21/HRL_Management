@@ -18,9 +18,27 @@ HRL_Management/
 ├── compare_pslap_baselines.py     matched-seed PSLAP geometry comparison
 ├── train_vcg_unified*.py          earlier unified-controller development trainers
 ├── evaluate_vcg_unified_*.py      earlier frozen-weight evaluation protocols
-├── vcg_v11_nested_handling.py     current detached handling augmentation
-├── run_vcg_v11_nested_*.py        current nested-VCG experiment protocols
-├── plot_vcg_v11_nested_*.py       current confirmation/comparison figures
+├── vcg_v11_nested_handling.py     predecessor detached handling augmentation
+├── run_vcg_v11_nested_*.py        predecessor nested-VCG protocols
+├── plot_vcg_v11_nested_*.py       predecessor confirmation/comparison figures
+├── viability_graph_preference_conditioned.py
+│                                   prospective conditioned vector VCG core
+├── train_vcg_preference_conditioned.py
+│                                   paired B/C development trainer
+├── run_vcg_preference_conditioned_architecture_screen_85k.py
+│                                   completed joint-vector development screen
+├── vcg_v11_conditioned_handling.py
+│                                   current conditioned future-handling core
+├── train_vcg_v11_conditioned_handling_iterative.py
+│                                   iterative complete-episode MC trainer
+├── run_vcg_v11_conditioned_handling_seed0_85k.py
+│                                   seed-0 development screen
+├── run_vcg_v11_conditioned_handling_two_phase_seeds12.py
+│                                   matched seed-1/2 fitting and convergence gate
+├── run_vcg_conditioned_final_comparison_90k.py
+│                                   final 90k conditioned frontier and baselines
+├── plot_vcg_conditioned_final_comparison_90k.py
+│                                   final cumulative and trade-off figures
 ├── render_vcg_unified_behavior_gifs.py
 │                                   authenticated qualitative replay renderer
 ├── experiments/                    versioned launchers and local protocol notes
@@ -66,8 +84,10 @@ HRL_Management/
 | compare PSLAP assignment baselines | `compare_pslap_baselines.py` |
 | inspect frozen PSLAP ablation | `PSLAP/legacy.py`, then `PSLAP/PSLAPPolicy.py` |
 | follow the current unified VCG evidence | `docs/UNIFIED_VCG.md` |
-| reproduce the current lambda-frontier confirmation | `experiments/vcg_v11_nested_lambda_confirmation_89k/` |
-| reproduce the matched 89k comparison | `experiments/vcg_v11_nested_all_baselines_89k/` |
+| inspect the current conditioned-handling VCG | `docs/PREFERENCE_CONDITIONED_VCG.md` |
+| reproduce the final 90k comparison | `experiments/vcg_conditioned_final_comparison_90k/` |
+| inspect the predecessor 89k frontier | `experiments/vcg_v11_nested_lambda_confirmation_89k/` |
+| inspect the predecessor matched comparison | `experiments/vcg_v11_nested_all_baselines_89k/` |
 | render authenticated VCG behavior views | `render_vcg_unified_behavior_gifs.py` |
 
 ## Generated and historical material

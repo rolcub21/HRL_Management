@@ -1,10 +1,16 @@
 # Experiments and evaluation
 
-The current unified VCG experiment chain—including exact VCG 1.1 nesting, the
-five-level handling-weight family, unseen 89k confirmation, and matched 89k
-comparators—is indexed separately in [Unified VCG](UNIFIED_VCG.md). The
-sections below document the broader repository and historical experiment
-families.
+The current unified VCG experiment chain is indexed in
+[Unified VCG](UNIFIED_VCG.md) and specified in
+[Preference-conditioned VCG](PREFERENCE_CONDITIONED_VCG.md). It freezes the
+VCG 1.1 operational controller, fits only policy-conditioned future handling,
+passes a three-seed convergence program, and evaluates ten fixed handling
+preferences plus four baselines on the common 30-instance 90k panel. The final
+launcher is `experiments/vcg_conditioned_final_comparison_90k/run.sh`.
+
+The earlier detached nested-VCG 89k confirmation remains predecessor evidence.
+The joint-vector B/C screen and anchored operational-residual screen are
+retained as failed development diagnostics rather than alternate final methods.
 
 ## Terminology
 

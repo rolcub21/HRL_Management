@@ -14,8 +14,11 @@ artifacts can be reproduced from this copy alone.
   learning agent, and method variants.
 - [Experiments](docs/EXPERIMENTS.md) lists the runnable entry points, current
   parameter grids, outputs, and known external inputs.
-- [Unified VCG](docs/UNIFIED_VCG.md) gives the current paper-facing variants,
-  nested handling architecture, confirmed lambda frontier, and matched results.
+- [Unified VCG](docs/UNIFIED_VCG.md) gives the current paper-facing controller,
+  its conditioned handling frontier, and the matched final comparison.
+- [Preference-conditioned VCG](docs/PREFERENCE_CONDITIONED_VCG.md) specifies
+  the frozen-operational, policy-conditioned handling architecture and its
+  complete development-to-confirmation evidence chain.
 - [Fully learned hierarchy](docs/FULLY_LEARNED_HIERARCHY.md) documents the
   parameterized mode/cell controller, phased training, and strict evaluation.
 - [Current layout](docs/CURRENT_LAYOUT.md) maps files to their roles and
@@ -58,7 +61,8 @@ evaluation scripts also impose a maximum number of steps.
 | Legacy adapted PSLAP | frozen pre-audit heuristic | internal ablation only |
 | Duration-aware REG hybrid | frozen REG-v5 assignment | deterministic one-step timing lookahead with strict atomic macros |
 | Fully learned hierarchy v2 | learned temporal mode, retrieval target, and exact cell | strict reserved atomic macros with one common mode-regularized SMDP target |
-| Unified VCG | frozen VCG 1.1 operational controller plus detached handling predictor | exact-safe VCG selection with an optional inference-time handling cost |
+| Nested VCG (predecessor) | frozen VCG 1.1 operational controller plus detached unconditioned handling predictor | exact-safe VCG selection with an inference-time handling cost |
+| Preference-conditioned VCG (current) | frozen VCG 1.1 operational critic plus lambda-conditioned future-handling model | iterative complete-episode MC fitting behind the same exact-safe frontier |
 
 The HRL agent maintains separate manager and worker Q-networks. The manager
 selects temporally extended options; the worker selects primitive actions.
