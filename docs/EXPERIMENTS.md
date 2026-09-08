@@ -6,7 +6,19 @@ The current unified VCG experiment chain is indexed in
 VCG 1.1 operational controller, fits only policy-conditioned future handling,
 passes a three-seed convergence program, and evaluates ten fixed handling
 preferences plus four baselines on the common 30-instance 90k panel. The final
-launcher is `experiments/vcg_conditioned_final_comparison_90k/run.sh`.
+launcher is
+`experiments/conditioned_vcg/E01_benchmark_90k/run.sh`. The E-series contains
+paper-facing experiments; method-development screens are indexed separately
+under `experiments/conditioned_vcg/development/`.
+
+The next paper experiments are indexed beside E1. E3 holds the learned critic
+fixed and establishes the causal value of recoverability certification. E4
+uses a new frozen 92k panel to compare random, deterministic heuristic,
+operational-critic, and conditioned ranking on the same certified frontier.
+E5(a) assembles the completed three-seed handling-model diagnostics without new
+runs; E5(b) reuses E4 controls and clamps only the frozen handling network's
+inference-time preference input. This last experiment tests deployment use of
+conditioning, not whether conditioned training itself is necessary.
 
 The earlier detached nested-VCG 89k confirmation remains predecessor evidence.
 The joint-vector B/C screen and anchored operational-residual screen are

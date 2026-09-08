@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Render the predeclared final90 cumulative and trade-off figures."""
+"""Render the E1 benchmark figure, table, and supplementary diagnostics."""
 
 from __future__ import annotations
 
 import argparse
 from collections import defaultdict
+import csv
 import json
 import math
 from pathlib import Path
@@ -14,6 +15,7 @@ from typing import Mapping, Optional, Sequence
 import matplotlib
 
 matplotlib.use("Agg")
+from matplotlib.colors import Normalize
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -51,6 +53,14 @@ CURVE_METRICS = (
         "physical_rehandles_per_100_required_deliveries",
         "Cumulative physical rehandles / 100 ↓",
     ),
+)
+SELECTED_LAMBDA_LABELS = frozenset((0.0, 0.05, 0.1, 0.2))
+TABLE_METRICS = (
+    ("mean_absolute_error", "MAE ↓"),
+    ("physical_rehandles_per_100_required_deliveries", "Rehandles/100 ↓"),
+    ("within_target_window_rate", "Within ±20 ↑"),
+    ("steps", "Steps ↓"),
+    ("dense_return", "Return ↑"),
 )
 
 
@@ -206,7 +216,7 @@ def render_cumulative(project_root: Path, output_dir: Path) -> list[str]:
     figure.tight_layout(rect=(0, 0.11, 1, 0.94))
     paths = []
     for suffix in ("pdf", "png"):
-        path = output_dir / f"vcg-conditioned-final90-cumulative.{suffix}"
+        path = output_dir / f"e1-supplement-cumulative.{suffix}"
         figure.savefig(path, dpi=220, bbox_inches="tight")
         paths.append(str(path.resolve()))
     plt.close(figure)
@@ -225,23 +235,47 @@ def render_frontier(output_dir: Path, report: Mapping) -> list[str]:
         ),
         key=lambda record: float(record["preference_lambda"]),
     )
-    figure, axis = plt.subplots(figsize=(7.3, 5.6))
+    figure, axis = plt.subplots(figsize=(7.4, 5.35))
     if conditioned:
         x = [
             record["metrics"]["physical_rehandles_per_100_required_deliveries"]
             for record in conditioned
         ]
         y = [record["metrics"]["mean_absolute_error"] for record in conditioned]
-        axis.plot(x, y, color="#0072B2", linewidth=2.2, alpha=0.8)
-        axis.scatter(x, y, color="#0072B2", s=42, zorder=3, label="Conditioned VCG")
+        lambdas = [float(record["preference_lambda"]) for record in conditioned]
+        normalizer = Normalize(vmin=min(lambdas), vmax=max(lambdas))
+        axis.plot(x, y, color="#5B6573", linewidth=1.8, alpha=0.8, zorder=1)
+        points = axis.scatter(
+            x,
+            y,
+            c=lambdas,
+            cmap="viridis",
+            norm=normalizer,
+            edgecolor="white",
+            linewidth=0.75,
+            s=68,
+            zorder=3,
+            label="Preference-conditioned VCG",
+        )
+        offsets = {
+            0.0: (-8, 9),
+            0.05: (7, -14),
+            0.1: (7, -14),
+            0.2: (7, 7),
+        }
         for record, x_value, y_value in zip(conditioned, x, y):
+            value = float(record["preference_lambda"])
+            if value not in SELECTED_LAMBDA_LABELS:
+                continue
             axis.annotate(
-                f"{record['preference_lambda']:g}",
+                f"λ={value:g}",
                 (x_value, y_value),
-                xytext=(5, 5),
+                xytext=offsets[value],
                 textcoords="offset points",
                 fontsize=8,
             )
+        colorbar = figure.colorbar(points, ax=axis, pad=0.025, fraction=0.055)
+        colorbar.set_label("Handling preference λ")
     for record in eligible:
         if record["method"] == final90.CONDITIONED_METHOD:
             continue
@@ -257,26 +291,83 @@ def render_frontier(output_dir: Path, report: Mapping) -> list[str]:
         )
     axis.set_xlabel("Physical rehandles / 100 required deliveries ↓")
     axis.set_ylabel("Mean absolute delivery error ↓")
-    axis.set_title("Timing–handling operating points on the common 90k panel")
-    axis.grid(alpha=0.25)
+    axis.grid(alpha=0.22, linewidth=0.8)
     axis.spines[["top", "right"]].set_visible(False)
-    axis.legend(frameon=False, fontsize=9)
+    axis.legend(frameon=False, fontsize=9, loc="upper right")
     figure.tight_layout()
     paths = []
     for suffix in ("pdf", "png"):
-        path = output_dir / f"vcg-conditioned-final90-tradeoff.{suffix}"
+        path = output_dir / f"e1-operating-points.{suffix}"
         figure.savefig(path, dpi=220, bbox_inches="tight")
         paths.append(str(path.resolve()))
     plt.close(figure)
     return paths
 
 
+def _table_rows(report: Mapping) -> list[dict[str, object]]:
+    rows = []
+    for record in report["methods"]:
+        metrics = record["metrics"]
+        row: dict[str, object] = {
+            "method": record["display_name"],
+            "strict_complete_runs": (
+                f"{record['strict_safe_complete_rows']}/{record['expected_rows']}"
+            ),
+            "whole_method_eligible": bool(record["whole_method_eligible"]),
+        }
+        for metric, _label in TABLE_METRICS:
+            row[metric] = None if metrics is None else float(metrics[metric])
+        rows.append(row)
+    return rows
+
+
+def _display_metric(value: object, metric: str) -> str:
+    if value is None:
+        return "—"
+    numeric = float(value)
+    if metric == "within_target_window_rate":
+        return f"{100.0 * numeric:.1f}%"
+    return f"{numeric:.2f}"
+
+
+def render_benchmark_table(output_dir: Path, report: Mapping) -> list[str]:
+    rows = _table_rows(report)
+    fields = (
+        "method",
+        "strict_complete_runs",
+        *(metric for metric, _label in TABLE_METRICS),
+    )
+
+    csv_path = output_dir / "e1-benchmark-table.csv"
+    with csv_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+
+    markdown_path = output_dir / "e1-benchmark-table.md"
+    headers = ("Method", "Strict complete", *(label for _metric, label in TABLE_METRICS))
+    markdown_lines = [
+        "| " + " | ".join(headers) + " |",
+        "|" + "|".join("---" for _ in headers) + "|",
+    ]
+    for row in rows:
+        values = [str(row["method"]), str(row["strict_complete_runs"])]
+        values.extend(
+            _display_metric(row[metric], metric) for metric, _label in TABLE_METRICS
+        )
+        markdown_lines.append("| " + " | ".join(values) + " |")
+    markdown_path.write_text("\n".join(markdown_lines) + "\n", encoding="utf-8")
+
+    return [str(csv_path.resolve()), str(markdown_path.resolve())]
+
+
 def render(project_root: Path, output_dir: Path) -> dict:
     report = final90.analyze(project_root, output_dir)
     return {
         "status": "complete",
-        "cumulative": render_cumulative(project_root, output_dir),
-        "tradeoff": render_frontier(output_dir, report),
+        "main_operating_points": render_frontier(output_dir, report),
+        "main_benchmark_table": render_benchmark_table(output_dir, report),
+        "supplementary_cumulative": render_cumulative(project_root, output_dir),
     }
 
 

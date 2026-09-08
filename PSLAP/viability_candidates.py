@@ -52,6 +52,11 @@ from PSLAP.viability_prioritizer import (
     StatePriorityBatch,
     validate_priority_batch,
 )
+from PSLAP.relocation_family_certification import (
+    RELOCATION_FAMILY_CERTIFICATION,
+    ValidatedRelocationFamilyAnchor,
+    try_relocation_family,
+)
 
 
 VIABILITY_CANDIDATE_INTERFACE = (
@@ -69,6 +74,11 @@ BOUNDARY_FIXED_OBSTACLE_CONTRACT = (
 )
 BOUNDARY_AGENT_START_EXCEPTION = "_except_agent_start_cell_v1"
 CANONICAL_CERTIFICATION_ORDER = "canonical_exact_full_v1"
+EXACT_ONLY_RECOVERY_CERTIFICATION = "native_exact_search_only_v1"
+RECOVERY_CERTIFICATION_STRATEGIES = (
+    EXACT_ONLY_RECOVERY_CERTIFICATION,
+    RELOCATION_FAMILY_CERTIFICATION,
+)
 
 
 class ViabilityMode(str, Enum):
@@ -342,6 +352,14 @@ class ViabilityCandidateAudit:
     priority_inference_seconds: float = 0.0
     priority_checkpoint_sha256: Optional[str] = None
     complete_frontier_exactly_verified: bool = True
+    recovery_certification_strategy: str = EXACT_ONLY_RECOVERY_CERTIFICATION
+    relocation_family_anchor_available: bool = False
+    relocation_family_attempt_count: int = 0
+    relocation_family_proof_count: int = 0
+    relocation_family_miss_count: int = 0
+    relocation_family_setup_seconds: float = 0.0
+    relocation_family_connection_seconds: float = 0.0
+    native_recovery_search_count: int = 0
 
     @property
     def fail_closed_rejection_count(self) -> int:
@@ -401,6 +419,28 @@ class ViabilityCandidateAudit:
             "complete_frontier_exactly_verified": (
                 self.complete_frontier_exactly_verified
             ),
+            "recovery_certification_strategy": (
+                self.recovery_certification_strategy
+            ),
+            "relocation_family_anchor_available": (
+                self.relocation_family_anchor_available
+            ),
+            "relocation_family_attempt_count": (
+                self.relocation_family_attempt_count
+            ),
+            "relocation_family_proof_count": (
+                self.relocation_family_proof_count
+            ),
+            "relocation_family_miss_count": (
+                self.relocation_family_miss_count
+            ),
+            "relocation_family_setup_seconds": float(
+                self.relocation_family_setup_seconds
+            ),
+            "relocation_family_connection_seconds": float(
+                self.relocation_family_connection_seconds
+            ),
+            "native_recovery_search_count": self.native_recovery_search_count,
         }
 
 
@@ -571,6 +611,7 @@ def enumerate_viability_candidates(
     ] = None,
     max_replans: int = 8,
     state_prioritizer: Optional[RecoveryStatePrioritizer] = None,
+    recovery_certification_strategy: str = EXACT_ONLY_RECOVERY_CERTIFICATION,
 ) -> ViabilityCandidateSnapshot:
     """Enumerate, certify, and bind every viable parameterized macro.
 
@@ -581,6 +622,11 @@ def enumerate_viability_candidates(
 
     ``state_prioritizer`` may only permute uncached exact checks.  The complete
     physical frontier is still certified and reconstructed in canonical order.
+
+    ``recovery_certification_strategy`` may additionally serve relocation
+    successors with an exact constructive witness derived from the native
+    current-state certificate.  Such proofs are never inserted into the
+    outcome cache; every unresolved case retains native exact fallback.
     """
 
     if (
@@ -601,6 +647,11 @@ def enumerate_viability_candidates(
         raise TypeError("search_config must be a ViabilitySearchConfig")
     if not isinstance(liveness_rule, BoundedEventDeferRule):
         raise TypeError("liveness_rule must be a BoundedEventDeferRule")
+    if recovery_certification_strategy not in RECOVERY_CERTIFICATION_STRATEGIES:
+        raise ValueError(
+            "recovery_certification_strategy must be one of "
+            f"{RECOVERY_CERTIFICATION_STRATEGIES!r}"
+        )
 
     started = perf_counter()
     _validate_strict_boundary(env)
@@ -639,6 +690,24 @@ def enumerate_viability_candidates(
     cache_misses += int(not current_hit)
     exact_analysis_seconds += current_exact_seconds
     current_rank = _certificate_rank(current_certificate)
+    relocation_family_anchor = None
+    relocation_family_setup_seconds = 0.0
+    relocation_family_connection_seconds = 0.0
+    relocation_family_attempt_count = 0
+    relocation_family_proof_count = 0
+    relocation_family_miss_count = 0
+    native_recovery_search_count = 0
+    if (
+        recovery_certification_strategy == RELOCATION_FAMILY_CERTIFICATION
+        and current_certificate.status is ViabilityStatus.SAFE
+        and current_certificate.witness
+        and search_config.search_order == "goal_directed"
+    ):
+        family_started = perf_counter()
+        relocation_family_anchor = ValidatedRelocationFamilyAnchor(
+            recovery_state, current_certificate
+        )
+        relocation_family_setup_seconds = perf_counter() - family_started
 
     candidates: list[ViabilityActionCandidate] = []
     inbound = _strict_inbound(env)
@@ -763,13 +832,35 @@ def enumerate_viability_candidates(
         )
 
     for index in ordered_recovery_misses:
-        _, successor, _ = recovery_specs[index]
+        action, successor, _ = recovery_specs[index]
+        if (
+            relocation_family_anchor is not None
+            and action.kind is RecoveryActionKind.RELOCATION
+        ):
+            family_started = perf_counter()
+            attempt = try_relocation_family(
+                relocation_family_anchor,
+                action,
+                successor,
+                search_config,
+            )
+            relocation_family_connection_seconds += (
+                perf_counter() - family_started
+            )
+            relocation_family_attempt_count += 1
+            if attempt.certificate is not None:
+                relocation_family_proof_count += 1
+                cache_misses += 1
+                recovery_results[index] = (attempt.certificate, False)
+                continue
+            relocation_family_miss_count += 1
         certificate, cache_hit, elapsed = _analyze_cached(
             successor, search_config, certificate_cache
         )
         exact_analysis_seconds += elapsed
         cache_hits += int(cache_hit)
         cache_misses += int(not cache_hit)
+        native_recovery_search_count += int(not cache_hit)
         recovery_results[index] = (certificate, cache_hit)
 
     if any(result is None for result in recovery_results):  # pragma: no cover
@@ -941,6 +1032,18 @@ def enumerate_viability_candidates(
         ),
         priority_checkpoint_sha256=priority_checkpoint_sha256,
         complete_frontier_exactly_verified=True,
+        recovery_certification_strategy=recovery_certification_strategy,
+        relocation_family_anchor_available=(
+            relocation_family_anchor is not None
+        ),
+        relocation_family_attempt_count=relocation_family_attempt_count,
+        relocation_family_proof_count=relocation_family_proof_count,
+        relocation_family_miss_count=relocation_family_miss_count,
+        relocation_family_setup_seconds=relocation_family_setup_seconds,
+        relocation_family_connection_seconds=(
+            relocation_family_connection_seconds
+        ),
+        native_recovery_search_count=native_recovery_search_count,
     )
     instance = getattr(env, "current_episode_instance", None)
     return ViabilityCandidateSnapshot(
@@ -964,6 +1067,9 @@ __all__ = [
     "CANONICAL_CERTIFICATION_ORDER",
     "EXACT_VERIFIER_AUTHORITY",
     "FAIL_CLOSED_CERTIFICATION_CONTRACT",
+    "EXACT_ONLY_RECOVERY_CERTIFICATION",
+    "RECOVERY_CERTIFICATION_STRATEGIES",
+    "RELOCATION_FAMILY_CERTIFICATION",
     "STRICT_DECISION_BOUNDARY_CONTRACT",
     "VIABILITY_CANDIDATE_INTERFACE",
     "BoundedEventDeferRule",

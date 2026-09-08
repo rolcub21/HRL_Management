@@ -10,6 +10,10 @@ artifacts can be reproduced from this copy alone.
 
 ## Start here
 
+- [Methods](methods/) contains the stable public interface for the current
+  controller.
+- [Experiment programs](experiments/) separates the numbered conditioned-VCG
+  sequence from the robust-certification extension and frozen legacy paths.
 - [Architecture](docs/ARCHITECTURE.md) explains the environment, options,
   learning agent, and method variants.
 - [Experiments](docs/EXPERIMENTS.md) lists the runnable entry points, current
@@ -24,7 +28,7 @@ artifacts can be reproduced from this copy alone.
 - [Current layout](docs/CURRENT_LAYOUT.md) maps files to their roles and
   distinguishes source from generated artifacts.
 - [Reorganization plan](docs/REORGANIZATION_PLAN.md) proposes a clean target
-  layout without pretending that the current imports already support it.
+  layout and records the compatibility layer already implemented.
 
 ## Problem summary
 

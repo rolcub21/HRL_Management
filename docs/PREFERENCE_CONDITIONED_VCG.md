@@ -146,13 +146,16 @@ stochastic rows, so their whole-method numeric aggregates are suppressed.
 
 - Controller: `vcg_v11_conditioned_handling.py`
 - Iterative trainer: `train_vcg_v11_conditioned_handling_iterative.py`
-- Seed-0 screen: `experiments/vcg_v11_conditioned_handling_seed0_85k/`
-- Seed-1/2 training: `experiments/vcg_v11_conditioned_handling_two_phase_seeds12/`
-- Seed-1 continuation: `experiments/vcg_v11_conditioned_handling_seed1_convergence_continuation/`
-- Fixed-bank diagnostic: `experiments/vcg_v11_conditioned_handling_fixed_merit_bank/`
+- Public method package: `methods/conditioned_vcg/`
+- Ordered experiment index: `experiments/conditioned_vcg/`
+- Development index: `experiments/conditioned_vcg/development/`
+- Seed-0 screen: `experiments/conditioned_vcg/development/D03_conditioned_seed0_screen/`
+- Seed-1/2 training: `experiments/conditioned_vcg/development/D07_seed_replication/`
+- Seed-1 continuation: `experiments/conditioned_vcg/development/D08_seed1_continuation/`
+- Fixed-bank diagnostic: `experiments/conditioned_vcg/development/D09_fixed_merit_diagnostic/`
 - Final runner and plot: `run_vcg_conditioned_final_comparison_90k.py` and
   `plot_vcg_conditioned_final_comparison_90k.py`
-- Final experiment: `experiments/vcg_conditioned_final_comparison_90k/`
+- Paper experiment E1: `experiments/conditioned_vcg/E01_benchmark_90k/`
 - Focused tests: `tests/test_vcg_v11_conditioned_handling*.py` and
   `tests/test_vcg_conditioned_final_comparison_90k.py`
 

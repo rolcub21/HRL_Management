@@ -41,6 +41,7 @@ from PSLAP.dynamic_yard import YardSnapshot
 from PSLAP.viability import RecoveryAction, RecoveryState, ViabilityStatus
 from PSLAP.viability_candidates import (
     BoundedEventDeferRule,
+    EXACT_ONLY_RECOVERY_CERTIFICATION,
     ViabilityActionType,
     ViabilityCandidateSnapshot,
     ViabilityCertificateCache,
@@ -332,6 +333,31 @@ def _frontier_record(
         "unknown_candidates_rejected": int(audit["unknown_accept_count"])
         + int(audit["unknown_recovery_count"]),
         "exact_search_seconds": float(audit.get("exact_analysis_seconds", 0.0)),
+        "recovery_certification_strategy": audit.get(
+            "recovery_certification_strategy",
+            EXACT_ONLY_RECOVERY_CERTIFICATION,
+        ),
+        "relocation_family_anchor_available": bool(
+            audit.get("relocation_family_anchor_available", False)
+        ),
+        "relocation_family_attempt_count": int(
+            audit.get("relocation_family_attempt_count", 0)
+        ),
+        "relocation_family_proof_count": int(
+            audit.get("relocation_family_proof_count", 0)
+        ),
+        "relocation_family_miss_count": int(
+            audit.get("relocation_family_miss_count", 0)
+        ),
+        "relocation_family_setup_seconds": float(
+            audit.get("relocation_family_setup_seconds", 0.0)
+        ),
+        "relocation_family_connection_seconds": float(
+            audit.get("relocation_family_connection_seconds", 0.0)
+        ),
+        "native_recovery_search_count": int(
+            audit.get("native_recovery_search_count", 0)
+        ),
         "critic_inference_seconds": float(
             audit.get("priority_inference_seconds", 0.0)
         ),
@@ -354,6 +380,7 @@ def _enumerate_frontier(
     liveness_rule: BoundedEventDeferRule,
     cache: ViabilityCertificateCache,
     prioritizer: Optional[ViabilityCriticPrioritizer],
+    recovery_certification_strategy: str = EXACT_ONLY_RECOVERY_CERTIFICATION,
 ) -> tuple[ViabilityCandidateSnapshot, dict]:
     started = perf_counter()
     snapshot = enumerate_viability_candidates(
@@ -363,6 +390,7 @@ def _enumerate_frontier(
         liveness_rule=liveness_rule,
         cache=cache,
         state_prioritizer=prioritizer,
+        recovery_certification_strategy=recovery_certification_strategy,
     )
     elapsed = perf_counter() - started
     return snapshot, _frontier_record(snapshot, wall_seconds=elapsed)
@@ -388,6 +416,7 @@ def run_arm(
     prioritizer: ViabilityCriticPrioritizer,
     max_steps: int,
     device: torch.device,
+    recovery_certification_strategy: str = EXACT_ONLY_RECOVERY_CERTIFICATION,
 ) -> dict:
     if arm not in ARMS:
         raise ValueError(f"unknown benchmark arm: {arm}")
@@ -438,6 +467,9 @@ def run_arm(
                 liveness_rule=liveness_rule,
                 cache=cache,
                 prioritizer=active_prioritizer,
+                recovery_certification_strategy=(
+                    recovery_certification_strategy
+                ),
             )
             frontiers.append(record)
             pending_index = len(frontiers) - 1
@@ -537,6 +569,9 @@ def run_arm(
                 liveness_rule=liveness_rule,
                 cache=cache,
                 prioritizer=active_prioritizer,
+                recovery_certification_strategy=(
+                    recovery_certification_strategy
+                ),
             )
             frontiers.append(record)
             pending_index = len(frontiers) - 1
@@ -689,6 +724,25 @@ def run_arm(
             sum(item["cache_misses"] for item in frontiers)
         ),
         "exact_search_seconds": _sum_field(frontiers, "exact_search_seconds"),
+        "recovery_certification_strategy": recovery_certification_strategy,
+        "relocation_family_attempt_count": int(
+            sum(item["relocation_family_attempt_count"] for item in frontiers)
+        ),
+        "relocation_family_proof_count": int(
+            sum(item["relocation_family_proof_count"] for item in frontiers)
+        ),
+        "relocation_family_miss_count": int(
+            sum(item["relocation_family_miss_count"] for item in frontiers)
+        ),
+        "relocation_family_setup_seconds": _sum_field(
+            frontiers, "relocation_family_setup_seconds"
+        ),
+        "relocation_family_connection_seconds": _sum_field(
+            frontiers, "relocation_family_connection_seconds"
+        ),
+        "native_recovery_search_count": int(
+            sum(item["native_recovery_search_count"] for item in frontiers)
+        ),
         "critic_inference_seconds": _sum_field(
             frontiers, "critic_inference_seconds"
         ),

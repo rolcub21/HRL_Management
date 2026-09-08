@@ -17,6 +17,8 @@ import render_vcg_unified_decision_mechanism as video
 
 
 PROTOCOL = "vcg_unified_policy_filmstrip_render_v2"
+LEGACY_TRACE_PROTOCOL = "vcg_unified_controlled_policy_filmstrip_trace_v1"
+CONDITIONED_TRACE_PROTOCOL = "vcg_conditioned_controlled_policy_filmstrip_trace_v1"
 WIDTH = 2440
 HEIGHT = 900
 LEFT = 160
@@ -73,21 +75,31 @@ def _json_safe(value):
     return value
 
 
+def _arm_keys(trace: Mapping) -> tuple[str, str]:
+    if trace.get("protocol") == LEGACY_TRACE_PROTOCOL:
+        return "lambda0", "lambda005"
+    if trace.get("protocol") == CONDITIONED_TRACE_PROTOCOL:
+        return "lambda0", "lambda_positive"
+    raise FilmstripRenderError("unexpected trace protocol")
+
+
 def validate(trace: Mapping) -> int:
-    if trace.get("protocol") != "vcg_unified_controlled_policy_filmstrip_trace_v1":
-        raise FilmstripRenderError("unexpected trace protocol")
+    row_keys = _arm_keys(trace)
     if trace.get("training_or_learning") is not False:
         raise FilmstripRenderError("filmstrip source must be inference-only")
     arms = trace.get("arms")
-    if not isinstance(arms, Mapping) or set(arms) != {"lambda0", "lambda005"}:
+    if not isinstance(arms, Mapping) or set(arms) != set(row_keys):
         raise FilmstripRenderError("both policy arms are required")
     count = int(trace.get("macro_count_per_arm", 0))
     if count < 5:
         raise FilmstripRenderError("filmstrip requires at least five decisions per row")
-    if _json_safe(arms["lambda0"]["common_snapshot"]) != _json_safe(
-        arms["lambda005"]["common_snapshot"]
+    if _json_safe(arms[row_keys[0]]["common_snapshot"]) != _json_safe(
+        arms[row_keys[1]]["common_snapshot"]
     ):
         raise FilmstripRenderError("rows do not start from the same state")
+    lambdas = tuple(float(arms[key].get("lambda")) for key in row_keys)
+    if lambdas[0] != 0.0 or not math.isfinite(lambdas[1]) or lambdas[1] <= 0.0:
+        raise FilmstripRenderError("filmstrip lambda coordinates are invalid")
     for label, arm in arms.items():
         rows = arm.get("macros")
         if not isinstance(rows, Sequence) or len(rows) != count:
@@ -102,7 +114,7 @@ def validate(trace: Mapping) -> int:
             ):
                 raise FilmstripRenderError(f"{label} contains an invalid macro")
             _validate_primitive_path(macro)
-    if arms["lambda0"]["macros"][0].get("selected_key") == arms["lambda005"]["macros"][0].get("selected_key"):
+    if arms[row_keys[0]]["macros"][0].get("selected_key") == arms[row_keys[1]]["macros"][0].get("selected_key"):
         raise FilmstripRenderError("the first displayed decision does not diverge")
     return count
 
@@ -445,8 +457,12 @@ def render(trace: Mapping, *, reveal: int | None = None) -> Image.Image:
     draw = ImageDraw.Draw(image)
     _draw_timing_legend(draw)
     arms = trace["arms"]
-    row_specs = (("lambda0", LAMBDA0, "λ = 0"), ("lambda005", LAMBDA005, "λ = 0.05"))
-    for row, (label, rail_color, rail_label) in enumerate(row_specs):
+    row_specs = (
+        (_arm_keys(trace)[0], LAMBDA0),
+        (_arm_keys(trace)[1], LAMBDA005),
+    )
+    for row, (label, rail_color) in enumerate(row_specs):
+        rail_label = f"λ = {float(arms[label]['lambda']):g}"
         _, y = _panel_origin(0, row)
         draw.text((76, y + PANEL / 2), rail_label, anchor="mm", font=F_LAMBDA, fill=rail_color)
         arm = arms[label]
@@ -516,7 +532,7 @@ def main() -> None:
             ),
         },
         "contains_explanatory_text": False,
-        "rows": ["lambda0", "lambda005"],
+        "rows": list(_arm_keys(trace)),
         "columns": 6,
     }
     manifest_path = args.output_dir / f"{args.stem}.json"

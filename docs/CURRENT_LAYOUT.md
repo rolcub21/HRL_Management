@@ -5,6 +5,8 @@ This is an index of the current tree, not a claim that the layout is ideal.
 ```text
 HRL_Management/
 ├── README.md                       project overview and navigation
+├── methods/
+│   └── conditioned_vcg/            public interface for the final method
 ├── docs/                           documentation added before refactoring
 │   └── UNIFIED_VCG.md              current unified-VCG evidence index
 ├── environment.py                 abstract environment
@@ -41,7 +43,12 @@ HRL_Management/
 │                                   final cumulative and trade-off figures
 ├── render_vcg_unified_behavior_gifs.py
 │                                   authenticated qualitative replay renderer
-├── experiments/                    versioned launchers and local protocol notes
+├── experiments/
+│   ├── conditioned_vcg/E01...E05   ordered paper-facing experiments
+│   ├── conditioned_vcg/development/D01...D09
+│   │                               architecture and convergence history
+│   ├── robust_vcg/                 separate robustness-program index
+│   └── vcg_*/                      frozen authenticated launcher locations
 ├── run_learned_common_evaluation.sh
 ├── plot_revision_sensitivity.py   aggregate sensitivity plotting
 ├── plotting_test.py               legacy plot script
@@ -84,8 +91,13 @@ HRL_Management/
 | compare PSLAP assignment baselines | `compare_pslap_baselines.py` |
 | inspect frozen PSLAP ablation | `PSLAP/legacy.py`, then `PSLAP/PSLAPPolicy.py` |
 | follow the current unified VCG evidence | `docs/UNIFIED_VCG.md` |
+| import the current method | `methods/conditioned_vcg/` |
 | inspect the current conditioned-handling VCG | `docs/PREFERENCE_CONDITIONED_VCG.md` |
-| reproduce the final 90k comparison | `experiments/vcg_conditioned_final_comparison_90k/` |
+| follow the ordered experiment chain | `experiments/conditioned_vcg/` |
+| reproduce the final 90k comparison | `experiments/conditioned_vcg/E01_benchmark_90k/` |
+| inspect the certification ablation | `experiments/conditioned_vcg/E03_certification_ablation_90k/` |
+| run the certified-frontier ranking ablation | `experiments/conditioned_vcg/E04_safe_frontier_ranking_92k/` |
+| validate and ablate conditioned handling | `experiments/conditioned_vcg/E05_handling_model_ablation_92k/` |
 | inspect the predecessor 89k frontier | `experiments/vcg_v11_nested_lambda_confirmation_89k/` |
 | inspect the predecessor matched comparison | `experiments/vcg_v11_nested_all_baselines_89k/` |
 | render authenticated VCG behavior views | `render_vcg_unified_behavior_gifs.py` |
@@ -114,5 +126,7 @@ tracked legacy artifacts were grouped without changing their contents.
 - `implementations/` contains generic option generators inherited from the
   earlier HRL code; `renderers/` contains reusable visualizers and taxi assets.
 - Root-level research scripts remain in place because completed experiment
-  contracts bind their paths and hashes. Future packaging should therefore be
-  versioned rather than performed as a silent move.
+  contracts bind their paths and hashes. `methods/conditioned_vcg/` and the
+  numbered experiment wrappers provide the clean public layout without
+  mutating that evidence. Future implementations should be versioned inside
+  the package rather than added as unindexed root modules.

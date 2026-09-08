@@ -58,18 +58,24 @@ Dynamic PSLAP failed to complete instances 90010 and 90012. Kim2020 produced
 two blocked model-seed-0 rolls on instances 90004 and 90023. Their aggregate
 metrics are therefore suppressed rather than averaged over successful rows.
 
-## Evidence lifecycle
+## Development lifecycle
 
 | Stage | Role |
 |---|---|
-| [Joint-vector architecture screen](../experiments/vcg_preference_conditioned_architecture_screen_85k/README.md) | showed that conditioning can create intermediate behavior but did not preserve the operational endpoint |
-| [Anchored residual screen](../experiments/vcg_v11_anchored_preference_seed0_85k/README.md) | preserved lambda zero but failed the high-lambda handling endpoint |
-| [Seed-0 conditioned screen](../experiments/vcg_v11_conditioned_handling_seed0_85k/README.md) | froze VCG 1.1 and learned only policy-conditioned future handling |
-| [Seed-0 damped convergence](../experiments/vcg_v11_conditioned_handling_damped_convergence/README.md) | stabilized fitted-policy iteration to its fixed round-8 terminal |
-| [Seed-1/2 matched training](../experiments/vcg_v11_conditioned_handling_two_phase_seeds12/README.md) | replicated the fixed recipe without opening an evaluation panel |
-| [Seed-1 continuation](../experiments/vcg_v11_conditioned_handling_seed1_convergence_continuation/README.md) | applied the predeclared convergence-controlled continuation to round 10 |
-| [Fixed merit bank](../experiments/vcg_v11_conditioned_handling_fixed_merit_bank/README.md) | diagnosed `Qop`, `QN`, `lambda*QN`, and merit without affecting selection |
-| [Final 90k comparison](../experiments/vcg_conditioned_final_comparison_90k/README.md) | evaluated the ten-point family and all comparators on one prospective panel |
+| [D1: joint-vector screen](../experiments/conditioned_vcg/development/D01_architecture_screen/) | showed that conditioning can create intermediate behavior but did not preserve the operational endpoint |
+| [D2: anchored residual](../experiments/conditioned_vcg/development/D02_operational_anchor_screen/) | preserved lambda zero but failed the high-lambda handling endpoint |
+| [D3: seed-0 conditioned screen](../experiments/conditioned_vcg/development/D03_conditioned_seed0_screen/) | froze VCG 1.1 and learned only policy-conditioned future handling |
+| [D4: full-update extension](../experiments/conditioned_vcg/development/D04_full_update_convergence/) | failed the declared convergence rule and motivated damping |
+| [D5: damped convergence](../experiments/conditioned_vcg/development/D05_damped_convergence/) | stabilized fitted-policy iteration to its fixed round-8 terminal |
+| [D6: seed-0 damped evaluation](../experiments/conditioned_vcg/development/D06_damped_seed0_evaluation/) | confirmed the fixed terminal before multi-seed replication |
+| [D7: seed-1/2 training](../experiments/conditioned_vcg/development/D07_seed_replication/) | replicated the fixed recipe without opening an evaluation panel |
+| [D8: seed-1 continuation](../experiments/conditioned_vcg/development/D08_seed1_continuation/) | applied the predeclared convergence-controlled continuation to round 10 |
+| [D9: fixed merit bank](../experiments/conditioned_vcg/development/D09_fixed_merit_diagnostic/) | diagnosed `Qop`, `QN`, `lambda*QN`, and merit without affecting selection |
+| [D10: scalability support](../experiments/conditioned_vcg/development/D10_scalability_support_screen/) | separated yard size, occupancy, candidate breadth, and per-check latency |
+| [D11: shared-search audit](../experiments/conditioned_vcg/development/D11_shared_search_opportunity_audit/) | measured repeated intermediate-state work before selecting a reuse mechanism |
+| [D12: relocation-family certification](../experiments/conditioned_vcg/development/D12_relocation_family_certification/) | accepted constructive amortization component: strict completion at both tested 10x10 occupancy settings, with 21,051 family proofs and zero misses |
+
+The paper-facing result is [E1: prospective 90k benchmark](../experiments/conditioned_vcg/E01_benchmark_90k/).
 
 ## Predecessor nested controller
 
@@ -94,9 +100,9 @@ From the repository root, completed final ledgers can be inspected and
 reanalyzed with:
 
 ```bash
-bash experiments/vcg_conditioned_final_comparison_90k/run.sh inspect
-bash experiments/vcg_conditioned_final_comparison_90k/run.sh analyze
-bash experiments/vcg_conditioned_final_comparison_90k/run.sh plot
+bash experiments/conditioned_vcg/E01_benchmark_90k/run.sh inspect
+bash experiments/conditioned_vcg/E01_benchmark_90k/run.sh analyze
+bash experiments/conditioned_vcg/E01_benchmark_90k/run.sh plot
 ```
 
 A clean clone must first be supplied with the authenticated checkpoints,

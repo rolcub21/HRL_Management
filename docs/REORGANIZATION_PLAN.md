@@ -1,10 +1,24 @@
 # Proposed non-breaking-to-breaking reorganization
 
-## Scope of the current documentation phase
+## Implemented non-breaking compatibility layer
 
-The current phase intentionally does not move or edit executable Python files.
-It establishes terminology, identifies sources of truth, records experiment
-inputs and outputs, and makes structural risks explicit.
+The current final method now has a stable public interface at
+`methods/conditioned_vcg/`. Paper-facing experiments begin with E1 at
+`experiments/conditioned_vcg/`; the architecture-selection history is indexed
+separately as D1--D9. The robustness extension has its own
+`experiments/robust_vcg/` index.
+
+The original root modules and flat experiment directories remain installed as
+frozen evidence sources. Numbered launchers delegate to them rather than
+moving them, because completed contracts authenticate their exact paths and
+byte hashes. This implements the package-and-compatibility-wrapper step below
+without invalidating prior results.
+
+## Scope of the remaining migration
+
+The current phase intentionally does not move or edit authenticated executable
+Python files. It establishes terminology, identifies sources of truth, and
+records experiment inputs and outputs while making structural risks explicit.
 
 Moving source now would require import changes. Moving historical artifacts may
 also invalidate paths in scripts, notebooks, or unpublished experiment notes.

@@ -1,5 +1,9 @@
 # Prospective conditioned-VCG final comparison on 90k (CPU v3)
 
+Canonical paper entry point: `experiments/conditioned_vcg/E01_benchmark_90k/`.
+This directory remains in place because the completed protocol authenticates
+its original source paths.
+
 This experiment opens a new panel of 30 serialized `EpisodeInstance` objects
 only after freezing all policies, lambda coordinates, nuisance replications,
 and aggregation rules.
