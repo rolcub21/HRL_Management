@@ -880,15 +880,18 @@ def enumerate_viability_candidates(
         if action.kind is RecoveryActionKind.DELIVERY:
             action_type = ViabilityActionType.DELIVER
             option = DirectDeliverOption.from_recovery_action(
-                env, action, max_replans=max_replans
+                env,
+                action,
+                max_replans=max_replans,
+                fixed_obstacles=recovery_state.fixed_obstacles,
             )
         elif action.kind is RecoveryActionKind.RELOCATION:
             action_type = ViabilityActionType.RECONFIGURE
-            option = ReconfigureOption(
+            option = ReconfigureOption.from_recovery_action(
                 env,
-                action.block_label,
-                action.destination,
+                action,
                 max_replans=max_replans,
+                fixed_obstacles=recovery_state.fixed_obstacles,
             )
         else:  # pragma: no cover - enum is closed
             raise RuntimeError(f"unknown recovery action kind: {action.kind}")

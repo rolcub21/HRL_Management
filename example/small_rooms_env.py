@@ -1063,14 +1063,21 @@ class SmallRoomsEnv(BaseEnvironment):
     def plan_path_heuristic(self,
                             start: Tuple[int,int],
                             goal:  Tuple[int,int],
-                            ignore_block=None) -> List[int]: # Add the new parameter
+                            ignore_block=None,
+                            extra_blocked=()) -> List[int]:
         """
         Run A* from `start` to `goal`, treating non-delivered blocks as obstacles.
-        Optionally, an `ignore_block` can be specified to be excluded from the obstacle set.
+        Optionally, an `ignore_block` can be specified to be excluded from the
+        obstacle set. ``extra_blocked`` carries structural obstacles from an
+        external planning/certification contract, such as reserved queue cells.
         """
         # Build the obstacle set, excluding the block to ignore
         blocked = {b.position for b in self.blocks
                    if (not b.delivered) and (not b.carrying) and (b is not ignore_block)}
+        blocked.update(tuple(cell) for cell in extra_blocked)
+        blocked.discard(tuple(start))
+        if tuple(goal) in blocked:
+            return []
         
         path = self._astar(self.rooms, start, goal, blocked)
         # ... (the rest of the function for converting path to actions is unchanged) ...

@@ -3,6 +3,15 @@ from unittest.mock import patch
 
 from example.Options.ReconfigureOption import ReconfigureOption
 from example.small_rooms_env import SmallRoomsEnv
+from PSLAP.dynamic_yard import YardSnapshot
+from PSLAP.viability import (
+    RecoveryActionKind,
+    RecoveryState,
+    legal_recovery_actions,
+)
+from PSLAP.viability_filter import online_fixed_obstacles
+
+from tests.test_direct_deliver_option import queue_arrival_corridor_env
 
 
 def isolated_reconfiguration_env(
@@ -68,6 +77,41 @@ def execute_option(env, option, *, limit=200):
 
 
 class ReconfigureOptionTests(unittest.TestCase):
+    def test_certified_path_survives_queue_arrival_that_blocks_shortcut(self):
+        env, target, arrival = queue_arrival_corridor_env()
+        fixed = online_fixed_obstacles(env, reserve_queue_cells=True)
+        state = RecoveryState.from_yard_snapshot(
+            YardSnapshot.from_env(env),
+            env.current_state,
+            fixed_obstacles=fixed - {env.current_state},
+            pickup_cells=(env.pickup_cell,),
+            wait_cells=(env.waiting_cell,),
+        )
+        witness = next(
+            action
+            for action in legal_recovery_actions(state)
+            if action.kind is RecoveryActionKind.RELOCATION
+            and action.block_label == target.label
+            and action.destination == (2, 3)
+        )
+        unconstrained = env.plan_path_heuristic(
+            env.current_state, target.position, ignore_block=target
+        )
+        self.assertEqual(unconstrained[0], env.ACTION_IDS["UP"])
+        self.assertEqual(witness.approach_path[1], (3, 2))
+
+        option = ReconfigureOption.from_recovery_action(
+            env, witness, fixed_obstacles=state.fixed_obstacles
+        )
+        emitted, _ = execute_option(env, option)
+
+        self.assertEqual(emitted[0], env.ACTION_IDS["RIGHT"])
+        self.assertEqual(arrival.position, env.pickup_cell)
+        self.assertEqual(target.position, (2, 3))
+        self.assertEqual(target.storage_location, (2, 3))
+        self.assertEqual(option.last_outcome["replans"], 0)
+        self.assertTrue(option.last_outcome["certified_path_bound"])
+
     def test_explicit_bound_move_preserves_clock_and_commits_at_putdown(self):
         destination = (5, 5)
         env, target = isolated_reconfiguration_env(destination=destination)

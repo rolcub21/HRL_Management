@@ -9,6 +9,7 @@ from PSLAP.viability import (
     RecoveryState,
     legal_recovery_actions,
 )
+from PSLAP.viability_filter import online_fixed_obstacles
 
 
 def isolated_delivery_env(
@@ -69,7 +70,86 @@ def execute_option(env, option, *, limit=200):
     raise AssertionError("DirectDeliverOption did not terminate")
 
 
+def queue_arrival_corridor_env():
+    """Match the E12 topology where the unconstrained route uses pickup."""
+
+    env = SmallRoomsEnv(
+        choose_storage=False,
+        arrival_rate=0.0,
+        proc_mean=50,
+        number_blocks=4,
+        grid_rows=5,
+        grid_cols=5,
+        start_state=(3, 1),
+        door_cell=(0, 1),
+        exit_cells=[(4, 1), (4, 2), (4, 3)],
+    )
+    env.reset(instance=env.sample_episode_instance(9202))
+    for block in env.blocks:
+        block.position = None
+        block.storage_location = None
+        block.carrying = False
+        block.stored = False
+        block.delivered = False
+        block.stored_time_step = None
+        block.storage_steps_elapsed = 0
+        block.arrival_step = 10_000
+    env.current_state = (3, 1)
+    env.time_steps = 20
+
+    blocker = env.blocks[0]
+    blocker.position = blocker.storage_location = (2, 2)
+    blocker.stored = True
+    blocker.stored_time_step = 0
+    target = env.blocks[1]
+    target.position = target.storage_location = (1, 3)
+    target.stored = True
+    target.stored_time_step = 0
+    start_occupant = env.blocks[2]
+    start_occupant.position = start_occupant.storage_location = (3, 1)
+    start_occupant.stored = True
+    start_occupant.stored_time_step = 0
+    arrival = env.blocks[3]
+    arrival.arrival_step = 21
+    return env, target, arrival
+
+
 class DirectDeliverOptionTests(unittest.TestCase):
+    def test_certified_path_survives_queue_arrival_that_blocks_shortcut(self):
+        env, target, arrival = queue_arrival_corridor_env()
+        fixed = online_fixed_obstacles(env, reserve_queue_cells=True)
+        state = RecoveryState.from_yard_snapshot(
+            YardSnapshot.from_env(env),
+            env.current_state,
+            fixed_obstacles=fixed - {env.current_state},
+            pickup_cells=(env.pickup_cell,),
+            wait_cells=(env.waiting_cell,),
+        )
+        witness = next(
+            action
+            for action in legal_recovery_actions(state)
+            if action.kind is RecoveryActionKind.DELIVERY
+            and action.block_label == target.label
+            and action.destination == (4, 1)
+        )
+        unconstrained = env.plan_path_heuristic(
+            env.current_state, target.position, ignore_block=target
+        )
+        self.assertEqual(unconstrained[0], env.ACTION_IDS["UP"])
+        self.assertEqual(witness.approach_path[1], (3, 2))
+
+        option = DirectDeliverOption.from_recovery_action(
+            env, witness, fixed_obstacles=state.fixed_obstacles
+        )
+        emitted, _ = execute_option(env, option)
+
+        self.assertEqual(emitted[0], env.ACTION_IDS["RIGHT"])
+        self.assertEqual(arrival.position, env.pickup_cell)
+        self.assertTrue(target.delivered)
+        self.assertEqual(target.position, (4, 1))
+        self.assertEqual(option.last_outcome["replans"], 0)
+        self.assertTrue(option.last_outcome["certified_path_bound"])
+
     def test_delivery_witness_executes_exact_block_and_exit(self):
         env, target = isolated_delivery_env()
         bound_exit = (7, 6)

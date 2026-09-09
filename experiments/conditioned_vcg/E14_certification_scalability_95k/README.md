@@ -6,6 +6,62 @@ training and does not modify the production verifier. The frozen model seed
 0 controller at `lambda=.10` supplies an ordered query workload on the same
 10×10 medium- and high-occupancy seed-95100 instances used by D10.
 
+The final Block 6 sensitivity panel is defined in `budget_panel.py`. It holds
+the frozen controller, timing-invariant cache, E14 path cleanup, and accepted
+D12 family certification fixed while varying native `max_nodes` over
+`{2,4,8,16,20000}` on the nine E13 scale-by-occupancy seed-95100 instances.
+Every executed arm starts in a fresh process, so its current-state anchor is
+obtained and charged under that arm's own budget. No proof is shared across
+budgets. The authenticated 20,000-node E13 pilot rows are reused as the
+reference rather than recomputed.
+
+Run E13's nine-row pilot first, then stage E14 with the smallest coordinate:
+
+```bash
+cd /home/ai_diagnosis/HRL_Management
+bash experiments/conditioned_vcg/E14_certification_scalability_95k/run_budget_panel.sh prepare
+bash experiments/conditioned_vcg/E14_certification_scalability_95k/run_budget_panel.sh run-pilot
+```
+
+If the four low-budget rows are classified correctly, run the remaining 32
+new episodes and assemble the complete table:
+
+```bash
+bash experiments/conditioned_vcg/E14_certification_scalability_95k/run_budget_panel.sh run-all
+bash experiments/conditioned_vcg/E14_certification_scalability_95k/run_budget_panel.sh render
+```
+
+Timeout is censoring and UNKNOWN is budget-limited rejection, not proof of
+infeasibility. The 20,000-node rows are available to final analysis only once
+the corresponding E13 pilot coordinates exist.
+
+The renderer combines the complete E13 and E14 reports into the paper-facing
+four-panel Block 6 figure and companion tables under
+`results/vcg-conditioned-block6-scalability-95k/`. The E1 computational-data
+audit is recorded in
+[`E1_RUNTIME_AUDIT.md`](../E13_operational_scalability_95k/E1_RUNTIME_AUDIT.md):
+the existing E1 ledgers do not contain comparable runtime measurements.
+
+## Post-hoc threshold refinement
+
+The completed predeclared sweep showed that the useful anchor threshold lies
+inside its large gap from 16 to 20,000 nodes: the nine initial states required
+up to 94 nodes, and the largest native search anywhere on the reference
+trajectories explored 126 nodes. Aggregate candidate coverage from stopped
+and completed trajectories is not a matched cross-budget estimand.
+
+The explicitly post-hoc refinement therefore adds only 32- and 64-node arms
+on the same nine seed-95100 instances, with fresh per-arm anchors. It does not
+train or change the implementation. A 128-node outcome rerun is unnecessary
+for the observed deterministic reference paths: every reference search
+terminated below that conservative cap.
+
+```bash
+cd /home/ai_diagnosis/HRL_Management
+bash experiments/conditioned_vcg/E14_certification_scalability_95k/run_threshold_refinement.sh prepare
+bash experiments/conditioned_vcg/E14_certification_scalability_95k/run_threshold_refinement.sh run-all
+```
+
 The experiment evaluates four cumulative stages:
 
 | Stage | Change | Required validity check |

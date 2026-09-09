@@ -14,9 +14,13 @@ PAPER_EXPERIMENTS = {
     "E03_certification_ablation_90k": None,
     "E04_safe_frontier_ranking_92k": None,
     "E05_handling_model_ablation_92k": None,
+    "E08_liveness_audit_95k": None,
     "E11_distribution_shift_93k": None,
     "E12_representation_ablation_94k": None,
+    "E13_operational_scalability_95k": None,
     "E14_certification_scalability_95k": None,
+    "E16_prediction_ranking_audit": None,
+    "E19_service_tails_cost_sensitivity": None,
 }
 DEVELOPMENT_EXPERIMENTS = {
     "D01_architecture_screen": (

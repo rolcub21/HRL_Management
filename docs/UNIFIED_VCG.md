@@ -74,6 +74,8 @@ metrics are therefore suppressed rather than averaged over successful rows.
 | [D10: scalability support](../experiments/conditioned_vcg/development/D10_scalability_support_screen/) | separated yard size, occupancy, candidate breadth, and per-check latency |
 | [D11: shared-search audit](../experiments/conditioned_vcg/development/D11_shared_search_opportunity_audit/) | measured repeated intermediate-state work before selecting a reuse mechanism |
 | [D12: relocation-family certification](../experiments/conditioned_vcg/development/D12_relocation_family_certification/) | accepted constructive amortization component: strict completion at both tested 10x10 occupancy settings, with 21,051 family proofs and zero misses |
+| [E13: operational scalability](../experiments/conditioned_vcg/E13_operational_scalability_95k/) | frozen 3x3 scale-by-occupancy panel plus geometry, episode-length, and aspect-ratio companions with E14 cleanup and D12 enabled |
+| [E14: certification scalability](../experiments/conditioned_vcg/E14_certification_scalability_95k/) | frozen five-budget sensitivity panel with fresh per-arm anchors; the 20,000-node reference reuses authenticated E13 rows |
 
 The paper-facing result is [E1: prospective 90k benchmark](../experiments/conditioned_vcg/E01_benchmark_90k/).
 

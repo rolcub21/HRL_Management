@@ -5,6 +5,8 @@ from __future__ import annotations
 from collections import deque
 
 from option import BaseOption
+from example.Options.certified_path import actions_from_cell_path
+from PSLAP.viability import RecoveryAction, RecoveryActionKind
 
 
 class ReconfigureOption(BaseOption):
@@ -22,9 +24,9 @@ class ReconfigureOption(BaseOption):
     and the block's original storage clock.
     """
 
-    VERSION = "bound_reconfigure_option_v1"
+    VERSION = "bound_reconfigure_option_v2"
     BINDING_CONTRACT = "block_cell_episode_epoch_bound_once_v1"
-    PATH_CONTRACT = "canonical_other_blocks_obstruct_target_ignored_v1"
+    PATH_CONTRACT = "certified_initial_path_fixed_obstacle_repair_v2"
     CLOCK_CONTRACT = "preserve_original_storage_event_clock_v1"
 
     def __init__(
@@ -34,6 +36,9 @@ class ReconfigureOption(BaseOption):
         destination,
         *,
         max_replans: int = 8,
+        certified_approach_path=None,
+        certified_transport_path=None,
+        fixed_obstacles=(),
     ):
         super().__init__(is_primitive=False)
         self.env = env
@@ -48,6 +53,13 @@ class ReconfigureOption(BaseOption):
         self.max_replans = int(max_replans)
         if self.max_replans <= 0:
             raise ValueError("max_replans must be positive")
+        if (certified_approach_path is None) != (
+            certified_transport_path is None
+        ):
+            raise ValueError("both certified path legs must be supplied together")
+        self.bound_fixed_obstacles = frozenset(
+            tuple(cell) for cell in fixed_obstacles
+        )
 
         target = self._block()
         if target is None:
@@ -67,6 +79,45 @@ class ReconfigureOption(BaseOption):
         self.bound_instance_id = (
             None if instance is None else instance.instance_id
         )
+        self.recovery_witness_steps = None
+        self.certified_approach_path = (
+            None
+            if certified_approach_path is None
+            else tuple(tuple(cell) for cell in certified_approach_path)
+        )
+        self.certified_transport_path = (
+            None
+            if certified_transport_path is None
+            else tuple(tuple(cell) for cell in certified_transport_path)
+        )
+        self.certified_path_bound = self.certified_approach_path is not None
+        if self.certified_path_bound:
+            if self.certified_approach_path[0] != tuple(env.current_state):
+                raise ValueError("certified approach starts at a different agent cell")
+            if self.certified_approach_path[-1] != self.source_cell:
+                raise ValueError("certified approach does not end at source")
+            if self.certified_transport_path[0] != self.source_cell:
+                raise ValueError("certified transport does not start at source")
+            if self.certified_transport_path[-1] != self.destination:
+                raise ValueError("certified transport does not end at destination")
+            if any(
+                cell in self.bound_fixed_obstacles
+                for cell in self.certified_approach_path
+                + self.certified_transport_path
+            ):
+                raise ValueError("certified relocation path crosses a fixed obstacle")
+            actions_from_cell_path(
+                env,
+                self.certified_approach_path,
+                start=env.current_state,
+                goal=self.source_cell,
+            )
+            actions_from_cell_path(
+                env,
+                self.certified_transport_path,
+                start=self.source_cell,
+                goal=self.destination,
+            )
 
         cell_id = f"{self.destination[0]:02d}-{self.destination[1]:02d}"
         self.controller_identifier = (
@@ -82,6 +133,35 @@ class ReconfigureOption(BaseOption):
         self.last_outcome = None
         self._consumed = False
         self._reset_active()
+
+    @classmethod
+    def from_recovery_action(
+        cls,
+        env,
+        action: RecoveryAction,
+        *,
+        max_replans: int = 8,
+        fixed_obstacles=(),
+    ):
+        """Bind and retain one certified relocation transition."""
+
+        if not isinstance(action, RecoveryAction):
+            raise TypeError("action must be a RecoveryAction")
+        if action.kind is not RecoveryActionKind.RELOCATION:
+            raise ValueError("ReconfigureOption requires a RELOCATION witness")
+        option = cls(
+            env,
+            action.block_label,
+            action.destination,
+            max_replans=max_replans,
+            certified_approach_path=action.approach_path,
+            certified_transport_path=action.transport_path,
+            fixed_obstacles=fixed_obstacles,
+        )
+        if option.source_cell != tuple(action.source):
+            raise ValueError("relocation witness source does not match live block")
+        option.recovery_witness_steps = int(action.steps)
+        return option
 
     def _reset_active(self):
         self.started = False
@@ -152,6 +232,31 @@ class ReconfigureOption(BaseOption):
     def _strict_actions(self, block):
         """Plan against complete live occupancy, ignoring only ``block``."""
 
+        if (
+            self.certified_path_bound
+            and self.actual_steps == 0
+            and self.replan_count == 0
+            and not block.carrying
+        ):
+            approach = actions_from_cell_path(
+                self.env,
+                self.certified_approach_path,
+                start=self.env.current_state,
+                goal=self.source_cell,
+            )
+            transport = actions_from_cell_path(
+                self.env,
+                self.certified_transport_path,
+                start=self.source_cell,
+                goal=self.destination,
+            )
+            return (
+                approach
+                + [self.env.ACTION_IDS["PICKUP"]]
+                + transport
+                + [self.env.ACTION_IDS["PUTDOWN"]]
+            )
+
         if block.carrying:
             if self._occupant(
                 self.destination, ignore_label=block.label
@@ -161,6 +266,7 @@ class ReconfigureOption(BaseOption):
                 self.env.current_state,
                 self.destination,
                 ignore_block=block,
+                extra_blocked=self.bound_fixed_obstacles,
             )
             if self.env.current_state != self.destination and not transport:
                 return None
@@ -178,6 +284,7 @@ class ReconfigureOption(BaseOption):
             self.env.current_state,
             block.position,
             ignore_block=block,
+            extra_blocked=self.bound_fixed_obstacles,
         )
         if self.env.current_state != block.position and not approach:
             return None
@@ -185,6 +292,7 @@ class ReconfigureOption(BaseOption):
             block.position,
             self.destination,
             ignore_block=block,
+            extra_blocked=self.bound_fixed_obstacles,
         )
         if block.position != self.destination and not transport:
             return None
@@ -236,6 +344,8 @@ class ReconfigureOption(BaseOption):
                 self.env.current_state, action
             )
             if intended == self.env.current_state:
+                return False
+            if intended in self.bound_fixed_obstacles:
                 return False
             return self._occupant(
                 intended, ignore_label=block.label
@@ -332,6 +442,9 @@ class ReconfigureOption(BaseOption):
             "bound_time_step": self.bound_time_step,
             "actual_steps": self.actual_steps,
             "replans": self.replan_count,
+            "recovery_witness_steps": self.recovery_witness_steps,
+            "certified_path_bound": self.certified_path_bound,
+            "bound_fixed_obstacles": tuple(sorted(self.bound_fixed_obstacles)),
             "stored_time_step_before": self.bound_stored_time_step,
             "stored_time_step_after": (
                 None if block is None else block.stored_time_step
