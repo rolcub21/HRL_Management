@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Experiment outputs
+results/
+runs/
+*.pth
+*.tfevents.*
+*.npz
+*.png
+!renderers/taxi_renderer_resources/*.png
+!artifacts/legacy/evaluation/return_over_time.png
+*.eps
+*.gif
+*.mp4
+render_log.txt
+recovered-results
+
+# Local logs and caches
+*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
