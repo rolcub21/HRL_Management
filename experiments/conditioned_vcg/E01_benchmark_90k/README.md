@@ -2,17 +2,23 @@
 
 E1 is the paper-facing comparison of the preference-conditioned VCG family
 against historical VCG 2.3, duration-aware Dynamic PSLAP, capacity-aware GA,
-and the Kim2020 adaptation on the same 30 frozen 90k EpisodeInstances.
+and the A3C adaptation on the same 30 frozen 90k EpisodeInstances.
 
 The figure hierarchy is intentional:
 
-1. `e1-operating-points.pdf` is the main figure. It plots MAE against physical
-   rehandles per 100 required deliveries, connects all conditioned VCG points
-   in lambda order, and labels selected lambda coordinates.
-2. `e1-benchmark-table.md` and `.csv` are the main numeric table. Incomplete
-   methods retain strict-completion counts and have aggregate metrics
-   suppressed.
-3. `e1-supplement-cumulative.pdf` is a supplementary diagnostic showing how
+1. `e1-benchmark-reliability-quality.pdf` is the preferred main figure. Its
+   first panel reports strict-completion rates; its second panel plots MAE
+   against physical rehandles per 100 required deliveries. Incomplete methods
+   are retained as hollow, success-conditioned points with their completion
+   rates annotated.
+2. `e1-benchmark-table-inclusive.md` and `.csv` report reliability separately
+   from operational quality. Metrics marked with a dagger are conditional on
+   strict completion, descriptive, and excluded from unconditional Pareto and
+   paired-superiority claims. The original authenticated strict-gate report and
+   `e1-benchmark-table.md` remain unchanged.
+3. `e1-operating-points.pdf` retains the uncluttered complete-method operating
+   family and the three frozen model-seed paths.
+4. `e1-supplement-cumulative.pdf` is a supplementary diagnostic showing how
    common-instance running means stabilize and where incomplete methods stop.
 
 The completed ledgers can be reanalyzed and rendered without rerunning any
@@ -23,6 +29,27 @@ bash experiments/conditioned_vcg/E01_benchmark_90k/run.sh inspect
 bash experiments/conditioned_vcg/E01_benchmark_90k/run.sh analyze
 bash experiments/conditioned_vcg/E01_benchmark_90k/run.sh plot
 ```
+
+To regenerate only the paper-facing E1/E2 operating-point figure from the
+serialized contract, report, manifest, and 900 conditioned ledgers—without
+reopening historical training dependencies—run:
+
+```bash
+bash experiments/conditioned_vcg/E01_benchmark_90k/run.sh \
+  plot-operating-points
+```
+
+Render the reliability--quality Figure 5, inclusive tables, and ready-to-paste
+reporting language from the same closed E1 rows with:
+
+```bash
+bash experiments/conditioned_vcg/E01_benchmark_90k/run.sh \
+  plot-reliability-quality
+```
+
+This is a separately versioned post-hoc descriptive addendum. It performs no
+training or evaluation runs, imputes no failure penalty, and does not alter the
+predeclared strict-completion gate or the authenticated E1 report.
 
 This wrapper preserves the authenticated launcher at
 `experiments/vcg_conditioned_final_comparison_90k/`. See that directory's

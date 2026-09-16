@@ -203,3 +203,41 @@ bash experiments/conditioned_vcg/E12_representation_ablation_94k/run.sh \
 Artifacts are isolated under
 `results/vcg-conditioned-e12-executor-parity-screen-94k/`. This is a diagnostic
 screen, not a replacement for a corrected full E12 aggregate confirmation.
+
+### Full corrected-executor confirmation
+
+The separately versioned full confirmation reuses all frozen E12 checkpoints
+and the exact E11 EpisodeInstances, but executes every coordinate with the
+corrected macro executor. It performs 7,560 inference-only evaluations and no
+training. Its contract binds the immutable original E12 ledger set, all frozen
+checkpoints, the 4-case fix confirmation, the 108-case parity screen, and the
+corrected executor sources. Results are written under
+`results/vcg-conditioned-e12-corrected-executor-full-94k/`; the original E12
+ledgers and their 7,557/7,560 result are never modified.
+
+Prepare the contract, then run all three model seeds:
+
+```bash
+cd /home/ai_diagnosis/HRL_Management
+bash experiments/conditioned_vcg/E12_representation_ablation_94k/run.sh \
+  corrected-full-prepare
+bash experiments/conditioned_vcg/E12_representation_ablation_94k/run.sh \
+  corrected-full
+```
+
+The run is resumable. For separate overnight jobs, use
+`corrected-full-seed 0`, `corrected-full-seed 1`, and
+`corrected-full-seed 2`, followed by `corrected-full-analyze`. The final report
+states the original and corrected completion counts side by side and regenerates
+the E12 aggregate/shift-interaction analysis from the corrected rows.
+
+Render the separately versioned corrected paper figure and summary with:
+
+```bash
+bash experiments/conditioned_vcg/E12_representation_ablation_94k/run.sh \
+  corrected-full-figures
+```
+
+The corrected assets are written beside the corrected report under
+`results/vcg-conditioned-e12-corrected-executor-full-94k/`. The historical
+figure under the original E12 output is left unchanged.

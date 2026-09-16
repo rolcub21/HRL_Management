@@ -72,8 +72,43 @@ class E12RenderError(RuntimeError):
     pass
 
 
-def _load_complete_report(output: Path) -> tuple[dict, dict]:
-    contract, _manifest = program.authenticate(output)
+def _load_complete_report(
+    output: Path,
+    *,
+    corrected: bool,
+) -> tuple[dict, dict, Optional[dict]]:
+    corrected_confirmation = None
+    if corrected:
+        from experiments.conditioned_vcg.E12_representation_ablation_94k import (
+            confirm_corrected_executor_full as corrected_full,
+        )
+
+        contract = corrected_full.authenticate(output)
+        corrected_confirmation = program.load_json(
+            output / corrected_full.REPORT_NAME,
+            label="E12 corrected-executor confirmation report",
+        )
+        if corrected_confirmation.get("report_sha256") != program.digest(
+            corrected_confirmation,
+            hash_field="report_sha256",
+        ):
+            raise E12RenderError(
+                "E12 corrected-executor confirmation report self-hash mismatch"
+            )
+        if (
+            corrected_confirmation.get("contract_sha256")
+            != contract["contract_sha256"]
+            or corrected_confirmation.get("status") != "complete"
+            or corrected_confirmation.get("acceptance_passed") is not True
+            or corrected_confirmation.get("corrected_strict_safe_complete")
+            != corrected_full.EXPECTED_ROWS
+        ):
+            raise E12RenderError(
+                "paper rendering requires an accepted complete corrected E12 panel"
+            )
+    else:
+        contract, _manifest = program.authenticate(output)
+
     report = program.load_json(
         output / "analysis/e11_93k-report.json",
         label="E12 confirmation report",
@@ -84,12 +119,22 @@ def _load_complete_report(output: Path) -> tuple[dict, dict]:
         raise E12RenderError("E12 confirmation report self-hash mismatch")
     if report.get("contract_sha256") != contract["contract_sha256"]:
         raise E12RenderError("E12 report/contract mismatch")
+    if corrected_confirmation is not None:
+        derived = corrected_confirmation.get("derived_e12_analysis", {})
+        if (
+            derived.get("report_sha256") != report.get("report_sha256")
+            or derived.get("strict_safe_complete_rows")
+            != report.get("strict_safe_complete_rows")
+        ):
+            raise E12RenderError(
+                "corrected E12 confirmation/derived-analysis mismatch"
+            )
     if (
         report.get("partial") is not False
         or report.get("observed_rows") != report.get("expected_rows")
     ):
         raise E12RenderError("paper rendering requires the complete E12 panel")
-    return contract, report
+    return contract, report, corrected_confirmation
 
 
 def _regimes() -> tuple[str, ...]:
@@ -191,6 +236,7 @@ def _table(
     report: Mapping,
     rows: Sequence[Mapping],
     failures: Sequence[Mapping],
+    corrected_confirmation: Optional[Mapping],
 ) -> str:
     completion = _completion(report)
     groups = _cell_groups(rows)
@@ -274,27 +320,42 @@ def _table(
             f"{values[0]} | {values[1]} | {values[2]} | {values[3]} |"
         )
 
-    lines.extend(
-        [
-            "",
-            "## Incomplete rows",
-            "",
-            "| Representation | Seed | Lambda | Shift | Instance | Exact-SAFE selections | Reason |",
-            "|---|---:|---:|---|---:|---:|---|",
-        ]
-    )
-    for item in failures:
-        lines.append(
-            f"| {item['representation_variant']} | {item['model_seed']} | "
-            f"{item['preference_lambda']:.2f} | {item['regime_id']} | "
-            f"{item['instance_seed']} | "
-            f"{'yes' if item['all_selected_candidates_exact_safe'] else 'no'} | "
-            f"`{item['reason']}` |"
+    lines.extend(["", "## Incomplete rows", ""])
+    if failures:
+        lines.extend(
+            [
+                "| Representation | Seed | Lambda | Shift | Instance | Exact-SAFE selections | Reason |",
+                "|---|---:|---:|---|---:|---:|---|",
+            ]
         )
+        for item in failures:
+            lines.append(
+                f"| {item['representation_variant']} | {item['model_seed']} | "
+                f"{item['preference_lambda']:.2f} | {item['regime_id']} | "
+                f"{item['instance_seed']} | "
+                f"{'yes' if item['all_selected_candidates_exact_safe'] else 'no'} | "
+                f"`{item['reason']}` |"
+            )
+        lines.extend(
+            [
+                "",
+                "The three failures are strict-completion failures during delivery execution, not recorded violations of exact-SAFE candidate selection. Quality metrics for any affected 30-instance aggregate remain suppressed by the frozen E12 protocol.",
+            ]
+        )
+    else:
+        lines.append("None in the corrected-executor confirmation (7,560/7,560).")
+        if corrected_confirmation is not None:
+            lines.extend(
+                [
+                    "",
+                    "The immutable original E12 evaluation remains reportable as "
+                    f"{corrected_confirmation['historical_strict_safe_complete']}/"
+                    f"{corrected_confirmation['expected_runs']}; this table and figure "
+                    "describe the separately versioned corrected-executor confirmation.",
+                ]
+            )
     lines.extend(
         [
-            "",
-            "The three failures are strict-completion failures during delivery execution, not recorded violations of exact-SAFE candidate selection. Quality metrics for any affected 30-instance aggregate remain suppressed by the frozen E12 protocol.",
             "",
             "The interaction summaries are descriptive. Model-seed variation is displayed explicitly in the figure; no inferential interval is claimed from only three training seeds.",
         ]
@@ -302,10 +363,13 @@ def _table(
     return "\n".join(lines) + "\n"
 
 
-def render(output: Path) -> dict:
-    contract, report = _load_complete_report(output)
+def render(output: Path, *, corrected: bool = False) -> dict:
+    contract, report, corrected_confirmation = _load_complete_report(
+        output,
+        corrected=corrected,
+    )
     rows = _interactions(report)
-    failures = _failures(output, contract)
+    failures = [] if corrected else _failures(output, contract)
     if len(failures) != report["expected_rows"] - report["strict_safe_complete_rows"]:
         raise E12RenderError("failure ledger count does not match report")
 
@@ -403,7 +467,8 @@ def render(output: Path) -> dict:
     )
     completion = _completion(report)
     figure.suptitle(
-        "Representation contribution to performance under distribution shift",
+        "Representation contribution to performance under distribution shift"
+        + (" — corrected execution" if corrected else ""),
         fontsize=15,
         y=0.995,
     )
@@ -434,12 +499,20 @@ def render(output: Path) -> dict:
     plt.close(figure)
 
     table = output / TABLE_NAME
-    table.write_text(_table(report, rows, failures), encoding="utf-8")
+    table.write_text(
+        _table(report, rows, failures, corrected_confirmation),
+        encoding="utf-8",
+    )
     result = {
         "schema_version": 1,
-        "protocol": program.PROTOCOL,
+        "protocol": (
+            corrected_confirmation["protocol"]
+            if corrected_confirmation is not None
+            else program.PROTOCOL
+        ),
         "contract_sha256": contract["contract_sha256"],
         "report_sha256": report["report_sha256"],
+        "corrected_executor_confirmation": corrected,
         "observed_rows": report["observed_rows"],
         "strict_safe_complete_rows": report["strict_safe_complete_rows"],
         "figure_pdf": str(pdf.relative_to(ROOT)),
@@ -458,8 +531,19 @@ def render(output: Path) -> dict:
 def main(argv: Optional[Sequence[str]] = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--corrected",
+        action="store_true",
+        help="authenticate and render the separately versioned corrected-executor panel",
+    )
     args = parser.parse_args(argv)
-    print(json.dumps(render(args.output_dir.resolve()), indent=2, sort_keys=True))
+    print(
+        json.dumps(
+            render(args.output_dir.resolve(), corrected=args.corrected),
+            indent=2,
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":

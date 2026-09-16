@@ -84,12 +84,41 @@ def _main_summaries(report: Mapping) -> list[dict]:
     return [by_id[item] for item in e13.MAIN_SCENARIOS]
 
 
+def _companion_summaries(report: Mapping) -> list[dict]:
+    by_id = {
+        item["scenario"]["scenario_id"]: item for item in report["summaries"]
+    }
+    return [by_id[item] for item in e13.COMPANION_SCENARIOS]
+
+
+def _all_summaries(report: Mapping) -> list[dict]:
+    return _main_summaries(report) + _companion_summaries(report)
+
+
 def _scenario_code(item: Mapping) -> str:
     scenario = item["scenario"]
     initial = 100.0 * item["occupancy"]["initial_storage_occupancy_ratio"]["mean"]
     return (
         f'{scenario["rows"]}×{scenario["cols"]} '
         f'{scenario["occupancy_level"][0].upper()} ({initial:.1f}%)'
+    )
+
+
+def _companion_code(item: Mapping) -> str:
+    scenario = item["scenario"]
+    comparison = scenario["comparison"]
+    size = f'{scenario["rows"]}×{scenario["cols"]}'
+    if comparison == "geometry_fixed_workload":
+        return (
+            f'{size}, fixed workload '
+            f'K={scenario["initial_occupied_slots"]}, N={scenario["total_jobs"]}'
+        )
+    if comparison == "episode_length":
+        return f'{size}, medium occupancy, N={scenario["total_jobs"]}'
+    if comparison == "aspect_ratio":
+        return f"{size}, matched medium occupancy"
+    raise Block6RenderError(
+        f"unknown E13 companion comparison: {comparison}"
     )
 
 
@@ -108,6 +137,86 @@ def _number(value, digits: int = 2) -> str:
 
 def _budget_label(value: int) -> str:
     return "20k ref." if int(value) == 20_000 else str(int(value))
+
+
+def _append_companion_table(lines: list[str], report: Mapping) -> None:
+    lines.extend(
+        [
+            "",
+            "## E13 — Companion isolation controls",
+            "",
+            "These six coordinates isolate geometry at fixed workload, episode length at fixed 8×8 medium occupancy, and aspect ratio at matched capacity and occupancy.",
+            "",
+            "| Control | Strict | Initial occ. | Mean occ. | Peak occ. | MAE | Rehandles/100 | Steps/del. | Within ±20 | Physical cand. | Certified cand. | Warm p95 (s) | >1 s |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for item in _companion_summaries(report):
+        metrics = item["all_required_rows_metrics"]
+        occupancy = item["occupancy"]
+        latency = item["latency"]
+        lines.append(
+            "| {code} | {strict}/{expected} | {initial} | {mean} | {peak} | "
+            "{mae} | {rehandles} | {steps} | {window} | {physical} | "
+            "{certified} | {warm_p95} | {over} |".format(
+                code=_companion_code(item),
+                strict=item["strict_safe_complete"],
+                expected=item["expected_rows"],
+                initial=_number(
+                    occupancy["initial_storage_occupancy_ratio"]["mean"], 3
+                ),
+                mean=_number(
+                    occupancy[
+                        "time_weighted_mean_storage_occupancy_ratio"
+                    ]["mean"],
+                    3,
+                ),
+                peak=_number(
+                    occupancy["peak_storage_occupancy_ratio"]["mean"], 3
+                ),
+                mae=_number(
+                    None if metrics is None else metrics["mean_absolute_error"]
+                ),
+                rehandles=_number(
+                    None
+                    if metrics is None
+                    else metrics[
+                        "physical_rehandles_per_100_required_deliveries"
+                    ]
+                ),
+                steps=_number(
+                    None if metrics is None else metrics["steps_per_delivery"]
+                ),
+                window=_number(
+                    None
+                    if metrics is None
+                    else 100.0 * metrics["within_target_window_rate"],
+                    1,
+                ),
+                physical=_number(
+                    item["frontier_by_action"]["physical_candidate_count"][
+                        "mean"
+                    ],
+                    1,
+                ),
+                certified=_number(
+                    item["frontier_by_action"]["certified_candidate_count"][
+                        "mean"
+                    ],
+                    1,
+                ),
+                warm_p95=_number(
+                    latency["warm_end_to_end_decision_seconds"]["p95"]
+                ),
+                over=_number(
+                    None
+                    if latency["warm_deadline_exceedance_rate"]["1.0"] is None
+                    else 100.0
+                    * latency["warm_deadline_exceedance_rate"]["1.0"],
+                    1,
+                ),
+            )
+        )
 
 
 def _make_tables(e13_report: Mapping, e14_report: Mapping) -> str:
@@ -190,6 +299,11 @@ def _make_tables(e13_report: Mapping, e14_report: Mapping) -> str:
         [
             "",
             "Quality fields are suppressed unless all three frozen instances strictly complete.",
+        ]
+    )
+    _append_companion_table(lines, e13_report)
+    lines.extend(
+        [
             "",
             "## E14 — Native-search budget sensitivity",
             "",
@@ -251,6 +365,7 @@ def _style_axis(ax, label: str, title: str) -> None:
 def render(output: Path, *, allow_partial: bool = False) -> dict:
     e13_report, e14_report = _inputs(allow_partial)
     main = _main_summaries(e13_report)
+    all_e13 = _all_summaries(e13_report)
     output.mkdir(parents=True, exist_ok=True)
 
     plt.rcParams.update(
@@ -292,8 +407,10 @@ def render(output: Path, *, allow_partial: bool = False) -> dict:
         )
     ax.set_xlabel("Physical rehandles / 100 deliveries ↓")
     ax.set_ylabel("Delivery-time MAE (simulation steps) ↓")
-    strict = sum(item["strict_safe_complete"] for item in main)
-    expected = sum(item["expected_rows"] for item in main)
+    main_strict = sum(item["strict_safe_complete"] for item in main)
+    main_expected = sum(item["expected_rows"] for item in main)
+    all_strict = sum(item["strict_safe_complete"] for item in all_e13)
+    all_expected = sum(item["expected_rows"] for item in all_e13)
     ax.legend(
         handles=[
             Line2D(
@@ -319,7 +436,10 @@ def render(output: Path, *, allow_partial: bool = False) -> dict:
     _style_axis(
         ax,
         "(a)",
-        f"Operational quality ({strict}/{expected} strict-complete episodes)",
+        (
+            f"Operational quality (main {main_strict}/{main_expected}; "
+            f"all E13 {all_strict}/{all_expected} strict)"
+        ),
     )
 
     ax = axes[0, 1]
@@ -471,6 +591,12 @@ def render(output: Path, *, allow_partial: bool = False) -> dict:
     data = {
         "schema_version": 1,
         "e13_report_sha256": e13_report["report_sha256"],
+        "e13_main_scenarios": len(main),
+        "e13_main_strict_safe_complete": main_strict,
+        "e13_main_expected_rows": main_expected,
+        "e13_companion_scenarios": len(_companion_summaries(e13_report)),
+        "e13_all_strict_safe_complete": all_strict,
+        "e13_all_expected_rows": all_expected,
         "e14_threshold_report_sha256": e14_report["report_sha256"],
         "e14_post_hoc_threshold_refinement": True,
         "partial": bool(e13_report["partial"] or e14_report["partial"]),

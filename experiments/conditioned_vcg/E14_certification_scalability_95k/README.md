@@ -42,6 +42,12 @@ audit is recorded in
 [`E1_RUNTIME_AUDIT.md`](../E13_operational_scalability_95k/E1_RUNTIME_AUDIT.md):
 the existing E1 ledgers do not contain comparable runtime measurements.
 
+Panels (a)--(c) use the comparable nine-coordinate scale-by-occupancy
+factorial (27 episodes). The figure also states the complete E13 denominator
+of 45/45, and the companion table reports the remaining 18 geometry,
+episode-length, and aspect-ratio control episodes separately rather than
+mixing them into the factorial plots.
+
 ## Post-hoc threshold refinement
 
 The completed predeclared sweep showed that the useful anchor threshold lies

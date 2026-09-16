@@ -51,6 +51,18 @@ case "${1:-run-all}" in
       --project-root "${PROJECT_ROOT}" \
       --output-dir "${OUTPUT_DIR}"
     ;;
+  plot-operating-points)
+    "${PYTHON_BIN}" "${PROJECT_ROOT}/plot_vcg_conditioned_final_comparison_90k.py" \
+      --project-root "${PROJECT_ROOT}" \
+      --output-dir "${OUTPUT_DIR}" \
+      --operating-points-only
+    ;;
+  plot-reliability-quality)
+    "${PYTHON_BIN}" \
+      "${PROJECT_ROOT}/experiments/conditioned_vcg/E01_benchmark_90k/render_reliability_quality.py" \
+      --project-root "${PROJECT_ROOT}" \
+      --output-dir "${OUTPUT_DIR}"
+    ;;
   run-all)
     run_command prepare
     run_command open-panel --confirm OPEN_CONDITIONED_FINAL_90K_CPU_V3
@@ -64,7 +76,7 @@ case "${1:-run-all}" in
       --output-dir "${OUTPUT_DIR}"
     ;;
   *)
-    echo "usage: $0 {prepare|open-panel|run-vcg|run-vcg-seed0|run-vcg-seed1|run-vcg-seed2|run-v23|run-baselines|run-kim|inspect|analyze|plot|run-all}" >&2
+    echo "usage: $0 {prepare|open-panel|run-vcg|run-vcg-seed0|run-vcg-seed1|run-vcg-seed2|run-v23|run-baselines|run-kim|inspect|analyze|plot|plot-operating-points|plot-reliability-quality|run-all}" >&2
     exit 2
     ;;
 esac

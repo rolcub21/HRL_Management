@@ -231,6 +231,23 @@ state-dependent action-type restraint. Timing changes remain a balance between
 reduced earliness and increased tardiness rather than a uniformly improving
 effect.
 
+## Paper figure
+
+Render the final two-panel mechanism figure from the authenticated E16-C and
+E16-D reports; this command performs no training or rollout evaluation:
+
+```bash
+bash experiments/conditioned_vcg/E16_prediction_ranking_audit/run.sh render
+```
+
+The preferred paper figure, `e16-component-effects.pdf`, uses three conventional
+statistical panels: exact-choice reproduction, paired rehandling effects with
+95% confidence intervals, and paired MAE effects with 95% confidence intervals.
+The earlier arrow-based explanatory rendering is retained as
+`e16-prediction-to-ranking-mechanism.pdf` for presentations or supplementary
+explanation. Outputs and a machine-readable figure-data file are written to
+`results/vcg-conditioned-e16-mechanism-figure/`.
+
 ## Claim boundary
 
 This stage directly tests prediction-to-ranking perturbation and separately

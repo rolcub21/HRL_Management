@@ -18,6 +18,8 @@ EXECUTION_FIX="${ROOT}/experiments/conditioned_vcg/E12_representation_ablation_9
 EXECUTION_FIX_OUTPUT="${EXECUTION_FIX_OUTPUT:-${ROOT}/results/vcg-conditioned-e12-execution-fix-confirmation-94k}"
 PARITY_SCREEN="${ROOT}/experiments/conditioned_vcg/E12_representation_ablation_94k/screen_corrected_executor_parity.py"
 PARITY_SCREEN_OUTPUT="${PARITY_SCREEN_OUTPUT:-${ROOT}/results/vcg-conditioned-e12-executor-parity-screen-94k}"
+CORRECTED_FULL="${ROOT}/experiments/conditioned_vcg/E12_representation_ablation_94k/confirm_corrected_executor_full.py"
+CORRECTED_FULL_OUTPUT="${CORRECTED_FULL_OUTPUT:-${ROOT}/results/vcg-conditioned-e12-corrected-executor-full-94k}"
 COMMAND="${1:-}"
 variants=(full_relational_successor nonrelational_successor relational_current_candidate)
 
@@ -159,11 +161,33 @@ case "${COMMAND}" in
       --e12-output "${OUTPUT_DIR}" --output "${PARITY_SCREEN_OUTPUT}" \
       --device "${EVAL_DEVICE}"
     ;;
+  corrected-full-prepare)
+    "${PYTHON_BIN}" "${CORRECTED_FULL}" prepare \
+      --output "${CORRECTED_FULL_OUTPUT}"
+    ;;
+  corrected-full-seed)
+    [[ $# -eq 2 ]] || { echo "usage: $0 corrected-full-seed SEED" >&2; exit 2; }
+    "${PYTHON_BIN}" "${CORRECTED_FULL}" run \
+      --output "${CORRECTED_FULL_OUTPUT}" --device "${EVAL_DEVICE}" \
+      --model-seed "$2"
+    ;;
+  corrected-full-analyze)
+    "${PYTHON_BIN}" "${CORRECTED_FULL}" analyze \
+      --output "${CORRECTED_FULL_OUTPUT}" "${@:2}"
+    ;;
+  corrected-full-figures)
+    "${PYTHON_BIN}" "${RENDERER}" \
+      --output-dir "${CORRECTED_FULL_OUTPUT}" --corrected
+    ;;
+  corrected-full)
+    "${PYTHON_BIN}" "${CORRECTED_FULL}" run \
+      --output "${CORRECTED_FULL_OUTPUT}" --device "${EVAL_DEVICE}"
+    ;;
   status)
     "${PYTHON_BIN}" "${PROGRAM}" status --output-dir "${OUTPUT_DIR}"
     ;;
   *)
-    echo "usage: $0 {prepare|train-operational-arm VARIANT SEED|train-operational-pilot|train-handling-arm VARIANT SEED|train-handling-pilot|evaluate-pilot|run-pilot|train-confirmation|evaluate-confirmation|evaluate-confirmation-seed SEED|analyze-pilot|analyze-confirmation|figures|audit-execution-prepare|audit-execution-case CASE_ID|audit-execution-analyze|audit-execution|confirm-execution-fix-prepare|confirm-execution-fix-case CASE_ID|confirm-execution-fix-analyze|confirm-execution-fix|parity-screen-prepare|parity-screen-seed SEED|parity-screen-analyze|parity-screen|status}" >&2
+    echo "usage: $0 {prepare|train-operational-arm VARIANT SEED|train-operational-pilot|train-handling-arm VARIANT SEED|train-handling-pilot|evaluate-pilot|run-pilot|train-confirmation|evaluate-confirmation|evaluate-confirmation-seed SEED|analyze-pilot|analyze-confirmation|figures|audit-execution-prepare|audit-execution-case CASE_ID|audit-execution-analyze|audit-execution|confirm-execution-fix-prepare|confirm-execution-fix-case CASE_ID|confirm-execution-fix-analyze|confirm-execution-fix|parity-screen-prepare|parity-screen-seed SEED|parity-screen-analyze|parity-screen|corrected-full-prepare|corrected-full-seed SEED|corrected-full-analyze|corrected-full-figures|corrected-full|status}" >&2
     exit 2
     ;;
 esac
