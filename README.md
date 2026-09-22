@@ -20,6 +20,8 @@ artifacts can be reproduced from this copy alone.
   parameter grids, outputs, and known external inputs.
 - [Unified VCG](docs/UNIFIED_VCG.md) gives the current paper-facing controller,
   its conditioned handling frontier, and the matched final comparison.
+- [Verifier and guard audit](docs/VCG_VERIFIER_GUARD_AUDIT.md) gives operational
+  pseudocode, implementation-to-test traceability, and the E8 commitment trace.
 - [Preference-conditioned VCG](docs/PREFERENCE_CONDITIONED_VCG.md) specifies
   the frozen-operational, policy-conditioned handling architecture and its
   complete development-to-confirmation evidence chain.

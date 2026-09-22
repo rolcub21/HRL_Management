@@ -71,6 +71,60 @@ physical-arm ledgers.
 Outputs are written to
 `results/vcg-conditioned-e03-certification-ablation-90k-v2/`.
 
+## Exact compact recovery-basin figure
+
+The already completed exhaustive compact-state enumeration can be rendered as
+a paper figure without new training or evaluation runs:
+
+```bash
+bash experiments/conditioned_vcg/E03_certification_ablation_90k/run.sh \
+  basin-figure
+```
+
+This produces two complementary figures in
+`results/vcg-compact-recovery-basin-5x5/`. The preferred main figure aggregates
+the basin by occupancy and static graph distance to the exit and summarizes
+recovery-witness effort. A companion figure retains the exact transporter-cell
+boundary slice. Both are deliberately described as the **exact compact 5x5
+closed-admission recovery basin**. They exclude future arrivals and timing
+evolution and are not the full dynamic-episode or recursive disturbance-robust
+viability kernel.
+
+## Empirical full-state recoverability atlas
+
+The compact basin deliberately varies only occupancy and transporter position.
+For a non-spatial view that retains the actual verifier inputs, replay the
+selected E3 physical-only case and capture every encountered current state and
+every physically feasible candidate successor:
+
+```bash
+bash experiments/conditioned_vcg/E03_certification_ablation_90k/run.sh \
+  atlas-pilot
+```
+
+The pilot uses the already identified seed-0/instance-90016 certification
+fork. It performs no training and is not an independent benchmark replication.
+For a broader seed-0 atlas over all 30 frozen instances, use:
+
+```bash
+bash experiments/conditioned_vcg/E03_certification_ablation_90k/run.sh \
+  atlas-seed0
+```
+
+The renderer passes each lossless `RecoveryState` through the frozen VCG graph
+encoder. Its input includes every cell and adjacency, block occupancy and
+remaining time, transporter position, storage/entrance/exit roles, fixed
+obstacles, and reservations. Arbitrary block-label identity is not encoded.
+Deterministic PCA produces a 2D paper figure and a 3D companion in
+`results/vcg-full-state-recoverability-atlas-90k/`.
+
+This is an **empirical projection of sampled full recovery states**, not an
+exact full-dimensional viability kernel. Preference lambda is excluded from
+the state embedding because the certified set is preference invariant; policy
+choices can be overlaid as selected transition edges. Future-arrival schedules
+remain controller context rather than part of the closed-admission recovery
+certificate.
+
 The `-v2` protocol corrects the physical arm's dense-return normalization.
 The initial `-v1` execution stored the legacy environment return under the
 dense-return name; its safety, frontier, timing, handling, and trajectory

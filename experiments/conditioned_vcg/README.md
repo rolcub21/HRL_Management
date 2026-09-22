@@ -18,6 +18,8 @@ the experiments that support the final paper.
 | [E14](E14_certification_scalability_95k/) | Certificate-budget and latency scalability | retains the accepted E14 cleanup+D12 stack while varying native-search budget across E13's main grid | complete: predeclared sweep plus post-hoc 32/64-node refinement |
 | [E16](E16_prediction_ranking_audit/) | Prediction-to-ranking mechanism audit | connects candidate-relative future forecasts to exact ranking changes, paired continuations, action-type/residual selector effects, signed timing consequences, and a matched component rollout ablation | complete: E16-D 360/360 strict |
 | [E19](E19_service_tails_cost_sensitivity/) | Service tails and operational-cost sensitivity | reanalyzes closed E1/E11/E13 records without training or new rollouts | complete: 1,860 E1 rows, 28 E11 coordinates, 15 E13 coordinates |
+| [E20](E20_constant_type_penalty_92k/) | Constant action-type penalty ablation | tests whether four non-test-calibrated fixed type penalties reproduce E16-D's state-dependent-type and full-future controls at lambda=.10 | complete: 90/90 new strict rollouts; mean-distilled constants not equivalent; validation-tuned constants remain untested |
+| [E21](E21_search_ranker_92k/) / [v2](E21_search_ranker_v2_92k/) | Certified search-ranker baseline | tests learned ranking against deterministic depth-two exact-SAFE rollout search; v2 replaces v1's inconsistent ASAP-witness timing value and prunes physical cycles | v1 complete as a failure diagnostic; v2 complete: 30/30 strict-safe episodes |
 
 The [development history](development/) records D1--D12: architecture screens,
 convergence checks, scalability support, shared-search diagnosis, and the

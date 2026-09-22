@@ -23,8 +23,10 @@ from viability_graph_hierarchy import (
     ACTION_FEATURE_DIM,
     MODE_TO_ID,
     NoCertifiedViableAction,
+    RecoveryWitnessGuard,
     RecoveryWitnessMismatch,
     ViabilityGraphConfig,
+    ViabilityGraphDecision,
     ViabilityGraphHierarchyAgent,
     cardinality_normalized_continuation,
     common_smdp_target,
@@ -324,6 +326,32 @@ def tiny_config(**overrides):
     return ViabilityGraphConfig(**values)
 
 
+def guard_decision(
+    snapshot,
+    candidate,
+    *,
+    exact_rank_progress=False,
+    liveness_forced=False,
+):
+    prepared = prepare_viability_snapshot(snapshot)
+    matching = [
+        record for record in prepared.records if record.key == candidate.key
+    ]
+    if len(matching) != 1:
+        raise AssertionError("test candidate did not bind uniquely")
+    return ViabilityGraphDecision(
+        candidate=candidate,
+        record=matching[0],
+        prepared_snapshot=prepared,
+        q_values=tuple(0.0 for _ in prepared.records),
+        mode_values=(),
+        explored=False,
+        selection_source="test",
+        liveness_forced=liveness_forced,
+        exact_rank_progress=exact_rank_progress,
+    )
+
+
 class RegularizedOperatorTests(unittest.TestCase):
     def test_nested_value_is_invariant_to_complete_within_mode_replication(self):
         temperatures = (0.4, 0.7, 0.9)
@@ -527,6 +555,183 @@ class ViabilityGraphAgentTests(unittest.TestCase):
         second = agent.select(relocated_snapshot, training=True)
         self.assertTrue(second.liveness_forced)
         self.assertEqual(second.candidate.action_type, ViabilityActionType.DELIVER)
+
+    def test_active_witness_is_not_replaced_and_masks_admission(self):
+        snapshot = make_snapshot()
+        relocated = make_relocated_snapshot()
+        retained_second = relocated.current_certificate.witness[0]
+        retained = (reconfigure_action(), retained_second)
+        candidates = tuple(
+            replace(
+                candidate,
+                recovery_rank_before=None,
+                recovery_rank_after=None,
+            )
+            for candidate in snapshot.candidates
+        )
+        snapshot = replace(
+            snapshot,
+            current_certificate=safe_certificate(
+                snapshot.recovery_state,
+                retained,
+                search_order="goal_directed",
+            ),
+            candidates=candidates,
+            audit=replace(
+                snapshot.audit,
+                search_order="goal_directed",
+                current_recovery_rank=None,
+                recovery_rank_exact=False,
+            ),
+        )
+
+        current = relocated.recovery_state
+        accepted = replace(
+            current,
+            blocks=current.blocks + (BlockView("A", (1, 1), 8.0),),
+            agent_position=(1, 1),
+        )
+        accept = ViabilityActionCandidate(
+            key="accept:A:1:1",
+            mode=ViabilityMode.ACCEPT,
+            action_type=ViabilityActionType.ACCEPT,
+            target_label="A",
+            source=(1, 0),
+            destination=(1, 1),
+            successor_state=accepted,
+            certificate=safe_certificate(accepted),
+            option=DummyOption(),
+        )
+        replacement_first = RecoveryAction(
+            kind=RecoveryActionKind.RELOCATION,
+            block_label="B",
+            source=(0, 2),
+            destination=(1, 2),
+            approach_path=((0, 2),),
+            transport_path=((0, 2), (1, 2)),
+        )
+        replacement_successor = state_with_block((1, 2), agent=(1, 2))
+        replacement_second = RecoveryAction(
+            kind=RecoveryActionKind.DELIVERY,
+            block_label="B",
+            source=(1, 2),
+            destination=(0, 3),
+            approach_path=((1, 2),),
+            transport_path=((1, 2), (0, 2), (0, 3)),
+        )
+        replacement = ViabilityActionCandidate(
+            key="reconfigure:B:1:2",
+            mode=ViabilityMode.RECOVER,
+            action_type=ViabilityActionType.RECONFIGURE,
+            target_label="B",
+            source=(0, 2),
+            destination=(1, 2),
+            successor_state=replacement_successor,
+            certificate=safe_certificate(
+                replacement_successor, (replacement_second,)
+            ),
+            option=DummyOption(),
+            recovery_action=replacement_first,
+        )
+        changed_candidates = (accept, replacement) + relocated.candidates
+        changed = replace(
+            relocated,
+            current_certificate=safe_certificate(
+                current,
+                (replacement_first, replacement_second),
+                search_order="goal_directed",
+            ),
+            inbound_label="A",
+            candidates=changed_candidates,
+            audit=replace(
+                make_audit(changed_candidates, search_order="goal_directed"),
+                current_recovery_rank=None,
+                recovery_rank_exact=False,
+            ),
+        )
+
+        agent = ViabilityGraphHierarchyAgent(
+            config=tiny_config(max_nonprogress_recovery_decisions=1),
+            seed=22,
+            epsilon=1.0,
+        )
+        agent.recovery_witness_guard.nonprogress_recovery_decisions = 1
+        first = agent.select(snapshot, training=True)
+        self.assertEqual(first.candidate.recovery_action, retained[0])
+
+        prepared = agent.observe_outcome(
+            first, next_snapshot=changed, done=False
+        )
+        self.assertEqual(agent.recovery_witness_guard.active_witness, retained)
+        self.assertEqual(agent.recovery_witness_guard.witness_cursor, 1)
+        self.assertEqual([item.key for item in prepared.records], ["deliver:B:0:3"])
+        self.assertNotIn(accept.key, [item.key for item in prepared.records])
+        self.assertNotEqual(
+            changed.current_certificate.witness,
+            agent.recovery_witness_guard.active_witness,
+        )
+
+        second = agent.select(changed, training=True)
+        self.assertTrue(second.liveness_forced)
+        self.assertEqual(second.candidate.recovery_action, retained_second)
+
+    def test_guard_counter_update_and_reset_rules(self):
+        snapshot = make_snapshot()
+        candidates = {item.action_type: item for item in snapshot.candidates}
+        guard = RecoveryWitnessGuard(
+            max_nonprogress_recovery_decisions=2,
+            force_when_due=False,
+        )
+
+        guard.observe(
+            guard_decision(
+                snapshot, candidates[ViabilityActionType.RECONFIGURE]
+            ),
+            next_snapshot=snapshot,
+            done=False,
+        )
+        self.assertEqual(guard.nonprogress_recovery_decisions, 1)
+
+        guard.observe(
+            guard_decision(
+                snapshot,
+                candidates[ViabilityActionType.RECONFIGURE],
+                exact_rank_progress=True,
+            ),
+            next_snapshot=snapshot,
+            done=False,
+        )
+        self.assertEqual(guard.nonprogress_recovery_decisions, 0)
+
+        guard.nonprogress_recovery_decisions = 1
+        guard.observe(
+            guard_decision(snapshot, candidates[ViabilityActionType.DELIVER]),
+            next_snapshot=snapshot,
+            done=False,
+        )
+        self.assertEqual(guard.nonprogress_recovery_decisions, 0)
+
+        guard.nonprogress_recovery_decisions = 1
+        guard.active_witness = (delivery_action(),)
+        guard.witness_cursor = 0
+        guard.observe(
+            guard_decision(snapshot, candidates[ViabilityActionType.ACCEPT]),
+            next_snapshot=snapshot,
+            done=False,
+        )
+        self.assertFalse(guard.active)
+        self.assertEqual(guard.nonprogress_recovery_decisions, 0)
+
+        guard.nonprogress_recovery_decisions = 1
+        guard.observe(
+            guard_decision(
+                snapshot, candidates[ViabilityActionType.RECONFIGURE]
+            ),
+            next_snapshot=None,
+            done=True,
+        )
+        self.assertFalse(guard.active)
+        self.assertEqual(guard.nonprogress_recovery_decisions, 0)
 
     def test_goal_directed_witness_length_is_not_treated_as_exact_rank(self):
         snapshot = make_snapshot(search_order="goal_directed")

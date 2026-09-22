@@ -214,6 +214,50 @@ class ViableAcceptFrontierTests(unittest.TestCase):
         )
         self.assertEqual(len(cache), 2 * first.audit.cache_entries)
 
+    def test_cache_identity_separates_budget_and_recovery_contract(self):
+        env = compact_env(1, seed=7204)
+        cache = ViabilityCertificateCache()
+        unbounded = ViabilitySearchConfig(max_nodes=None)
+
+        base = enumerate_viability_candidates(
+            env,
+            consecutive_defer_decisions=0,
+            search_config=unbounded,
+            cache=cache,
+        )
+        base_entries = len(cache)
+        self.assertGreater(base.audit.cache_misses, 0)
+
+        bounded = enumerate_viability_candidates(
+            env,
+            consecutive_defer_decisions=0,
+            search_config=ViabilitySearchConfig(max_nodes=1),
+            cache=cache,
+        )
+        self.assertGreater(bounded.audit.cache_misses, 0)
+        self.assertGreater(len(cache), base_entries)
+        bounded_entries = len(cache)
+
+        reserved = enumerate_viability_candidates(
+            env,
+            consecutive_defer_decisions=0,
+            search_config=unbounded,
+            reserved_cells=(tuple(env.storage_positions[0]),),
+            cache=cache,
+        )
+        self.assertGreater(reserved.audit.cache_misses, 0)
+        self.assertGreater(len(cache), bounded_entries)
+
+        reserved_again = enumerate_viability_candidates(
+            env,
+            consecutive_defer_decisions=0,
+            search_config=unbounded,
+            reserved_cells=(tuple(env.storage_positions[0]),),
+            cache=cache,
+        )
+        self.assertEqual(reserved_again.audit.cache_misses, 0)
+        self.assertGreater(reserved_again.audit.cache_hits, 0)
+
 
 class ViableRecoveryFrontierTests(unittest.TestCase):
     def test_safe_successors_map_to_direct_delivery_and_reconfiguration(self):

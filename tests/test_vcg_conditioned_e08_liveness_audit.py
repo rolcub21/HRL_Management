@@ -1,6 +1,7 @@
 from experiments.conditioned_vcg.E08_liveness_audit_95k import (
     analyze_existing,
     instrumented_pilot,
+    summarize_pilot,
 )
 
 
@@ -39,3 +40,34 @@ def test_e8_forced_run_summary_does_not_call_runs_activations():
     assert len(runs) == 1
     assert runs[0]["length"] == 2
     assert preceding == {"defer": 1}
+
+
+def test_e8_trace_exposes_counter_cursor_and_admission_mask():
+    report = summarize_pilot._load_report(
+        instrumented_pilot.DEFAULT_OUTPUT / summarize_pilot.INPUT_NAME
+    )
+    decisions = report["decisions"]
+    runs = summarize_pilot._forced_runs(decisions)
+
+    assert runs == [
+        {
+            "start_decision": 4,
+            "end_decision_inclusive": 30,
+            "length": 27,
+            "activation_reason": "nonprogress_limit",
+            "witness_length": 27,
+        }
+    ]
+    forced = decisions[4:31]
+    assert [item["active_witness_cursor_after_select"] for item in forced] == list(
+        range(27)
+    )
+    assert forced[0]["nonprogress_count_before_select"] == 2
+    assert forced[0]["nonprogress_trigger"] is True
+    assert sum(
+        item["learned_proposal_action_type"] == "accept" for item in forced
+    ) == 16
+    assert all(item["executed_mode"] == "recover" for item in forced)
+    assert decisions[31]["guard_active_before_select"] is False
+    assert decisions[31]["active_witness_length_after_select"] == 0
+    assert decisions[31]["executed_action_type"] == "accept"

@@ -20,6 +20,12 @@ encoded structurally; the learned nonnegative term estimates only later
 rehandles under the lambda-induced continuation policy. At lambda zero the
 wrapper bypasses the handling head and invokes VCG 1.1 exactly.
 
+The native search, recursive robust extension, and retained-witness guard are
+specified at implementation level in the
+[verifier and guard audit](VCG_VERIFIER_GUARD_AUDIT.md), including successor
+generation, duplicate and cache identity, termination rules, focused tests,
+and the instrumented E8 commitment trace.
+
 Here `lambda` is the handling preference, not the environment arrival-rate
 parameter. It is an inference-time preference rather than a dual variable or
 KKT certificate. Full equations and training details are in
