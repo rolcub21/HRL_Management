@@ -70,7 +70,10 @@ def migrate_seed(source_output: Path, output: Path, seed: int) -> dict:
     old_resume = checkpoint.get("resume_contract")
     require(isinstance(old_resume, dict), "v1 checkpoint lacks resume contract")
     old_resume_hash = audit._contract_hash(old_resume)
-    require(old_manifest.get("contract") == old_resume
+    # The manifest is JSON, so tuple-valued contract fields are loaded as
+    # lists.  Authenticate the same normalized representation used by the
+    # trainer instead of requiring Python container types to match.
+    require(old_manifest.get("contract") == audit._json_safe(old_resume)
             and old_manifest.get("resume_contract_sha256") == old_resume_hash
             and checkpoint.get("resume_contract_sha256") == old_resume_hash,
             "v1 checkpoint and training manifest do not authenticate")

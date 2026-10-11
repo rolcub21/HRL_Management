@@ -81,6 +81,9 @@ def test_migration_keeps_agent_state_history_and_old_output(tmp_path, completed)
         "target_contract_sha256": old_contract["contract_sha256"],
         "model_seed": 0,
         "train_instance_seed_base": 12345,
+        # Checkpoints retain this tuple while the JSON manifest loads it as a
+        # list. Migration must compare their normalized representations.
+        "validation_instance_seeds": (112100, 112101, 112102),
         "graph_config": {},
     }
     old_hash = audit._contract_hash(old_resume)
