@@ -17,6 +17,7 @@ class PrimitiveOption(BaseOption):
     action = ""
 
     def __init__(self, action: Hashable, env: "BaseEnvironment"):
+        super().__init__(is_primitive=True)
         """Constructs a new primitive option.
 
         Arguments:
@@ -33,7 +34,11 @@ class PrimitiveOption(BaseOption):
                 self.initiation_set.add(state)
 
     def initiation(self, state: Hashable) -> bool:
-        return state in self.initiation_set
+        return self.action in self.env.get_available_actions(state)
+    
+    def intrinsic_reward(self, state, action, next_state, info) -> float:
+        # primitives get no extra bonus
+        return 0.0
 
     def policy(self, state: Hashable, test: bool = False) -> Hashable:
         return self.action

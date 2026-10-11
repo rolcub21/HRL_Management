@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 from option import BaseOption
 
 
+
 class BaseEnvironment(ABC):
     """
     Abstract base class for environments, similar to OpenAI Gym environments.
@@ -42,6 +43,10 @@ class BaseEnvironment(ABC):
         next_state, reward, terminal, info -- ENSURE ORDER IS CORRECT!!!
         """
         pass
+
+    @property
+    def intrinsic_reward(self, state, action, next_state, info) -> float:
+        return 0.0
 
     @abstractmethod
     def reset(self) -> Hashable:
@@ -130,24 +135,28 @@ class BaseEnvironment(ABC):
         if state is None:
             state = self.current_state
 
-
-        #print("Evaluating state:", state)
-        #print("All options:", [o for o in self.options])
-        
-
         # By definition, no options are available in the terminal state.
-        if self.is_state_terminal():
+        if self.is_state_terminal(state):
             return []
-        # Otherwise, options whose initiation set contains the given state are returned.
-        else:
-            # Lists all options (including options corresponding to primitive actions) which have the given state in their initiation sets.
-            available_options = [option for option in self.options ]
-            
 
-            if exploration:
-                available_options.extend([option for option in self.exploration_options ])
+        # Initialize available options with non-BaseOption instances (primitive options)
+        available_options = [option for option in self.options if option.is_primitive]
 
-            return available_options
+        # Iterate through BaseOption instances and append those that can be initiated in the given state
+        for option in self.options:
+            if not option.is_primitive and option.initiation(state):
+                #print(f"Option {option} can be initiated in state {state}.")
+                #print(option)
+                available_options.append(option)
+        
+        if exploration:
+            # Print and add exploration options whose initiation method returns True for the given state
+            for option in self.exploration_options:
+                if option.initiation(state):
+                    #print(f"Exploration option {option} can be initiated in state {state}.")
+                    available_options.append(option)
+
+        return available_options
 
     def set_options(self, new_options: List["BaseOption"], append: bool = False) -> None:
         """

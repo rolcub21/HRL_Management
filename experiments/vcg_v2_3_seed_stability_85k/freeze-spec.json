@@ -1,0 +1,170 @@
+{
+  "aggregation": {
+    "baselines_reused_once_not_multiplied_by_training_seed": true,
+    "complete_case_filtering_permitted": false,
+    "dominance_coordinates": [
+      "mean_absolute_error",
+      "physical_rehandles_per_100_required_deliveries"
+    ],
+    "lower_is_better_for_both_dominance_coordinates": true,
+    "order": [
+      "average_4_action_rngs_within_each_episode_instance",
+      "average_12_episode_instances_within_each_training_seed",
+      "average_3_training_seeds_with_equal_seed_weight"
+    ],
+    "scalarization_used": false
+  },
+  "development_seed10": {
+    "label": "development_only_not_part_of_stability_aggregate",
+    "model_seed": 10,
+    "selection_episode": 160
+  },
+  "freeze_spec_sha256": "c4eb224a2138597539fd7c17c97d8f1a935189ecad9606e5951ca639e934f747",
+  "fresh_training_seed_profiles": [
+    {
+      "behavior_rng_base": 610001000,
+      "behavior_rng_range": [
+        610001000,
+        610001199
+      ],
+      "model_seed": 11,
+      "replay_rng_seed": 610101010,
+      "train_seed_base": 61001000,
+      "train_seed_range": [
+        61001000,
+        61001199
+      ]
+    },
+    {
+      "behavior_rng_base": 610002000,
+      "behavior_rng_range": [
+        610002000,
+        610002199
+      ],
+      "model_seed": 12,
+      "replay_rng_seed": 610102010,
+      "train_seed_base": 61002000,
+      "train_seed_range": [
+        61002000,
+        61002199
+      ]
+    },
+    {
+      "behavior_rng_base": 610003000,
+      "behavior_rng_range": [
+        610003000,
+        610003199
+      ],
+      "model_seed": 13,
+      "replay_rng_seed": 610103010,
+      "train_seed_base": 61003000,
+      "train_seed_range": [
+        61003000,
+        61003199
+      ]
+    }
+  ],
+  "method": {
+    "algorithmic_change_from_seed10": false,
+    "arrival_rate": 10.0,
+    "candidate_looks": [
+      80,
+      100,
+      120,
+      140,
+      160,
+      180,
+      200
+    ],
+    "episodes": 200,
+    "gamma_operational": 1.0,
+    "gamma_rehandle": 1.0,
+    "grid_cols": 5,
+    "grid_rows": 5,
+    "max_hold_steps": 10,
+    "max_idle_steps": 20,
+    "max_steps": 2000,
+    "method_version": "vcg_constrained_v2_3_gamma1",
+    "number_blocks": 8,
+    "proc_mean": 80,
+    "rehandle_budget_per_100_required_deliveries": 20.0,
+    "retraining_for_ga_repair": false,
+    "reward_scale": 0.01,
+    "tuning_after_seed10": false,
+    "validation_every": 20
+  },
+  "predeclared_pass_criterion": {
+    "all_144_selected_checkpoint_rows_strict_safe_complete": true,
+    "all_three_training_seeds_produce_eligible_checkpoint": true,
+    "equal_seed_aggregate_non_dominated_by_every_whole_safe_baseline": true,
+    "minimum_individual_non_dominated_seed_count": 2,
+    "performance_or_confirmatory_claim_authorized": false,
+    "strong_result_individual_non_dominated_seed_count": 3,
+    "weak_dominance_requires_one_strict_coordinate": true
+  },
+  "protocol": "vcg_constrained_v2_3_gamma1_seed_stability_85xxx_v1",
+  "repair_v2_gate": {
+    "baseline_method_ids": [
+      "vcg_dense_v1_1_selected_three_seed",
+      "duration_aware_nearest_free",
+      "duration_aware_dynamic_pslap",
+      "duration_aware_pslap_ga_2009_rolling_capacity_aware_partial",
+      "duration_aware_pslap_ga_duration_aware_rolling_capacity_aware_partial",
+      "duration_aware_pslap_ga_operational_rolling_capacity_aware_partial",
+      "duration_aware_enhanced_complete_rolling_ga_capacity_aware_partial"
+    ],
+    "development_method_capacity_or_pareto_screen_must_pass": true,
+    "exact_repaired_row_count": 48,
+    "protocol": "vcg_v2_3_capacity_aware_partial_ga_repair_85xxx_development_v2",
+    "schema_version": 2,
+    "whole_method_safety_required": true
+  },
+  "schema_version": 1,
+  "scientific_role": "development_seed_stability_screen_on_already_opened_85xxx_panel",
+  "sealed_final_panel": {
+    "action_rng_range": [
+      622000000,
+      622000119
+    ],
+    "hard_reject": true,
+    "instance_seed_range": [
+      86000,
+      86029
+    ],
+    "may_open_only_after_seed_selection_is_frozen": true,
+    "opened": false
+  },
+  "selection": {
+    "no_cross_seed_checkpoint_selection": true,
+    "per_seed_fail_closed_selected_best_loader_required": true,
+    "same_eligibility_and_lexicographic_selection_as_v2_3_seed10": true,
+    "same_seven_candidate_look_gate": true
+  },
+  "status": "reviewed_and_frozen_before_seed_11_13_outcomes",
+  "validation": {
+    "action_rng_count_per_instance": 4,
+    "action_rng_range": [
+      620000000,
+      620000047
+    ],
+    "fresh_frozen_weight_only_clone_per_row": true,
+    "instance_seeds": [
+      85000,
+      85001,
+      85002,
+      85003,
+      85004,
+      85005,
+      85006,
+      85007,
+      85008,
+      85009,
+      85010,
+      85011
+    ],
+    "policy": "induced_nested_regularized_lagrangian_sample",
+    "rows_per_training_seed": 48,
+    "same_opened_panel_for_every_seed": true,
+    "total_selected_checkpoint_rows": 144
+  }
+}
