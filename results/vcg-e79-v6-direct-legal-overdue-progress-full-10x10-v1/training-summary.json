@@ -1,0 +1,14 @@
+{
+  "checkpoint_after_every_successful_episode": true,
+  "completed_v6_episodes": 35,
+  "invocation_runs_exactly_one_episode": true,
+  "latest_checkpoint": "/home/bukuj/hrl-e85-audit/results/vcg-e79-v6-direct-legal-overdue-progress-full-10x10-v1/latest.pth",
+  "latest_checkpoint_sha256": "d16c45ac18f56d6c49e893ec49415d6dc8cd5a602f390bc0e5482d663414c390",
+  "method_version": "vcg_dense_v1_1_direct_legal_overdue_progress_exact_v6_v1",
+  "paper_evidence": false,
+  "protocol": "vcg_e79_v6_direct_legal_overdue_progress_full_10x10_v1",
+  "safety_guarantee": false,
+  "status": "complete",
+  "through_episode": 63,
+  "total_episodes": 63
+}

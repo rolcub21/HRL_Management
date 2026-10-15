@@ -1,0 +1,15 @@
+{
+  "artifact_filename": "vcg-e79-v6-episode63-latest.pth",
+  "checkpoint_role": "terminal_resumable_with_optimizer_and_replay",
+  "checkpoint_sha256": "d16c45ac18f56d6c49e893ec49415d6dc8cd5a602f390bc0e5482d663414c390",
+  "checkpoint_size_bytes": 1006418362,
+  "evaluation_report_sha256": "bc7cb3d4ff05265b6f5fb56a6f8b42f31588488e31e2ff91e1becfe4697c4db1",
+  "paper_evidence": false,
+  "protocol": "vcg_e79_v6_direct_legal_overdue_progress_full_10x10_v1",
+  "recoverability_certification": false,
+  "release_tag": "e79-v6-episode63",
+  "safety_guarantee": false,
+  "schema_version": 1,
+  "through_episode": 63,
+  "training_summary_sha256": "833f6ac5290606fd9ee478d9f361d169c62ccc6a93ad441b951ee4432cb3c707"
+}

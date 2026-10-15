@@ -1,0 +1,13 @@
+{
+  "agent_state_unchanged": true,
+  "contract_sha256": "e8d9bf2afab996b07a985eea72b1af87d67db3d0be5953a8e36b1348ddd9c468",
+  "global_rng_state_unchanged": true,
+  "latest_checkpoint": "/home/bukuj/hrl-e85-audit/results/vcg-e79-v6-direct-legal-overdue-progress-full-10x10-v1/latest.pth",
+  "latest_checkpoint_sha256": "59599580772b67a31c72da7b966310d8de7bb0a0f875889e61fe5c0e24da5955",
+  "optimizer_state_unchanged": true,
+  "replay_unchanged": true,
+  "source_checkpoint": "/home/bukuj/hrl-e85-audit/results/e79-v6-episode28-source/latest.pth",
+  "source_checkpoint_sha256": "09786e59aff49eb2ede328f96024e5341e8ce9c78b6c6056e61c6b2bc7261797",
+  "status": "prepared",
+  "through_episode": 28
+}

@@ -1,0 +1,22 @@
+{
+  "checkpoint_after_every_successful_episode": true,
+  "checkpoint_family": "direct_legal_overdue_progress_resumable_exact_v6_v1",
+  "contract_sha256": "e8d9bf2afab996b07a985eea72b1af87d67db3d0be5953a8e36b1348ddd9c468",
+  "invocation_runs_exactly_one_episode": true,
+  "method_version": "vcg_dense_v1_1_direct_legal_overdue_progress_exact_v6_v1",
+  "paper_evidence": false,
+  "protocol": "vcg_e79_v6_direct_legal_overdue_progress_full_10x10_v1",
+  "recoverability_certification": false,
+  "safety_guarantee": false,
+  "schema_version": 1,
+  "scope": "one_episode_at_a_time_resumable_v6_continuation",
+  "source_checkpoint_sha256": "09786e59aff49eb2ede328f96024e5341e8ce9c78b6c6056e61c6b2bc7261797",
+  "source_sha256": {
+    "acceleration.py": "4aaef62386d877ffa68ff76f3305843df6960e16573e2128e9b9e93f95fe5f40",
+    "active_episode_runner.py": "86038b0d1041ae603ea2242bf8983499542917aa3b1a7243b8a9248ea48b442b",
+    "resumable_continuation.py": "a1a6876d46964709eccf599cb1ced2bf596c11adf5d6b4938888c4fd1a0d51e2"
+  },
+  "source_through_episode": 28,
+  "td_backup_implementation": "direct_recovery_state_tensor_cache_plus_frozen_target_score_cache_v1",
+  "total_episodes": 63
+}
