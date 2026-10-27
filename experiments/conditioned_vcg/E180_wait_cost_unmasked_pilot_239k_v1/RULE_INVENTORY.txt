@@ -1,0 +1,96 @@
+Decision-rule inventory for the static-batch 8x8 path (2026-10-24)
+================================================================
+
+Scope: effective E177/E179 development evaluation path, and E180 replacement.
+This is a source audit, not a claim that the frozen checkpoint performs well.
+The test panel remains sealed.
+
+Problem definition
+------------------
+- All N jobs are available at time zero; N is determined by jobs/capacity,
+  not initial-yard fill (E164.run.static_case). Kept.
+- The environment's inbound view exposes the first waiting job; later jobs
+  cannot skip it. E164.objective.FixedAdmissionStorageEnv.step checks B1..BN
+  admission order. Kept.
+- Legal Accept, Deliver, Reconfigure and event-Defer macros are enumerated
+  from physical initiation and paths (E83.legal.physical_frontier). Kept.
+- Defer advances to the next observable delivery-window opening; it is not
+  available without a strictly future event (E152.policy.EventDeferRule and
+  E152.option, with E164 stored-window override). Kept. It is not forbidden
+  just because an inbound block is waiting.
+- Due date is first-storage time plus storage duration; handoff window is
+  absolute +/-20 primitive steps (E164.objective, E168.objective). Kept.
+- E180 J is 2T + E + 0.5W + 0.1L + 10R. W accrues per released, unadmitted
+  job-step; all jobs are released at zero. E180.objective. E164's zero W is
+  removed. This objective applies to all future comparison arms.
+- The finite episode horizon is an execution-error cap, not an action
+  preference (E164/E168 horizon patch, E159.run.episode). Kept at 2600 for
+  this pilot; hitting it is reported as failure.
+
+Certification
+-------------
+- The current actual boundary must have a SAFE joint certificate before
+  action construction (E162.frontier._current_certificate, invoked by
+  E176.guard.build). Kept.
+- Candidate successors must be joint-SAFE before execution; UNKNOWN is
+  fail-closed under the fixed proof budget (E159.run._candidate,
+  E162.run._certified_choice, E158.selector). Kept.
+- Joint proof includes outflow completion and pickup access for continuing
+  admission (E122.flow). Kept.
+- E172 strengthens the declared admission-capacity invariant: every free,
+  unreserved storage cell remains pickup-reachable, not merely one. Kept as
+  the operational feasibility requirement. This may be conservative relative
+  to weaker access definitions and must be stated as such in the manuscript.
+- E122 also requires the transporter, at its successor position, to be able
+  to approach pickup. E175's recorded physically legal Delivers fail this
+  *native* return-access condition at three exits with inbound jobs remaining.
+  This is not E172's all-free-cell comparison and must not be waived without
+  changing the transporter-return model.
+- Proof caching and lazy certification of proposals/targets (E158, E159,
+  E161) may alter query order, not the selected SAFE frontier action. Kept
+  subject to their parity tests. An UNKNOWN remains excluded.
+
+Ranking
+-------
+- The five-head residual critic combines nominal immediate components with
+  learned future components; E180 restores nonzero nominal admission wait
+  and uses the existing 0.5 wait head (E147.model, E180.objective). Kept.
+- The grouped selector scores SAFE temporal modes by normalized log-mean-exp,
+  then chooses the highest-Q candidate in the winning mode, with stable key
+  tie-breaking (E158.selector, viability_graph_preference_conditioned).
+  This is a ranking preference, not a feasibility rule. Kept unchanged.
+- During frozen evaluation, no epsilon/softmax exploration occurs. E156's
+  scale-free softmax is training-only. Kept out of this pilot.
+- Proof-dependent successor feature masking in E158 is a representation
+  choice applied symmetrically in the compared arms, not an action filter.
+  Kept unchanged.
+
+Progress guard
+--------------
+- Event observations reset the Reconfigure streak (E153 guard state as used
+  by E176.guard). Kept.
+- At the bound, E176.choice checks the non-Reconfigure candidates first and
+  masks Reconfigure only if at least one is joint-SAFE. Kept.
+- If none is SAFE, it takes exactly one currently certified completion-witness
+  step, then rechecks at the next boundary (E176.choice). Kept. It does not
+  commit to the entire emptying witness or choose Accept over Deliver.
+- The retained witness is a liveness fallback, not a cost-optimal ranking.
+  Its use is counted separately.
+
+Removed / inactive
+------------------
+- E164.frontier and E168.frontier: when any SAFE Accept exists, replace the
+  entire frontier with Accepts. REMOVE; it expresses admission preference
+  as a constraint and can suppress overdue deliveries.
+- E168.frontier: when inbound remains and Accept is blocked, remove Defer.
+  REMOVE; it expresses urgency preference as a constraint.
+- E171.frontier: nested intake-restoration lookahead. Already absent from
+  E177/E179 and not imported into E180. Leave out; E172 access prevention
+  is the declared capacity invariant.
+- E153 and E162's earlier selector/frontier liveness patches are superseded
+  for actual E180 choices by direct E176.guard.build and E176.choice.choose.
+  The E153 guard object still stores the event counter; its legacy forcing
+  method does not select E180 actions.
+- E179's lazy-Accept speed patch is not activated. Its parity result is valid
+  for the old Accept-first protocol only, and it must be rechecked under E180
+  before adoption.

@@ -347,6 +347,10 @@ class ReconfigureOption(BaseOption):
                 return False
             if intended in self.bound_fixed_obstacles:
                 return False
+            if getattr(self.env, "empty_drive_under", False) and not any(
+                item.carrying for item in self.env.blocks
+            ):
+                return True
             return self._occupant(
                 intended, ignore_label=block.label
             ) is None

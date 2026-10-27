@@ -1,0 +1,36 @@
+E136 HANDOFF: NOT A TRAINING LAUNCHER
+====================================
+Completed bounded development checks:
+  External dates -> dense reward, graph/public due slack, inbound/stored views,
+  nominal K, E126 assignment/pending/projection clock adapters, native Defer.
+  Reference replay -> E134 offline J/J_W; nominal durations unchanged.
+  Certified pair -> same records, flags and eligible keys at six boundaries.
+  Injected trigger -> two physically executed committed-witness actions at each
+  nonempty regime; identical post-execution guard state and backup frontier.
+  Reference trace is not retained on the live controller environment.
+
+Before freezing mixture training:
+  1. Add a NEW grid episode collector using GridEnv.trajectory_metrics. Do not
+     call the old E115 episode_service_metrics collector unmodified: it still
+     computes a+p. Native E123 episode() also resamples its own 36-job workload
+     and hard-codes the 3600 horizon; it is not the grid rollout function.
+  2. Run bounded full-loop (not just boundary/injected-trigger) controller smoke
+     checks, including full plain Dynamic/GA harnesses and executable macro
+     alignment. The E126 clock factories are wired/tested, but that is not a
+     complete baseline integration. Preserve failures/timeouts as failures.
+  3. Resolve the finite-horizon claim. The current A-outflow guard's certificate
+     concerns recoverability of accepted work; no uniform <=20 next-progress
+     duration has been established here. A 6000-step execution cap is not a
+     mathematical completion guarantee. Either verify a budget-aware progress
+     contract or explicitly limit claims to empirical completion under the cap.
+     Do not silently switch guards or claim joint inflow preservation.
+  4. Then freeze mixture sampling, disjoint train/dev/test manifests, scratch
+     seeds, exploration by decisions, update/checkpoint budget, GA compute and
+     hypothesis families. No training settings were frozen by E136.
+
+Congestion interpretation:
+  Initial direct obstruction is 6/14 at 40% and 15/24 at 68.6% on the reserved
+  calibration states. Reference peeling requires zero rehandles. This exercises
+  retrieval ordering under obstruction, not unavoidable rehandling. Any stronger
+  rehandling workload should be separately versioned prospectively, without
+  selecting cases based on contender wins. No test panel has been generated.

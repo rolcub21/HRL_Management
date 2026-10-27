@@ -1,0 +1,40 @@
+E135 IMPLEMENTATION HANDOFF
+===========================
+Completed here: independent generator/reference, separately coded primitive
+trace replay checks, fixed development-only bounded calibration. E134 remains
+unchanged. No contender quality result has been used to choose the generator.
+
+Next stage must integrate explicit external due dates consistently into:
+  - reward accumulation and terminal error metrics (E115 rewards.py currently
+    uses arrival_step + storage_steps_needed);
+  - nominal immediate-cost predictions (E130 costs.py, inherited by E131);
+  - graph features, public queue context, candidate projections and Defer rule;
+  - all informed baseline timing rules and the common trajectory recorder.
+Do NOT overwrite nominal storage durations with constructed due dates while
+leaving other storage-clock uses unchanged. Hide unreleased due dates and all
+reference trace/full-information scheduling data from every contender.
+
+Then verify on replayed states that residual VCG and certified Dynamic receive
+the actual same certified frontier, committed guard action and Defer decision.
+Use a shared controller adapter, not two similarly named configurations. Plain
+baselines share physical macro semantics and information, but not eligibility.
+
+Horizon/progress: E123 quantitative_contract currently assumes arrivals separated
+by <=30, 36 jobs and a <=20-step certified progress prefix. Grid cases contain
+36,50,60 jobs and calibrated gaps up to 50. Re-derive conditions/counts, including
+initial inventory needing retrieval but not admission and idle unreleased time;
+do not call the old 3600-step proposition applicable without checking it.
+The reference 10000-step construction cap is not a chosen task horizon.
+
+Freeze disjoint train/dev/test seed manifests, balanced regime sampling, model
+initialization/exploration/budget/checkpoint selection, GA budget and hypothesis
+families before mixture training/test opening. Keep the 0.5 wait sensitivity
+evaluation-only, on the same physical trajectories. Stage B remains deferred.
+
+Reference quality limitation: no relocation is needed by this dispatcher on
+the calibration traces. Its corridor-conditioned packing and full-information
+schedule prove legal feasible completions, not challenging rehandle demand or
+reference optimality. Report work/lower-bound ratios, waiting and makespans.
+If this is inadequate congestion for the research question, revise the generator
+prospectively with a separate version BEFORE any contender comparison, not by
+selecting cases where VCG wins.

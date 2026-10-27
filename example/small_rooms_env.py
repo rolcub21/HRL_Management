@@ -494,10 +494,30 @@ class SmallRoomsEnv(BaseEnvironment):
         if self.rooms[r][c] == "#":
             return current_state
 
-        # If the agent is carrying a block, consider blocks as obstacles.
-        # (If the agent is not carrying a block, it can enter a cell with a block, which is useful for picking it up.)
+        edge_allowed = getattr(self, "outside_route_edge_allowed", None)
+        if edge_allowed is not None and not edge_allowed(current_state, candidate):
+            return current_state
+        loaded_edge_allowed = getattr(self, "outside_route_loaded_edge_allowed", None)
+        if (loaded_edge_allowed is not None
+                and any(block.carrying for block in self.blocks)
+                and not loaded_edge_allowed(current_state, candidate)):
+            return current_state
+
+        # Versioned strict-macro studies also obstruct an empty transporter,
+        # except when it approaches the block explicitly bound for pickup.
+        # The usual environment semantics remain unchanged by default.
         if any(block.carrying for block in self.blocks):
             if self._is_cell_occupied(candidate):
+                return current_state
+        elif getattr(self, "strict_empty_obstruction", False):
+            occupant = next(
+                (block for block in self.blocks
+                 if block.position == candidate and not block.delivered and not block.carrying),
+                None,
+            )
+            if occupant is not None and occupant.label != getattr(
+                self, "strict_pickup_target_label", None
+            ):
                 return current_state
 
         return candidate
