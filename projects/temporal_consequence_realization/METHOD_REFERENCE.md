@@ -2,7 +2,7 @@
 
 **Authority:** normative reference for every implementation in this project
 
-**Revision:** `TCR-METHOD-2026-10-29.8`
+**Revision:** `TCR-METHOD-2026-10-30.9`
 
 **Status:** living specification
 
@@ -214,6 +214,16 @@ when the consequences it explains save more description length than it costs.
 Continuous attributes MUST have charged precision; arbitrarily tiny codes that a
 high-gain network can amplify are not valid cheap facts.
 
+Condition-family selection MUST offer a continuous attribute as the default
+alternative to a category-only description whenever instances of one mechanism
+can vary in consequence strength, geometry, rate, or another ordered quantity.
+Its dimension is selected by total description length and MUST include zero as
+an option; selecting dimension zero is how the objective justifies a purely
+categorical condition. Categories answer *which mechanism* applies, while
+continuous attributes answer *how strongly or with what instance-specific
+details* it applies. A category vocabulary MUST NOT be forced to quantize an
+ordered continuum merely because only discrete codes were offered.
+
 Compositional conditions MAY contain several discrete parts when consequences
 combine independent mechanisms. The same description-length accounting applies.
 
@@ -236,6 +246,12 @@ Unseen conditions retain the prior. A categorical condition requires categorical
 or mixture uncertainty capable of representing “possibly category A, possibly
 category B.” A single smooth point estimate is insufficient when alternatives
 have distinct consequences.
+
+When the shared law is linear in a continuous attribute and its likelihood and
+prior are Gaussian, implementations SHOULD use the exact Gaussian posterior.
+An approximation in that setting must be declared and justified. For nonlinear
+attribute laws, the posterior approximation and its charged capacity must be
+explicit.
 
 Uncertainty about the world and uncertainty about the shared law are distinct.
 If several laws `Phi_m` are retained, their weights MUST depend on predictive
@@ -409,6 +425,17 @@ Held-out predictive likelihood MUST participate in capacity and temperature
 selection. Labels may grade recovered meanings but MUST NOT choose kinds,
 features, capacities, stopping points, or control actions.
 
+Condition-learning evaluations MUST include an **evidence-monotonicity audit**:
+on matched held-out queries, plot predictive loss against the amount of evidence
+about the same persistent carrier. In expectation, conditioning a well-specified
+and calibrated model on additional evidence must not worsen its held-out
+predictive loss. The gate MUST use paired differences with a declared uncertainty
+interval or tolerance, not an unpaired visual trend. A reliable increase flags a
+misspecified condition family, likelihood, inference approximation, or
+calibration; it cannot be reported as successful condition learning until the
+cause is located. Pointwise fluctuations on finite samples are not themselves a
+violation.
+
 A weight penalty MAY be used as a provisional approximation to
 `L(E_omega,Phi,psi,xi)`, but must be declared as an approximation. Fixed
 penalties are not evidence that the full description-length selection has been
@@ -525,6 +552,13 @@ persistence and is nonconforming.
 
 Calibration MUST be measured by comparing stated probabilities with realized
 frequencies on held-out events.
+
+When a belief-scrambling audit is used, donor pairings MUST be chosen from the
+beliefs alone before any query outcomes are scored. A label-free maximally
+different-belief assignment is allowed. Outcome-aware or grading-label-aware
+pairing invalidates the audit; a permutation that exchanges equivalent beliefs
+does not test field responsibility and must not be interpreted as a negative
+result.
 
 ## 7. Derived consequences and readouts
 
@@ -650,6 +684,8 @@ An implementation is canonical only if all applicable items pass.
       verify responsibility routing; non-applicability is justified.
 - [ ] Conditions are persistent carrier-level facts, not transition outcomes.
 - [ ] Categories are anonymous and attributes/poses are charged.
+- [ ] Condition-family selection offers a charged continuous attribute with
+      dimension zero allowed whenever ordered instance variation is plausible.
 - [ ] The field covers reachable unseen carriers, initialized from the prior.
 - [ ] Absolute addresses are absent from the shared law unless selected and
       charged.
@@ -663,6 +699,8 @@ An implementation is canonical only if all applicable items pass.
 - [ ] Belief samples, not only point estimates, enter training when uncertainty
       is claimed.
 - [ ] Capacity/vocabulary choices use total cost and held-out likelihood.
+- [ ] Matched held-out predictive loss is audited across increasing evidence,
+      with a paired interval or declared tolerance for nonmonotonicity.
 - [ ] Labels are grading-only.
 - [ ] Any biased sampler has exact importance correction.
 - [ ] Any learned part that becomes unused receives a restoration audit under
@@ -675,6 +713,8 @@ An implementation is canonical only if all applicable items pass.
 - [ ] Beliefs update after every real consequence.
 - [ ] Law alternatives are evidence-weighted.
 - [ ] Calibration is measured on held-out data.
+- [ ] Belief-scramble pairings, when used, are selected from beliefs before
+      query outcomes are scored and actually exchange distinct beliefs.
 - [ ] Goals are absorbing and utility/risk quantities are not conflated.
 - [ ] Values and plans are derived from the current law and belief.
 
@@ -691,7 +731,7 @@ Every new protocol or run manifest MUST include the equivalent of:
 
 ```yaml
 method_reference: projects/temporal_consequence_realization/METHOD_REFERENCE.md
-method_revision: TCR-METHOD-2026-10-29.8
+method_revision: TCR-METHOD-2026-10-30.9
 claim_level: expressibility | law-learning | condition-learning | belief-control | full
 declared_deviations: []
 oracle_inputs: []
@@ -874,6 +914,22 @@ Passing one level does not imply the next.
   retained samples therefore do not establish a converged or calibrated map
   posterior. This is a complete-map proposal/mixing failure, not a renewed
   scoring or expressibility failure, and anonymous Stage B remains unpassed.
+  A subsequent surprise-informed search let label-free default-correction
+  events propose finite segments and applied exact state-dependent
+  Metropolis--Hastings correction while retaining blind moves. It materially
+  improved attribution over uniform births: matched evidenced segments rose
+  from 4 to 9, precision from 0.074 to 0.290, and evidenced recall from 0.068
+  to 0.153. It nevertheless remained 1,239.34 combined nats more expensive
+  than the directly evidenced physical restoration; selected-chain scores
+  spanned 2,840.11 nats and wall-frequency disagreement reached 0.821. A
+  grading-only catalogue-support audit explained why this does not yet test a
+  fully informed proposal: at the selected 17/17 vocabulary the catalogue
+  contained only 37 of 59 physical carrier/pose slots, 11 correct offsets, and
+  no exact finite restoration candidate. The top-slot/endpoint beam therefore
+  excluded the target before sampling. Surprise-directed births outperform
+  blind births here, but proposal support must be repaired before tempering or
+  posterior convergence can be interpreted. Anonymous Stage B remains
+  unpassed.
   Untouched walls remain at the prior, so anonymous
   geometry is condition-learning evidence on evidenced single-line carriers,
   not complete-maze recovery.
@@ -890,6 +946,86 @@ Passing one level does not imply the next.
   model never crossed 90% despite about 295 probes at the common 360-step
   budget. This is controlled symbolic evidence for information-per-effort
   exploration, not pixel or partial-observation evidence.
+- In the manipulation line, Meta-World selected a two-dimensional continuous
+  condition and reduced untouched-carrier RMSE by 52.75% after four pulls; its
+  overall gate still failed semantic-family and subspace grading. In LIBERO,
+  the matched method-only occlusion gate recovered anonymous relation behavior
+  at 93.5%, retained exact paired locality across one versus six hidden pairs
+  and zero versus 256 unrelated events, and reduced relevant hidden-state RMSE
+  from 0.6435 to 0.1549. A subsequent visible-relation Stage-1b run selected a
+  continuous carrier-mobility attribute in every fold: carrier RMSE fell 53.5%,
+  ablation more than doubled error, and the attribute correlated 0.99999 with
+  measured mobility. Its category-only pair condition nevertheless became
+  confidently misspecified: child error improved through two consequences and
+  then rose at four, behavioral kind accuracy was 0.643, and a belief-only
+  maximally-different scramble caused only 7.1% damage. This is evidence for
+  continuous carrier attributes and for the evidence-monotonicity diagnostic.
+  Replacing that pair condition by a category-conditional continuous Gaussian
+  coupling selected one attribute dimension and two anonymous categories in
+  every held-out-scene fold. Child RMSE then fell monotonically from 0.000347
+  to 0.000188 across zero to four consequences (45.9%), anonymous behavioral
+  recovery reached 0.929, pair ablation raised error 161.7%, and the
+  belief-only maximally-different scramble raised error 151.7%. All paired
+  monotonicity intervals, calibration, and restoration gates passed. This is
+  oracle-state/direct-primitive condition-learning evidence; live simultaneous
+  scenes, relation writes, perception, control, and external comparisons were
+  still unpassed at that point. A subsequent live simultaneous-scene gate put
+  two masked objects and six ordered object--drawer pair carriers into one
+  official LIBERO state. Its first full version exposed an invalid physical
+  placement and live-scene underdispersion; the corrected version used only
+  verified placements and selected likelihood scale on a separate unlabeled
+  live episode. On three untouched seeds it recovered anonymous relation
+  behavior at 0.778, tracked hidden object state at RMSE 0.000204 versus
+  0.001072 for the static ablation, and remained calibrated (0.787 visible and
+  0.889 hidden 90% coverage). Removing pair evidence raised hidden-state error
+  5.09-fold and pre-outcome belief scrambling raised it 10.87-fold; reversing
+  pair enumeration changed predictions by only 4.34e-19. The v3 protocol
+  remains a formal failure: visible child RMSE improved only 5.4% against its
+  predeclared 20% bar, and visible full NLL improved 1.7% against 5%. Those
+  improvement gates repeated a question Stage 1 had already answered: when the
+  pair is visible, current relative geometry already exposes the relation. A
+  new v4 protocol therefore declared before collection that the visible case
+  was required to maintain predictive parity and calibration, while leaving
+  every hidden-state, responsibility, monotonicity, physical-validity, and
+  restoration gate unchanged. On the same four seeds and live construction it
+  passed all gates: visible child RMSE and full NLL improved by 5.4% and 1.7%
+  rather than degrading, visible and hidden 90% coverage were 0.787 and 0.889,
+  hidden-state tracking remained 81.0% better than the static ablation, removing
+  pair evidence raised error 5.09-fold, and pre-outcome belief scrambling raised
+  it 10.87-fold. This is passed oracle-state/direct-primitive live
+  condition-learning and hidden-state-tracking evidence with six simultaneous
+  ordered-pair carriers. The v3 formal failure is retained. A subsequent
+  method-only live write gate then used two training episodes, one separate
+  calibration episode, and three untouched seeds. Its shared routed law wrote
+  the same anonymous category-plus-continuous-coupling field after direct place
+  and remove primitives. Total cost selected the routed law at full shrinkage:
+  targeted writes produced mean coupling 0.944 and cleared writes approximately
+  zero. On untouched post-write drawer probes, the written field reduced
+  created-relation child RMSE by 53.7% against no write and removed-relation
+  RMSE by 51.0% against stale persistence; swapping targeted and cleared
+  beliefs raised relevant error 154%, full-sequence likelihood improved, and
+  child coverage was 0.847. Every predeclared write, calibration,
+  responsibility, restoration, and permutation gate passed. This is limited
+  oracle-state/direct-primitive relation-write evidence in the two v4-stable
+  bowl-bottom and bottle-top contexts. Contained but anomalously coupled
+  bowl-middle and bottle-bottom placements were explicitly excluded rather
+  than relabeled as successful writes. A subsequent method-only belief-control
+  gate used the frozen anonymous write and consequence laws to plan over their
+  own writes. Across three new seeds, two stable child--drawer pairs, and
+  transport/release goals, posterior-sampled recursion selected place--move or
+  remove--move, updated after each real consequence, and succeeded on all 12
+  live queries. The learned-field planner declared every goal reliably
+  reachable; write-blind and pre-outcome scrambled-field interventions declared
+  none reachable. Exact restoration and pair-order invariance held, and
+  predicted versus realized goal-success error was zero. The development v1
+  smoke remains a formal failure because it incorrectly treated all free
+  three-dimensional child settling as attachment; v2 declared before full
+  collection that live success is drawer displacement plus the target physical
+  containment relation, while retaining the complete trajectory as a
+  diagnostic. This is limited oracle-state/direct-skill belief-control evidence
+  that plans can use learned relation writes. Perception, Sawyer manipulation,
+  standard LIBERO task control, longer compositions, and external comparisons
+  remain unpassed.
 - ProcGen exposed useful collection, perception, and conformance failures;
   restricted pipelines from that line are not evidence for the full method.
 - Minecraft stepwise diagnostics show that dynamic event state can improve a
@@ -930,6 +1066,7 @@ principle.
 
 | Revision | Date | Change |
 |---|---|---|
+| `TCR-METHOD-2026-10-30.9` | 2026-10-30 | Made a charged continuous attribute the default condition-family alternative, with dimension zero selected by description length when categories alone suffice; preferred exact Gaussian posteriors for linear-Gaussian attributes; required a paired held-out evidence-monotonicity audit; and required belief-scramble donors to be chosen from beliefs before outcomes are scored. Motivated by Meta-World selecting a two-dimensional continuous condition and clearing its predictive-reduction check, LIBERO Stage-1b carrier mobility reaching 0.99999 grading correlation and 53.5% sequential carrier-error reduction, and the same run's category-only pair condition improving through two consequences before worsening at four. Affects future condition-learning protocols with ordered instance variation or belief-scramble audits; historical protocols remain pinned to their recorded revisions. |
 | `TCR-METHOD-2026-10-29.8` | 2026-10-29 | Required condition attribute families and precision to be reselected whenever a materially changed or sharpened law changes their likelihood tradeoff. Motivated by the PointMaze frozen-law vocabulary audit: fixed one-cell wall extents remained at least 11,710.50 fit nats worse than the sparse map even with 33 offset bins, while charged finite endpoints plus 17/17 or 33/33 precision made the evidenced physical map 221.03 or 536.73 fit nats cheaper and reduced free-motion RMSE from 0.05526 to 0.00104 or 0.000507. A same-revision accounting correction charged the map once across fit and held-out data; combined margins favored 9/17, 17/17, and 33/33 finite extents by 194.3, 516.5, and 858.4 nats. Affects every future condition-learning protocol that inherits a vocabulary after retraining its law; historical runs remain pinned to their recorded revisions. |
 | `TCR-METHOD-2026-10-29.7` | 2026-10-29 | Added label-free default-plus-correction bootstrapping for rare structured branches, finite total-cost selection for difficult low-dimensional structural choices, and survival/hazard responsibility for carriers encountered in temporal or swept-path order. Motivated by the PointMaze default-plus-correction pilot: the broad correction captured 49/49 held-out contacts with 0.00135 mean free-event responsibility, untouched description length selected radius 0.7, and the remaining failure was unordered attribution among several canonical wall carriers. Affects future rare-event fits and every adapter whose first encountered carrier determines a consequence; historical runs remain pinned to their recorded revisions. |
 | `TCR-METHOD-2026-10-28.6` | 2026-10-28 | Added a declared learn-first/prune-later continuation schedule for components that can erase their own learning signal, and made restoration audits under the unchanged final description length mandatory. Motivated by the PointMaze learned-responsibility pilot, where simultaneous fitting collapsed to the no-wall branch even though a label-free held-out radius audit found a substantially cheaper contact-using solution. Affects future mixture, read-set, category, and sparse-component fits; historical runs remain pinned to their recorded revisions. |
