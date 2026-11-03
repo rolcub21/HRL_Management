@@ -182,19 +182,66 @@ def gate() -> dict:
     if final.is_file():
         value = p.gate_manifest()
         return {**value, "reused": True, "episode_runs": 0}
-    protocol = _gate_protocol()
-    with _implementation(protocol, GATE_SCENARIO):
-        e203.prepare(output)
-        vcg = e203.run_vcg_one(output, 0, p.GATE_SEED, "cuda")
-        dynamic = e203.run_baseline_one(output, "dynamic_pslap", p.GATE_SEED, 0)
-        ga = e203.run_baseline_one(output, "ga", p.GATE_SEED, 0)
+    row_paths = (
+        output / "rows/e191/model-seed-0" / f"instance-{p.GATE_SEED}.json",
+        output / "rows/dynamic_pslap" / f"instance-{p.GATE_SEED}-replicate-0.json",
+        output / "rows/ga" / f"instance-{p.GATE_SEED}-replicate-0.json",
+    )
+    reused_prior_execution = all(path.is_file() for path in row_paths)
+    if reused_prior_execution:
+        # An assertion-only repair may change this file after all routes have
+        # completed.  Retain those expensive rows iff they belong to the same
+        # gate, seed, checkpoints, and three declared routes.  The new gate
+        # manifest is tied to the current source hash below.
+        prior_contract = _read(output / "contract.json")
+        require(
+            prior_contract.get("protocol") == p.GATE_PROTOCOL
+            and int(prior_contract.get("development_seed", -1)) == p.GATE_SEED
+            and prior_contract.get("checkpoint_sha256")
+            == _gate_contract()["checkpoint_sha256"],
+            "E222 retained gate execution has another identity",
+        )
+        vcg, dynamic, ga = (_read(path) for path in row_paths)
+        require(
+            {vcg.get("method"), dynamic.get("method"), ga.get("method")}
+            == {"e191", "dynamic_pslap", "ga"}
+            and all(
+                row.get("contract_sha256") == prior_contract["contract_sha256"]
+                and int(row.get("instance_seed", -1)) == p.GATE_SEED
+                for row in (vcg, dynamic, ga)
+            ),
+            "E222 retained gate rows have another identity",
+        )
+    else:
+        protocol = _gate_protocol()
+        with _implementation(protocol, GATE_SCENARIO):
+            e203.prepare(output)
+            vcg = e203.run_vcg_one(output, 0, p.GATE_SEED, "cuda")
+            dynamic = e203.run_baseline_one(output, "dynamic_pslap", p.GATE_SEED, 0)
+            ga = e203.run_baseline_one(output, "ga", p.GATE_SEED, 0)
     rows = (vcg, dynamic, ga)
     require(all(row.get("strict_complete") for row in rows), "E222 live gate did not complete every route")
     require(vcg["run"].get("horizon_cap_hit") is False, "E222 VCG gate hit its horizon")
-    require(vcg["run"].get("objective_audit_integrity") is True, "E222 VCG objective audit failed")
+    integrity = vcg["run"].get("objective_audit_integrity")
+    require(
+        isinstance(integrity, dict)
+        and integrity.get("contract")
+        == "dual_rescorable_timing_objective_components_v1"
+        and int(integrity.get("delivery_count", -1)) == e191_scenario.TOTAL_JOBS
+        and int(integrity.get("placement_count", -1)) == e191_scenario.TOTAL_JOBS
+        and int(integrity.get("steps", -1)) == int(vcg["run"].get("steps", -2))
+        and vcg["run"].get("e187_single_objective_audit") is True,
+        "E222 VCG structured objective audit failed",
+    )
+    roundoff = vcg["run"].get("e189_roundoff_audit", {})
+    require(
+        float(roundoff.get("maximum_absolute_difference", math.inf))
+        <= float(roundoff.get("absolute_bound", -math.inf)),
+        "E222 VCG roundoff audit failed",
+    )
     require(vcg["metrics"].get("objective_accounting_exact") is True, "E222 VCG objective accounting failed")
-    row_paths = sorted((output / "rows").glob("**/*.json"))
-    require(len(row_paths) == 3, "E222 gate retained an unexpected row count")
+    retained_paths = sorted((output / "rows").glob("**/*.json"))
+    require(len(retained_paths) == 3, "E222 gate retained an unexpected row count")
     core = {
         "status": "pass",
         "protocol": p.GATE_PROTOCOL,
@@ -209,22 +256,31 @@ def gate() -> dict:
             "ga_replicates_in_panel": len(p.GA_REPLICATES),
         },
         "required_audit_signals": {
-            "objective_audit_integrity": True,
+            "objective_audit_integrity_sha256": p.digest(integrity),
+            "single_objective_audit": True,
             "objective_accounting_exact": True,
+            "roundoff_within_bound": True,
             "unknown_candidates_rejected": int(vcg["run"]["audit"].get("unknown_candidates_rejected", 0)),
         },
         "checkpoint_sha256": {
             str(seed): _freeze(seed)["frozen_checkpoint_sha256"]
             for seed in p.MODEL_SEEDS
         },
-        "row_sha256": {str(path.relative_to(output)): p.sha256(path) for path in row_paths},
+        "row_sha256": {str(path.relative_to(output)): p.sha256(path) for path in retained_paths},
+        "reused_prior_complete_execution_after_assertion_repair": reused_prior_execution,
         "gate_contract_sha256": _gate_contract()["contract_sha256"],
         "test_panel_opened": False,
         "paper_evidence": False,
     }
     manifest = {**core, "manifest_sha256": p.digest(core)}
     _write(final, manifest)
-    return {**manifest, "episode_runs": sum(int(row.get("episode_runs", 0)) for row in rows)}
+    return {
+        **manifest,
+        "episode_runs": (
+            0 if reused_prior_execution
+            else sum(int(row.get("episode_runs", 0)) for row in rows)
+        ),
+    }
 
 
 def _recorded_declaration(contract: dict) -> dict:
