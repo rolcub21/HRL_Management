@@ -51,8 +51,6 @@ SOURCE_SHA256 = {
     "experiments/conditioned_vcg/E222_e215_e218_fresh_matched_8x8_panel_281k_v1/run.sh": "07f2623d54cee8cb0ed1e8455720ccf00752e83553927bfbfdb87356f2e46b61",
     "experiments/conditioned_vcg/E222_e215_e218_fresh_matched_8x8_panel_281k_v1/scenario.py": "1085ea5c73ea368c4d079bcf56267a9ccedb4740f95b8e43a2b55024622fbe83",
     "experiments/conditioned_vcg/E91_matched_target_size_benchmark_156k_v1/run.py": "1717e2ed782ba7e128d68b697e2ebe115543a55d42b10d41e750fc69372a8cfe",
-    "projects/temporal_consequence_realization/METHOD_REFERENCE.md": "78c4356f2c424366a7167fa9f6b15f0d75f1c32a30382da294cbfa65d17e9a26",
-    "projects/temporal_consequence_realization/method_conformance.py": "6ff8f4ab7bc3b40c949ae2d7ff83d899b82c1560505f7120f313bf9ec3ee10d3",
 }
 
 CHECKPOINTS = {

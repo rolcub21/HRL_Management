@@ -2,10 +2,12 @@
 
 E224 relocates only the expensive VCG seed-1/2 computations of the already
 opened E222 panel.  It does not define, regenerate, or select a new panel.  The
-E222 contract hash, instance-manifest hash, behavioral source hashes, selected
-checkpoint hashes, and selected episodes are pinned before execution.  Absolute
-checkpoint paths are resolved on the compute host only after their contents
-authenticate.
+E222 contract hash, instance-manifest hash, execution-source hashes, selected
+checkpoint hashes, and selected episodes are pinned before execution.  The two
+owner-side conformance-document hashes remain authenticated by E222 when rows
+are imported; they are not execution dependencies of the relocated shard.
+Absolute checkpoint paths are resolved on the compute host only after their
+contents authenticate.
 
 Run the cheap gate before each independent route:
 
