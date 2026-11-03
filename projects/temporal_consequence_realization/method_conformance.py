@@ -51,6 +51,7 @@ CHECKLIST = (
     ("reproducibility.content_hashes", "Data, split, implementation, protocol, and checkpoint hashes are stored."),
     ("reproducibility.oracle_declarations", "Diagnostic oracle inputs and deviations are explicit."),
     ("reproducibility.failed_gates_retained", "Optimization diagnostics and failed gates are retained."),
+    ("reproducibility.preprotected_integration_gate", "Before a fresh or protected split is opened, a non-protected live integration gate verifies every declared route, effective compute limit, required audit signal, and one complete end-to-end execution of the evaluation code."),
 )
 
 

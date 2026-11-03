@@ -2,7 +2,7 @@
 
 **Authority:** normative reference for every implementation in this project
 
-**Revision:** `TCR-METHOD-2026-10-30.9`
+**Revision:** `TCR-METHOD-2026-10-31.10`
 
 **Status:** living specification
 
@@ -724,6 +724,10 @@ An implementation is canonical only if all applicable items pass.
 - [ ] Data, split, implementation, protocol, and checkpoint hashes are stored.
 - [ ] Diagnostic oracle inputs and deviations are explicit.
 - [ ] Optimization diagnostics and failed gates are retained.
+- [ ] Before a fresh or protected split is opened, a non-protected live
+      integration gate verifies every declared route, effective compute limit,
+      required audit signal, and one complete end-to-end execution of the code
+      that will run on that split.
 
 ### Required implementation declaration
 
@@ -731,7 +735,7 @@ Every new protocol or run manifest MUST include the equivalent of:
 
 ```yaml
 method_reference: projects/temporal_consequence_realization/METHOD_REFERENCE.md
-method_revision: TCR-METHOD-2026-10-30.9
+method_revision: TCR-METHOD-2026-10-31.10
 claim_level: expressibility | law-learning | condition-learning | belief-control | full
 declared_deviations: []
 oracle_inputs: []
@@ -755,6 +759,17 @@ a footnote. In particular, `claim_level: full` requires every checklist item to
 pass and is invalid when the protocol declares any oracle input, deviation, or
 nonconforming shortcut. Diagnostic and partial runs remain useful at their
 accurately limited claim level.
+
+Before any runner creates an irreversible marker, materializes a fresh split,
+or reads protected outcomes, the exact evaluation code path MUST have passed a
+version-pinned live integration gate on consumed, development, or synthetic
+states. The gate MUST exercise every declared routing path, demonstrate that
+public compute limits are effective, produce the audit signals required by the
+evaluation protocol, and complete at least one end-to-end execution. A marker
+that merely states a module was installed is insufficient when the active code
+path can retain a stale direct reference. A failed or bypassed integration gate
+forbids opening the protected split and is retained with the other failed
+gates.
 
 ## 12. Nonconforming shortcuts and what they test instead
 
@@ -1066,6 +1081,7 @@ principle.
 
 | Revision | Date | Change |
 |---|---|---|
+| `TCR-METHOD-2026-10-31.10` | 2026-10-31 | Required a version-pinned non-protected live integration gate covering every declared route, effective compute limits, required audit signals, and complete end-to-end execution before any fresh or protected split opens. Motivated by a protected evaluation whose stale direct planner references bypassed the declared correction. Affects every future protected evaluation; historical protocols remain pinned to their recorded revisions. |
 | `TCR-METHOD-2026-10-30.9` | 2026-10-30 | Made a charged continuous attribute the default condition-family alternative, with dimension zero selected by description length when categories alone suffice; preferred exact Gaussian posteriors for linear-Gaussian attributes; required a paired held-out evidence-monotonicity audit; and required belief-scramble donors to be chosen from beliefs before outcomes are scored. Motivated by Meta-World selecting a two-dimensional continuous condition and clearing its predictive-reduction check, LIBERO Stage-1b carrier mobility reaching 0.99999 grading correlation and 53.5% sequential carrier-error reduction, and the same run's category-only pair condition improving through two consequences before worsening at four. Affects future condition-learning protocols with ordered instance variation or belief-scramble audits; historical protocols remain pinned to their recorded revisions. |
 | `TCR-METHOD-2026-10-29.8` | 2026-10-29 | Required condition attribute families and precision to be reselected whenever a materially changed or sharpened law changes their likelihood tradeoff. Motivated by the PointMaze frozen-law vocabulary audit: fixed one-cell wall extents remained at least 11,710.50 fit nats worse than the sparse map even with 33 offset bins, while charged finite endpoints plus 17/17 or 33/33 precision made the evidenced physical map 221.03 or 536.73 fit nats cheaper and reduced free-motion RMSE from 0.05526 to 0.00104 or 0.000507. A same-revision accounting correction charged the map once across fit and held-out data; combined margins favored 9/17, 17/17, and 33/33 finite extents by 194.3, 516.5, and 858.4 nats. Affects every future condition-learning protocol that inherits a vocabulary after retraining its law; historical runs remain pinned to their recorded revisions. |
 | `TCR-METHOD-2026-10-29.7` | 2026-10-29 | Added label-free default-plus-correction bootstrapping for rare structured branches, finite total-cost selection for difficult low-dimensional structural choices, and survival/hazard responsibility for carriers encountered in temporal or swept-path order. Motivated by the PointMaze default-plus-correction pilot: the broad correction captured 49/49 held-out contacts with 0.00135 mean free-event responsibility, untouched description length selected radius 0.7, and the remaining failure was unordered attribution among several canonical wall carriers. Affects future rare-event fits and every adapter whose first encountered carrier determines a consequence; historical runs remain pinned to their recorded revisions. |
