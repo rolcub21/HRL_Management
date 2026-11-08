@@ -20,6 +20,7 @@ from experiments.conditioned_vcg.E209_e191_method_10x10_longstay_268k_v1 import 
     stage as e209_stage,
 )
 from experiments.conditioned_vcg.E244_e215_scale_matched_10x10_stage_a_303k_v3 import (
+    instrumentation,
     memory,
     protocol as p,
     roundoff,
@@ -67,6 +68,7 @@ def test_protocol_reaches_both_inherited_training_seams():
         assert e209_run.p is p
         assert e209_stage.p is p
         assert e209_run.repaired_audit is nullcontext
+        assert e209_run.instrumentation is instrumentation
         with e209_run.implementation():
             assert e187_run.p is p
             assert e187_run.BUDGET_RULE == run.BUDGET_RULE
@@ -128,8 +130,37 @@ def test_contract_authenticates_the_v3_runtime_repairs():
         "encoded_values_changed": False,
         "learning_semantics_changed": False,
     }
+    assert contract["failure_atomicity"] == {
+        "strict_failure_action": "raise before episode checkpoint commit",
+        "last_clean_resumable_checkpoint_preserved": True,
+        "successful_episode_semantics_changed": False,
+    }
     assert any(path.endswith("/roundoff.py") for path in contract["source_sha256"])
     assert any(path.endswith("/memory.py") for path in contract["source_sha256"])
+    assert any(
+        path.endswith("/instrumentation.py")
+        for path in contract["source_sha256"]
+    )
+
+
+def test_failed_episode_raises_before_the_trainer_can_commit(monkeypatch):
+    failure = {
+        "strict_method_success": False,
+        "method_failure_reason": "learning:synthetic out of memory",
+    }
+    monkeypatch.setattr(instrumentation.e209, "run_episode", lambda *a, **k: failure)
+    try:
+        instrumentation.run_episode()
+    except instrumentation.E244V3EpisodeFailure as error:
+        assert "synthetic out of memory" in str(error)
+    else:
+        raise AssertionError("E244 v3 accepted a failed episode")
+
+
+def test_successful_episode_is_returned_unchanged(monkeypatch):
+    success = {"strict_method_success": True, "sentinel": object()}
+    monkeypatch.setattr(instrumentation.e209, "run_episode", lambda *a, **k: success)
+    assert instrumentation.run_episode() is success
 
 
 def _cache_state(index):

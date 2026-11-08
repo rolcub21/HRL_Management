@@ -190,6 +190,7 @@ def contract() -> dict:
     sources = (
         directory / "protocol.py",
         directory / "run.py",
+        directory / "instrumentation.py",
         directory / "memory.py",
         directory / "roundoff.py",
         directory / "run.sh",
@@ -237,6 +238,11 @@ def contract() -> dict:
             "eviction": "whole-cache logical clear at capacity",
             "encoded_values_changed": False,
             "learning_semantics_changed": False,
+        },
+        "failure_atomicity": {
+            "strict_failure_action": "raise before episode checkpoint commit",
+            "last_clean_resumable_checkpoint_preserved": True,
+            "successful_episode_semantics_changed": False,
         },
         "final_stage_a_reference": {
             "seed0_protocol": "vcg_conditioned_e215_e191_long_exploration_drift_pilot_274k_v1",

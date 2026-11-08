@@ -29,6 +29,10 @@ is therefore at most 1.2 GB, rather than the v2 four-million-row maximum of
 gradient, reward, action, and certificate remains exact. V1/v2 outputs must not
 be mixed with this fresh-training contract.
 
+V3 also makes episode commits failure-atomic. Any `Strict 0` result raises
+before the trainer advances or overwrites `latest.pth`, leaving the preceding
+clean checkpoint resumable instead of counting short failed episodes.
+
 ## Preflight
 
 ```bash

@@ -30,7 +30,7 @@ from projects.temporal_consequence_realization.method_conformance import (
     validate_protocol,
 )
 
-from . import memory, protocol as p
+from . import instrumentation, memory, protocol as p
 from .roundoff import repaired_audit
 
 
@@ -64,6 +64,7 @@ def implementation():
     with (
         patch.object(e209_run, "p", p),
         patch.object(e209_run, "BUDGET_RULE", BUDGET_RULE),
+        patch.object(e209_run, "instrumentation", instrumentation),
         patch.object(e209_stage, "p", p),
         # E244 installs the same validated numerical audit itself, rebound to
         # the 10x10 environment. Suppress E209's E191-bound installation so
