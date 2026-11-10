@@ -1,0 +1,188 @@
+{
+  "branch_rule": "exhaust every certified alternative in each captured non-forced frontier",
+  "claim_level": "expressibility",
+  "component_attribution": "selected branch raw component minus realized-best branch raw component, weighted by the deployed J weights",
+  "conformance_audit": {
+    "control.absorbing_goals_separate_risk": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "control.belief_scramble_preoutcome": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "control.evidence_weighted_laws": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "control.heldout_calibration": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "control.irreversible_belief_space_value": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "control.law_belief_values": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "control.persistent_imagined_conditions": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "control.update_after_consequence": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "learning.belief_samples": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "learning.capacity_by_total_cost": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "learning.evidence_monotonicity": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "learning.importance_correction": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "learning.joint_or_declared_alternation": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "learning.labels_grading_only": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "learning.one_full_likelihood": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "learning.restoration_audit": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.anonymous_conditions": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.carrier_frame_responsibility": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.continuous_attribute_default": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.full_field_support": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.no_persistent_bypass": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.no_uncharged_addresses": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.permutation_invariant_read_set": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.persistent_conditions": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.responsibility_audits": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.shared_law": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "representation.state_memory_roles": {
+      "evidence": "E259 is a frozen post-hoc mechanism diagnostic, not a law-condition claim.",
+      "status": "not_applicable"
+    },
+    "reproducibility.content_hashes": {
+      "evidence": "E259 hashes its runner, protocol, E255 contract, summary, and checkpoint.",
+      "status": "pass"
+    },
+    "reproducibility.failed_gates_retained": {
+      "evidence": "Every certified branch and unfavorable regret is retained.",
+      "status": "pass"
+    },
+    "reproducibility.method_revision": {
+      "evidence": "E259 pins TCR-METHOD-2026-10-31.10 before its frozen audit.",
+      "status": "pass"
+    },
+    "reproducibility.oracle_declarations": {
+      "evidence": "Future arrivals remain hidden from action selection; realized futures are used only as post-hoc labels.",
+      "status": "pass"
+    },
+    "reproducibility.preprotected_integration_gate": {
+      "evidence": "E259 uses only open development instances and opens no test panel.",
+      "status": "not_applicable"
+    }
+  },
+  "contract_sha256": "30906d52d77c224d450970cf4e1e652acdd5b166ca34c41265011beb452bf5fc",
+  "declared_deviations": [
+    "Post-hoc exhaustive branching from certified E255 development frontiers."
+  ],
+  "future_schedule_used_post_hoc_for_labels": true,
+  "future_schedule_visible_to_policy": false,
+  "instance_seeds": [
+    250195000,
+    250195100,
+    250195200
+  ],
+  "method_reference": "projects/temporal_consequence_realization/METHOD_REFERENCE.md",
+  "method_revision": "TCR-METHOD-2026-10-31.10",
+  "model_seed": 0,
+  "nonconforming_shortcuts": [],
+  "oracle_inputs": [],
+  "paired_future_rule": "same exact instance and future schedule for every alternative from a captured state",
+  "paper_evidence": false,
+  "primary_endpoint": "realized complete-episode J regret of the critic-selected certified action",
+  "protocol": "vcg_conditioned_e259_e255_causal_action_ranking_audit_5x5_318k_v1",
+  "schema_version": 1,
+  "scope": "frozen E255 seed-0 causal action-ranking audit on open paired 5x5 development futures",
+  "selected_episode": 280,
+  "source_identity": {
+    "source_checkpoint_sha256": "3a9f17534be46062f648466a9780a54ed7f20782696064857ae524d4dbadef69",
+    "source_contract_sha256": "f2b5583e7cf95c43a72bee877c08e0881d6f2836af5a43ac3567ea9b68ef2e33",
+    "source_selected_episode": 280,
+    "source_summary_sha256": "c8067dd74bc29015a5099ae154920ded268ecac19554e4512c153688cfdafdb5"
+  },
+  "source_sha256": {
+    "experiments/conditioned_vcg/E195_e191_method_5x5_longstay_254k_v1/instrumentation.py": "0f6ee28ef23f9a735c2def334e0a29194e0a85a6d5c0d0ed08fe4ab780efadc8",
+    "experiments/conditioned_vcg/E195_e191_method_5x5_longstay_254k_v1/scenario.py": "3a07f629ae10d835a2f8dc6b6e2dfffd2ab0a145873bfc44a983324e95c13396",
+    "experiments/conditioned_vcg/E256_e255_temperature_scaled_5x5_panel_315k_v1/run.py": "d45181ae62d81e450c676140cf7cc92e1d626f26d1399cbcc75c96f87bdf4990",
+    "experiments/conditioned_vcg/E259_e255_causal_action_ranking_audit_5x5_318k_v1/README.md": "dec61f4aa675eb9c044861caf7064e174d9ccd57dbf3f514dc2c077f58362a78",
+    "experiments/conditioned_vcg/E259_e255_causal_action_ranking_audit_5x5_318k_v1/__init__.py": "479596f26ddb7abf84166771ffa973d971e84ba48b749d5b763f66a9b9fba975",
+    "experiments/conditioned_vcg/E259_e255_causal_action_ranking_audit_5x5_318k_v1/protocol.py": "ab9022bf0e5667a51bf284a9cf98751913d960319f63502c0c8a23ce4d9fb35c",
+    "experiments/conditioned_vcg/E259_e255_causal_action_ranking_audit_5x5_318k_v1/run.py": "586ebeec758c9332cbd1b991c146262bafccfcb05fca05acecf40afda7d012b0",
+    "experiments/conditioned_vcg/E259_e255_causal_action_ranking_audit_5x5_318k_v1/run.sh": "487b7168ef4fea86d50df5891914882a90ec11ff26f1f39c3b0c7322e998b754",
+    "viability_graph_hierarchy.py": "7c6ec03b004b49f64fe8ced3655bff9e6a3e794013925ab187713c9e097c7974"
+  },
+  "state_kinds": [
+    "accept_1",
+    "accept_4",
+    "first_timing_choice",
+    "first_reconfigure_choice"
+  ],
+  "test_panel_opened": false,
+  "training_runs": 0,
+  "workload_by_seed": {
+    "250195000": "20%",
+    "250195100": "50%",
+    "250195200": "80%"
+  }
+}

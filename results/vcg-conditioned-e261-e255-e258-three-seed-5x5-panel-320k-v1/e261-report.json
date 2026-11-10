@@ -1,0 +1,781 @@
+{
+  "aggregation_rule": "report completion over all 90 VCG seed-instance runs; average cost across model seeds within each instance, then across instances",
+  "checkpoint_selection_uses_test_panel": false,
+  "contract_sha256": "f2e23c29091f5a1c902202a830857d4a49c16cd93fa06e5ccc91aead16152fcf",
+  "corrected_seed_by_workload": {
+    "0": {
+      "20%": {
+        "metrics": {
+          "J": 45.739999999999995,
+          "component_admission_wait_accrual": 65.4,
+          "component_equipment_work": 130.4,
+          "component_physical_rehandles": 0.0,
+          "component_storage_earliness_at_delivery": 0.0,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 8.175,
+          "peak_stored": 2.0,
+          "physical_rehandles": 0.0,
+          "rehandles_per_100": 0.0,
+          "release_clock_mae": 15.7125,
+          "release_within_20_rate": 1.0,
+          "steps": 873.8,
+          "steps_per_delivery": 109.225,
+          "storage_clock_mae": 7.5375,
+          "storage_within_20_rate": 1.0
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "50%": {
+        "metrics": {
+          "J": 51.489999999999995,
+          "component_admission_wait_accrual": 67.7,
+          "component_equipment_work": 123.4,
+          "component_physical_rehandles": 0.3,
+          "component_storage_earliness_at_delivery": 1.9,
+          "component_storage_tardiness_accrual": 0.2,
+          "mean_admission_wait": 8.4625,
+          "peak_stored": 4.7,
+          "physical_rehandles": 0.3,
+          "rehandles_per_100": 3.75,
+          "release_clock_mae": 13.6,
+          "release_within_20_rate": 0.825,
+          "steps": 454.5,
+          "steps_per_delivery": 56.8125,
+          "storage_clock_mae": 6.6875,
+          "storage_within_20_rate": 0.975
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "80%": {
+        "metrics": {
+          "J": 80.25,
+          "component_admission_wait_accrual": 73.5,
+          "component_equipment_work": 124.0,
+          "component_physical_rehandles": 1.1,
+          "component_storage_earliness_at_delivery": 19.3,
+          "component_storage_tardiness_accrual": 0.4,
+          "mean_admission_wait": 9.1875,
+          "peak_stored": 6.0,
+          "physical_rehandles": 1.1,
+          "rehandles_per_100": 13.75,
+          "release_clock_mae": 17.8625,
+          "release_within_20_rate": 0.625,
+          "steps": 358.5,
+          "steps_per_delivery": 44.8125,
+          "storage_clock_mae": 14.45,
+          "storage_within_20_rate": 0.725
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      }
+    },
+    "1": {
+      "20%": {
+        "metrics": {
+          "J": 44.79,
+          "component_admission_wait_accrual": 66.5,
+          "component_equipment_work": 115.4,
+          "component_physical_rehandles": 0.0,
+          "component_storage_earliness_at_delivery": 0.0,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 8.3125,
+          "peak_stored": 2.0,
+          "physical_rehandles": 0.0,
+          "rehandles_per_100": 0.0,
+          "release_clock_mae": 13.525,
+          "release_within_20_rate": 1.0,
+          "steps": 870.6,
+          "steps_per_delivery": 108.825,
+          "storage_clock_mae": 5.2375,
+          "storage_within_20_rate": 1.0
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "50%": {
+        "metrics": {
+          "J": 66.02000000000001,
+          "component_admission_wait_accrual": 66.8,
+          "component_equipment_work": 121.2,
+          "component_physical_rehandles": 0.9,
+          "component_storage_earliness_at_delivery": 9.3,
+          "component_storage_tardiness_accrual": 1.1,
+          "mean_admission_wait": 8.35,
+          "peak_stored": 4.8,
+          "physical_rehandles": 0.9,
+          "rehandles_per_100": 11.25,
+          "release_clock_mae": 13.8625,
+          "release_within_20_rate": 0.825,
+          "steps": 451.5,
+          "steps_per_delivery": 56.4375,
+          "storage_clock_mae": 11.3375,
+          "storage_within_20_rate": 0.8625
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "80%": {
+        "metrics": {
+          "J": 104.1,
+          "component_admission_wait_accrual": 91.7,
+          "component_equipment_work": 127.5,
+          "component_physical_rehandles": 2.8,
+          "component_storage_earliness_at_delivery": 13.7,
+          "component_storage_tardiness_accrual": 1.9,
+          "mean_admission_wait": 11.4625,
+          "peak_stored": 6.1,
+          "physical_rehandles": 2.8,
+          "rehandles_per_100": 35.0,
+          "release_clock_mae": 20.1625,
+          "release_within_20_rate": 0.5875,
+          "steps": 366.6,
+          "steps_per_delivery": 45.825,
+          "storage_clock_mae": 13.475,
+          "storage_within_20_rate": 0.8375
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      }
+    },
+    "2": {
+      "20%": {
+        "metrics": {
+          "J": 45.95,
+          "component_admission_wait_accrual": 67.3,
+          "component_equipment_work": 123.0,
+          "component_physical_rehandles": 0.0,
+          "component_storage_earliness_at_delivery": 0.0,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 8.4125,
+          "peak_stored": 2.0,
+          "physical_rehandles": 0.0,
+          "rehandles_per_100": 0.0,
+          "release_clock_mae": 13.9625,
+          "release_within_20_rate": 0.9875,
+          "steps": 869.6,
+          "steps_per_delivery": 108.7,
+          "storage_clock_mae": 5.675,
+          "storage_within_20_rate": 1.0
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "50%": {
+        "metrics": {
+          "J": 51.31,
+          "component_admission_wait_accrual": 70.5,
+          "component_equipment_work": 127.6,
+          "component_physical_rehandles": 0.1,
+          "component_storage_earliness_at_delivery": 1.9,
+          "component_storage_tardiness_accrual": 0.2,
+          "mean_admission_wait": 8.8125,
+          "peak_stored": 4.7,
+          "physical_rehandles": 0.1,
+          "rehandles_per_100": 1.25,
+          "release_clock_mae": 13.9625,
+          "release_within_20_rate": 0.7875,
+          "steps": 449.5,
+          "steps_per_delivery": 56.1875,
+          "storage_clock_mae": 6.425,
+          "storage_within_20_rate": 0.975
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "80%": {
+        "metrics": {
+          "J": 85.69,
+          "component_admission_wait_accrual": 78.9,
+          "component_equipment_work": 124.4,
+          "component_physical_rehandles": 0.4,
+          "component_storage_earliness_at_delivery": 24.6,
+          "component_storage_tardiness_accrual": 2.6,
+          "mean_admission_wait": 9.8625,
+          "peak_stored": 5.5,
+          "physical_rehandles": 0.4,
+          "rehandles_per_100": 5.0,
+          "release_clock_mae": 19.2875,
+          "release_within_20_rate": 0.5875,
+          "steps": 352.6,
+          "steps_per_delivery": 44.075,
+          "storage_clock_mae": 15.625,
+          "storage_within_20_rate": 0.65
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      }
+    }
+  },
+  "corrected_seed_summaries": {
+    "0": {
+      "metrics": {
+        "J": 59.16,
+        "component_admission_wait_accrual": 68.86666666666666,
+        "component_equipment_work": 125.93333333333334,
+        "component_physical_rehandles": 0.4666666666666667,
+        "component_storage_earliness_at_delivery": 7.066666666666666,
+        "component_storage_tardiness_accrual": 0.2,
+        "mean_admission_wait": 8.608333333333333,
+        "peak_stored": 4.233333333333333,
+        "physical_rehandles": 0.4666666666666667,
+        "rehandles_per_100": 5.833333333333333,
+        "release_clock_mae": 15.725,
+        "release_within_20_rate": 0.8166666666666667,
+        "steps": 562.2666666666667,
+        "steps_per_delivery": 70.28333333333333,
+        "storage_clock_mae": 9.558333333333334,
+        "storage_within_20_rate": 0.9
+      },
+      "required_instances": 30,
+      "strict_complete_instances": 30,
+      "strict_completion_rate": 1.0
+    },
+    "1": {
+      "metrics": {
+        "J": 71.63666666666667,
+        "component_admission_wait_accrual": 75.0,
+        "component_equipment_work": 121.36666666666666,
+        "component_physical_rehandles": 1.2333333333333334,
+        "component_storage_earliness_at_delivery": 7.666666666666667,
+        "component_storage_tardiness_accrual": 1.0,
+        "mean_admission_wait": 9.375,
+        "peak_stored": 4.3,
+        "physical_rehandles": 1.2333333333333334,
+        "rehandles_per_100": 15.416666666666666,
+        "release_clock_mae": 15.85,
+        "release_within_20_rate": 0.8041666666666667,
+        "steps": 562.9,
+        "steps_per_delivery": 70.3625,
+        "storage_clock_mae": 10.016666666666667,
+        "storage_within_20_rate": 0.9
+      },
+      "required_instances": 30,
+      "strict_complete_instances": 30,
+      "strict_completion_rate": 1.0
+    },
+    "2": {
+      "metrics": {
+        "J": 60.983333333333334,
+        "component_admission_wait_accrual": 72.23333333333333,
+        "component_equipment_work": 125.0,
+        "component_physical_rehandles": 0.16666666666666666,
+        "component_storage_earliness_at_delivery": 8.833333333333334,
+        "component_storage_tardiness_accrual": 0.9333333333333333,
+        "mean_admission_wait": 9.029166666666667,
+        "peak_stored": 4.066666666666666,
+        "physical_rehandles": 0.16666666666666666,
+        "rehandles_per_100": 2.0833333333333335,
+        "release_clock_mae": 15.7375,
+        "release_within_20_rate": 0.7875,
+        "steps": 557.2333333333333,
+        "steps_per_delivery": 69.65416666666667,
+        "storage_clock_mae": 9.241666666666667,
+        "storage_within_20_rate": 0.875
+      },
+      "required_instances": 30,
+      "strict_complete_instances": 30,
+      "strict_completion_rate": 1.0
+    }
+  },
+  "corrected_three_seed_by_workload": {
+    "20%": {
+      "metrics": {
+        "J": 45.49333333333333,
+        "component_admission_wait_accrual": 66.4,
+        "component_equipment_work": 122.93333333333332,
+        "component_physical_rehandles": 0.0,
+        "component_storage_earliness_at_delivery": 0.0,
+        "component_storage_tardiness_accrual": 0.0,
+        "mean_admission_wait": 8.3,
+        "peak_stored": 2.0,
+        "physical_rehandles": 0.0,
+        "rehandles_per_100": 0.0,
+        "release_clock_mae": 14.4,
+        "release_within_20_rate": 0.9958333333333333,
+        "steps": 871.3333333333334,
+        "steps_per_delivery": 108.91666666666667,
+        "storage_clock_mae": 6.15,
+        "storage_within_20_rate": 1.0
+      },
+      "required_instances": 10,
+      "strict_complete_instances": 10,
+      "strict_completion_rate": 1.0
+    },
+    "50%": {
+      "metrics": {
+        "J": 56.27333333333333,
+        "component_admission_wait_accrual": 68.33333333333334,
+        "component_equipment_work": 124.06666666666668,
+        "component_physical_rehandles": 0.4333333333333333,
+        "component_storage_earliness_at_delivery": 4.366666666666666,
+        "component_storage_tardiness_accrual": 0.5,
+        "mean_admission_wait": 8.541666666666668,
+        "peak_stored": 4.733333333333333,
+        "physical_rehandles": 0.4333333333333333,
+        "rehandles_per_100": 5.416666666666667,
+        "release_clock_mae": 13.808333333333334,
+        "release_within_20_rate": 0.8125,
+        "steps": 451.8333333333333,
+        "steps_per_delivery": 56.479166666666664,
+        "storage_clock_mae": 8.15,
+        "storage_within_20_rate": 0.9375
+      },
+      "required_instances": 10,
+      "strict_complete_instances": 10,
+      "strict_completion_rate": 1.0
+    },
+    "80%": {
+      "metrics": {
+        "J": 90.01333333333334,
+        "component_admission_wait_accrual": 81.36666666666666,
+        "component_equipment_work": 125.3,
+        "component_physical_rehandles": 1.4333333333333333,
+        "component_storage_earliness_at_delivery": 19.2,
+        "component_storage_tardiness_accrual": 1.6333333333333333,
+        "mean_admission_wait": 10.170833333333333,
+        "peak_stored": 5.866666666666667,
+        "physical_rehandles": 1.4333333333333333,
+        "rehandles_per_100": 17.916666666666664,
+        "release_clock_mae": 19.104166666666664,
+        "release_within_20_rate": 0.6,
+        "steps": 359.23333333333335,
+        "steps_per_delivery": 44.90416666666667,
+        "storage_clock_mae": 14.516666666666666,
+        "storage_within_20_rate": 0.7375
+      },
+      "required_instances": 10,
+      "strict_complete_instances": 10,
+      "strict_completion_rate": 1.0
+    }
+  },
+  "corrected_three_seed_run_completion": {
+    "required_instances": 90,
+    "strict_complete_instances": 90
+  },
+  "corrected_three_seed_summary": {
+    "metrics": {
+      "J": 63.92666666666666,
+      "component_admission_wait_accrual": 72.03333333333333,
+      "component_equipment_work": 124.1,
+      "component_physical_rehandles": 0.6222222222222222,
+      "component_storage_earliness_at_delivery": 7.855555555555555,
+      "component_storage_tardiness_accrual": 0.711111111111111,
+      "mean_admission_wait": 9.004166666666666,
+      "peak_stored": 4.2,
+      "physical_rehandles": 0.6222222222222222,
+      "rehandles_per_100": 7.777777777777778,
+      "release_clock_mae": 15.770833333333334,
+      "release_within_20_rate": 0.8027777777777777,
+      "steps": 560.8,
+      "steps_per_delivery": 70.1,
+      "storage_clock_mae": 9.605555555555556,
+      "storage_within_20_rate": 0.8916666666666667
+    },
+    "required_instances": 30,
+    "strict_complete_instances": 30,
+    "strict_completion_rate": 1.0
+  },
+  "expected_new_rows": 60,
+  "kim_a3c_three_seed_five_trial_by_workload": {
+    "20%": {
+      "cost_scope": "completed stochastic instance-trials only",
+      "metrics": {
+        "J": 45.215333333333334,
+        "component_admission_wait_accrual": 68.17333333333333,
+        "component_equipment_work": 111.28666666666666,
+        "component_physical_rehandles": 0.0,
+        "component_storage_earliness_at_delivery": 0.0,
+        "component_storage_tardiness_accrual": 0.0,
+        "mean_admission_wait": 8.521666666666667,
+        "peak_stored": 2.0,
+        "physical_rehandles": 0.0,
+        "rehandles_per_100": 0.0,
+        "release_clock_mae": 8.521666666666667,
+        "release_within_20_rate": null,
+        "steps": 866.2666666666667,
+        "steps_per_delivery": 108.28333333333333,
+        "storage_clock_mae": 0.0,
+        "storage_within_20_rate": null
+      },
+      "required_instances": 150,
+      "strict_complete_instances": 150,
+      "strict_completion_rate": 1.0
+    },
+    "50%": {
+      "cost_scope": "completed stochastic instance-trials only",
+      "metrics": {
+        "J": 58.422818791946305,
+        "component_admission_wait_accrual": 73.85234899328859,
+        "component_equipment_work": 119.12751677852349,
+        "component_physical_rehandles": 0.44966442953020136,
+        "component_storage_earliness_at_delivery": 5.087248322147651,
+        "component_storage_tardiness_accrual": 0.0,
+        "mean_admission_wait": 9.231543624161073,
+        "peak_stored": 4.429530201342282,
+        "physical_rehandles": 0.44966442953020136,
+        "rehandles_per_100": 5.620805369127517,
+        "release_clock_mae": 9.958053691275168,
+        "release_within_20_rate": null,
+        "steps": 448.6442953020134,
+        "steps_per_delivery": 56.080536912751676,
+        "storage_clock_mae": 1.9026845637583893,
+        "storage_within_20_rate": null
+      },
+      "required_instances": 150,
+      "strict_complete_instances": 149,
+      "strict_completion_rate": 0.9933333333333333
+    },
+    "80%": {
+      "cost_scope": "completed stochastic instance-trials only",
+      "metrics": {
+        "J": 90.18599999999999,
+        "component_admission_wait_accrual": 81.2,
+        "component_equipment_work": 121.32666666666667,
+        "component_physical_rehandles": 1.1533333333333333,
+        "component_storage_earliness_at_delivery": 23.093333333333334,
+        "component_storage_tardiness_accrual": 1.4133333333333333,
+        "mean_admission_wait": 10.15,
+        "peak_stored": 6.38,
+        "physical_rehandles": 1.1533333333333333,
+        "rehandles_per_100": 14.416666666666666,
+        "release_clock_mae": 14.415833333333333,
+        "release_within_20_rate": null,
+        "steps": 353.3666666666667,
+        "steps_per_delivery": 44.170833333333334,
+        "storage_clock_mae": 7.719166666666666,
+        "storage_within_20_rate": null
+      },
+      "required_instances": 150,
+      "strict_complete_instances": 150,
+      "strict_completion_rate": 1.0
+    }
+  },
+  "kim_a3c_three_seed_five_trial_summary": {
+    "cost_scope": "completed stochastic instance-trials only",
+    "metrics": {
+      "J": 64.62182628062361,
+      "component_admission_wait_accrual": 74.40979955456571,
+      "component_equipment_work": 117.24276169265033,
+      "component_physical_rehandles": 0.534521158129176,
+      "component_storage_earliness_at_delivery": 9.403118040089087,
+      "component_storage_tardiness_accrual": 0.47216035634743875,
+      "mean_admission_wait": 9.301224944320714,
+      "peak_stored": 4.2694877505567925,
+      "physical_rehandles": 0.534521158129176,
+      "rehandles_per_100": 6.6815144766147,
+      "release_clock_mae": 10.967427616926503,
+      "release_within_20_rate": null,
+      "steps": 556.3318485523386,
+      "steps_per_delivery": 69.54148106904232,
+      "storage_clock_mae": 3.2101893095768372,
+      "storage_within_20_rate": null
+    },
+    "required_instances": 450,
+    "strict_complete_instances": 449,
+    "strict_completion_rate": 0.9977777777777778
+  },
+  "observed_new_rows": 60,
+  "panel_reused_after_opening": true,
+  "paper_evidence": false,
+  "protocol": "vcg_conditioned_e261_e255_e258_three_seed_5x5_panel_320k_v1",
+  "reference_by_workload": {
+    "dynamic_pslap": {
+      "20%": {
+        "metrics": {
+          "J": 39.9,
+          "component_admission_wait_accrual": 61.0,
+          "component_equipment_work": 94.0,
+          "component_physical_rehandles": 0.0,
+          "component_storage_earliness_at_delivery": 0.0,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 7.625,
+          "peak_stored": 2.0,
+          "physical_rehandles": 0.0,
+          "rehandles_per_100": 0.0,
+          "release_clock_mae": 7.625,
+          "release_within_20_rate": 1.0,
+          "steps": 866.3,
+          "steps_per_delivery": 108.2875,
+          "storage_clock_mae": 0.0,
+          "storage_within_20_rate": 1.0
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "50%": {
+        "metrics": {
+          "J": 101.71000000000001,
+          "component_admission_wait_accrual": 91.4,
+          "component_equipment_work": 117.1,
+          "component_physical_rehandles": 0.0,
+          "component_storage_earliness_at_delivery": 22.9,
+          "component_storage_tardiness_accrual": 10.7,
+          "mean_admission_wait": 11.425,
+          "peak_stored": 4.1,
+          "physical_rehandles": 0.0,
+          "rehandles_per_100": 0.0,
+          "release_clock_mae": 17.25,
+          "release_within_20_rate": 0.825,
+          "steps": 460.8,
+          "steps_per_delivery": 57.6,
+          "storage_clock_mae": 8.2,
+          "storage_within_20_rate": 0.825
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "80%": {
+        "metrics": {
+          "J": 198.78,
+          "component_admission_wait_accrual": 88.2,
+          "component_equipment_work": 113.8,
+          "component_physical_rehandles": 0.6,
+          "component_storage_earliness_at_delivery": 137.3,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 11.025,
+          "peak_stored": 5.0,
+          "physical_rehandles": 0.6,
+          "rehandles_per_100": 7.5,
+          "release_clock_mae": 31.125,
+          "release_within_20_rate": 0.3625,
+          "steps": 358.3,
+          "steps_per_delivery": 44.7875,
+          "storage_clock_mae": 27.35,
+          "storage_within_20_rate": 0.5125
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      }
+    },
+    "e195_original_three_seed_mean": {
+      "20%": {
+        "metrics": {
+          "J": 54.916666666666664,
+          "component_admission_wait_accrual": 62.766666666666666,
+          "component_equipment_work": 127.66666666666667,
+          "component_physical_rehandles": 0.33333333333333337,
+          "component_storage_earliness_at_delivery": 7.4333333333333345,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 7.845833333333333,
+          "peak_stored": 2.066666666666667,
+          "physical_rehandles": 0.33333333333333337,
+          "rehandles_per_100": 4.166666666666666,
+          "release_clock_mae": 14.941666666666666,
+          "release_within_20_rate": 0.95,
+          "steps": 849.4333333333334,
+          "steps_per_delivery": 106.17916666666667,
+          "storage_clock_mae": 9.0875,
+          "storage_within_20_rate": 0.9458333333333334
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "50%": {
+        "metrics": {
+          "J": 66.37333333333333,
+          "component_admission_wait_accrual": 77.73333333333333,
+          "component_equipment_work": 131.73333333333332,
+          "component_physical_rehandles": 0.9666666666666666,
+          "component_storage_earliness_at_delivery": 3.4666666666666663,
+          "component_storage_tardiness_accrual": 0.6,
+          "mean_admission_wait": 9.716666666666667,
+          "peak_stored": 4.9,
+          "physical_rehandles": 0.9666666666666666,
+          "rehandles_per_100": 12.083333333333334,
+          "release_clock_mae": 15.033333333333335,
+          "release_within_20_rate": 0.7958333333333333,
+          "steps": 446.9333333333333,
+          "steps_per_delivery": 55.86666666666666,
+          "storage_clock_mae": 8.95,
+          "storage_within_20_rate": 0.9291666666666666
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "80%": {
+        "metrics": {
+          "J": 117.60333333333332,
+          "component_admission_wait_accrual": 83.76666666666667,
+          "component_equipment_work": 133.53333333333333,
+          "component_physical_rehandles": 1.4666666666666666,
+          "component_storage_earliness_at_delivery": 32.03333333333333,
+          "component_storage_tardiness_accrual": 7.833333333333333,
+          "mean_admission_wait": 10.470833333333333,
+          "peak_stored": 6.0,
+          "physical_rehandles": 1.4666666666666666,
+          "rehandles_per_100": 18.333333333333336,
+          "release_clock_mae": 19.941666666666666,
+          "release_within_20_rate": 0.5375,
+          "steps": 349.8,
+          "steps_per_delivery": 43.725,
+          "storage_clock_mae": 16.829166666666666,
+          "storage_within_20_rate": 0.6958333333333333
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      }
+    },
+    "ga": {
+      "20%": {
+        "metrics": {
+          "J": 37.4325,
+          "component_admission_wait_accrual": 54.925,
+          "component_equipment_work": 99.7,
+          "component_physical_rehandles": 0.0,
+          "component_storage_earliness_at_delivery": 0.0,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 6.865625,
+          "peak_stored": 2.0,
+          "physical_rehandles": 0.0,
+          "rehandles_per_100": 0.0,
+          "release_clock_mae": 6.865625,
+          "release_within_20_rate": 1.0,
+          "steps": 864.675,
+          "steps_per_delivery": 108.084375,
+          "storage_clock_mae": 0.0,
+          "storage_within_20_rate": 1.0
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "50%": {
+        "metrics": {
+          "J": 160.775,
+          "component_admission_wait_accrual": 76.35,
+          "component_equipment_work": 103.5,
+          "component_physical_rehandles": 0.0,
+          "component_storage_earliness_at_delivery": 112.25,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 9.54375,
+          "peak_stored": 3.875,
+          "physical_rehandles": 0.0,
+          "rehandles_per_100": 0.0,
+          "release_clock_mae": 25.0625,
+          "release_within_20_rate": 0.61875,
+          "steps": 449.825,
+          "steps_per_delivery": 56.228125,
+          "storage_clock_mae": 22.55,
+          "storage_within_20_rate": 0.596875
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      },
+      "80%": {
+        "metrics": {
+          "J": 357.3775,
+          "component_admission_wait_accrual": 83.05,
+          "component_equipment_work": 103.275,
+          "component_physical_rehandles": 0.075,
+          "component_storage_earliness_at_delivery": 304.775,
+          "component_storage_tardiness_accrual": 0.0,
+          "mean_admission_wait": 10.38125,
+          "peak_stored": 3.95,
+          "physical_rehandles": 0.075,
+          "rehandles_per_100": 0.9375,
+          "release_clock_mae": 50.8875,
+          "release_within_20_rate": 0.325,
+          "steps": 346.125,
+          "steps_per_delivery": 43.265625,
+          "storage_clock_mae": 50.53125,
+          "storage_within_20_rate": 0.39375
+        },
+        "required_instances": 10,
+        "strict_complete_instances": 10,
+        "strict_completion_rate": 1.0
+      }
+    }
+  },
+  "reference_summaries": {
+    "dynamic_pslap": {
+      "metrics": {
+        "J": 113.46333333333334,
+        "component_admission_wait_accrual": 80.2,
+        "component_equipment_work": 108.3,
+        "component_physical_rehandles": 0.2,
+        "component_storage_earliness_at_delivery": 53.4,
+        "component_storage_tardiness_accrual": 3.566666666666667,
+        "mean_admission_wait": 10.025,
+        "peak_stored": 3.7,
+        "physical_rehandles": 0.2,
+        "rehandles_per_100": 2.5,
+        "release_clock_mae": 18.666666666666668,
+        "release_within_20_rate": 0.7291666666666666,
+        "steps": 561.8,
+        "steps_per_delivery": 70.225,
+        "storage_clock_mae": 11.85,
+        "storage_within_20_rate": 0.7791666666666667
+      },
+      "required_instances": 30,
+      "strict_complete_instances": 30,
+      "strict_completion_rate": 1.0
+    },
+    "e195_original_three_seed_mean": {
+      "metrics": {
+        "J": 79.63111111111111,
+        "component_admission_wait_accrual": 74.75555555555555,
+        "component_equipment_work": 130.9777777777778,
+        "component_physical_rehandles": 0.9222222222222223,
+        "component_storage_earliness_at_delivery": 14.31111111111111,
+        "component_storage_tardiness_accrual": 2.811111111111111,
+        "mean_admission_wait": 9.344444444444443,
+        "peak_stored": 4.322222222222222,
+        "physical_rehandles": 0.9222222222222223,
+        "rehandles_per_100": 11.527777777777779,
+        "release_clock_mae": 16.63888888888889,
+        "release_within_20_rate": 0.7611111111111111,
+        "steps": 548.7222222222223,
+        "steps_per_delivery": 68.59027777777779,
+        "storage_clock_mae": 11.622222222222224,
+        "storage_within_20_rate": 0.8569444444444444
+      },
+      "required_instances": 30,
+      "strict_complete_instances": 30,
+      "strict_completion_rate": 1.0
+    },
+    "ga": {
+      "metrics": {
+        "J": 185.19500000000002,
+        "component_admission_wait_accrual": 71.44166666666666,
+        "component_equipment_work": 102.15833333333333,
+        "component_physical_rehandles": 0.025,
+        "component_storage_earliness_at_delivery": 139.00833333333333,
+        "component_storage_tardiness_accrual": 0.0,
+        "mean_admission_wait": 8.930208333333333,
+        "peak_stored": 3.275,
+        "physical_rehandles": 0.025,
+        "rehandles_per_100": 0.3125,
+        "release_clock_mae": 27.605208333333334,
+        "release_within_20_rate": 0.6479166666666667,
+        "steps": 553.5416666666666,
+        "steps_per_delivery": 69.19270833333333,
+        "storage_clock_mae": 24.360416666666666,
+        "storage_within_20_rate": 0.6635416666666667
+      },
+      "required_instances": 30,
+      "strict_complete_instances": 30,
+      "strict_completion_rate": 1.0
+    }
+  },
+  "status": "complete",
+  "test_panel_opened": true,
+  "training_runs": 0
+}
