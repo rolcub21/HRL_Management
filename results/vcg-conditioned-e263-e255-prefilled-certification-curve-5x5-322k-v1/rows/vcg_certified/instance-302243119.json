@@ -1,0 +1,838 @@
+{
+  "arm": "vcg_certified",
+  "certification_monitor": {
+    "arm": "vcg_certified",
+    "current_status_counts": {
+      "SAFE": 34
+    },
+    "events": [
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B6:1:2",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 0,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 1,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 2,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 3,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 4,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "reconfigure",
+        "candidate_key": "reconfigure:B2:2:2",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:validated_relocation_undo_and_rejoin;completion_upper_bound",
+        "selection_index": 5,
+        "status": "SAFE",
+        "witness_length": 7
+      },
+      {
+        "action_type": "reconfigure",
+        "candidate_key": "reconfigure:B2:3:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:validated_relocation_undo_and_rejoin;completion_upper_bound",
+        "selection_index": 6,
+        "status": "SAFE",
+        "witness_length": 7
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B2:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 7,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "reconfigure",
+        "candidate_key": "reconfigure:B3:3:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:validated_relocation_undo_and_rejoin;completion_upper_bound",
+        "selection_index": 8,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B7:2:3",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 9,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 10,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "reconfigure",
+        "candidate_key": "reconfigure:B6:2:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 11,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B3:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 12,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "reconfigure",
+        "candidate_key": "reconfigure:B6:3:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:validated_relocation_undo_and_rejoin;completion_upper_bound",
+        "selection_index": 13,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B8:1:2",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 14,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 15,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 16,
+        "status": "SAFE",
+        "witness_length": 6
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B4:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 17,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 18,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 19,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B1:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 20,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 21,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B5:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 22,
+        "status": "SAFE",
+        "witness_length": 3
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B6:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 23,
+        "status": "SAFE",
+        "witness_length": 2
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 24,
+        "status": "SAFE",
+        "witness_length": 2
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 25,
+        "status": "SAFE",
+        "witness_length": 2
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 26,
+        "status": "SAFE",
+        "witness_length": 2
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 27,
+        "status": "SAFE",
+        "witness_length": 2
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:6",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 28,
+        "status": "SAFE",
+        "witness_length": 2
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B7:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 29,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 30,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 31,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:7",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 32,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B8:4:1",
+        "exhaustive": true,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;empty_yard",
+        "selection_index": 33,
+        "status": "SAFE",
+        "witness_length": 0
+      }
+    ],
+    "first_exhaustive_unsafe_current": null,
+    "first_exhaustive_unsafe_selection": null,
+    "first_non_safe_current": null,
+    "first_non_safe_selection": null,
+    "frontier_calls": 34,
+    "frontiers_with_non_safe": 0,
+    "guard_witness_errors": [],
+    "guard_witness_unavailable": 0,
+    "initial_current_certificate": {
+      "exhaustive": false,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    "monitor_is_non_authoritative": false,
+    "physical_candidates": 678,
+    "safe_candidates": 678,
+    "selected_successor_status_counts": {
+      "SAFE": 34
+    },
+    "unknown_candidates": 0,
+    "unsafe_candidates": 0
+  },
+  "delivered_at_stop": 8,
+  "dynamic_ranker_audit": null,
+  "failure_class": "completed",
+  "initial_completion_witness": {
+    "exhaustive": false,
+    "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+    "status": "SAFE",
+    "witness_length": 5
+  },
+  "initial_fill": 5,
+  "initial_fill_fraction": 0.625,
+  "initial_layout": [
+    [
+      1,
+      1
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      3,
+      3
+    ]
+  ],
+  "instance_seed": 302243119,
+  "method_failure_reason": null,
+  "metrics": {
+    "J": 180.2,
+    "arrival_window_mean_stored": 5.7407407407407405,
+    "components": {
+      "admission_wait_accrual": 57.0,
+      "equipment_work": 107.0,
+      "physical_rehandles": 5.0,
+      "storage_earliness_at_delivery": 91.0,
+      "storage_tardiness_accrual": 0.0
+    },
+    "delivered_jobs": 8,
+    "e195_workload": {
+      "arrival_gap_steps": 40,
+      "arrival_rate": 0.025,
+      "capacity": 8,
+      "future_arrival_gap_steps": 40,
+      "future_arrivals": 3,
+      "initial_occupancy_fraction": 0.625,
+      "initial_occupancy_label": "62.5%",
+      "initial_placement_cells": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+      "initial_stored": 5,
+      "jobs": 8,
+      "last_release_step": 81,
+      "mean_duration_parameter": 160,
+      "nominal_occupancy_from_declared_mean": 0.625,
+      "panel": "development_prefilled_certification_curve",
+      "realized_duration_mean": 157.125,
+      "target_label": "5/8-preloaded",
+      "target_nominal_occupancy": 0.625,
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    "earliness_accounting_exact": true,
+    "max_admission_wait": 30,
+    "mean_admission_wait": 7.125,
+    "mean_external_queue": 0.20652173913043478,
+    "mean_stored": 4.086956521739131,
+    "mean_stored_fraction": 0.5108695652173914,
+    "median_admission_wait": 0.0,
+    "nominal_steady_window_mean_stored": null,
+    "objective_accounting_exact": true,
+    "objective_weights": {
+      "admission_wait_accrual": 0.5,
+      "equipment_work": 0.1,
+      "physical_rehandles": 10.0,
+      "storage_earliness_at_delivery": 1.0,
+      "storage_tardiness_accrual": 2.0
+    },
+    "p90_admission_wait": 24.4,
+    "peak_external_queue": 1,
+    "peak_stored": 6,
+    "peak_stored_fraction": 0.75,
+    "primary_objective": "J_storage_clock_plus_full_admission_wait",
+    "release_clock_mae": 30.875,
+    "release_clock_signed_error": -8.375,
+    "release_within_20_rate": 0.5,
+    "required_jobs": 8,
+    "reward_sum_equals_negative_J": true,
+    "storage_capacity": 8,
+    "storage_clock_mae": 23.75,
+    "storage_clock_signed_error": -15.5,
+    "storage_within_20_rate": 0.75,
+    "stored_jobs": 8,
+    "strict_complete": true,
+    "tardiness_accounting_exact": true,
+    "total_admission_wait": 57.0,
+    "transporter_utilization": 0.38768115942028986,
+    "wait_accounting_exact": true
+  },
+  "model_seed": 0,
+  "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1",
+  "run": {
+    "absolute_error_std": 26.304704902355397,
+    "audit": {
+      "baseline_policy_query": false,
+      "baseline_viability_teacher": false,
+      "certificate_cache_entries": 144,
+      "certificate_scope": "current_admitted_work_closed_admission_geometric_recoverability_v1",
+      "complete_episode_certificate": false,
+      "current_safe": 34,
+      "current_unknown": 0,
+      "current_unsafe": 0,
+      "epochs_with_no_viable_acceptance": 1,
+      "exact_analysis_seconds": 0.1557849599266774,
+      "exact_cache_hits": 204,
+      "exact_cache_misses": 487,
+      "exact_verifier_authoritative": true,
+      "fail_closed_rejections": 0,
+      "finite_horizon_terminal_boundary": true,
+      "frontier_analysis_seconds": 0.35001703201123746,
+      "frontier_calls": 34,
+      "future_schedule_visible_to_policy": false,
+      "illegal_drops": 0,
+      "macro_failures": 0,
+      "no_fallback_contract": "empty_exact_safe_frontier_is_method_failure_v1",
+      "nonprogress_or_nonexact_recovery_selections": 13,
+      "priority_inference_seconds": 0.0,
+      "priority_pass_count": 0,
+      "priority_states_scored": 0,
+      "relocations": 5,
+      "safe_candidates": 678,
+      "truncated_macros": 0,
+      "unknown_candidates_rejected": 0,
+      "unsafe_candidates_rejected": 0
+    },
+    "delivery_count": 8,
+    "delivery_deviations": [
+      -85.0,
+      -46.0,
+      -19.0,
+      -7.0,
+      4.0,
+      9.0,
+      10.0,
+      10.0
+    ],
+    "dense_episode_start_discounted_return": -180.1999999999995,
+    "dense_rescored_return": -180.2,
+    "dual_rescore_uses_fixed_realized_trajectory": false,
+    "e187_metrics": {
+      "J": 180.2,
+      "arrival_window_mean_stored": 5.7407407407407405,
+      "components": {
+        "admission_wait_accrual": 57.0,
+        "equipment_work": 107.0,
+        "physical_rehandles": 5.0,
+        "storage_earliness_at_delivery": 91.0,
+        "storage_tardiness_accrual": 0.0
+      },
+      "delivered_jobs": 8,
+      "e195_workload": {
+        "arrival_gap_steps": 40,
+        "arrival_rate": 0.025,
+        "capacity": 8,
+        "future_arrival_gap_steps": 40,
+        "future_arrivals": 3,
+        "initial_occupancy_fraction": 0.625,
+        "initial_occupancy_label": "62.5%",
+        "initial_placement_cells": [
+          [
+            1,
+            1
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+        "initial_stored": 5,
+        "jobs": 8,
+        "last_release_step": 81,
+        "mean_duration_parameter": 160,
+        "nominal_occupancy_from_declared_mean": 0.625,
+        "panel": "development_prefilled_certification_curve",
+        "realized_duration_mean": 157.125,
+        "target_label": "5/8-preloaded",
+        "target_nominal_occupancy": 0.625,
+        "transporter_cell": [
+          2,
+          2
+        ]
+      },
+      "earliness_accounting_exact": true,
+      "max_admission_wait": 30,
+      "mean_admission_wait": 7.125,
+      "mean_external_queue": 0.20652173913043478,
+      "mean_stored": 4.086956521739131,
+      "mean_stored_fraction": 0.5108695652173914,
+      "median_admission_wait": 0.0,
+      "nominal_steady_window_mean_stored": null,
+      "objective_accounting_exact": true,
+      "objective_weights": {
+        "admission_wait_accrual": 0.5,
+        "equipment_work": 0.1,
+        "physical_rehandles": 10.0,
+        "storage_earliness_at_delivery": 1.0,
+        "storage_tardiness_accrual": 2.0
+      },
+      "p90_admission_wait": 24.4,
+      "peak_external_queue": 1,
+      "peak_stored": 6,
+      "peak_stored_fraction": 0.75,
+      "primary_objective": "J_storage_clock_plus_full_admission_wait",
+      "release_clock_mae": 30.875,
+      "release_clock_signed_error": -8.375,
+      "release_within_20_rate": 0.5,
+      "required_jobs": 8,
+      "reward_sum_equals_negative_J": true,
+      "storage_capacity": 8,
+      "storage_clock_mae": 23.75,
+      "storage_clock_signed_error": -15.5,
+      "storage_within_20_rate": 0.75,
+      "stored_jobs": 8,
+      "strict_complete": true,
+      "tardiness_accounting_exact": true,
+      "total_admission_wait": 57.0,
+      "transporter_utilization": 0.38768115942028986,
+      "wait_accounting_exact": true
+    },
+    "e187_single_objective_audit": true,
+    "e188_guard": {
+      "activations": 0,
+      "active": 0,
+      "completed_witnesses": 0,
+      "fallback_decisions": 0,
+      "fallback_frontier_calls": 0,
+      "force_when_due": 0,
+      "forced_decisions": 0,
+      "forced_deliveries": 0,
+      "forced_delivery_share": 0.0,
+      "masked_action_decisions": {
+        "deliver": 1
+      },
+      "masked_decisions": 1,
+      "masked_frontier_calls": 2,
+      "max_nonprogress_recovery_decisions": 0,
+      "mismatches": 0,
+      "nonprogress_recovery_decisions": 0,
+      "progress_frontier_calls": 2,
+      "reconfigure_candidates_removed": 20,
+      "remaining_witness_actions": 0,
+      "voluntary_deliveries": 8,
+      "witness_interruptions": 0
+    },
+    "e189_roundoff_audit": {
+      "absolute_bound": 1e-09,
+      "maximum_absolute_difference": 4.831690603168681e-13,
+      "primitive_steps": 275,
+      "relaxed_comparisons": 0
+    },
+    "e195_occupancy": {
+      "arrival_window_mean_stored": 5.7407407407407405,
+      "mean_external_queue": 0.20652173913043478,
+      "mean_stored": 4.086956521739131,
+      "mean_stored_fraction": 0.5108695652173914,
+      "nominal_steady_window_mean_stored": null,
+      "peak_external_queue": 1,
+      "peak_stored": 6,
+      "peak_stored_fraction": 0.75,
+      "transporter_utilization": 0.38768115942028986
+    },
+    "e195_workload": {
+      "arrival_gap_steps": 40,
+      "arrival_rate": 0.025,
+      "capacity": 8,
+      "future_arrival_gap_steps": 40,
+      "future_arrivals": 3,
+      "initial_occupancy_fraction": 0.625,
+      "initial_occupancy_label": "62.5%",
+      "initial_placement_cells": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+      "initial_stored": 5,
+      "jobs": 8,
+      "last_release_step": 81,
+      "mean_duration_parameter": 160,
+      "nominal_occupancy_from_declared_mean": 0.625,
+      "panel": "development_prefilled_certification_curve",
+      "realized_duration_mean": 157.125,
+      "target_label": "5/8-preloaded",
+      "target_nominal_occupancy": 0.625,
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    "episode_instance_id": "02b15b5a05edb7b8",
+    "episode_start_discounted_return": -180.2,
+    "horizon_cap_hit": false,
+    "instance_seed": 302243119,
+    "legacy_episode_start_discounted_return": -180.1999999999995,
+    "legacy_rescored_return": -180.2,
+    "loss_mean": null,
+    "loss_updates": 0,
+    "macro_decisions": 34,
+    "mean_absolute_error": 23.75,
+    "mean_earliness": 19.625,
+    "mean_signed_deviation": -15.5,
+    "mean_tardiness": 4.125,
+    "mean_tardiness_when_tardy": 8.25,
+    "method_failure_reason": null,
+    "non_delivery_return": -180.2,
+    "objective_audit_integrity": {
+      "contract": "dual_rescorable_timing_objective_components_v1",
+      "delivery_count": 8,
+      "placement_count": 3,
+      "return_by_objective": {
+        "dense_piecewise_v1": -180.1999999999995,
+        "legacy_clipped_v1": -180.1999999999995
+      },
+      "schema_version": 1,
+      "spec": {
+        "contract": "dual_rescorable_timing_objective_components_v1",
+        "dense_b": 80.0,
+        "dense_matches_legacy_inside_window": false,
+        "exact_legacy": true,
+        "lambda_abs": 1.5,
+        "lambda_outside": 0.5,
+        "legacy_base": 10.0,
+        "legacy_max_bonus": 30.0,
+        "legacy_window": 20.0,
+        "objective": "dense_piecewise_v1",
+        "schema_version": 1,
+        "window": 20.0
+      },
+      "steps": 275
+    },
+    "p90_absolute_error": 57.69999999999999,
+    "p90_tardiness": 10.0,
+    "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1",
+    "return": -180.2,
+    "scheduled_epsilon_after": 0.0,
+    "selected_action_counts": {
+      "accept": 3,
+      "defer": 18,
+      "deliver": 8,
+      "reconfigure": 5
+    },
+    "selected_objective": "dense_piecewise_v1",
+    "selected_objective_return": -180.2,
+    "selection_source_counts": {
+      "regularized_mode_map_candidate_map": 34
+    },
+    "signed_deviation_std": 31.870833060966575,
+    "split": "development_validation",
+    "steps": 275,
+    "strict_method_success": true,
+    "success": true,
+    "tardy_delivery_rate": 0.5,
+    "target_window": 20.0,
+    "training_decision_count_after": 17919,
+    "training_decision_count_before": 17885,
+    "wall_seconds": 0.8387221550001414,
+    "within_target_window_rate": 0.75
+  },
+  "status": "complete",
+  "steps_at_stop": 275,
+  "strict_complete": true,
+  "test_panel_opened": false
+}

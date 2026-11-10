@@ -1,0 +1,59 @@
+{
+  "development_seed": 302243000,
+  "episode_runs": 4,
+  "gate_contract_sha256": "241a6138476c8ffc561d8be36e49c2f0f8f08f11b742d42ece8b472b65b5f391",
+  "manifest_sha256": "52ca971361d369d350ad58a56dfa15c2322847da7df0fa92a64563d49ec47954",
+  "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1_development_gate",
+  "routes": {
+    "dynamic_certified": {
+      "dynamic_ranker_sha256": "b23ccaeb8e37413fe17f71d4dc292904d03718a5713569271452ffad5fc324d7",
+      "initial_witness": {
+        "exhaustive": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      "monitor_present": true,
+      "route_executed": true,
+      "strict_complete": true
+    },
+    "dynamic_physical_unfiltered": {
+      "dynamic_ranker_sha256": "b23ccaeb8e37413fe17f71d4dc292904d03718a5713569271452ffad5fc324d7",
+      "initial_witness": {
+        "exhaustive": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      "monitor_present": true,
+      "route_executed": true,
+      "strict_complete": true
+    },
+    "vcg_certified": {
+      "dynamic_ranker_sha256": null,
+      "initial_witness": {
+        "exhaustive": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      "monitor_present": true,
+      "route_executed": true,
+      "strict_complete": true
+    },
+    "vcg_physical_unfiltered": {
+      "dynamic_ranker_sha256": null,
+      "initial_witness": {
+        "exhaustive": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      "monitor_present": true,
+      "route_executed": true,
+      "strict_complete": true
+    }
+  },
+  "status": "pass",
+  "test_panel_opened": false
+}

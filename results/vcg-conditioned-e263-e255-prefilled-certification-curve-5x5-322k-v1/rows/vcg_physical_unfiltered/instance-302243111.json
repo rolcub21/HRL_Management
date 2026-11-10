@@ -1,0 +1,553 @@
+{
+  "arm": "vcg_physical_unfiltered",
+  "certification_monitor": {
+    "arm": "vcg_physical_unfiltered",
+    "current_status_counts": {
+      "SAFE": 6,
+      "UNSAFE": 1
+    },
+    "events": [
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B6:1:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 0,
+        "status": "SAFE",
+        "witness_length": 7
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 1,
+        "status": "SAFE",
+        "witness_length": 7
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 2,
+        "status": "SAFE",
+        "witness_length": 7
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 3,
+        "status": "SAFE",
+        "witness_length": 7
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 4,
+        "status": "SAFE",
+        "witness_length": 7
+      },
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B7:1:2",
+        "exhaustive": true,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "unsafe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;reachable_state_space_exhausted",
+        "selection_index": 5,
+        "status": "UNSAFE",
+        "witness_length": 0
+      }
+    ],
+    "first_exhaustive_unsafe_current": {
+      "decision_epoch": 46,
+      "exhaustive": true,
+      "kind": "current_state",
+      "reason": "unsafe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;reachable_state_space_exhausted",
+      "status": "UNSAFE",
+      "witness_length": 0
+    },
+    "first_exhaustive_unsafe_selection": {
+      "action_type": "accept",
+      "candidate_key": "accept:B7:1:2",
+      "exhaustive": true,
+      "kind": "selected_successor",
+      "liveness_forced": false,
+      "reason": "unsafe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;reachable_state_space_exhausted",
+      "selection_index": 5,
+      "status": "UNSAFE",
+      "witness_length": 0
+    },
+    "first_non_safe_current": {
+      "decision_epoch": 46,
+      "exhaustive": true,
+      "kind": "current_state",
+      "reason": "unsafe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;reachable_state_space_exhausted",
+      "status": "UNSAFE",
+      "witness_length": 0
+    },
+    "first_non_safe_selection": {
+      "action_type": "accept",
+      "candidate_key": "accept:B7:1:2",
+      "exhaustive": true,
+      "kind": "selected_successor",
+      "liveness_forced": false,
+      "reason": "unsafe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;reachable_state_space_exhausted",
+      "selection_index": 5,
+      "status": "UNSAFE",
+      "witness_length": 0
+    },
+    "frontier_calls": 7,
+    "frontiers_with_non_safe": 1,
+    "guard_witness_errors": [],
+    "guard_witness_unavailable": 0,
+    "initial_current_certificate": {
+      "exhaustive": false,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    "monitor_is_non_authoritative": true,
+    "physical_candidates": 31,
+    "safe_candidates": 30,
+    "selected_successor_status_counts": {
+      "SAFE": 5,
+      "UNSAFE": 1
+    },
+    "unknown_candidates": 0,
+    "unsafe_candidates": 1
+  },
+  "delivered_at_stop": 0,
+  "dynamic_ranker_audit": null,
+  "failure_class": "stranded_block",
+  "initial_completion_witness": {
+    "exhaustive": false,
+    "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+    "status": "SAFE",
+    "witness_length": 5
+  },
+  "initial_fill": 5,
+  "initial_fill_fraction": 0.625,
+  "initial_layout": [
+    [
+      3,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      2,
+      1
+    ]
+  ],
+  "instance_seed": 302243111,
+  "method_failure_reason": "no_exact_safe_candidate",
+  "metrics": {
+    "J": 6.0,
+    "arrival_window_mean_stored": 5.888888888888889,
+    "components": {
+      "admission_wait_accrual": 10.0,
+      "equipment_work": 10.0,
+      "physical_rehandles": 0.0,
+      "storage_earliness_at_delivery": 0.0,
+      "storage_tardiness_accrual": 0.0
+    },
+    "delivered_jobs": 0,
+    "e195_workload": {
+      "arrival_gap_steps": 40,
+      "arrival_rate": 0.025,
+      "capacity": 8,
+      "future_arrival_gap_steps": 40,
+      "future_arrivals": 3,
+      "initial_occupancy_fraction": 0.625,
+      "initial_occupancy_label": "62.5%",
+      "initial_placement_cells": [
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+      "initial_stored": 5,
+      "jobs": 8,
+      "last_release_step": 81,
+      "mean_duration_parameter": 160,
+      "nominal_occupancy_from_declared_mean": 0.625,
+      "panel": "development_prefilled_certification_curve",
+      "realized_duration_mean": 152.375,
+      "target_label": "5/8-preloaded",
+      "target_nominal_occupancy": 0.625,
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    "earliness_accounting_exact": false,
+    "max_admission_wait": 5,
+    "mean_admission_wait": 1.4285714285714286,
+    "mean_external_queue": 0.21739130434782608,
+    "mean_stored": 5.760869565217392,
+    "mean_stored_fraction": 0.720108695652174,
+    "median_admission_wait": 0.0,
+    "nominal_steady_window_mean_stored": null,
+    "objective_accounting_exact": false,
+    "objective_weights": {
+      "admission_wait_accrual": 0.5,
+      "equipment_work": 0.1,
+      "physical_rehandles": 10.0,
+      "storage_earliness_at_delivery": 1.0,
+      "storage_tardiness_accrual": 2.0
+    },
+    "p90_admission_wait": 5.0,
+    "peak_external_queue": 1,
+    "peak_stored": 7,
+    "peak_stored_fraction": 0.875,
+    "primary_objective": "J_storage_clock_plus_full_admission_wait",
+    "release_clock_mae": null,
+    "release_clock_signed_error": null,
+    "release_within_20_rate": null,
+    "required_jobs": 8,
+    "reward_sum_equals_negative_J": true,
+    "storage_capacity": 8,
+    "storage_clock_mae": null,
+    "storage_clock_signed_error": null,
+    "storage_within_20_rate": null,
+    "stored_jobs": 7,
+    "strict_complete": false,
+    "tardiness_accounting_exact": false,
+    "total_admission_wait": 10.0,
+    "transporter_utilization": 0.21739130434782608,
+    "wait_accounting_exact": false
+  },
+  "model_seed": 0,
+  "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1",
+  "run": {
+    "absolute_error_std": null,
+    "audit": {
+      "baseline_policy_query": false,
+      "baseline_viability_teacher": false,
+      "certificate_cache_entries": 13,
+      "certificate_scope": "current_admitted_work_closed_admission_geometric_recoverability_v1",
+      "complete_episode_certificate": false,
+      "current_safe": 6,
+      "current_unknown": 0,
+      "current_unsafe": 1,
+      "empty_safe_frontiers": 1,
+      "epochs_with_no_viable_acceptance": 1,
+      "exact_analysis_seconds": 0.011891736001416575,
+      "exact_cache_hits": 11,
+      "exact_cache_misses": 23,
+      "exact_verifier_authoritative": true,
+      "fail_closed_rejections": 1,
+      "finite_horizon_terminal_boundary": true,
+      "frontier_analysis_seconds": 0.023934131000714842,
+      "frontier_calls": 7,
+      "future_schedule_visible_to_policy": false,
+      "illegal_drops": 0,
+      "macro_failures": 0,
+      "no_fallback_contract": "empty_exact_safe_frontier_is_method_failure_v1",
+      "priority_inference_seconds": 0.0,
+      "priority_pass_count": 0,
+      "priority_states_scored": 0,
+      "relocations": 0,
+      "safe_candidates": 31,
+      "truncated_macros": 0,
+      "unknown_candidates_rejected": 0,
+      "unsafe_candidates_rejected": 1
+    },
+    "delivery_count": 0,
+    "delivery_deviations": [],
+    "dense_episode_start_discounted_return": -5.999999999999999,
+    "dense_rescored_return": -6.0,
+    "dual_rescore_uses_fixed_realized_trajectory": false,
+    "e187_metrics": {
+      "J": 6.0,
+      "arrival_window_mean_stored": 5.888888888888889,
+      "components": {
+        "admission_wait_accrual": 10.0,
+        "equipment_work": 10.0,
+        "physical_rehandles": 0.0,
+        "storage_earliness_at_delivery": 0.0,
+        "storage_tardiness_accrual": 0.0
+      },
+      "delivered_jobs": 0,
+      "e195_workload": {
+        "arrival_gap_steps": 40,
+        "arrival_rate": 0.025,
+        "capacity": 8,
+        "future_arrival_gap_steps": 40,
+        "future_arrivals": 3,
+        "initial_occupancy_fraction": 0.625,
+        "initial_occupancy_label": "62.5%",
+        "initial_placement_cells": [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+        "initial_stored": 5,
+        "jobs": 8,
+        "last_release_step": 81,
+        "mean_duration_parameter": 160,
+        "nominal_occupancy_from_declared_mean": 0.625,
+        "panel": "development_prefilled_certification_curve",
+        "realized_duration_mean": 152.375,
+        "target_label": "5/8-preloaded",
+        "target_nominal_occupancy": 0.625,
+        "transporter_cell": [
+          2,
+          3
+        ]
+      },
+      "earliness_accounting_exact": false,
+      "max_admission_wait": 5,
+      "mean_admission_wait": 1.4285714285714286,
+      "mean_external_queue": 0.21739130434782608,
+      "mean_stored": 5.760869565217392,
+      "mean_stored_fraction": 0.720108695652174,
+      "median_admission_wait": 0.0,
+      "nominal_steady_window_mean_stored": null,
+      "objective_accounting_exact": false,
+      "objective_weights": {
+        "admission_wait_accrual": 0.5,
+        "equipment_work": 0.1,
+        "physical_rehandles": 10.0,
+        "storage_earliness_at_delivery": 1.0,
+        "storage_tardiness_accrual": 2.0
+      },
+      "p90_admission_wait": 5.0,
+      "peak_external_queue": 1,
+      "peak_stored": 7,
+      "peak_stored_fraction": 0.875,
+      "primary_objective": "J_storage_clock_plus_full_admission_wait",
+      "release_clock_mae": null,
+      "release_clock_signed_error": null,
+      "release_within_20_rate": null,
+      "required_jobs": 8,
+      "reward_sum_equals_negative_J": true,
+      "storage_capacity": 8,
+      "storage_clock_mae": null,
+      "storage_clock_signed_error": null,
+      "storage_within_20_rate": null,
+      "stored_jobs": 7,
+      "strict_complete": false,
+      "tardiness_accounting_exact": false,
+      "total_admission_wait": 10.0,
+      "transporter_utilization": 0.21739130434782608,
+      "wait_accounting_exact": false
+    },
+    "e187_single_objective_audit": true,
+    "e188_guard": {
+      "activations": 0,
+      "active": 0,
+      "completed_witnesses": 0,
+      "fallback_decisions": 0,
+      "fallback_frontier_calls": 0,
+      "force_when_due": 0,
+      "forced_decisions": 0,
+      "forced_deliveries": 0,
+      "forced_delivery_share": null,
+      "masked_action_decisions": {},
+      "masked_decisions": 0,
+      "masked_frontier_calls": 0,
+      "max_nonprogress_recovery_decisions": 0,
+      "mismatches": 0,
+      "nonprogress_recovery_decisions": 0,
+      "progress_frontier_calls": 0,
+      "reconfigure_candidates_removed": 0,
+      "remaining_witness_actions": 0,
+      "voluntary_deliveries": 0,
+      "witness_interruptions": 0
+    },
+    "e189_roundoff_audit": {
+      "absolute_bound": 1e-09,
+      "maximum_absolute_difference": 8.881784197001252e-16,
+      "primitive_steps": 45,
+      "relaxed_comparisons": 0
+    },
+    "e195_occupancy": {
+      "arrival_window_mean_stored": 5.888888888888889,
+      "mean_external_queue": 0.21739130434782608,
+      "mean_stored": 5.760869565217392,
+      "mean_stored_fraction": 0.720108695652174,
+      "nominal_steady_window_mean_stored": null,
+      "peak_external_queue": 1,
+      "peak_stored": 7,
+      "peak_stored_fraction": 0.875,
+      "transporter_utilization": 0.21739130434782608
+    },
+    "e195_workload": {
+      "arrival_gap_steps": 40,
+      "arrival_rate": 0.025,
+      "capacity": 8,
+      "future_arrival_gap_steps": 40,
+      "future_arrivals": 3,
+      "initial_occupancy_fraction": 0.625,
+      "initial_occupancy_label": "62.5%",
+      "initial_placement_cells": [
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+      "initial_stored": 5,
+      "jobs": 8,
+      "last_release_step": 81,
+      "mean_duration_parameter": 160,
+      "nominal_occupancy_from_declared_mean": 0.625,
+      "panel": "development_prefilled_certification_curve",
+      "realized_duration_mean": 152.375,
+      "target_label": "5/8-preloaded",
+      "target_nominal_occupancy": 0.625,
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    "episode_instance_id": "e9788600cc1f56ad",
+    "episode_start_discounted_return": -6.0,
+    "horizon_cap_hit": false,
+    "instance_seed": 302243111,
+    "legacy_episode_start_discounted_return": -5.999999999999999,
+    "legacy_rescored_return": -6.0,
+    "loss_mean": null,
+    "loss_updates": 0,
+    "macro_decisions": 6,
+    "mean_absolute_error": null,
+    "mean_earliness": null,
+    "mean_signed_deviation": null,
+    "mean_tardiness": null,
+    "mean_tardiness_when_tardy": null,
+    "method_failure_reason": "no_exact_safe_candidate",
+    "non_delivery_return": -6.0,
+    "objective_audit_integrity": {
+      "contract": "dual_rescorable_timing_objective_components_v1",
+      "delivery_count": 0,
+      "placement_count": 2,
+      "return_by_objective": {
+        "dense_piecewise_v1": -5.999999999999999,
+        "legacy_clipped_v1": -5.999999999999999
+      },
+      "schema_version": 1,
+      "spec": {
+        "contract": "dual_rescorable_timing_objective_components_v1",
+        "dense_b": 80.0,
+        "dense_matches_legacy_inside_window": false,
+        "exact_legacy": true,
+        "lambda_abs": 1.5,
+        "lambda_outside": 0.5,
+        "legacy_base": 10.0,
+        "legacy_max_bonus": 30.0,
+        "legacy_window": 20.0,
+        "objective": "dense_piecewise_v1",
+        "schema_version": 1,
+        "window": 20.0
+      },
+      "steps": 45
+    },
+    "p90_absolute_error": null,
+    "p90_tardiness": null,
+    "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1",
+    "return": -6.0,
+    "scheduled_epsilon_after": 0.0,
+    "selected_action_counts": {
+      "accept": 2,
+      "defer": 4
+    },
+    "selected_objective": "dense_piecewise_v1",
+    "selected_objective_return": -6.0,
+    "selection_source_counts": {
+      "regularized_mode_map_candidate_map": 6
+    },
+    "signed_deviation_std": null,
+    "split": "development_validation",
+    "steps": 45,
+    "strict_method_success": false,
+    "success": false,
+    "tardy_delivery_rate": null,
+    "target_window": 20.0,
+    "training_decision_count_after": 17891,
+    "training_decision_count_before": 17885,
+    "wall_seconds": 0.05948049599828664,
+    "within_target_window_rate": null
+  },
+  "status": "complete",
+  "steps_at_stop": 45,
+  "strict_complete": false,
+  "test_panel_opened": false
+}

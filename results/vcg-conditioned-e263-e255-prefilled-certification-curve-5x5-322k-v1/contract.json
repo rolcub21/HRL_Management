@@ -1,0 +1,310 @@
+{
+  "arms": {
+    "dynamic_certified": "shared fixed Dynamic ranker over SAFE-only frontier",
+    "dynamic_physical_unfiltered": "identical shared fixed Dynamic ranker over physical frontier",
+    "vcg_certified": "corrected frozen critic over SAFE-only frontier",
+    "vcg_physical_unfiltered": "same corrected critic over physical frontier"
+  },
+  "cases_per_fill": 25,
+  "checkpoint": {
+    "development_only": true,
+    "model_seed": 0,
+    "selected_episode": 280,
+    "source_checkpoint": "/home/ai_diagnosis/HRL_Management/results/vcg-conditioned-e255-e195-temperature-scaled-5x5-314k-v1/training/operational/empty_5x5_n8_longstay_mixedrho/seed-0/best.pth",
+    "source_checkpoint_sha256": "3a9f17534be46062f648466a9780a54ed7f20782696064857ae524d4dbadef69",
+    "source_manifest": "/home/ai_diagnosis/HRL_Management/results/vcg-conditioned-e255-e195-temperature-scaled-5x5-314k-v1/training/operational/empty_5x5_n8_longstay_mixedrho/seed-0/training-summary.json",
+    "source_manifest_sha256": "c8067dd74bc29015a5099ae154920ded268ecac19554e4512c153688cfdafdb5",
+    "source_protocol": "vcg_conditioned_e255_e195_temperature_scaled_5x5_314k_v1",
+    "status": "ready",
+    "test_panels_opened": true
+  },
+  "claim_level": "expressibility",
+  "conformance_audit": {
+    "control.absorbing_goals_separate_risk": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "control.belief_scramble_preoutcome": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "control.evidence_weighted_laws": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "control.heldout_calibration": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "control.irreversible_belief_space_value": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "control.law_belief_values": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "control.persistent_imagined_conditions": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "control.update_after_consequence": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "learning.belief_samples": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "learning.capacity_by_total_cost": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "learning.evidence_monotonicity": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "learning.importance_correction": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "learning.joint_or_declared_alternation": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "learning.labels_grading_only": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "learning.one_full_likelihood": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "learning.restoration_audit": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.anonymous_conditions": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.carrier_frame_responsibility": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.continuous_attribute_default": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.full_field_support": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.no_persistent_bypass": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.no_uncharged_addresses": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.permutation_invariant_read_set": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.persistent_conditions": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.responsibility_audits": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.shared_law": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "representation.state_memory_roles": {
+      "evidence": "E263 is a frozen certification mechanism ablation.",
+      "status": "not_applicable"
+    },
+    "reproducibility.content_hashes": {
+      "evidence": "The corrected checkpoint, state generator, shared ranker, verifier, runner, and gate are hashed.",
+      "status": "pass"
+    },
+    "reproducibility.failed_gates_retained": {
+      "evidence": "Initial-state witness failures, route failures, and unsafe events are retained.",
+      "status": "pass"
+    },
+    "reproducibility.method_revision": {
+      "evidence": "E263 records TCR-METHOD-2026-10-31.10.",
+      "status": "pass"
+    },
+    "reproducibility.oracle_declarations": {
+      "evidence": "Exact recoverability filters certified arms and is read-only telemetry in unfiltered arms.",
+      "status": "pass"
+    },
+    "reproducibility.preprotected_integration_gate": {
+      "evidence": "Development gate 52ca971361d369d350ad58a56dfa15c2322847da7df0fa92a64563d49ec47954 exercised all four routes.",
+      "status": "pass"
+    }
+  },
+  "contract_sha256": "8964d544a01985abe4147ca4de8acd32e8454a7163ef223520f5b537a416ac36",
+  "cost_analysis": "J/components only among strict completers",
+  "declared_deviations": [
+    "Prefilled states are selected for an initial exact witness; this is a mechanism stress test, not an IID panel.",
+    "E263 changes only E243's frozen VCG checkpoint to corrected E255 seed 0 episode 280."
+  ],
+  "development_gate": {
+    "manifest": "/home/ai_diagnosis/HRL_Management/results/vcg-conditioned-e263-e255-prefilled-certification-curve-5x5-322k-v1-gate/gate.json",
+    "manifest_sha256": "52ca971361d369d350ad58a56dfa15c2322847da7df0fa92a64563d49ec47954"
+  },
+  "dynamic_pair_only_difference": "candidate certification filter",
+  "dynamic_ranker_sha256": "b23ccaeb8e37413fe17f71d4dc292904d03718a5713569271452ffad5fc324d7",
+  "expected_rows": 400,
+  "failure_curve": "strict failure rate by initial occupied-cell count",
+  "guard_contract": "unchanged progress guard in all four arms",
+  "initial_fill_fractions": [
+    0.5,
+    0.625,
+    0.75,
+    0.875
+  ],
+  "initial_fills": [
+    4,
+    5,
+    6,
+    7
+  ],
+  "initial_state_requirement": "every materialized start is exact SAFE with a concrete completion witness",
+  "instance_seeds": [
+    302243000,
+    302243001,
+    302243002,
+    302243003,
+    302243004,
+    302243005,
+    302243006,
+    302243007,
+    302243008,
+    302243009,
+    302243010,
+    302243011,
+    302243012,
+    302243013,
+    302243014,
+    302243015,
+    302243016,
+    302243017,
+    302243018,
+    302243019,
+    302243020,
+    302243021,
+    302243022,
+    302243023,
+    302243024,
+    302243100,
+    302243101,
+    302243102,
+    302243103,
+    302243104,
+    302243105,
+    302243106,
+    302243107,
+    302243108,
+    302243109,
+    302243110,
+    302243111,
+    302243112,
+    302243113,
+    302243114,
+    302243115,
+    302243116,
+    302243117,
+    302243118,
+    302243119,
+    302243120,
+    302243121,
+    302243122,
+    302243123,
+    302243124,
+    302243200,
+    302243201,
+    302243202,
+    302243203,
+    302243204,
+    302243205,
+    302243206,
+    302243207,
+    302243208,
+    302243209,
+    302243210,
+    302243211,
+    302243212,
+    302243213,
+    302243214,
+    302243215,
+    302243216,
+    302243217,
+    302243218,
+    302243219,
+    302243220,
+    302243221,
+    302243222,
+    302243223,
+    302243224,
+    302243300,
+    302243301,
+    302243302,
+    302243303,
+    302243304,
+    302243305,
+    302243306,
+    302243307,
+    302243308,
+    302243309,
+    302243310,
+    302243311,
+    302243312,
+    302243313,
+    302243314,
+    302243315,
+    302243316,
+    302243317,
+    302243318,
+    302243319,
+    302243320,
+    302243321,
+    302243322,
+    302243323,
+    302243324
+  ],
+  "method_reference": "projects/temporal_consequence_realization/METHOD_REFERENCE.md",
+  "method_revision": "TCR-METHOD-2026-10-31.10",
+  "model_seed": 0,
+  "nonconforming_shortcuts": [],
+  "oracle_inputs": [
+    "exact recoverability labels used only for filtering or read-only telemetry"
+  ],
+  "paper_evidence": false,
+  "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1",
+  "schema_version": 1,
+  "scope": "corrected seed-0 frozen paired 5x5 prefilled certification curve; 25 witnessed-safe days per fill",
+  "source_sha256": {
+    "experiments/conditioned_vcg/E195_e191_method_5x5_longstay_254k_v1/instrumentation.py": "0f6ee28ef23f9a735c2def334e0a29194e0a85a6d5c0d0ed08fe4ab780efadc8",
+    "experiments/conditioned_vcg/E195_e191_method_5x5_longstay_254k_v1/representation.py": "cba66f7968ada83e66204f25791986b0dfe1fe2062869a8ed3798040a5800f76",
+    "experiments/conditioned_vcg/E198_e195_shadow_certification_ablation_257k_v1/frontier.py": "c75ffad0e4eb3d5a51e2de2f7118ecc4735249a2cd731b71f5e20f6723f0b07a",
+    "experiments/conditioned_vcg/E243_e195_expanded_prefilled_curve_302k_v1/run.py": "ec9a430d5ae0f8625065e8608c44d641bc3d650d291d90fcf3f63f0feb2151cc",
+    "experiments/conditioned_vcg/E243_e195_expanded_prefilled_curve_302k_v1/scenario.py": "a746e0477db7ac734ed1d38fb0c94458d34866afb12c037bb963e8da247bd785",
+    "experiments/conditioned_vcg/E243_e195_expanded_prefilled_curve_302k_v1/tracker.py": "821fa22997e3acce11e9ebf471bc41449c237e0cc568d23d70989ffd1ccc6163",
+    "experiments/conditioned_vcg/E263_e255_prefilled_certification_curve_5x5_322k_v1/README.md": "af920a3b2def4cc831f3eb2f1d38a9c955d685d51b957870e74f464fa76359c0",
+    "experiments/conditioned_vcg/E263_e255_prefilled_certification_curve_5x5_322k_v1/__init__.py": "f5c5af83c7273f26de08722f5ee55023f1f6cd9cd63713662e2150ef91d0b429",
+    "experiments/conditioned_vcg/E263_e255_prefilled_certification_curve_5x5_322k_v1/protocol.py": "1a28668d37b0073c2a7e0ec7f62adb5e1e1ffd2374d1d92750b31fcc199e06ab",
+    "experiments/conditioned_vcg/E263_e255_prefilled_certification_curve_5x5_322k_v1/run.py": "de59350439697bee054c80c9b6ff1de87f2f756c0f8d9a15fd22d4f1d74d87cf",
+    "experiments/conditioned_vcg/E263_e255_prefilled_certification_curve_5x5_322k_v1/run.sh": "5ed71a75b11c724efa54b189b4b6f635b0adfc48e64c43df6025e3f7327865f9",
+    "projects/temporal_consequence_realization/METHOD_REFERENCE.md": "78c4356f2c424366a7167fa9f6b15f0d75f1c32a30382da294cbfa65d17e9a26",
+    "projects/temporal_consequence_realization/method_conformance.py": "6ff8f4ab7bc3b40c949ae2d7ff83d899b82c1560505f7120f313bf9ec3ee10d3"
+  },
+  "test_panel_opened": false,
+  "training_runs": 0
+}

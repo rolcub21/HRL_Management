@@ -1,0 +1,116 @@
+CONFORMANCE AUDIT
+========================================================================
+Method revision: TCR-METHOD-2026-10-31.10
+Claim level: expressibility
+
+[NOT_APPLICABLE] representation.shared_law
+  Requirement: One shared law is reused across carriers and worlds.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.permutation_invariant_read_set
+  Requirement: The shared law reads each involved condition set permutation-invariantly; arbitrary enumeration order cannot change a consequence.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.carrier_frame_responsibility
+  Requirement: Mutually exclusive carrier effects are computed in each carrier's canonical frame and combined by permutation-equivariant responsibility; joint or sequential effects declare their composition rule.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.state_memory_roles
+  Requirement: State estimator, changing dynamic memory, persistent field, and shared law have explicitly declared predictive responsibilities.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.no_persistent_bypass
+  Requirement: Persistent condition knowledge acquired from history cannot bypass the designated field through an independent learned estimator or memory.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.responsibility_audits
+  Requirement: Applicable history-leakage, field-intervention, and field-ablation audits verify responsibility routing; non-applicability is justified.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.persistent_conditions
+  Requirement: Conditions are persistent carrier-level facts, not transition outcomes.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.anonymous_conditions
+  Requirement: Categories are anonymous and attributes/poses are charged.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.continuous_attribute_default
+  Requirement: Condition-family selection offers a charged continuous attribute with dimension zero allowed whenever ordered instance variation is plausible.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.full_field_support
+  Requirement: The field covers reachable unseen carriers, initialized from the prior.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] representation.no_uncharged_addresses
+  Requirement: Absolute addresses are absent from the shared law unless selected and charged.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] learning.one_full_likelihood
+  Requirement: Full consequences come from one conditional likelihood.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] learning.joint_or_declared_alternation
+  Requirement: Law, conditions, and prior are fitted jointly or by a declared alternating procedure; departures from the preferred pooled-law/per-carrier-inference schedule are justified.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] learning.belief_samples
+  Requirement: Belief samples, not only point estimates, enter training when uncertainty is claimed.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] learning.capacity_by_total_cost
+  Requirement: Capacity and vocabulary choices use total cost and held-out likelihood.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] learning.evidence_monotonicity
+  Requirement: Matched held-out predictive loss is audited across increasing evidence, with a paired interval or declared tolerance for nonmonotonicity.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] learning.labels_grading_only
+  Requirement: Labels are grading-only.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] learning.importance_correction
+  Requirement: Any biased sampler has exact importance correction.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] learning.restoration_audit
+  Requirement: Any learned part that becomes unused is restored to a plausible label-free setting and rescored under the same final total description length; a cheaper restoration is reported as an optimization failure.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] control.persistent_imagined_conditions
+  Requirement: Conditions persist across the imagined plan unless written.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] control.update_after_consequence
+  Requirement: Beliefs update after every real consequence.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] control.evidence_weighted_laws
+  Requirement: Law alternatives are evidence-weighted.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] control.heldout_calibration
+  Requirement: Calibration is measured on held-out data.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] control.belief_scramble_preoutcome
+  Requirement: Belief-scramble pairings, when used, are selected from beliefs before query outcomes are scored and actually exchange distinct beliefs.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] control.absorbing_goals_separate_risk
+  Requirement: Goals are absorbing and utility and risk quantities are not conflated.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] control.law_belief_values
+  Requirement: Values and plans are derived from the current law and belief.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[NOT_APPLICABLE] control.irreversible_belief_space_value
+  Requirement: Irreversible writes and finite-resource consumption under uncertainty are valued in belief space against reversible information-gathering alternatives using the same law and belief.
+  Evidence: E262 is a frozen-controller deployment evaluation.
+[PASS] reproducibility.method_revision
+  Requirement: The protocol records the method revision.
+  Evidence: E262 records TCR-METHOD-2026-10-31.10.
+[PASS] reproducibility.content_hashes
+  Requirement: Data, split, implementation, protocol, and checkpoint hashes are stored.
+  Evidence: All corrected checkpoints, reused panel rows, sources, and coordinates are hashed.
+[PASS] reproducibility.oracle_declarations
+  Requirement: Diagnostic oracle inputs and deviations are explicit.
+  Evidence: No oracle input is used.
+[PASS] reproducibility.failed_gates_retained
+  Requirement: Optimization diagnostics and failed gates are retained.
+  Evidence: Incomplete episodes and failed gates remain visible.
+[PASS] reproducibility.preprotected_integration_gate
+  Requirement: Before a fresh or protected split is opened, a non-protected live integration gate verifies every declared route, effective compute limit, required audit signal, and one complete end-to-end execution of the evaluation code.
+  Evidence: A corrected seed-0 lambda-10 coordinate must reproduce exactly before evaluation.
+
+Declared deviations:
+- Post-hoc simple-dial evaluation on the already-open E201 panel.
+Oracle inputs:
+- None
+Nonconforming shortcuts:
+- None
+
+RESULTS
+========================================================================
+
+Status: complete
+New rows: 360/360
+Reused lambda-10 rows: 90
+Immediate-only dial; no learned future-rehandle term and no training.

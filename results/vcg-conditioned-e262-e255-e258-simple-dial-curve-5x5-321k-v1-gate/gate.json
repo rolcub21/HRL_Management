@@ -1,0 +1,71 @@
+{
+  "episode_runs": 2,
+  "gate_contract_sha256": "a29c33d9c569bc97f24f76687e8c4ecf74a697ceae088497486c62ce35730d22",
+  "instance_seed": 260202000,
+  "lambda10_exact_source_match": true,
+  "lambda10_observed": {
+    "J10": 45.4,
+    "admission_wait_cost_0p5W": 32.5,
+    "delivery_deviations": [
+      6.0,
+      7.0,
+      6.0,
+      9.0,
+      10.0,
+      9.0,
+      8.0,
+      7.0
+    ],
+    "equipment_cost_0p1L": 12.9,
+    "mean_stored": 1.533096926713948,
+    "peak_stored": 2,
+    "physical_rehandles": 0,
+    "release_clock_mae": 15.875,
+    "selected_action_counts": {
+      "accept": 8,
+      "defer": 76,
+      "deliver": 8
+    },
+    "steps": 846,
+    "storage_clock_mae": 7.75,
+    "strict_complete": true,
+    "timing_cost_2T_plus_E": 0.0
+  },
+  "lambda10_source": {
+    "J10": 45.4,
+    "admission_wait_cost_0p5W": 32.5,
+    "delivery_deviations": [
+      6.0,
+      7.0,
+      6.0,
+      9.0,
+      10.0,
+      9.0,
+      8.0,
+      7.0
+    ],
+    "equipment_cost_0p1L": 12.9,
+    "mean_stored": 1.533096926713948,
+    "peak_stored": 2,
+    "physical_rehandles": 0,
+    "release_clock_mae": 15.875,
+    "selected_action_counts": {
+      "accept": 8,
+      "defer": 76,
+      "deliver": 8
+    },
+    "steps": 846,
+    "storage_clock_mae": 7.75,
+    "strict_complete": true,
+    "timing_cost_2T_plus_E": 0.0
+  },
+  "lambda160_J10": 45.4,
+  "lambda160_rehandles": 0,
+  "lambda160_route_complete": true,
+  "model_seed": 0,
+  "paper_evidence": false,
+  "protocol": "vcg_conditioned_e262_e255_e258_simple_dial_curve_5x5_321k_v1_integration_gate",
+  "status": "pass",
+  "test_panel_opened": true,
+  "training_runs": 0
+}
