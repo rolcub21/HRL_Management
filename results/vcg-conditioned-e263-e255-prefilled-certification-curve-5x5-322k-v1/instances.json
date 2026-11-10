@@ -1,0 +1,6210 @@
+{
+  "all_initial_states_have_completion_witness": true,
+  "contract_sha256": "8964d544a01985abe4147ca4de8acd32e8454a7163ef223520f5b537a416ac36",
+  "initial_certificates": [
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243000,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243001,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243002,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243003,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243004,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243005,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243006,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243007,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243008,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243009,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243010,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243011,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243012,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243013,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243014,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243015,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243016,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243017,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243018,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243019,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243020,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243021,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243022,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243023,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 4,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243024,
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243100,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243101,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243102,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243103,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243104,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243105,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243106,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243107,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243108,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243109,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243110,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243111,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243112,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243113,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243114,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243115,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243116,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243117,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243118,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243119,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243120,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243121,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243122,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243123,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 5,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243124,
+      "status": "SAFE",
+      "witness_length": 5
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243200,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243201,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243202,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243203,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243204,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243205,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243206,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243207,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243208,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243209,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243210,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243211,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243212,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243213,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243214,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243215,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243216,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243217,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243218,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243219,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243220,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243221,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243222,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243223,
+      "status": "SAFE",
+      "witness_length": 6
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 6,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243224,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243300,
+      "status": "SAFE",
+      "witness_length": 8
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243301,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243302,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243303,
+      "status": "SAFE",
+      "witness_length": 8
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243304,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243305,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243306,
+      "status": "SAFE",
+      "witness_length": 8
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243307,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243308,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243309,
+      "status": "SAFE",
+      "witness_length": 8
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243310,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243311,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243312,
+      "status": "SAFE",
+      "witness_length": 8
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243313,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243314,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243315,
+      "status": "SAFE",
+      "witness_length": 8
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243316,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243317,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243318,
+      "status": "SAFE",
+      "witness_length": 8
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243319,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243320,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243321,
+      "status": "SAFE",
+      "witness_length": 8
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243322,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243323,
+      "status": "SAFE",
+      "witness_length": 7
+    },
+    {
+      "exhaustive": false,
+      "initial_fill": 7,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "seed": 302243324,
+      "status": "SAFE",
+      "witness_length": 8
+    }
+  ],
+  "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1",
+  "records": [
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "462a827ece2dcfc7",
+      "schedule_id": "0fc9b4ccd1de9c40",
+      "seed": 302243000,
+      "storage_steps_needed": [
+        145,
+        172,
+        149,
+        168,
+        165,
+        144,
+        172,
+        156
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "d50f7309a40ff485",
+      "schedule_id": "3572efa546e5dccf",
+      "seed": 302243001,
+      "storage_steps_needed": [
+        137,
+        169,
+        173,
+        162,
+        130,
+        148,
+        176,
+        166
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "35812b0ee0eecd3b",
+      "schedule_id": "06e6d9dcf705002d",
+      "seed": 302243002,
+      "storage_steps_needed": [
+        156,
+        155,
+        149,
+        184,
+        142,
+        161,
+        177,
+        152
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "ca983ddeef7e295b",
+      "schedule_id": "1180c86907d1460f",
+      "seed": 302243003,
+      "storage_steps_needed": [
+        154,
+        152,
+        165,
+        179,
+        173,
+        152,
+        182,
+        154
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "609e060465f2aaf4",
+      "schedule_id": "7ffb8656144b7532",
+      "seed": 302243004,
+      "storage_steps_needed": [
+        173,
+        177,
+        183,
+        188,
+        171,
+        165,
+        174,
+        149
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "1245403c6dd7f705",
+      "schedule_id": "c75894ce428d5106",
+      "seed": 302243005,
+      "storage_steps_needed": [
+        169,
+        151,
+        162,
+        171,
+        161,
+        155,
+        162,
+        174
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "d2d6bf40838bc5cc",
+      "schedule_id": "86ef70328d186891",
+      "seed": 302243006,
+      "storage_steps_needed": [
+        153,
+        146,
+        140,
+        159,
+        170,
+        153,
+        173,
+        165
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "e5fba56517450ad4",
+      "schedule_id": "8400c4a9a06ee726",
+      "seed": 302243007,
+      "storage_steps_needed": [
+        170,
+        156,
+        151,
+        154,
+        161,
+        133,
+        149,
+        151
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "82b79dbcaf6a12b2",
+      "schedule_id": "150d025360784b61",
+      "seed": 302243008,
+      "storage_steps_needed": [
+        175,
+        161,
+        169,
+        152,
+        158,
+        143,
+        150,
+        156
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "4e10c65062f4d00e",
+      "schedule_id": "53f9d63fe139faa4",
+      "seed": 302243009,
+      "storage_steps_needed": [
+        142,
+        158,
+        167,
+        155,
+        175,
+        184,
+        157,
+        150
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "a4c28294bfce2923",
+      "schedule_id": "e51f403a886ad671",
+      "seed": 302243010,
+      "storage_steps_needed": [
+        160,
+        143,
+        158,
+        140,
+        165,
+        152,
+        144,
+        168
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "482b5706f4b682de",
+      "schedule_id": "5a4d1fc9a95dc175",
+      "seed": 302243011,
+      "storage_steps_needed": [
+        153,
+        146,
+        140,
+        146,
+        140,
+        151,
+        177,
+        166
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "7b2e6d0d211ddc25",
+      "schedule_id": "e21143a1d3af92f1",
+      "seed": 302243012,
+      "storage_steps_needed": [
+        151,
+        156,
+        162,
+        158,
+        163,
+        138,
+        138,
+        190
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "924f3fa913521e7e",
+      "schedule_id": "bff9f8a27f095c3a",
+      "seed": 302243013,
+      "storage_steps_needed": [
+        158,
+        151,
+        152,
+        175,
+        159,
+        181,
+        161,
+        158
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "bc3cc7332747da4b",
+      "schedule_id": "b8845db3b3276490",
+      "seed": 302243014,
+      "storage_steps_needed": [
+        145,
+        165,
+        138,
+        168,
+        170,
+        172,
+        194,
+        160
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "61dd60b0ce96f4ad",
+      "schedule_id": "541826d3f7049632",
+      "seed": 302243015,
+      "storage_steps_needed": [
+        132,
+        161,
+        156,
+        157,
+        156,
+        170,
+        158,
+        152
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "6c6c8351ccbafc52",
+      "schedule_id": "6cb8ee663e3d571d",
+      "seed": 302243016,
+      "storage_steps_needed": [
+        156,
+        161,
+        155,
+        179,
+        188,
+        146,
+        149,
+        190
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "728c356501fdaccc",
+      "schedule_id": "1abcd8c33d7f2e39",
+      "seed": 302243017,
+      "storage_steps_needed": [
+        162,
+        162,
+        158,
+        177,
+        165,
+        146,
+        180,
+        189
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "4d4fa666828c0405",
+      "schedule_id": "4256f879be8e8f2a",
+      "seed": 302243018,
+      "storage_steps_needed": [
+        160,
+        159,
+        177,
+        180,
+        149,
+        168,
+        152,
+        152
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "4fa9a4ec26732579",
+      "schedule_id": "97e87ea43908c699",
+      "seed": 302243019,
+      "storage_steps_needed": [
+        168,
+        140,
+        137,
+        148,
+        175,
+        168,
+        158,
+        163
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "36943d028a95c29e",
+      "schedule_id": "5bafd22b372335fd",
+      "seed": 302243020,
+      "storage_steps_needed": [
+        166,
+        180,
+        164,
+        168,
+        174,
+        194,
+        145,
+        159
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "bf9bdb72229e8c1b",
+      "schedule_id": "bc5d40707d2bcc8f",
+      "seed": 302243021,
+      "storage_steps_needed": [
+        157,
+        139,
+        181,
+        145,
+        174,
+        169,
+        148,
+        156
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "314885d5a6f325a1",
+      "schedule_id": "a0a779ae4b151913",
+      "seed": 302243022,
+      "storage_steps_needed": [
+        174,
+        151,
+        148,
+        154,
+        152,
+        151,
+        139,
+        154
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "19d64e4081328a7e",
+      "schedule_id": "27eda3cc92b4e2aa",
+      "seed": 302243023,
+      "storage_steps_needed": [
+        154,
+        137,
+        141,
+        162,
+        144,
+        164,
+        143,
+        147
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81,
+        121
+      ],
+      "initial_fill": 4,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "bc60ae296fd630c2",
+      "schedule_id": "a2b6aefd447c0616",
+      "seed": 302243024,
+      "storage_steps_needed": [
+        150,
+        151,
+        153,
+        170,
+        150,
+        147,
+        146,
+        168
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "a55d2d8e2fc83b28",
+      "schedule_id": "ca65a85bdef4b9bd",
+      "seed": 302243100,
+      "storage_steps_needed": [
+        145,
+        172,
+        149,
+        168,
+        165,
+        144,
+        172,
+        156
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "f3bd6e9e7ae4842e",
+      "schedule_id": "aeb51c8e78d5f264",
+      "seed": 302243101,
+      "storage_steps_needed": [
+        137,
+        169,
+        173,
+        162,
+        130,
+        148,
+        176,
+        166
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "3bb5d0aa33e58eab",
+      "schedule_id": "2455e0f9bf3d76b8",
+      "seed": 302243102,
+      "storage_steps_needed": [
+        156,
+        155,
+        149,
+        184,
+        142,
+        161,
+        177,
+        152
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "75cd15edf67fcbd8",
+      "schedule_id": "2944edfe7ef6dd50",
+      "seed": 302243103,
+      "storage_steps_needed": [
+        154,
+        152,
+        165,
+        179,
+        173,
+        152,
+        182,
+        154
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "57a258bc894176c9",
+      "schedule_id": "db7c0ac585b99a96",
+      "seed": 302243104,
+      "storage_steps_needed": [
+        173,
+        177,
+        183,
+        188,
+        171,
+        165,
+        174,
+        149
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "1eaf40390678ec78",
+      "schedule_id": "a8ecff42624f8fdf",
+      "seed": 302243105,
+      "storage_steps_needed": [
+        169,
+        151,
+        162,
+        171,
+        161,
+        155,
+        162,
+        174
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "0b228e7800eb93af",
+      "schedule_id": "f856e3822582d950",
+      "seed": 302243106,
+      "storage_steps_needed": [
+        153,
+        146,
+        140,
+        159,
+        170,
+        153,
+        173,
+        165
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "333ce5362a8f58e6",
+      "schedule_id": "8b878daf1f8b2d1d",
+      "seed": 302243107,
+      "storage_steps_needed": [
+        170,
+        156,
+        151,
+        154,
+        161,
+        133,
+        149,
+        151
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "6e2dd0a5b0bee94f",
+      "schedule_id": "e4fd61b656744c32",
+      "seed": 302243108,
+      "storage_steps_needed": [
+        175,
+        161,
+        169,
+        152,
+        158,
+        143,
+        150,
+        156
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "49de9446e4cfa059",
+      "schedule_id": "1ff40e1df4e0ea6c",
+      "seed": 302243109,
+      "storage_steps_needed": [
+        142,
+        158,
+        167,
+        155,
+        175,
+        184,
+        157,
+        150
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "33cc44c3565359b9",
+      "schedule_id": "fd984e5c487ab762",
+      "seed": 302243110,
+      "storage_steps_needed": [
+        160,
+        143,
+        158,
+        140,
+        165,
+        152,
+        144,
+        168
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "e9788600cc1f56ad",
+      "schedule_id": "127f11c27110b622",
+      "seed": 302243111,
+      "storage_steps_needed": [
+        153,
+        146,
+        140,
+        146,
+        140,
+        151,
+        177,
+        166
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "8866fef762640f81",
+      "schedule_id": "d3c29c0d465a33d8",
+      "seed": 302243112,
+      "storage_steps_needed": [
+        151,
+        156,
+        162,
+        158,
+        163,
+        138,
+        138,
+        190
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "34bef364a3e0d951",
+      "schedule_id": "b3a739297db8b556",
+      "seed": 302243113,
+      "storage_steps_needed": [
+        158,
+        151,
+        152,
+        175,
+        159,
+        181,
+        161,
+        158
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "ece3cd33577db5d9",
+      "schedule_id": "87741ce1660752db",
+      "seed": 302243114,
+      "storage_steps_needed": [
+        145,
+        165,
+        138,
+        168,
+        170,
+        172,
+        194,
+        160
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "05c89cc8bd53ee9e",
+      "schedule_id": "3aa5164bdbc55721",
+      "seed": 302243115,
+      "storage_steps_needed": [
+        132,
+        161,
+        156,
+        157,
+        156,
+        170,
+        158,
+        152
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "cda2932723040f6d",
+      "schedule_id": "2e1a7503d4bb179d",
+      "seed": 302243116,
+      "storage_steps_needed": [
+        156,
+        161,
+        155,
+        179,
+        188,
+        146,
+        149,
+        190
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "3b314c0f7e799028",
+      "schedule_id": "e76faeb1c7436f83",
+      "seed": 302243117,
+      "storage_steps_needed": [
+        162,
+        162,
+        158,
+        177,
+        165,
+        146,
+        180,
+        189
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "0cb39488577f629b",
+      "schedule_id": "d3114b224376d811",
+      "seed": 302243118,
+      "storage_steps_needed": [
+        160,
+        159,
+        177,
+        180,
+        149,
+        168,
+        152,
+        152
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "02b15b5a05edb7b8",
+      "schedule_id": "87fcf822edd46984",
+      "seed": 302243119,
+      "storage_steps_needed": [
+        168,
+        140,
+        137,
+        148,
+        175,
+        168,
+        158,
+        163
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "42655047925b0077",
+      "schedule_id": "f1be1618003e3511",
+      "seed": 302243120,
+      "storage_steps_needed": [
+        166,
+        180,
+        164,
+        168,
+        174,
+        194,
+        145,
+        159
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "d7f60196395b6dcb",
+      "schedule_id": "b7ce5bdc51cdf431",
+      "seed": 302243121,
+      "storage_steps_needed": [
+        157,
+        139,
+        181,
+        145,
+        174,
+        169,
+        148,
+        156
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "58c84c950a6475b2",
+      "schedule_id": "7536d80e4e84da6a",
+      "seed": 302243122,
+      "storage_steps_needed": [
+        174,
+        151,
+        148,
+        154,
+        152,
+        151,
+        139,
+        154
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "3c6c738ae35c908d",
+      "schedule_id": "5d6f7018a1b424ac",
+      "seed": 302243123,
+      "storage_steps_needed": [
+        154,
+        137,
+        141,
+        162,
+        144,
+        164,
+        143,
+        147
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41,
+        81
+      ],
+      "initial_fill": 5,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "92fb9ca1fe64d829",
+      "schedule_id": "fcb14bd13ce924c4",
+      "seed": 302243124,
+      "storage_steps_needed": [
+        150,
+        151,
+        153,
+        170,
+        150,
+        147,
+        146,
+        168
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "9ef3d47351afcd72",
+      "schedule_id": "cd8b20ebb5e320cc",
+      "seed": 302243200,
+      "storage_steps_needed": [
+        145,
+        172,
+        149,
+        168,
+        165,
+        144,
+        172,
+        156
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "b1aeedb847cb36b2",
+      "schedule_id": "d6138de79c5d9b84",
+      "seed": 302243201,
+      "storage_steps_needed": [
+        137,
+        169,
+        173,
+        162,
+        130,
+        148,
+        176,
+        166
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "d8b533612865aec8",
+      "schedule_id": "d13a2c5fb6f68555",
+      "seed": 302243202,
+      "storage_steps_needed": [
+        156,
+        155,
+        149,
+        184,
+        142,
+        161,
+        177,
+        152
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "df1679072d7b2930",
+      "schedule_id": "11319f8173943a24",
+      "seed": 302243203,
+      "storage_steps_needed": [
+        154,
+        152,
+        165,
+        179,
+        173,
+        152,
+        182,
+        154
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "c47623dd03d429c7",
+      "schedule_id": "7d372e9a70bb64b3",
+      "seed": 302243204,
+      "storage_steps_needed": [
+        173,
+        177,
+        183,
+        188,
+        171,
+        165,
+        174,
+        149
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "f6ea8b32c870b037",
+      "schedule_id": "0dd2c1694bf5f688",
+      "seed": 302243205,
+      "storage_steps_needed": [
+        169,
+        151,
+        162,
+        171,
+        161,
+        155,
+        162,
+        174
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "02c1e437cb0b2a08",
+      "schedule_id": "d6a706de7e9e6c57",
+      "seed": 302243206,
+      "storage_steps_needed": [
+        153,
+        146,
+        140,
+        159,
+        170,
+        153,
+        173,
+        165
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "8184526a4c44c513",
+      "schedule_id": "0dae0555ef1be992",
+      "seed": 302243207,
+      "storage_steps_needed": [
+        170,
+        156,
+        151,
+        154,
+        161,
+        133,
+        149,
+        151
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "e2918d7541234c5d",
+      "schedule_id": "f1399fb0f3f56d47",
+      "seed": 302243208,
+      "storage_steps_needed": [
+        175,
+        161,
+        169,
+        152,
+        158,
+        143,
+        150,
+        156
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "c60e9073ae00b53b",
+      "schedule_id": "9454245b6ee5e11e",
+      "seed": 302243209,
+      "storage_steps_needed": [
+        142,
+        158,
+        167,
+        155,
+        175,
+        184,
+        157,
+        150
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "03c55ce359ee7fa6",
+      "schedule_id": "71b0f9ee479058f4",
+      "seed": 302243210,
+      "storage_steps_needed": [
+        160,
+        143,
+        158,
+        140,
+        165,
+        152,
+        144,
+        168
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "f21dcaa880b11f49",
+      "schedule_id": "364c7c9244c43b97",
+      "seed": 302243211,
+      "storage_steps_needed": [
+        153,
+        146,
+        140,
+        146,
+        140,
+        151,
+        177,
+        166
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "e6b5920dc3a761d0",
+      "schedule_id": "a6d12de2fff2aab0",
+      "seed": 302243212,
+      "storage_steps_needed": [
+        151,
+        156,
+        162,
+        158,
+        163,
+        138,
+        138,
+        190
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "0600b09d5ed3e443",
+      "schedule_id": "a0873a47c7c1d3eb",
+      "seed": 302243213,
+      "storage_steps_needed": [
+        158,
+        151,
+        152,
+        175,
+        159,
+        181,
+        161,
+        158
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "219e63807f628fe7",
+      "schedule_id": "4f9a8a7ca4b36965",
+      "seed": 302243214,
+      "storage_steps_needed": [
+        145,
+        165,
+        138,
+        168,
+        170,
+        172,
+        194,
+        160
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "2bff89cdacddc9fc",
+      "schedule_id": "7cfcf240254f2224",
+      "seed": 302243215,
+      "storage_steps_needed": [
+        132,
+        161,
+        156,
+        157,
+        156,
+        170,
+        158,
+        152
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "fd77eca221e12b88",
+      "schedule_id": "f63e123d300b7961",
+      "seed": 302243216,
+      "storage_steps_needed": [
+        156,
+        161,
+        155,
+        179,
+        188,
+        146,
+        149,
+        190
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "ec7a499a79d51de6",
+      "schedule_id": "bed1c15dc07aa14c",
+      "seed": 302243217,
+      "storage_steps_needed": [
+        162,
+        162,
+        158,
+        177,
+        165,
+        146,
+        180,
+        189
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "b2419d60bf3a7067",
+      "schedule_id": "1a9ef40fc97f75ed",
+      "seed": 302243218,
+      "storage_steps_needed": [
+        160,
+        159,
+        177,
+        180,
+        149,
+        168,
+        152,
+        152
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "0bcb69caac3b862c",
+      "schedule_id": "1207ecea3d9eb51a",
+      "seed": 302243219,
+      "storage_steps_needed": [
+        168,
+        140,
+        137,
+        148,
+        175,
+        168,
+        158,
+        163
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "f611e706e8c177ba",
+      "schedule_id": "32a54af295783756",
+      "seed": 302243220,
+      "storage_steps_needed": [
+        166,
+        180,
+        164,
+        168,
+        174,
+        194,
+        145,
+        159
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "6be2b9d637497d68",
+      "schedule_id": "16e92d7dde38b838",
+      "seed": 302243221,
+      "storage_steps_needed": [
+        157,
+        139,
+        181,
+        145,
+        174,
+        169,
+        148,
+        156
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "3797cec7e012840d",
+      "schedule_id": "3647876376259297",
+      "seed": 302243222,
+      "storage_steps_needed": [
+        174,
+        151,
+        148,
+        154,
+        152,
+        151,
+        139,
+        154
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "7724ac8fe6dea9a9",
+      "schedule_id": "76d33309bd7fecf8",
+      "seed": 302243223,
+      "storage_steps_needed": [
+        154,
+        137,
+        141,
+        162,
+        144,
+        164,
+        143,
+        147
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        41
+      ],
+      "initial_fill": 6,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "7bce1137e42278f9",
+      "schedule_id": "eb54f6acef0c6a60",
+      "seed": 302243224,
+      "storage_steps_needed": [
+        150,
+        151,
+        153,
+        170,
+        150,
+        147,
+        146,
+        168
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "d3aff5a0c56fbfc6",
+      "schedule_id": "3dcfc2ceaf85735a",
+      "seed": 302243300,
+      "storage_steps_needed": [
+        145,
+        172,
+        149,
+        168,
+        165,
+        144,
+        172,
+        156
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "389d5c3eb2e5fd0c",
+      "schedule_id": "23c81e21b9198e42",
+      "seed": 302243301,
+      "storage_steps_needed": [
+        137,
+        169,
+        173,
+        162,
+        130,
+        148,
+        176,
+        166
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "66850176265c3cf7",
+      "schedule_id": "f76e44f5e42074c3",
+      "seed": 302243302,
+      "storage_steps_needed": [
+        156,
+        155,
+        149,
+        184,
+        142,
+        161,
+        177,
+        152
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "d13a5c02487f0ce3",
+      "schedule_id": "3989748cddd94521",
+      "seed": 302243303,
+      "storage_steps_needed": [
+        154,
+        152,
+        165,
+        179,
+        173,
+        152,
+        182,
+        154
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "98a0a30c0a295276",
+      "schedule_id": "bca3f79015486c2d",
+      "seed": 302243304,
+      "storage_steps_needed": [
+        173,
+        177,
+        183,
+        188,
+        171,
+        165,
+        174,
+        149
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "f5b080319b289998",
+      "schedule_id": "9b90a56777f4de8e",
+      "seed": 302243305,
+      "storage_steps_needed": [
+        169,
+        151,
+        162,
+        171,
+        161,
+        155,
+        162,
+        174
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "6f3b240300d37b50",
+      "schedule_id": "086fead0c6e7a8b0",
+      "seed": 302243306,
+      "storage_steps_needed": [
+        153,
+        146,
+        140,
+        159,
+        170,
+        153,
+        173,
+        165
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "f3dfec9d06adb908",
+      "schedule_id": "dd861a49b5d99c8c",
+      "seed": 302243307,
+      "storage_steps_needed": [
+        170,
+        156,
+        151,
+        154,
+        161,
+        133,
+        149,
+        151
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "e0a5ed002d2b221e",
+      "schedule_id": "aba662895cf63f41",
+      "seed": 302243308,
+      "storage_steps_needed": [
+        175,
+        161,
+        169,
+        152,
+        158,
+        143,
+        150,
+        156
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "612799ae06e0d406",
+      "schedule_id": "a210d07629ec99a4",
+      "seed": 302243309,
+      "storage_steps_needed": [
+        142,
+        158,
+        167,
+        155,
+        175,
+        184,
+        157,
+        150
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "934b1fd7735c54a8",
+      "schedule_id": "52a461d6b44cddfe",
+      "seed": 302243310,
+      "storage_steps_needed": [
+        160,
+        143,
+        158,
+        140,
+        165,
+        152,
+        144,
+        168
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ]
+      ],
+      "instance_id": "36421e7f718bf343",
+      "schedule_id": "97f1fa5fae2220d0",
+      "seed": 302243311,
+      "storage_steps_needed": [
+        153,
+        146,
+        140,
+        146,
+        140,
+        151,
+        177,
+        166
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "eb17569ad2116fba",
+      "schedule_id": "117579eb28bc52c5",
+      "seed": 302243312,
+      "storage_steps_needed": [
+        151,
+        156,
+        162,
+        158,
+        163,
+        138,
+        138,
+        190
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "instance_id": "79220c915bad7d01",
+      "schedule_id": "5240574bbffb16b0",
+      "seed": 302243313,
+      "storage_steps_needed": [
+        158,
+        151,
+        152,
+        175,
+        159,
+        181,
+        161,
+        158
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "f398de637e8166df",
+      "schedule_id": "3f70d06416ce30ba",
+      "seed": 302243314,
+      "storage_steps_needed": [
+        145,
+        165,
+        138,
+        168,
+        170,
+        172,
+        194,
+        160
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "instance_id": "bbd77ab4d7a1e3b8",
+      "schedule_id": "e3909eb856579159",
+      "seed": 302243315,
+      "storage_steps_needed": [
+        132,
+        161,
+        156,
+        157,
+        156,
+        170,
+        158,
+        152
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "instance_id": "65029913a95e1fe7",
+      "schedule_id": "0985307a7e7eff56",
+      "seed": 302243316,
+      "storage_steps_needed": [
+        156,
+        161,
+        155,
+        179,
+        188,
+        146,
+        149,
+        190
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "instance_id": "b8ee81212ae9df24",
+      "schedule_id": "0e509a0844c8ec5f",
+      "seed": 302243317,
+      "storage_steps_needed": [
+        162,
+        162,
+        158,
+        177,
+        165,
+        146,
+        180,
+        189
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "ff4c68fe93e1997c",
+      "schedule_id": "b11b80f7f9c1987f",
+      "seed": 302243318,
+      "storage_steps_needed": [
+        160,
+        159,
+        177,
+        180,
+        149,
+        168,
+        152,
+        152
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "7dd082977154aa0c",
+      "schedule_id": "2041bd5384b7b11e",
+      "seed": 302243319,
+      "storage_steps_needed": [
+        168,
+        140,
+        137,
+        148,
+        175,
+        168,
+        158,
+        163
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "fb4ed6766056010f",
+      "schedule_id": "eb4b1bd3742d16cf",
+      "seed": 302243320,
+      "storage_steps_needed": [
+        166,
+        180,
+        164,
+        168,
+        174,
+        194,
+        145,
+        159
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "f6f0d2179d82cd5d",
+      "schedule_id": "da182284239d968f",
+      "seed": 302243321,
+      "storage_steps_needed": [
+        157,
+        139,
+        181,
+        145,
+        174,
+        169,
+        148,
+        156
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "c8dcb2ecfea3ecd7",
+      "schedule_id": "7244d03ae36cefb1",
+      "seed": 302243322,
+      "storage_steps_needed": [
+        174,
+        151,
+        148,
+        154,
+        152,
+        151,
+        139,
+        154
+      ],
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "instance_id": "5ad7db909b95f99b",
+      "schedule_id": "a0d6c368039adf61",
+      "seed": 302243323,
+      "storage_steps_needed": [
+        154,
+        137,
+        141,
+        162,
+        144,
+        164,
+        143,
+        147
+      ],
+      "transporter_cell": [
+        2,
+        3
+      ]
+    },
+    {
+      "arrival_steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "initial_fill": 7,
+      "initial_layout": [
+        [
+          3,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "instance_id": "a1016cd1a49094c7",
+      "schedule_id": "a14fd786af9be06d",
+      "seed": 302243324,
+      "storage_steps_needed": [
+        150,
+        151,
+        153,
+        170,
+        150,
+        147,
+        146,
+        168
+      ],
+      "transporter_cell": [
+        1,
+        1
+      ]
+    }
+  ],
+  "test_panel_opened": false
+}

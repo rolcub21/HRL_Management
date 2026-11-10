@@ -1,0 +1,1247 @@
+{
+  "arm": "dynamic_physical_unfiltered",
+  "certification_monitor": {
+    "arm": "dynamic_physical_unfiltered",
+    "current_status_counts": {
+      "SAFE": 34
+    },
+    "events": [
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B5:2:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 0,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 1,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 2,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 3,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 4,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B2:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 5,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B4:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 6,
+        "status": "SAFE",
+        "witness_length": 3
+      },
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B6:3:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 7,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 8,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 9,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B7:1:2",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 10,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 11,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 12,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 13,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 14,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B3:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 15,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "accept",
+        "candidate_key": "accept:B8:2:3",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 16,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 17,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 18,
+        "status": "SAFE",
+        "witness_length": 5
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B5:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 19,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:9",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 20,
+        "status": "SAFE",
+        "witness_length": 4
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B1:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 21,
+        "status": "SAFE",
+        "witness_length": 3
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 22,
+        "status": "SAFE",
+        "witness_length": 3
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 23,
+        "status": "SAFE",
+        "witness_length": 3
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 24,
+        "status": "SAFE",
+        "witness_length": 3
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B6:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 25,
+        "status": "SAFE",
+        "witness_length": 2
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 26,
+        "status": "SAFE",
+        "witness_length": 2
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B7:4:1",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 27,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 28,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 29,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 30,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 31,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "defer",
+        "candidate_key": "defer:10",
+        "exhaustive": false,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+        "selection_index": 32,
+        "status": "SAFE",
+        "witness_length": 1
+      },
+      {
+        "action_type": "deliver",
+        "candidate_key": "deliver:B8:4:1",
+        "exhaustive": true,
+        "kind": "selected_successor",
+        "liveness_forced": false,
+        "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;empty_yard",
+        "selection_index": 33,
+        "status": "SAFE",
+        "witness_length": 0
+      }
+    ],
+    "first_exhaustive_unsafe_current": null,
+    "first_exhaustive_unsafe_selection": null,
+    "first_non_safe_current": null,
+    "first_non_safe_selection": null,
+    "frontier_calls": 34,
+    "frontiers_with_non_safe": 0,
+    "guard_witness_errors": [],
+    "guard_witness_unavailable": 0,
+    "initial_current_certificate": {
+      "exhaustive": false,
+      "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+      "status": "SAFE",
+      "witness_length": 4
+    },
+    "monitor_is_non_authoritative": true,
+    "physical_candidates": 738,
+    "safe_candidates": 738,
+    "selected_successor_status_counts": {
+      "SAFE": 34
+    },
+    "unknown_candidates": 0,
+    "unsafe_candidates": 0
+  },
+  "delivered_at_stop": 8,
+  "dynamic_ranker_audit": {
+    "choices": [
+      {
+        "actual_selected_key": "accept:B5:2:1",
+        "decision_epoch": 1,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": [
+          2,
+          1
+        ],
+        "guard_forced": false,
+        "reason": "lookahead_accept",
+        "safe_accept_count": 3,
+        "safe_deliver_count": 9,
+        "safe_reconfigure_count": 9,
+        "selected_key": "accept:B5:2:1"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 8,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 6,
+        "safe_reconfigure_count": 6,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 18,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 6,
+        "safe_reconfigure_count": 6,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 28,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 6,
+        "safe_reconfigure_count": 6,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 38,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 6,
+        "safe_reconfigure_count": 6,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "deliver:B2:4:1",
+        "decision_epoch": 41,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": [
+          1,
+          2
+        ],
+        "guard_forced": false,
+        "reason": "lookahead_retrieval",
+        "safe_accept_count": 2,
+        "safe_deliver_count": 6,
+        "safe_reconfigure_count": 6,
+        "selected_key": "deliver:B2:4:1"
+      },
+      {
+        "actual_selected_key": "deliver:B4:4:1",
+        "decision_epoch": 45,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "capacity_release_retrieval",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 9,
+        "safe_reconfigure_count": 10,
+        "selected_key": "deliver:B4:4:1"
+      },
+      {
+        "actual_selected_key": "accept:B6:3:1",
+        "decision_epoch": 53,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": [
+          3,
+          1
+        ],
+        "guard_forced": false,
+        "reason": "lookahead_accept",
+        "safe_accept_count": 5,
+        "safe_deliver_count": 9,
+        "safe_reconfigure_count": 15,
+        "selected_key": "accept:B6:3:1"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 64,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 12,
+        "safe_reconfigure_count": 16,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 74,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 12,
+        "safe_reconfigure_count": 16,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "accept:B7:1:2",
+        "decision_epoch": 81,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": [
+          1,
+          2
+        ],
+        "guard_forced": false,
+        "reason": "lookahead_accept",
+        "safe_accept_count": 4,
+        "safe_deliver_count": 12,
+        "safe_reconfigure_count": 16,
+        "selected_key": "accept:B7:1:2"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 88,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 15,
+        "safe_reconfigure_count": 12,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 98,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 15,
+        "safe_reconfigure_count": 12,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 108,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 15,
+        "safe_reconfigure_count": 12,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 118,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 15,
+        "safe_reconfigure_count": 12,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "deliver:B3:4:1",
+        "decision_epoch": 121,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "capacity_release_retrieval",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 15,
+        "safe_reconfigure_count": 12,
+        "selected_key": "deliver:B3:4:1"
+      },
+      {
+        "actual_selected_key": "accept:B8:2:3",
+        "decision_epoch": 129,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": [
+          2,
+          3
+        ],
+        "guard_forced": false,
+        "reason": "lookahead_accept",
+        "safe_accept_count": 3,
+        "safe_deliver_count": 12,
+        "safe_reconfigure_count": 14,
+        "selected_key": "accept:B8:2:3"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 137,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 15,
+        "safe_reconfigure_count": 12,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 147,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 15,
+        "safe_reconfigure_count": 12,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "deliver:B5:4:1",
+        "decision_epoch": 157,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "due_retrieval",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 15,
+        "safe_reconfigure_count": 12,
+        "selected_key": "deliver:B5:4:1"
+      },
+      {
+        "actual_selected_key": "defer:9",
+        "decision_epoch": 165,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 12,
+        "safe_reconfigure_count": 16,
+        "selected_key": "defer:9"
+      },
+      {
+        "actual_selected_key": "deliver:B1:4:1",
+        "decision_epoch": 174,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "due_retrieval",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 12,
+        "safe_reconfigure_count": 16,
+        "selected_key": "deliver:B1:4:1"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 182,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 9,
+        "safe_reconfigure_count": 15,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 192,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 9,
+        "safe_reconfigure_count": 15,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 202,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 9,
+        "safe_reconfigure_count": 15,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "deliver:B6:4:1",
+        "decision_epoch": 212,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "due_retrieval",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 9,
+        "safe_reconfigure_count": 15,
+        "selected_key": "deliver:B6:4:1"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 216,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 6,
+        "safe_reconfigure_count": 12,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "deliver:B7:4:1",
+        "decision_epoch": 226,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "due_retrieval",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 6,
+        "safe_reconfigure_count": 12,
+        "selected_key": "deliver:B7:4:1"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 236,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 3,
+        "safe_reconfigure_count": 7,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 246,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 3,
+        "safe_reconfigure_count": 7,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 256,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 3,
+        "safe_reconfigure_count": 7,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 266,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 3,
+        "safe_reconfigure_count": 7,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "defer:10",
+        "decision_epoch": 276,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "defer_to_event",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 3,
+        "safe_reconfigure_count": 7,
+        "selected_key": "defer:10"
+      },
+      {
+        "actual_selected_key": "deliver:B8:4:1",
+        "decision_epoch": 286,
+        "dynamic_placement_projected": false,
+        "dynamic_unfiltered_placement_cell": null,
+        "guard_forced": false,
+        "reason": "due_retrieval",
+        "safe_accept_count": 0,
+        "safe_deliver_count": 3,
+        "safe_reconfigure_count": 7,
+        "selected_key": "deliver:B8:4:1"
+      }
+    ],
+    "matched_policy": "e243_identical_dynamic_ranker_frontier_filter_only_v1",
+    "ranker_sha256": "b23ccaeb8e37413fe17f71d4dc292904d03718a5713569271452ffad5fc324d7"
+  },
+  "failure_class": "completed",
+  "initial_completion_witness": {
+    "exhaustive": false,
+    "reason": "safe:closed_admission_strict_macro_recovery;no_future_schedule;current_fixed_obstacles_and_storage_reservations;deterministic_witness_found",
+    "status": "SAFE",
+    "witness_length": 4
+  },
+  "initial_fill": 4,
+  "initial_fill_fraction": 0.5,
+  "initial_layout": [
+    [
+      3,
+      3
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      2
+    ]
+  ],
+  "instance_seed": 302243022,
+  "method_failure_reason": null,
+  "metrics": {
+    "J": 202.8,
+    "arrival_window_mean_stored": 4.4958677685950414,
+    "components": {
+      "admission_wait_accrual": 53.0,
+      "equipment_work": 93.0,
+      "physical_rehandles": 0.0,
+      "storage_earliness_at_delivery": 167.0,
+      "storage_tardiness_accrual": 0.0
+    },
+    "delivered_jobs": 8,
+    "e195_workload": {
+      "arrival_gap_steps": 40,
+      "arrival_rate": 0.025,
+      "capacity": 8,
+      "future_arrival_gap_steps": 40,
+      "future_arrivals": 4,
+      "initial_occupancy_fraction": 0.5,
+      "initial_occupancy_label": "50.0%",
+      "initial_placement_cells": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+      "initial_stored": 4,
+      "jobs": 8,
+      "last_release_step": 121,
+      "mean_duration_parameter": 160,
+      "nominal_occupancy_from_declared_mean": 0.5,
+      "panel": "development_prefilled_certification_curve",
+      "realized_duration_mean": 152.875,
+      "target_label": "4/8-preloaded",
+      "target_nominal_occupancy": 0.5,
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    "earliness_accounting_exact": true,
+    "max_admission_wait": 23,
+    "mean_admission_wait": 6.625,
+    "mean_external_queue": 0.17905405405405406,
+    "mean_stored": 3.449324324324324,
+    "mean_stored_fraction": 0.4311655405405405,
+    "median_admission_wait": 3.5,
+    "nominal_steady_window_mean_stored": null,
+    "objective_accounting_exact": true,
+    "objective_weights": {
+      "admission_wait_accrual": 0.5,
+      "equipment_work": 0.1,
+      "physical_rehandles": 10.0,
+      "storage_earliness_at_delivery": 1.0,
+      "storage_tardiness_accrual": 2.0
+    },
+    "p90_admission_wait": 18.099999999999998,
+    "peak_external_queue": 1,
+    "peak_stored": 5,
+    "peak_stored_fraction": 0.625,
+    "primary_objective": "J_storage_clock_plus_full_admission_wait",
+    "release_clock_mae": 38.375,
+    "release_clock_signed_error": -18.125,
+    "release_within_20_rate": 0.5,
+    "required_jobs": 8,
+    "reward_sum_equals_negative_J": true,
+    "storage_capacity": 8,
+    "storage_clock_mae": 31.75,
+    "storage_clock_signed_error": -24.75,
+    "storage_within_20_rate": 0.75,
+    "stored_jobs": 8,
+    "strict_complete": true,
+    "tardiness_accounting_exact": true,
+    "total_admission_wait": 53.0,
+    "transporter_utilization": 0.3141891891891892,
+    "wait_accounting_exact": true
+  },
+  "model_seed": 0,
+  "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1",
+  "run": {
+    "absolute_error_std": 41.72753886823425,
+    "audit": {
+      "baseline_policy_query": false,
+      "baseline_viability_teacher": false,
+      "certificate_cache_entries": 120,
+      "certificate_scope": "current_admitted_work_closed_admission_geometric_recoverability_v1",
+      "complete_episode_certificate": false,
+      "current_safe": 34,
+      "current_unknown": 0,
+      "current_unsafe": 0,
+      "epochs_with_no_viable_acceptance": 1,
+      "exact_analysis_seconds": 0.1899221860076068,
+      "exact_cache_hits": 289,
+      "exact_cache_misses": 457,
+      "exact_verifier_authoritative": true,
+      "fail_closed_rejections": 0,
+      "finite_horizon_terminal_boundary": true,
+      "frontier_analysis_seconds": 0.3839915010103141,
+      "frontier_calls": 34,
+      "future_schedule_visible_to_policy": false,
+      "illegal_drops": 0,
+      "macro_failures": 0,
+      "no_fallback_contract": "empty_exact_safe_frontier_is_method_failure_v1",
+      "nonprogress_or_nonexact_recovery_selections": 8,
+      "priority_inference_seconds": 0.0,
+      "priority_pass_count": 0,
+      "priority_states_scored": 0,
+      "relocations": 0,
+      "safe_candidates": 738,
+      "truncated_macros": 0,
+      "unknown_candidates_rejected": 0,
+      "unsafe_candidates_rejected": 0
+    },
+    "delivery_count": 8,
+    "delivery_deviations": [
+      -106.0,
+      -101.0,
+      -19.0,
+      5.0,
+      8.0,
+      1.0,
+      9.0,
+      5.0
+    ],
+    "dense_episode_start_discounted_return": -202.79999999999953,
+    "dense_rescored_return": -202.8,
+    "dual_rescore_uses_fixed_realized_trajectory": false,
+    "e187_metrics": {
+      "J": 202.8,
+      "arrival_window_mean_stored": 4.4958677685950414,
+      "components": {
+        "admission_wait_accrual": 53.0,
+        "equipment_work": 93.0,
+        "physical_rehandles": 0.0,
+        "storage_earliness_at_delivery": 167.0,
+        "storage_tardiness_accrual": 0.0
+      },
+      "delivered_jobs": 8,
+      "e195_workload": {
+        "arrival_gap_steps": 40,
+        "arrival_rate": 0.025,
+        "capacity": 8,
+        "future_arrival_gap_steps": 40,
+        "future_arrivals": 4,
+        "initial_occupancy_fraction": 0.5,
+        "initial_occupancy_label": "50.0%",
+        "initial_placement_cells": [
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+        "initial_stored": 4,
+        "jobs": 8,
+        "last_release_step": 121,
+        "mean_duration_parameter": 160,
+        "nominal_occupancy_from_declared_mean": 0.5,
+        "panel": "development_prefilled_certification_curve",
+        "realized_duration_mean": 152.875,
+        "target_label": "4/8-preloaded",
+        "target_nominal_occupancy": 0.5,
+        "transporter_cell": [
+          2,
+          2
+        ]
+      },
+      "earliness_accounting_exact": true,
+      "max_admission_wait": 23,
+      "mean_admission_wait": 6.625,
+      "mean_external_queue": 0.17905405405405406,
+      "mean_stored": 3.449324324324324,
+      "mean_stored_fraction": 0.4311655405405405,
+      "median_admission_wait": 3.5,
+      "nominal_steady_window_mean_stored": null,
+      "objective_accounting_exact": true,
+      "objective_weights": {
+        "admission_wait_accrual": 0.5,
+        "equipment_work": 0.1,
+        "physical_rehandles": 10.0,
+        "storage_earliness_at_delivery": 1.0,
+        "storage_tardiness_accrual": 2.0
+      },
+      "p90_admission_wait": 18.099999999999998,
+      "peak_external_queue": 1,
+      "peak_stored": 5,
+      "peak_stored_fraction": 0.625,
+      "primary_objective": "J_storage_clock_plus_full_admission_wait",
+      "release_clock_mae": 38.375,
+      "release_clock_signed_error": -18.125,
+      "release_within_20_rate": 0.5,
+      "required_jobs": 8,
+      "reward_sum_equals_negative_J": true,
+      "storage_capacity": 8,
+      "storage_clock_mae": 31.75,
+      "storage_clock_signed_error": -24.75,
+      "storage_within_20_rate": 0.75,
+      "stored_jobs": 8,
+      "strict_complete": true,
+      "tardiness_accounting_exact": true,
+      "total_admission_wait": 53.0,
+      "transporter_utilization": 0.3141891891891892,
+      "wait_accounting_exact": true
+    },
+    "e187_single_objective_audit": true,
+    "e188_guard": {
+      "activations": 0,
+      "active": 0,
+      "completed_witnesses": 0,
+      "fallback_decisions": 0,
+      "fallback_frontier_calls": 0,
+      "force_when_due": 0,
+      "forced_decisions": 0,
+      "forced_deliveries": 0,
+      "forced_delivery_share": 0.0,
+      "masked_action_decisions": {},
+      "masked_decisions": 0,
+      "masked_frontier_calls": 0,
+      "max_nonprogress_recovery_decisions": 0,
+      "mismatches": 0,
+      "nonprogress_recovery_decisions": 0,
+      "progress_frontier_calls": 0,
+      "reconfigure_candidates_removed": 0,
+      "remaining_witness_actions": 0,
+      "voluntary_deliveries": 8,
+      "witness_interruptions": 0
+    },
+    "e189_roundoff_audit": {
+      "absolute_bound": 1e-09,
+      "maximum_absolute_difference": 4.831690603168681e-13,
+      "primitive_steps": 295,
+      "relaxed_comparisons": 0
+    },
+    "e195_occupancy": {
+      "arrival_window_mean_stored": 4.4958677685950414,
+      "mean_external_queue": 0.17905405405405406,
+      "mean_stored": 3.449324324324324,
+      "mean_stored_fraction": 0.4311655405405405,
+      "nominal_steady_window_mean_stored": null,
+      "peak_external_queue": 1,
+      "peak_stored": 5,
+      "peak_stored_fraction": 0.625,
+      "transporter_utilization": 0.3141891891891892
+    },
+    "e195_workload": {
+      "arrival_gap_steps": 40,
+      "arrival_rate": 0.025,
+      "capacity": 8,
+      "future_arrival_gap_steps": 40,
+      "future_arrivals": 4,
+      "initial_occupancy_fraction": 0.5,
+      "initial_occupancy_label": "50.0%",
+      "initial_placement_cells": [
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "initial_state_selection": "deterministic shuffled subset of E200 witnessed geometry; exact completion witness required before evaluation",
+      "initial_stored": 4,
+      "jobs": 8,
+      "last_release_step": 121,
+      "mean_duration_parameter": 160,
+      "nominal_occupancy_from_declared_mean": 0.5,
+      "panel": "development_prefilled_certification_curve",
+      "realized_duration_mean": 152.875,
+      "target_label": "4/8-preloaded",
+      "target_nominal_occupancy": 0.5,
+      "transporter_cell": [
+        2,
+        2
+      ]
+    },
+    "episode_instance_id": "314885d5a6f325a1",
+    "episode_start_discounted_return": -202.8,
+    "horizon_cap_hit": false,
+    "instance_seed": 302243022,
+    "legacy_episode_start_discounted_return": -202.79999999999953,
+    "legacy_rescored_return": -202.8,
+    "loss_mean": null,
+    "loss_updates": 0,
+    "macro_decisions": 34,
+    "mean_absolute_error": 31.75,
+    "mean_earliness": 28.25,
+    "mean_signed_deviation": -24.75,
+    "mean_tardiness": 3.5,
+    "mean_tardiness_when_tardy": 5.6,
+    "method_failure_reason": null,
+    "non_delivery_return": -202.8,
+    "objective_audit_integrity": {
+      "contract": "dual_rescorable_timing_objective_components_v1",
+      "delivery_count": 8,
+      "placement_count": 4,
+      "return_by_objective": {
+        "dense_piecewise_v1": -202.79999999999953,
+        "legacy_clipped_v1": -202.79999999999953
+      },
+      "schema_version": 1,
+      "spec": {
+        "contract": "dual_rescorable_timing_objective_components_v1",
+        "dense_b": 80.0,
+        "dense_matches_legacy_inside_window": false,
+        "exact_legacy": true,
+        "lambda_abs": 1.5,
+        "lambda_outside": 0.5,
+        "legacy_base": 10.0,
+        "legacy_max_bonus": 30.0,
+        "legacy_window": 20.0,
+        "objective": "dense_piecewise_v1",
+        "schema_version": 1,
+        "window": 20.0
+      },
+      "steps": 295
+    },
+    "p90_absolute_error": 102.5,
+    "p90_tardiness": 8.3,
+    "protocol": "vcg_conditioned_e263_e255_prefilled_certification_curve_5x5_322k_v1",
+    "return": -202.8,
+    "scheduled_epsilon_after": 0.0,
+    "selected_action_counts": {
+      "accept": 4,
+      "defer": 22,
+      "deliver": 8
+    },
+    "selected_objective": "dense_piecewise_v1",
+    "selected_objective_return": -202.8,
+    "selection_source_counts": {
+      "certified_dynamic_placement_duration_aware_dispatch_v1": 34
+    },
+    "signed_deviation_std": 46.22431719344267,
+    "split": "development_validation",
+    "steps": 295,
+    "strict_method_success": true,
+    "success": true,
+    "tardy_delivery_rate": 0.625,
+    "target_window": 20.0,
+    "training_decision_count_after": 17919,
+    "training_decision_count_before": 17885,
+    "wall_seconds": 0.9518221160033136,
+    "within_target_window_rate": 0.75
+  },
+  "status": "complete",
+  "steps_at_stop": 295,
+  "strict_complete": true,
+  "test_panel_opened": false
+}

@@ -1,0 +1,131 @@
+CONFORMANCE AUDIT
+========================================================================
+Method revision: TCR-METHOD-2026-10-31.10
+Claim level: expressibility
+
+[NOT_APPLICABLE] representation.shared_law
+  Requirement: One shared law is reused across carriers and worlds.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.permutation_invariant_read_set
+  Requirement: The shared law reads each involved condition set permutation-invariantly; arbitrary enumeration order cannot change a consequence.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.carrier_frame_responsibility
+  Requirement: Mutually exclusive carrier effects are computed in each carrier's canonical frame and combined by permutation-equivariant responsibility; joint or sequential effects declare their composition rule.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.state_memory_roles
+  Requirement: State estimator, changing dynamic memory, persistent field, and shared law have explicitly declared predictive responsibilities.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.no_persistent_bypass
+  Requirement: Persistent condition knowledge acquired from history cannot bypass the designated field through an independent learned estimator or memory.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.responsibility_audits
+  Requirement: Applicable history-leakage, field-intervention, and field-ablation audits verify responsibility routing; non-applicability is justified.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.persistent_conditions
+  Requirement: Conditions are persistent carrier-level facts, not transition outcomes.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.anonymous_conditions
+  Requirement: Categories are anonymous and attributes/poses are charged.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.continuous_attribute_default
+  Requirement: Condition-family selection offers a charged continuous attribute with dimension zero allowed whenever ordered instance variation is plausible.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.full_field_support
+  Requirement: The field covers reachable unseen carriers, initialized from the prior.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] representation.no_uncharged_addresses
+  Requirement: Absolute addresses are absent from the shared law unless selected and charged.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] learning.one_full_likelihood
+  Requirement: Full consequences come from one conditional likelihood.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] learning.joint_or_declared_alternation
+  Requirement: Law, conditions, and prior are fitted jointly or by a declared alternating procedure; departures from the preferred pooled-law/per-carrier-inference schedule are justified.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] learning.belief_samples
+  Requirement: Belief samples, not only point estimates, enter training when uncertainty is claimed.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] learning.capacity_by_total_cost
+  Requirement: Capacity and vocabulary choices use total cost and held-out likelihood.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] learning.evidence_monotonicity
+  Requirement: Matched held-out predictive loss is audited across increasing evidence, with a paired interval or declared tolerance for nonmonotonicity.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] learning.labels_grading_only
+  Requirement: Labels are grading-only.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] learning.importance_correction
+  Requirement: Any biased sampler has exact importance correction.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] learning.restoration_audit
+  Requirement: Any learned part that becomes unused is restored to a plausible label-free setting and rescored under the same final total description length; a cheaper restoration is reported as an optimization failure.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] control.persistent_imagined_conditions
+  Requirement: Conditions persist across the imagined plan unless written.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] control.update_after_consequence
+  Requirement: Beliefs update after every real consequence.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] control.evidence_weighted_laws
+  Requirement: Law alternatives are evidence-weighted.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] control.heldout_calibration
+  Requirement: Calibration is measured on held-out data.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] control.belief_scramble_preoutcome
+  Requirement: Belief-scramble pairings, when used, are selected from beliefs before query outcomes are scored and actually exchange distinct beliefs.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] control.absorbing_goals_separate_risk
+  Requirement: Goals are absorbing and utility and risk quantities are not conflated.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] control.law_belief_values
+  Requirement: Values and plans are derived from the current law and belief.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[NOT_APPLICABLE] control.irreversible_belief_space_value
+  Requirement: Irreversible writes and finite-resource consumption under uncertainty are valued in belief space against reversible information-gathering alternatives using the same law and belief.
+  Evidence: E263 is a frozen certification mechanism ablation.
+[PASS] reproducibility.method_revision
+  Requirement: The protocol records the method revision.
+  Evidence: E263 records TCR-METHOD-2026-10-31.10.
+[PASS] reproducibility.content_hashes
+  Requirement: Data, split, implementation, protocol, and checkpoint hashes are stored.
+  Evidence: The corrected checkpoint, state generator, shared ranker, verifier, runner, and gate are hashed.
+[PASS] reproducibility.oracle_declarations
+  Requirement: Diagnostic oracle inputs and deviations are explicit.
+  Evidence: Exact recoverability filters certified arms and is read-only telemetry in unfiltered arms.
+[PASS] reproducibility.failed_gates_retained
+  Requirement: Optimization diagnostics and failed gates are retained.
+  Evidence: Initial-state witness failures, route failures, and unsafe events are retained.
+[PASS] reproducibility.preprotected_integration_gate
+  Requirement: Before a fresh or protected split is opened, a non-protected live integration gate verifies every declared route, effective compute limit, required audit signal, and one complete end-to-end execution of the evaluation code.
+  Evidence: Development gate 52ca971361d369d350ad58a56dfa15c2322847da7df0fa92a64563d49ec47954 exercised all four routes.
+
+Declared deviations:
+- Prefilled states are selected for an initial exact witness; this is a mechanism stress test, not an IID panel.
+- E263 changes only E243's frozen VCG checkpoint to corrected E255 seed 0 episode 280.
+Oracle inputs:
+- exact recoverability labels used only for filtering or read-only telemetry
+Nonconforming shortcuts:
+- None
+
+
+# E243 prefilled certification curve
+
+| arm | fill | cases | strict completion | failures | unsafe selected | mean J (completers) |
+|---|---:|---:|---:|---:|---:|---:|
+| vcg_certified | 4/8 | 25 | 1.000 | 0 | 0 | 124.8 |
+| vcg_certified | 5/8 | 25 | 1.000 | 0 | 0 | 175.4 |
+| vcg_certified | 6/8 | 25 | 1.000 | 0 | 0 | 250.7 |
+| vcg_certified | 7/8 | 25 | 1.000 | 0 | 0 | 314.5 |
+| vcg_physical_unfiltered | 4/8 | 25 | 0.960 | 1 | 1 | 124.8 |
+| vcg_physical_unfiltered | 5/8 | 25 | 0.760 | 6 | 6 | 172.6 |
+| vcg_physical_unfiltered | 6/8 | 25 | 0.720 | 7 | 7 | 239.8 |
+| vcg_physical_unfiltered | 7/8 | 25 | 1.000 | 0 | 0 | 314.5 |
+| dynamic_certified | 4/8 | 25 | 1.000 | 0 | 0 | 252.8 |
+| dynamic_certified | 5/8 | 25 | 1.000 | 0 | 0 | 318.0 |
+| dynamic_certified | 6/8 | 25 | 1.000 | 0 | 0 | 396.2 |
+| dynamic_certified | 7/8 | 25 | 1.000 | 0 | 0 | 430.9 |
+| dynamic_physical_unfiltered | 4/8 | 25 | 1.000 | 0 | 0 | 252.8 |
+| dynamic_physical_unfiltered | 5/8 | 25 | 0.920 | 2 | 2 | 322.5 |
+| dynamic_physical_unfiltered | 6/8 | 25 | 0.880 | 3 | 3 | 388.3 |
+| dynamic_physical_unfiltered | 7/8 | 25 | 0.640 | 9 | 9 | 438.7 |
