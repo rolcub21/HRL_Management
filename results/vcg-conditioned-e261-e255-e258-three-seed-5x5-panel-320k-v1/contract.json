@@ -1,0 +1,243 @@
+{
+  "aggregation_rule": "report completion over all 90 VCG seed-instance runs; average cost across model seeds within each instance, then across instances",
+  "checkpoint_selection_uses_test_panel": false,
+  "claim_level": "expressibility",
+  "conformance_audit": {
+    "control.absorbing_goals_separate_risk": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "control.belief_scramble_preoutcome": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "control.evidence_weighted_laws": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "control.heldout_calibration": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "control.irreversible_belief_space_value": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "control.law_belief_values": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "control.persistent_imagined_conditions": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "control.update_after_consequence": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "learning.belief_samples": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "learning.capacity_by_total_cost": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "learning.evidence_monotonicity": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "learning.importance_correction": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "learning.joint_or_declared_alternation": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "learning.labels_grading_only": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "learning.one_full_likelihood": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "learning.restoration_audit": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.anonymous_conditions": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.carrier_frame_responsibility": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.continuous_attribute_default": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.full_field_support": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.no_persistent_bypass": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.no_uncharged_addresses": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.permutation_invariant_read_set": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.persistent_conditions": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.responsibility_audits": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.shared_law": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "representation.state_memory_roles": {
+      "evidence": "E261 is a post-hoc evaluation of historical frozen checkpoints.",
+      "status": "not_applicable"
+    },
+    "reproducibility.content_hashes": {
+      "evidence": "E261 hashes all three checkpoints, E201/E256 evidence, and all 450 Kim rows.",
+      "status": "pass"
+    },
+    "reproducibility.failed_gates_retained": {
+      "evidence": "Every panel row, failure, and unfavorable comparison is retained.",
+      "status": "pass"
+    },
+    "reproducibility.method_revision": {
+      "evidence": "E261 pins TCR-METHOD-2026-10-31.10 before evaluation.",
+      "status": "pass"
+    },
+    "reproducibility.oracle_declarations": {
+      "evidence": "All three frozen critics retain their original observable interface.",
+      "status": "pass"
+    },
+    "reproducibility.preprotected_integration_gate": {
+      "evidence": "The E201 panel is already open; checkpoints were selected on development validation only.",
+      "status": "not_applicable"
+    }
+  },
+  "contract_sha256": "f2e23c29091f5a1c902202a830857d4a49c16cd93fa06e5ccc91aead16152fcf",
+  "declared_deviations": [
+    "Post-hoc three-seed evaluation on the already-open E201 panel; no checkpoint was selected using panel results."
+  ],
+  "expected_new_episode_rows": 60,
+  "expected_three_seed_episode_rows": 90,
+  "method_reference": "projects/temporal_consequence_realization/METHOD_REFERENCE.md",
+  "method_revision": "TCR-METHOD-2026-10-31.10",
+  "model_seeds": [
+    0,
+    1,
+    2
+  ],
+  "new_model_seeds": [
+    1,
+    2
+  ],
+  "nonconforming_shortcuts": [],
+  "oracle_inputs": [],
+  "panel_reused_after_opening": true,
+  "paper_evidence": false,
+  "protocol": "vcg_conditioned_e261_e255_e258_three_seed_5x5_panel_320k_v1",
+  "schema_version": 1,
+  "scope": "three frozen corrected-temperature seeds on the already-open E201 5x5 panel",
+  "selected_episodes": {
+    "0": 280,
+    "1": 220,
+    "2": 260
+  },
+  "source_identity": {
+    "e256_report_sha256": "16b62a9e2b123e4ba969a10c876cf81b47c136fe3640e1edf5479e78c72436b4",
+    "e256_seed0_rows": {
+      "count": 30,
+      "digest": "a09be78d26f41f14d1d5b98a3bbcf1a340ff2757f1efa79faf2b75359da8d589"
+    },
+    "kim_contract_sha256": "e0a649d6a28ea43e5ecf6bb5020f4cfe828effd8bfcccc2863bda0efa1e14dee",
+    "kim_rows": {
+      "count": 450,
+      "digest": "e8e3b9c1a175dd3881758e7e6411ee4483fff01ab88a30fce198073270da8377"
+    },
+    "panel_contract_sha256": "42ef07ab8515359912c59874aac817134aad03189ea97684dc930cc79b26246f",
+    "panel_instances_sha256": "a1eda64d06e59d06d46536606bf5bad211ba76f81dc9393b1d9120ddc3d38530",
+    "panel_report_sha256": "65b88a52260c42ad2da0e10adf4db7511ba5b39f40d3e908f0a87030f9e316a1",
+    "sources": {
+      "0": {
+        "checkpoint_sha256": "3a9f17534be46062f648466a9780a54ed7f20782696064857ae524d4dbadef69",
+        "selected_episode": 280,
+        "summary_sha256": "c8067dd74bc29015a5099ae154920ded268ecac19554e4512c153688cfdafdb5",
+        "training_protocol": "vcg_conditioned_e255_e195_temperature_scaled_5x5_314k_v1"
+      },
+      "1": {
+        "checkpoint_sha256": "fa950aae65e46fefb98ff61316426e8e1aa6e5ecd71e9105be2c62b182c5f900",
+        "selected_episode": 220,
+        "summary_sha256": "14ad7039b3774071809ff59e6d459a48eb35ecc9a77f8b5835dce4712a7e918e",
+        "training_protocol": "vcg_conditioned_e258_e255_temperature_scaled_replication_5x5_317k_v1"
+      },
+      "2": {
+        "checkpoint_sha256": "e583de349c1d6963666748252ccc452cda93672fa51e53b2776c469a11386553",
+        "selected_episode": 260,
+        "summary_sha256": "4d50f89fc62a8cbdc09ad0835a7a856fd36813f9b0677bc6002f848d9c0488b3",
+        "training_protocol": "vcg_conditioned_e258_e255_temperature_scaled_replication_5x5_317k_v1"
+      }
+    }
+  },
+  "source_sha256": {
+    "experiments/conditioned_vcg/E195_e191_method_5x5_longstay_254k_v1/instrumentation.py": "0f6ee28ef23f9a735c2def334e0a29194e0a85a6d5c0d0ed08fe4ab780efadc8",
+    "experiments/conditioned_vcg/E195_e191_method_5x5_longstay_254k_v1/representation.py": "cba66f7968ada83e66204f25791986b0dfe1fe2062869a8ed3798040a5800f76",
+    "experiments/conditioned_vcg/E201_e195_matched_5x5_test_panel_260k_v1/run.py": "4942f53870415698fa8049b4b82ea5d452a4a3c7776fa47a1caa70b4130e7205",
+    "experiments/conditioned_vcg/E256_e255_temperature_scaled_5x5_panel_315k_v1/run.py": "d45181ae62d81e450c676140cf7cc92e1d626f26d1399cbcc75c96f87bdf4990",
+    "experiments/conditioned_vcg/E261_e255_e258_three_seed_5x5_panel_320k_v1/README.md": "fdaace1301313e5dcbe005f83eb7767b956a2e4207639fde30d48d46cf808cef",
+    "experiments/conditioned_vcg/E261_e255_e258_three_seed_5x5_panel_320k_v1/__init__.py": "d2095ab4fbec1449a1c4e3e735b724339c418d7025ede7ccbfda5d89bbdcad97",
+    "experiments/conditioned_vcg/E261_e255_e258_three_seed_5x5_panel_320k_v1/protocol.py": "94621abdb64eb007bf214b67ef00ca99620f3acfe6aac9f54ecb46e480824aec",
+    "experiments/conditioned_vcg/E261_e255_e258_three_seed_5x5_panel_320k_v1/run.py": "99fbaa966e175ad451fe47a6613eabe292b3e3aae0e75a919904c92211fd6412",
+    "experiments/conditioned_vcg/E261_e255_e258_three_seed_5x5_panel_320k_v1/run.sh": "a9dbfdbbc1e91c83f13a8e15a4ca1d2ad63728bcc81ffe325778eca16407a448"
+  },
+  "test_seeds": [
+    260202000,
+    260202003,
+    260202006,
+    260202009,
+    260202012,
+    260202015,
+    260202018,
+    260202021,
+    260202024,
+    260202027,
+    260202001,
+    260202004,
+    260202007,
+    260202010,
+    260202013,
+    260202016,
+    260202019,
+    260202022,
+    260202025,
+    260202028,
+    260202002,
+    260202005,
+    260202008,
+    260202011,
+    260202014,
+    260202017,
+    260202020,
+    260202023,
+    260202026,
+    260202029
+  ],
+  "training_runs": 0
+}

@@ -1,0 +1,42 @@
+{
+  "candidate": {
+    "action_type": "reconfigure",
+    "candidate_index": 13,
+    "critic_q": -1.2027231454849243,
+    "key": "reconfigure:B4:1:2",
+    "mode": "recover",
+    "mode_id": 1,
+    "naturally_selected": false,
+    "prepared_index": 13,
+    "source_index": 13
+  },
+  "candidate_index": 13,
+  "candidate_key": "reconfigure:B4:1:2",
+  "contract_sha256": "30906d52d77c224d450970cf4e1e652acdd5b166ca34c41265011beb452bf5fc",
+  "failure_reason": null,
+  "instance_seed": 250195000,
+  "interventions": 1,
+  "model_seed": 0,
+  "natural_key": "defer:10",
+  "naturally_selected": false,
+  "new_episode_run": 1,
+  "physical_rehandles": 1,
+  "protocol": "vcg_conditioned_e259_e255_causal_action_ranking_audit_5x5_318k_v1",
+  "realized_J": 56.2,
+  "realized_components": {
+    "admission_wait_accrual": 65.0,
+    "equipment_work": 137.0,
+    "physical_rehandles": 1.0,
+    "storage_earliness_at_delivery": 0.0,
+    "storage_tardiness_accrual": 0.0
+  },
+  "selected_episode": 280,
+  "state_kind": "first_timing_choice",
+  "state_sha256": "686af34768ce0a46ba12e2ed091918b301bb7978fd5cd6f6479183cf614ff32c",
+  "steps": 865,
+  "strict_complete": true,
+  "test_panel_opened": false,
+  "training_runs": 0,
+  "wall_seconds": 1.7964886929985369,
+  "workload": "20%"
+}
