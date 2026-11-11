@@ -1,7 +1,9 @@
 from experiments.conditioned_vcg.E270_e222_multiseed_prefilled_certification_329k_v1 import (
     protocol,
     scenario,
+    tracker,
 )
+import inspect
 
 
 def test_e270_panel_shape_and_seed_mapping():
@@ -27,6 +29,12 @@ def test_e270_includes_paired_a3c_at_both_sizes():
             assert identity["protocol_training_complete"] is True
             assert identity["size"] == size
             assert identity["model_seed"] == seed
+
+
+def test_e270_tracker_is_self_contained_not_an_e233_import():
+    source = inspect.getsource(tracker)
+    assert "E233_certification_causal_ablation_292k_v1" not in source
+    assert tracker.TrackedE191Agent.__module__ == tracker.__name__
 
 
 def test_e270_layouts_are_deterministic_unique_and_duration_paired():
