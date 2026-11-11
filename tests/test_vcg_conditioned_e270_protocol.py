@@ -11,7 +11,22 @@ def test_e270_panel_shape_and_seed_mapping():
     assert [scenario.initial_fill(seed) for seed in scenario.SEEDS].count(32) == 10
     assert protocol.EXPECTED_VCG_ROWS == 180
     assert protocol.EXPECTED_DYNAMIC_ROWS == 60
-    assert protocol.EXPECTED_ROWS == 240
+    assert protocol.EXPECTED_A3C_ROWS == 780
+    assert protocol.EXPECTED_ROWS == 1020
+
+
+def test_e270_includes_paired_a3c_at_both_sizes():
+    assert protocol.A3C_SIZES == ("5x5", "8x8")
+    assert protocol.A3C_ARMS == (
+        "a3c_certified", "a3c_physical_unfiltered",
+    )
+    assert "a3c_physical_unfiltered" in protocol.UNFILTERED_ARMS
+    for size in protocol.A3C_SIZES:
+        for seed in protocol.MODEL_SEEDS:
+            identity = protocol.a3c_checkpoint_identity(size, seed)
+            assert identity["protocol_training_complete"] is True
+            assert identity["size"] == size
+            assert identity["model_seed"] == seed
 
 
 def test_e270_layouts_are_deterministic_unique_and_duration_paired():

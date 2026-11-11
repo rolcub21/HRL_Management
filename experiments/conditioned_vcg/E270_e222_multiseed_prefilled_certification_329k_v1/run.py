@@ -38,14 +38,32 @@ from experiments.conditioned_vcg.E191_fresh_long_stay_crowding_250k_v1 import (
     protocol as e191,
     stage as e191_stage,
 )
+from experiments.conditioned_vcg.E187_wait_corrected_e78_246k_v1 import (
+    instrumentation as e187_instrumentation,
+)
+from experiments.conditioned_vcg.E195_e191_method_5x5_longstay_254k_v1 import (
+    instrumentation as e195_instrumentation,
+    protocol as e195,
+    stage as e195_stage,
+)
 from experiments.conditioned_vcg.E198_e195_shadow_certification_ablation_257k_v1 import (
     frontier as e198_frontier,
+)
+from experiments.conditioned_vcg.E243_e195_expanded_prefilled_curve_302k_v1 import (
+    scenario as e243_scenario,
+)
+from experiments.conditioned_vcg.E243_e195_expanded_prefilled_curve_302k_v1.tracker import (
+    TrackedE195Agent,
+)
+from experiments.conditioned_vcg.E247_kim2020_objective_matched_a3c_306k_v1.source import (
+    ObjectiveMatchedKimSource,
 )
 from projects.temporal_consequence_realization.method_conformance import (
     render_validated_conformance_audit,
 )
 
 from . import protocol as p, scenario
+from .a3c_ranker import MatchedA3CPlacementAgent
 from .tracker import MatchedDynamicE191Agent, PrefillTracker, TrackedE191Agent
 
 
@@ -96,8 +114,21 @@ def _payload(model_seed: int) -> dict:
     )
 
 
-def _search_and_liveness(model_seed: int = 0):
-    payload = _payload(model_seed)
+def _a3c_payload(size: str, model_seed: int) -> dict:
+    identity = p.a3c_checkpoint_identity(size, model_seed)
+    return torch.load(
+        identity["source_checkpoint"], map_location="cpu", weights_only=False
+    )
+
+
+def _five_shell_payload() -> dict:
+    return torch.load(
+        p.five_shell_identity()["source_checkpoint"],
+        map_location="cpu", weights_only=False,
+    )
+
+
+def _search_and_liveness_payload(payload: dict):
     search = payload["viability_search"]
     liveness = payload["liveness_rule"]
     require(
@@ -120,6 +151,10 @@ def _search_and_liveness(model_seed: int = 0):
             ),
         ),
     )
+
+
+def _search_and_liveness(model_seed: int = 0):
+    return _search_and_liveness_payload(_payload(model_seed))
 
 
 def _screen_search() -> ViabilitySearchConfig:
@@ -333,8 +368,10 @@ def _load_agent(model_seed: int, device: str, arm: str, tracker: PrefillTracker)
     return agent
 
 
-def _frontier_wrapper(original, tracker: PrefillTracker, arm: str):
-    accelerated = e191_stage._accelerated_enumerator(original)
+def _frontier_wrapper(
+    original, tracker: PrefillTracker, arm: str, *, stage_module=e191_stage,
+):
+    accelerated = stage_module._accelerated_enumerator(original)
 
     def wrapped(env, **kwargs):
         certified = accelerated(env, **kwargs)
@@ -463,6 +500,175 @@ def _run_one(*, arm: str, model_seed: int, record: dict, device: str, protocol: 
     }
 
 
+def _a3c_environment(size: str, record: dict):
+    if size == "8x8":
+        return scenario.Prefilled8x8Env(scenario.SCENARIO, e191.SPEC, record)
+    if size == "5x5":
+        return e243_scenario.Prefilled5x5Env(
+            e243_scenario.SCENARIO, e195.SPEC
+        )
+    raise E270Error(f"invalid A3C size: {size}")
+
+
+def _load_a3c_agent(
+    size: str, model_seed: int, device: str, tracker: PrefillTracker, env,
+):
+    if size == "8x8":
+        shell_payload = _payload(0)
+        base = TrackedE191Agent.from_checkpoint(
+            shell_payload, device=device, resumable=False, seed=0
+        )
+    else:
+        shell_payload = _five_shell_payload()
+        base = TrackedE195Agent.from_checkpoint(
+            shell_payload, device=device, resumable=False, seed=0
+        )
+    base.set_epsilon(0.0)
+    base.Q_local.eval()
+    base.Q_target.eval()
+    base.configure_e233(tracker)
+    identity = p.a3c_checkpoint_identity(size, model_seed)
+    source = ObjectiveMatchedKimSource.from_checkpoint(
+        env,
+        _a3c_payload(size, model_seed),
+        learning_enabled=False,
+        device=device,
+        seed=int(model_seed),
+        policy_seed=329_270_000 + int(model_seed),
+    )
+    return MatchedA3CPlacementAgent(
+        base, source, tracker,
+        policy_seed=329_270_000 + int(model_seed),
+        checkpoint_sha256=identity["source_checkpoint_sha256"],
+    ), shell_payload
+
+
+def _a3c_failure_class(strict: bool, reason, steps: int, monitor: dict, max_steps: int) -> str:
+    if strict:
+        return "completed"
+    selected = monitor.get("selected_successor_status_counts", {})
+    if int(selected.get("UNSAFE", 0)) + int(selected.get("UNKNOWN", 0)) > 0:
+        return "unsafe_selection"
+    if int(steps) >= int(max_steps):
+        return "step_limit_stall"
+    return _failure_class(strict, reason, steps, monitor)
+
+
+def _run_a3c_one(
+    *, size: str, arm: str, model_seed: int, instance_seed: int,
+    record: dict, device: str, protocol: str,
+) -> dict:
+    require(size in p.A3C_SIZES and arm in p.A3C_ARMS, "invalid E270 A3C route")
+    tracker = PrefillTracker(arm)
+    env = _a3c_environment(size, record)
+    env.current_episode = 0
+    agent, shell_payload = _load_a3c_agent(
+        size, model_seed, device, tracker, env
+    )
+    search, liveness = _search_and_liveness_payload(shell_payload)
+    stage_module = e191_stage if size == "8x8" else e195_stage
+    instrumentation = (
+        e191_instrumentation if size == "8x8" else e195_instrumentation
+    )
+    objective = e191.SPEC if size == "8x8" else e195.SPEC
+    max_steps = scenario.MAX_STEPS if size == "8x8" else e243_scenario.MAX_STEPS
+    original_print = builtins.print
+
+    def e270_print(*values, **kwargs):
+        if values and isinstance(values[0], str):
+            first = values[0]
+            for prefix in ("E191 ", "E195 "):
+                if first.startswith(prefix):
+                    values = ("E270-A3C " + first[len(prefix):], *values[1:])
+                    break
+        return original_print(*values, **kwargs)
+
+    with ExitStack() as stack:
+        stack.enter_context(patch.object(
+            audit, "enumerate_viability_candidates",
+            _frontier_wrapper(
+                audit.enumerate_viability_candidates, tracker, arm,
+                stage_module=stage_module,
+            ),
+        ))
+        stack.enter_context(patch.object(
+            audit, "ViabilityCertificateCache", reuse.TimingInvariantCertificateCache
+        ))
+        stack.enter_context(patch.object(
+            audit, "_rescore_run", instrumentation.single_objective_rescore
+        ))
+        # E187's instrumentation deliberately rejects composition wrappers.
+        # Admit this authenticated wrapper without weakening the environment
+        # type check or changing any episode semantics.
+        stack.enter_context(patch.object(
+            e187_instrumentation,
+            "WaitCorrectedQueueAgent",
+            (e187_instrumentation.WaitCorrectedQueueAgent,
+             MatchedA3CPlacementAgent),
+        ))
+        stack.enter_context(patch.object(builtins, "print", e270_print))
+        stack.enter_context(reuse.path_cleanup_active())
+        stack.enter_context(fast_inputs.enabled())
+        stack.enter_context(e107_representation.acceleration_enabled())
+        stack.enter_context(repaired_audit())
+        run = instrumentation.run_episode(
+            agent,
+            env,
+            objective_spec=objective,
+            instance_seed=int(instance_seed),
+            training=False,
+            max_steps=max_steps,
+            search_config=search,
+            liveness_rule=liveness,
+            epsilon_start=0.0,
+            epsilon_end=0.0,
+            epsilon_decay_decisions=1,
+            epsilon_warmup_decisions=0,
+            updates_per_macro=1,
+            run_protocol=protocol,
+        )
+    monitor = tracker.audit()
+    initial = monitor.get("initial_current_certificate") or {}
+    require(
+        initial.get("status") == ViabilityStatus.SAFE.value
+        and int(initial.get("witness_length", 0)) > 0,
+        f"E270 A3C {size}/{instance_seed} lacks an initial witness",
+    )
+    strict = bool(run.get("strict_method_success"))
+    metrics = dict(run.get("e187_metrics", {}))
+    if metrics:
+        metrics["strict_complete"] = strict
+    steps = int(run.get("steps", env.time_steps))
+    fill = (
+        int(record["initial_fill"])
+        if size == "8x8" else e243_scenario.initial_fill(instance_seed)
+    )
+    capacity = scenario.CAPACITY if size == "8x8" else e243_scenario.CAPACITY
+    return {
+        "status": "complete",
+        "protocol": protocol,
+        "size": size,
+        "arm": arm,
+        "model_seed": int(model_seed),
+        "instance_seed": int(instance_seed),
+        "initial_fill": fill,
+        "initial_fill_fraction": fill / capacity,
+        "initial_completion_witness": initial,
+        "strict_complete": strict,
+        "failure_class": _a3c_failure_class(
+            strict, run.get("method_failure_reason"), steps, monitor, max_steps
+        ),
+        "method_failure_reason": run.get("method_failure_reason"),
+        "steps_at_stop": steps,
+        "delivered_at_stop": int(run.get("delivery_count", 0)),
+        "metrics": metrics,
+        "run": run,
+        "certification_monitor": monitor,
+        "a3c_ranker_audit": agent.audit(),
+        "test_panel_opened": False,
+    }
+
+
 def _row_path(output: Path, arm: str, seed: int, model_seed=None) -> Path:
     if arm in p.VCG_ARMS:
         return (
@@ -555,6 +761,119 @@ def evaluate_dynamic(output: Path, device: str) -> dict:
     return _evaluate_group(output, p.DYNAMIC_ARMS, None, device)
 
 
+def _a3c_row_path(
+    output: Path, size: str, arm: str, model_seed: int, instance_seed: int,
+) -> Path:
+    return (
+        output.resolve() / "rows" / "a3c" / size / arm
+        / f"model-seed-{int(model_seed)}" / f"instance-{int(instance_seed)}.json"
+    )
+
+
+def _validate_a3c_row(
+    row: dict, contract: dict, size: str, arm: str,
+    model_seed: int, instance_seed: int,
+) -> None:
+    expected = {
+        "status": "complete", "protocol": p.PROTOCOL, "size": size,
+        "arm": arm, "model_seed": int(model_seed),
+        "instance_seed": int(instance_seed), "test_panel_opened": False,
+    }
+    mismatch = {
+        key: (row.get(key), value) for key, value in expected.items()
+        if row.get(key) != value
+    }
+    require(not mismatch, f"E270 A3C saved row differs: {mismatch}")
+    audit_row = row.get("a3c_ranker_audit", {})
+    require(
+        audit_row.get("whole_controller_filter_contract") is True
+        and audit_row.get("vcg_guard_used") is False,
+        "E270 A3C route violated its controller contract",
+    )
+    require(
+        audit_row.get("certification_filter_enabled")
+        is (arm == "a3c_certified"),
+        "E270 A3C certification authority differs from its arm",
+    )
+    expected_sha = contract["a3c_checkpoints"][
+        f"{size}/seed-{int(model_seed)}"
+    ]["source_checkpoint_sha256"]
+    require(
+        audit_row.get("checkpoint_sha256") == expected_sha,
+        "E270 A3C row used another checkpoint",
+    )
+    if arm == "a3c_physical_unfiltered":
+        require(
+            row.get("certification_monitor", {}).get(
+                "monitor_is_non_authoritative"
+            ) is True,
+            "E270 unfiltered A3C row lacks its passive monitor declaration",
+        )
+
+
+def evaluate_a3c(output: Path, size: str, model_seed: int, device: str) -> dict:
+    require(size in p.A3C_SIZES, "invalid E270 A3C size")
+    require(int(model_seed) in p.MODEL_SEEDS, "invalid E270 A3C model seed")
+    contract, manifest = authenticate(output)
+    if size == "8x8":
+        targets = [
+            (int(seed), _record(manifest, seed)) for seed in scenario.SEEDS
+        ]
+    else:
+        # Authenticate the exact E263 state set even though the deterministic
+        # scenario can reconstruct every state from its seed.
+        source = _read(Path(contract["five_by_five_panel"]["source_instances"]))
+        require(
+            p.sha256(Path(contract["five_by_five_panel"]["source_instances"]))
+            == contract["five_by_five_panel"]["source_instances_sha256"],
+            "E270 5x5 source manifest changed",
+        )
+        source_seeds = {int(row["seed"]) for row in source["records"]}
+        require(
+            source_seeds == set(e243_scenario.SEEDS),
+            "E270 5x5 source panel seeds differ",
+        )
+        targets = [(int(seed), {"initial_fill": e243_scenario.initial_fill(seed)})
+                   for seed in e243_scenario.SEEDS]
+    new = reused = 0
+    for arm in p.A3C_ARMS:
+        for instance_seed, record in targets:
+            path = _a3c_row_path(
+                output, size, arm, model_seed, instance_seed
+            )
+            if path.is_file():
+                _validate_a3c_row(
+                    _read(path), contract, size, arm, model_seed, instance_seed
+                )
+                reused += 1
+                continue
+            print(
+                f"E270 A3C start size={size} arm={arm} model_seed={model_seed} "
+                f"instance={instance_seed}", flush=True,
+            )
+            row = _run_a3c_one(
+                size=size, arm=arm, model_seed=model_seed,
+                instance_seed=instance_seed, record=record,
+                device=device, protocol=p.PROTOCOL,
+            )
+            _validate_a3c_row(
+                row, contract, size, arm, model_seed, instance_seed
+            )
+            _write(path, row)
+            new += 1
+            print(
+                f"E270 A3C done size={size} arm={arm} model_seed={model_seed} "
+                f"instance={instance_seed} strict={int(row['strict_complete'])} "
+                f"failure={row['failure_class']}", flush=True,
+            )
+    return {
+        "status": "complete", "size": size, "model_seed": int(model_seed),
+        "arms": list(p.A3C_ARMS), "new_episode_runs": new,
+        "reused_rows": reused, "rows": new + reused,
+        "test_panel_opened": False,
+    }
+
+
 def _metric(row: dict, name: str):
     value = row.get("metrics", {}).get(name)
     return None if value is None else float(value)
@@ -577,6 +896,20 @@ def _rows(output: Path, contract: dict) -> list[dict]:
                 row = _read(path)
                 _validate_row(row, contract, arm, seed)
                 rows.append(row)
+    for size in p.A3C_SIZES:
+        seeds = scenario.SEEDS if size == "8x8" else e243_scenario.SEEDS
+        for arm in p.A3C_ARMS:
+            for model_seed in p.MODEL_SEEDS:
+                for instance_seed in seeds:
+                    path = _a3c_row_path(
+                        output, size, arm, model_seed, instance_seed
+                    )
+                    if path.is_file():
+                        row = _read(path)
+                        _validate_a3c_row(
+                            row, contract, size, arm, model_seed, instance_seed
+                        )
+                        rows.append(row)
     return rows
 
 
@@ -692,6 +1025,37 @@ def analyze(output: Path) -> dict:
         unfiltered_seed_rates[str(seed)] = (
             None if not subset else sum(row["strict_complete"] for row in subset) / len(subset)
         )
+    a3c = {}
+    for size in p.A3C_SIZES:
+        fills = (
+            scenario.INITIAL_FILLS if size == "8x8"
+            else e243_scenario.INITIAL_FILLS
+        )
+        a3c[size] = {}
+        for model_seed in p.MODEL_SEEDS:
+            a3c[size][str(model_seed)] = {
+                "overall": {
+                    arm: _summary([
+                        row for row in rows
+                        if row.get("size") == size and row["arm"] == arm
+                        and row["model_seed"] == model_seed
+                    ]) for arm in p.A3C_ARMS
+                },
+                "paired_J_joint_completers": _paired(
+                    [row for row in rows if row.get("size") == size],
+                    "a3c_certified", "a3c_physical_unfiltered", model_seed,
+                ),
+                "by_fill": {
+                    str(fill): {
+                        arm: _summary([
+                            row for row in rows
+                            if row.get("size") == size and row["arm"] == arm
+                            and row["model_seed"] == model_seed
+                            and int(row["initial_fill"]) == int(fill)
+                        ]) for arm in p.A3C_ARMS
+                    } for fill in fills
+                },
+            }
     complete = len(rows) == p.EXPECTED_ROWS
     report = {
         "status": "complete" if complete else "partial",
@@ -710,6 +1074,7 @@ def analyze(output: Path) -> dict:
         "by_arm_seed_fill": by_fill,
         "paired_J_joint_completers": paired,
         "vcg_unfiltered_completion_by_seed": unfiltered_seed_rates,
+        "a3c_by_size_seed_fill": a3c,
         "test_panel_opened": False,
         "paper_evidence": complete,
     }
@@ -734,6 +1099,26 @@ def analyze(output: Path) -> dict:
                     f"{item['unsafe_selections']} | "
                     f"{'n/a' if mean_j is None else f'{mean_j:.1f}'} |"
                 )
+    lines.extend(["", "## A3C placement whole-controller certification", ""])
+    lines.extend([
+        "| size | arm | seed | fill | cases | completion | failures | unsafe selected | mean J (completers) |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+    ])
+    for size in p.A3C_SIZES:
+        fills = scenario.INITIAL_FILLS if size == "8x8" else e243_scenario.INITIAL_FILLS
+        for model_seed in p.MODEL_SEEDS:
+            for fill in fills:
+                for arm in p.A3C_ARMS:
+                    item = a3c[size][str(model_seed)]["by_fill"][str(fill)][arm]
+                    rate = item["strict_completion_rate"]
+                    mean_j = item["mean_J_completed_only"]
+                    lines.append(
+                        f"| {size} | {arm} | {model_seed} | {fill} | {item['cases']} | "
+                        f"{'n/a' if rate is None else f'{rate:.3f}'} | "
+                        f"{sum(item['failure_classes'].values())} | "
+                        f"{item['unsafe_selections']} | "
+                        f"{'n/a' if mean_j is None else f'{mean_j:.1f}'} |"
+                    )
     table = "\n".join(lines) + "\n"
     (output.resolve() / p.TABLE_NAME).write_text(table, encoding="utf-8")
     conformance = render_validated_conformance_audit(contract)
@@ -788,11 +1173,53 @@ def gate(device: str) -> dict:
                 else row["dynamic_ranker_audit"]["ranker_sha256"]
             ),
         }
+    for size in p.A3C_SIZES:
+        if size == "8x8":
+            instance_seed = scenario.GATE_SEED
+            a3c_record = record
+        else:
+            instance_seed = e243_scenario.SEEDS[0]
+            a3c_record = {"initial_fill": e243_scenario.initial_fill(instance_seed)}
+        for arm in p.A3C_ARMS:
+            key = f"{size}/{arm}"
+            row = _run_a3c_one(
+                size=size, arm=arm, model_seed=0,
+                instance_seed=instance_seed, record=a3c_record,
+                device=device, protocol=p.GATE_PROTOCOL,
+            )
+            routes[key] = {
+                "route_executed": True,
+                "strict_complete": bool(row["strict_complete"]),
+                "failure_class": row["failure_class"],
+                "initial_witness_present": (
+                    row["initial_completion_witness"]["status"] == "SAFE"
+                ),
+                "monitor_present": bool(row["certification_monitor"]),
+                "whole_controller_certification": row["a3c_ranker_audit"][
+                    "whole_controller_certification"
+                ],
+                "whole_controller_filter_contract": row["a3c_ranker_audit"][
+                    "whole_controller_filter_contract"
+                ],
+                "vcg_guard_used": row["a3c_ranker_audit"]["vcg_guard_used"],
+                "checkpoint_sha256": row["a3c_ranker_audit"][
+                    "checkpoint_sha256"
+                ],
+            }
     passed = bool(
         all(item["route_executed"] and item["initial_witness_present"] and item["monitor_present"] for item in routes.values())
         and routes["dynamic_certified"]["dynamic_ranker_sha256"]
         == routes["dynamic_physical_unfiltered"]["dynamic_ranker_sha256"]
         == contract["dynamic_ranker_sha256"]
+        and all(
+            routes[f"{size}/{arm}"]["whole_controller_filter_contract"] is True
+            and routes[f"{size}/{arm}"]["whole_controller_certification"]
+            is (arm == "a3c_certified")
+            and routes[f"{size}/{arm}"]["vcg_guard_used"] is False
+            and routes[f"{size}/{arm}"]["checkpoint_sha256"]
+            == contract["a3c_checkpoint_sha256"][f"{size}/seed-0"]
+            for size in p.A3C_SIZES for arm in p.A3C_ARMS
+        )
     )
     result = {
         "status": "pass" if passed else "fail",
@@ -816,13 +1243,14 @@ def main() -> None:
     parser.add_argument(
         "command",
         choices=(
-            "gate", "prepare", "evaluate-vcg", "evaluate-dynamic",
+            "gate", "prepare", "evaluate-vcg", "evaluate-dynamic", "evaluate-a3c",
             "analyze", "status",
         ),
     )
     parser.add_argument("--output", type=Path, default=p.DEFAULT_OUTPUT)
     parser.add_argument("--device", choices=("cpu", "cuda"), default="cuda")
     parser.add_argument("--model-seed", type=int, choices=p.MODEL_SEEDS)
+    parser.add_argument("--size", choices=p.A3C_SIZES)
     parser.add_argument("--workers", type=int, default=1)
     args = parser.parse_args()
     torch.set_num_threads(1)
@@ -837,6 +1265,12 @@ def main() -> None:
         value = evaluate_vcg(args.output, args.model_seed, args.device)
     elif args.command == "evaluate-dynamic":
         value = evaluate_dynamic(args.output, args.device)
+    elif args.command == "evaluate-a3c":
+        require(args.size is not None, "evaluate-a3c requires --size")
+        require(args.model_seed is not None, "evaluate-a3c requires --model-seed")
+        value = evaluate_a3c(
+            args.output, args.size, args.model_seed, args.device
+        )
     elif args.command == "analyze":
         value = analyze(args.output)
     else:

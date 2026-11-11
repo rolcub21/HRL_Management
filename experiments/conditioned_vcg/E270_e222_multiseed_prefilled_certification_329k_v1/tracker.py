@@ -29,7 +29,8 @@ class PrefillTracker(CertificationTracker):
     def audit(self) -> dict:
         value = super().audit()
         value["monitor_is_non_authoritative"] = self.arm in (
-            "vcg_physical_unfiltered", "dynamic_physical_unfiltered"
+            "vcg_physical_unfiltered", "dynamic_physical_unfiltered",
+            "a3c_physical_unfiltered",
         )
         value["initial_current_certificate"] = self.initial_current_certificate
         return value

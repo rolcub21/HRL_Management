@@ -36,6 +36,22 @@ done
 ) &
 pids+=("$!")
 
+# A3C is a small placement network and certification is CPU-bound.  Run one
+# shard per size/seed on CPU so the three VCG shards retain the GPU.  Each
+# certified/unfiltered pair is kept in one process and therefore shares the
+# exact stateless stochastic placement ranking.
+for size in 5x5 8x8; do
+  for seed in 0 1 2; do
+    (
+      MPLCONFIGDIR="/tmp/e270-a3c-${size}-seed${seed}-mpl" \
+      bash "${experiment}/run.sh" evaluate-a3c \
+        --size "${size}" --model-seed "${seed}" --device cpu 2>&1 | \
+      tee -a "${output}/logs/a3c-${size}-seed-${seed}.log"
+    ) &
+    pids+=("$!")
+  done
+done
+
 cleanup() {
   for pid in "${pids[@]}"; do
     kill "${pid}" 2>/dev/null || true
