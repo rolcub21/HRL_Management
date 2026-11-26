@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "freeze_date": "2026-11-26",
+  "domain": "antmaze",
+  "frozen_method": "R74",
+  "method_revision": "antmaze_e549_5m_reach_scale_hub_route_correction_r74",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R74_REACH_SCALE_ROUTE_CORRECTION_REFERENCE.md",
+  "method_reference_sha256": "21b1d3d446b3e294162675e070955cbdbeaeb37c5d9a887078671b8bb21b808b",
+  "implementation": "projects/tfsn_consequence_value_iteration/antmaze/r74_reach_scale_route_correction.py",
+  "implementation_sha256": "14df9df24de2a304d7ee6de84a4e02d0cada0b5a5fbf527b239101b67383cf1a",
+  "protocol": "projects/tfsn_consequence_value_iteration/antmaze/r74_reach_scale_route_correction_protocol.json",
+  "protocol_sha256": "ed221c0342398921cdf41a52c51fd9820a1fed1022465716b3c42bccf1741dbb",
+  "executor": {
+    "revision": "E549_5M_chained_AntMaze_SAC",
+    "checkpoint_sha256": "3318bf1ea6e30811285a1e92a0beb7824201b27466e18412359a22131b474b6b"
+  },
+  "preparation_revision": "antmaze_e549_5m_preparation_r52",
+  "evaluation_budget_record": {
+    "revision": "antmaze_e549_5m_r74_twenty_episode_r75",
+    "planner_change_from_R74": "none",
+    "tasks": 9,
+    "episodes_per_task": 20,
+    "commands_per_episode": 20,
+    "fixed_command_duration": 100,
+    "primitive_steps_per_episode": 2000,
+    "acquisition_at_1": 0.0,
+    "acquisition_at_5": 0.3333333333333333,
+    "acquisition_at_10": 0.5555555555555556,
+    "acquisition_at_20": 1.0,
+    "pooled_conditional_return": 0.8715596330275229,
+    "mean_e2e": 0.5777777777777777,
+    "online_destination_arrival_rate": 0.9017006821102567,
+    "source_artifact": "projects/tfsn_consequence_value_iteration/results/antmaze/e549_5m_r74_twenty_episode_r75/original9/summary.json",
+    "source_artifact_sha256": "366469f03c278172f1b1016264982c60086f7921f0112b504286d2689b1d6d91",
+    "evidence_status": "consumed_development_not_confirmation"
+  },
+  "known_failures": [
+    {
+      "task_id": 6,
+      "goal_xy": [10.0, 6.0],
+      "classification": "acquired_then_return_blocked_by_consequence_model_error_at_one_wall",
+      "first_contact_episode_zero_indexed": 5,
+      "return_episodes": 14,
+      "return_successes": 0,
+      "return_commands": 280,
+      "maximum_realized_y_during_return_m": -0.5238956212997437,
+      "wall_crossing_command_family_attempts": 15,
+      "wall_crossing_selected_offline_weight_minimum": 0.006660158280283213,
+      "wall_crossing_selected_offline_weight_maximum": 0.47867751121520996,
+      "wall_crossing_selected_online_weight_minimum": 0.006109115667641163,
+      "wall_crossing_selected_online_weight_maximum": 0.4440895915031433,
+      "task_source_artifact": "projects/tfsn_consequence_value_iteration/results/antmaze/e549_5m_r74_twenty_episode_r75/original9/task_006.json",
+      "task_source_artifact_sha256": "c664378f42adcdddc80f05c6171ef17ea79be4a4d81498685e21d0604c61372c",
+      "supplied_goal_corroboration": {
+        "revision": "antmaze_e549_5m_supplied_goal_original9_r58",
+        "success": false,
+        "minimum_goal_distance_m": 6.665560245513916,
+        "artifact": "projects/tfsn_consequence_value_iteration/results/antmaze/e549_5m_supplied_goal_r58/original9/task_006.json",
+        "artifact_sha256": "1570e1f77ae8705c212caa1d5cb769f227b5c90f91313a7a9965b702f128dd46"
+      },
+      "route_correction_preflight": {
+        "revision": "antmaze_e549_5m_task6_soft_return_route_preflight_r78",
+        "no_evidence_identity_passed": true,
+        "smooth_value_reduction_passed": true,
+        "alternative_routes_remain_passed": true,
+        "switch_off_wall_shortcut_family_passed": false,
+        "artifact": "projects/tfsn_consequence_value_iteration/results/antmaze/e549_5m_task6_soft_return_route_preflight_r78/audit.json",
+        "artifact_sha256": "5e126d2b99ef7d436f994a350578c3bfbbe05fd83ad8d630e7d7c3eb0ea2515f"
+      }
+    }
+  ],
+  "rejected_post_freeze_diagnostics": [
+    "R76_return_route_correction",
+    "R77_online_map_growth",
+    "R78_soft_return_route_preflight"
+  ],
+  "method_boundary": {
+    "hidden_goal_visible_to_planner_executor_or_models": false,
+    "success_radius_read_by_planner": false,
+    "wall_geometry_used_by_planner": false,
+    "route_similarity_cutoff": null,
+    "route_scale": "R52_empirical_movement_weighted_reach_covariance",
+    "task_gradient_updates": 0,
+    "confirmation_panel_accessed": false
+  }
+}

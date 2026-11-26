@@ -326,6 +326,9 @@ def _evaluate_task(
     planner.seed = _task_seed(args.seed, task_id)
     planner.goal_key = None
     planner.reset_online_correction_task()
+    hub_attempt_observer = getattr(planner, "hub_attempt_observer", None)
+    if hub_attempt_observer is not None:
+        hub_attempt_observer.reset_task()
     posterior = _area_posterior(nodes, sigma)
     fields = r48.TaskFields(
         sigma,
@@ -420,6 +423,18 @@ def _evaluate_task(
                     selection.update(
                         getattr(planner, "hub_selection_extra", {})
                     )
+                    if hub_attempt_observer is not None:
+                        selection["hub_route_attempt"] = (
+                            hub_attempt_observer.start_attempt(
+                                source_xy=state[:2],
+                                hub_bank_index=int(active_hub),
+                                hub_xy=hub_xy[active_hub],
+                                remaining_commands=int(remaining),
+                                predicted_reachability=float(
+                                    reach[active_hub]
+                                ),
+                            )
+                        )
                 route_fields = r56.R56SuppliedGoalField(
                     sigma, hub_xy[active_hub]
                 )
@@ -476,6 +491,28 @@ def _evaluate_task(
                 arrived = None
 
             reward = bool(rewards.any())
+            hub_route_attempt_outcome = None
+            if phase == "acquisition" and hub_attempt_observer is not None:
+                if arrived:
+                    hub_route_attempt_outcome = (
+                        hub_attempt_observer.finish_attempt(
+                            arrived=True,
+                            endpoint_xy=trajectory[-1, :2],
+                        )
+                    )
+                elif reward:
+                    hub_route_attempt_outcome = (
+                        hub_attempt_observer.cancel_attempt(
+                            reason="task_contact_censored"
+                        )
+                    )
+                elif command_index + 1 == r48.HORIZON:
+                    hub_route_attempt_outcome = (
+                        hub_attempt_observer.finish_attempt(
+                            arrived=False,
+                            endpoint_xy=trajectory[-1, :2],
+                        )
+                    )
             if reward and first_contact_episode is None:
                 first_contact_episode = episode
                 first_contact_step = (
@@ -511,6 +548,7 @@ def _evaluate_task(
                     if phase == "acquisition" else None
                 ),
                 "hub_arrived_within_landing_sigma": arrived,
+                "hub_route_attempt_outcome": hub_route_attempt_outcome,
                 "timing_seconds": {
                     "memory_update": float(memory_seconds),
                     "hub_scoring": float(hub_seconds),
@@ -542,6 +580,11 @@ def _evaluate_task(
     planner._ingest_pending(online_states)
     log_path.write_text("\n".join(json.dumps(row) for row in logs) + "\n")
     outcomes = np.asarray(planner.online_outcomes, np.float32)
+    hub_attempt_summary = (
+        hub_attempt_observer.summary()
+        if hub_attempt_observer is not None
+        else {}
+    )
     contact = first_contact_episode
     row = {
         **task,
@@ -588,6 +631,7 @@ def _evaluate_task(
         "online_destination_arrival_rate": (
             float(outcomes.mean()) if len(outcomes) else None
         ),
+        **hub_attempt_summary,
         "posterior_feasible_candidates": int(posterior.feasible.sum()),
         "posterior_marginal_evidence": float(posterior.marginal_evidence),
         "landing_sigma_m": float(sigma),

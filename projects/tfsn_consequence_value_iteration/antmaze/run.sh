@@ -353,6 +353,69 @@ run_r71_sigma_generalized_correction() {
     --root "$RUNTIME_ROOT" --device "$DEVICE" "$@"
 }
 
+run_r72_hub_route_correction() {
+  cd "$MANAGEMENT_ROOT"
+  MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-r72}" \
+  PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+    "$PYTHON_BIN" \
+    projects/tfsn_consequence_value_iteration/antmaze/r72_hub_route_correction.py \
+    --root "$RUNTIME_ROOT" --device "$DEVICE" "$@"
+}
+
+run_r73_fixed_sigma_hub_route() {
+  cd "$MANAGEMENT_ROOT"
+  MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-r73}" \
+  PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+    "$PYTHON_BIN" \
+    projects/tfsn_consequence_value_iteration/antmaze/r73_fixed_sigma_hub_route.py \
+    --root "$RUNTIME_ROOT" --device "$DEVICE" "$@"
+}
+
+run_r74_reach_scale_route_correction() {
+  cd "$MANAGEMENT_ROOT"
+  MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-r74}" \
+  PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+    "$PYTHON_BIN" \
+    projects/tfsn_consequence_value_iteration/antmaze/r74_reach_scale_route_correction.py \
+    --root "$RUNTIME_ROOT" --device "$DEVICE" "$@"
+}
+
+run_r75_r74_twenty_episode() {
+  cd "$MANAGEMENT_ROOT"
+  MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-r75}" \
+  PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+    "$PYTHON_BIN" \
+    projects/tfsn_consequence_value_iteration/antmaze/r75_r74_twenty_episode.py \
+    --root "$RUNTIME_ROOT" --device "$DEVICE" "$@"
+}
+
+run_r76_return_route_correction() {
+  cd "$MANAGEMENT_ROOT"
+  MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-r76}" \
+  PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+    "$PYTHON_BIN" \
+    projects/tfsn_consequence_value_iteration/antmaze/r76_return_route_correction.py \
+    --root "$RUNTIME_ROOT" --device "$DEVICE" "$@"
+}
+
+run_r77_online_map_growth() {
+  cd "$MANAGEMENT_ROOT"
+  MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-r77}" \
+  PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+    "$PYTHON_BIN" \
+    projects/tfsn_consequence_value_iteration/antmaze/r77_online_map_growth.py \
+    --root "$RUNTIME_ROOT" --device "$DEVICE" "$@"
+}
+
+run_r78_soft_return_route_audit() {
+  cd "$MANAGEMENT_ROOT"
+  MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-r78}" \
+  PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+    "$PYTHON_BIN" \
+    projects/tfsn_consequence_value_iteration/antmaze/r78_soft_return_route_audit.py \
+    "$@"
+}
+
 run_r48_passage_gain_cause_audit() {
   cd "$MANAGEMENT_ROOT"
   "$PYTHON_BIN" \
@@ -1270,8 +1333,70 @@ case "$MODE" in
     run_r71_sigma_generalized_correction \
       --preparation "$R52_E549_OUTPUT" evaluate
     ;;
+  audit-r72-e549-5m-hub-route-correction-original9-long-budget)
+    run_r72_hub_route_correction \
+      --preparation "$R52_E549_OUTPUT" audit
+    ;;
+  equivalence-r72-e549-5m-hub-route-correction-original9-long-budget)
+    run_r72_hub_route_correction \
+      --preparation "$R52_E549_OUTPUT" equivalence
+    ;;
+  hidden-r72-e549-5m-hub-route-correction-original9-long-budget)
+    run_r72_hub_route_correction \
+      --preparation "$R52_E549_OUTPUT" equivalence
+    run_r72_hub_route_correction \
+      --preparation "$R52_E549_OUTPUT" evaluate
+    ;;
+  audit-r73-e549-5m-fixed-sigma-hub-route-original9-long-budget)
+    run_r73_fixed_sigma_hub_route \
+      --preparation "$R52_E549_OUTPUT" audit
+    ;;
+  hidden-r73-e549-5m-fixed-sigma-hub-route-original9-long-budget)
+    run_r73_fixed_sigma_hub_route \
+      --preparation "$R52_E549_OUTPUT" evaluate
+    ;;
+  audit-r74-e549-5m-reach-scale-route-original9-long-budget)
+    run_r74_reach_scale_route_correction \
+      --preparation "$R52_E549_OUTPUT" audit
+    ;;
+  hidden-r74-e549-5m-reach-scale-route-original9-long-budget)
+    run_r74_reach_scale_route_correction \
+      --preparation "$R52_E549_OUTPUT" evaluate
+    ;;
+  audit-r75-e549-5m-r74-original9-twenty-episodes)
+    run_r75_r74_twenty_episode \
+      --preparation "$R52_E549_OUTPUT" audit
+    ;;
+  hidden-r75-e549-5m-r74-original9-twenty-episodes)
+    run_r75_r74_twenty_episode \
+      --preparation "$R52_E549_OUTPUT" evaluate
+    ;;
+  audit-r76-e549-5m-task6-return-route)
+    run_r76_return_route_correction \
+      --preparation "$R52_E549_OUTPUT" audit
+    ;;
+  replay-r76-e549-5m-task6-return-route)
+    run_r76_return_route_correction \
+      --preparation "$R52_E549_OUTPUT" audit
+    run_r76_return_route_correction \
+      --preparation "$R52_E549_OUTPUT" evaluate
+    ;;
+  audit-r77-e549-5m-task6-online-map-return)
+    run_r77_online_map_growth \
+      --preparation "$R52_E549_OUTPUT" audit
+    ;;
+  replay-r77-e549-5m-task6-online-map-return)
+    run_r77_online_map_growth \
+      --preparation "$R52_E549_OUTPUT" audit
+    run_r77_online_map_growth \
+      --preparation "$R52_E549_OUTPUT" evaluate
+    ;;
+  audit-r78-e549-5m-task6-soft-return-route)
+    run_r78_soft_return_route_audit \
+      --preparation "$R52_E549_OUTPUT" audit
+    ;;
   *)
-    echo "usage: $0 {...|audit-r52-e549-preparation|smoke-r52-e549-preparation|collect-r52-e549-preparation|train-r52-e549-consequence|prepare-r52-e549-{graph,mobility,bridges,passage,runtime}|hidden-r53-e549-r51-stalled-pair|audit-r54-e549-10m-preparation|smoke-r54-e549-10m-preparation|collect-r54-e549-10m-preparation|train-r54-e549-10m-consequence|prepare-r54-e549-10m-runtime|hidden-r55-e549-10m-r51-stalled-pair|supplied-r56-e549-r51-stalled-pair|replay-r57-e549-task13-posture|supplied-r58-e549-r51-original9|hidden-r59-e549-r51-original9|hidden-r60-e549-r51-latent-rho-original9|hidden-r61-e549-r51-phase-separated-latent-rho-original9|hidden-r62-e549-10m-r51-phase-separated-latent-rho-original9|hidden-r63-e549-10m-r51-fixed-sigma-original9|timing-r67-e549-5m-hub-routed-tasks-1-2-8|hidden-r67-e549-5m-hub-routed-tasks-1-2-8|prepare-r68-e549-5m-dynamic-hubs|timing-r68-e549-5m-dynamic-hubs|hidden-r68-e549-5m-dynamic-hubs-tasks-1-2-8|prepare-r69-e549-5m-dynamic-hubs-long-budget|hidden-r69-e549-5m-dynamic-hubs-long-budget-tasks-1-2-8|plot-r69-e549-5m-dynamic-hubs-long-budget-tasks-1-2-8|replay-r70-e549-5m-corrected-hub-reachability-task8|audit-r71-e549-5m-sigma-generalized-correction-original9-long-budget|hidden-r71-e549-5m-sigma-generalized-correction-original9-long-budget}" >&2
+    echo "usage: $0 {...|audit-r52-e549-preparation|smoke-r52-e549-preparation|collect-r52-e549-preparation|train-r52-e549-consequence|prepare-r52-e549-{graph,mobility,bridges,passage,runtime}|hidden-r53-e549-r51-stalled-pair|audit-r54-e549-10m-preparation|smoke-r54-e549-10m-preparation|collect-r54-e549-10m-preparation|train-r54-e549-10m-consequence|prepare-r54-e549-10m-runtime|hidden-r55-e549-10m-r51-stalled-pair|supplied-r56-e549-r51-stalled-pair|replay-r57-e549-task13-posture|supplied-r58-e549-r51-original9|hidden-r59-e549-r51-original9|hidden-r60-e549-r51-latent-rho-original9|hidden-r61-e549-r51-phase-separated-latent-rho-original9|hidden-r62-e549-10m-r51-phase-separated-latent-rho-original9|hidden-r63-e549-10m-r51-fixed-sigma-original9|timing-r67-e549-5m-hub-routed-tasks-1-2-8|hidden-r67-e549-5m-hub-routed-tasks-1-2-8|prepare-r68-e549-5m-dynamic-hubs|timing-r68-e549-5m-dynamic-hubs|hidden-r68-e549-5m-dynamic-hubs-tasks-1-2-8|prepare-r69-e549-5m-dynamic-hubs-long-budget|hidden-r69-e549-5m-dynamic-hubs-long-budget-tasks-1-2-8|plot-r69-e549-5m-dynamic-hubs-long-budget-tasks-1-2-8|replay-r70-e549-5m-corrected-hub-reachability-task8|audit-r71-e549-5m-sigma-generalized-correction-original9-long-budget|hidden-r71-e549-5m-sigma-generalized-correction-original9-long-budget|audit-r72-e549-5m-hub-route-correction-original9-long-budget|equivalence-r72-e549-5m-hub-route-correction-original9-long-budget|hidden-r72-e549-5m-hub-route-correction-original9-long-budget|audit-r73-e549-5m-fixed-sigma-hub-route-original9-long-budget|hidden-r73-e549-5m-fixed-sigma-hub-route-original9-long-budget|audit-r74-e549-5m-reach-scale-route-original9-long-budget|hidden-r74-e549-5m-reach-scale-route-original9-long-budget|audit-r75-e549-5m-r74-original9-twenty-episodes|hidden-r75-e549-5m-r74-original9-twenty-episodes|audit-r76-e549-5m-task6-return-route|replay-r76-e549-5m-task6-return-route|audit-r77-e549-5m-task6-online-map-return|replay-r77-e549-5m-task6-online-map-return|audit-r78-e549-5m-task6-soft-return-route}" >&2
     exit 2
     ;;
 esac

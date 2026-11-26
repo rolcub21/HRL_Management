@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_e549_5m_task6_soft_return_route_preflight_r78",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R78_SOFT_RETURN_ROUTE_AUDIT_REFERENCE.md",
+  "method_revision": "antmaze_e549_5m_task6_soft_return_route_preflight_r78",
+  "claim_level": "consumed_development_task6_offline_component_audit_only",
+  "declared_deviations": [
+    "task6_only_after_R75_identified_the_unique_return_failure",
+    "offline_graph_rollout_only_no_environment_evaluation",
+    "maze_geometry_labels_rollouts_diagnostic_only_and_is_not_planner_input"
+  ],
+  "oracle_inputs": [],
+  "base_preparation_revision": "antmaze_e549_5m_preparation_r52",
+  "base_evaluation_revision": "antmaze_e549_5m_r74_twenty_episode_r75",
+  "task_ids": [6],
+  "commands_per_episode": 20,
+  "fixed_command_duration": 100,
+  "return_target": "first_observed_positive_evidence_coordinate_from_consumed_R76_replay",
+  "return_value_base": "R75_additive_soft_evidence_value_not_clipped",
+  "return_route_update": "multiplicative_empirical_reach_posterior_reliability",
+  "return_route_prior_weight": 1.0,
+  "return_route_similarity_cutoff": null,
+  "route_source_scale": "R52_empirical_reach_covariance",
+  "route_target_scale": "R52_empirical_reach_covariance",
+  "wall_geometry_role": "diagnostic_only_not_value_or_policy_input",
+  "environment_replay_requires_all_four_offline_gates": true,
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "success_radius_read_by_planner": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}
