@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_command_region_acquisition_r13",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/R13_COMMAND_REGION_REFERENCE.md",
+  "method_revision": "pointmaze_command_region_acquisition_r13",
+  "method_manifest": "projects/tfsn_consequence_value_iteration/shared/method_manifest_command_regions_r13.json",
+  "claim_level": "consumed_development_command_region_screen_only",
+  "declared_deviations": [
+    "both_corner_goals_are_consumed_development_cases",
+    "only_the_latent_radius_command_region_arm_is_run",
+    "eight_episodes_per_goal_matches_the_pending_nearest_passage_corner_extension",
+    "R12_local_depth_two_top_four_backup_is_retained_to_isolate_the_gain_representation",
+    "this_screen_does_not_claim_a_bitwise_R11_global_value_iteration_reproduction"
+  ],
+  "oracle_inputs": [],
+  "goal_names": [
+    "spatial_diagnostic_native_goal_r01_c06",
+    "spatial_diagnostic_native_goal_r06_c06"
+  ],
+  "episodes_per_goal": 8,
+  "benchmark_horizon_commands": 20,
+  "evaluation_command_cap": 20,
+  "factorial_arms": [
+    "latent_radius__command_region"
+  ],
+  "planner_inputs": {
+    "success_radius": "forbidden",
+    "task_reward_function": "forbidden",
+    "hidden_goal_coordinate": "forbidden",
+    "observed_binary_reward_after_each_primitive_state": "allowed_task_consequence"
+  },
+  "conformance_audit": [
+    {
+      "item": "region_scale",
+      "status": "pass",
+      "implementation": "shared movement-weighted median achieved displacement with no cutoff or multiplier"
+    },
+    {
+      "item": "region_cover",
+      "status": "pass",
+      "implementation": "deterministic mean-seeded farthest-point centres until Euclidean one-reach coverage"
+    },
+    {
+      "item": "wall_respecting_assignment",
+      "status": "pass",
+      "implementation": "directed outward shortest paths over recorded and bridge links with continuous retry cost 1/w and no reliability cutoff"
+    },
+    {
+      "item": "unreachable_assignment",
+      "status": "pass",
+      "implementation": "one non-chaining nearest attachment within learned sigma repairs exact-state aliases; remaining candidates stay in the posterior but outside targetable regions; no Euclidean fallback"
+    },
+    {
+      "item": "roadmap_coverage_gap",
+      "status": "pass",
+      "implementation": "preflight and every decision report unassigned candidate count and posterior mass without a tuned blocking threshold"
+    },
+    {
+      "item": "candidate_probability_alignment",
+      "status": "pass",
+      "implementation": "region mass requires exact coordinate identity with posterior candidate order"
+    },
+    {
+      "item": "region_weight",
+      "status": "pass",
+      "implementation": "exact sum of current latent-radius goal posterior mass in each region"
+    },
+    {
+      "item": "execution_precision",
+      "status": "pass",
+      "implementation": "within the chosen region, the node maximizes node-local latent contact mass times consequence connection"
+    },
+    {
+      "item": "imagined_consumption",
+      "status": "pass",
+      "implementation": "depth-two no-contact update and branch probability are node-local, never whole-region"
+    },
+    {
+      "item": "posterior_exhaustion",
+      "status": "pass",
+      "implementation": "fatal PosteriorFalsifiedError with no fallback"
+    },
+    {
+      "item": "task_reward_knowledge",
+      "status": "pass",
+      "implementation": "planner sees realized binary consequences only"
+    }
+  ]
+}

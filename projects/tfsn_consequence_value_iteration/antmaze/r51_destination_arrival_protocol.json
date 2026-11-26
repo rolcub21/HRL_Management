@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_destination_arrival_online_correction_r51",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R51_DESTINATION_ARRIVAL_REFERENCE.md",
+  "method_revision": "antmaze_destination_arrival_online_correction_r51",
+  "base_method_revision": "antmaze_r39_r46_rule_removal_r48",
+  "claim_level": "online_consequence_component_revision_only",
+  "declared_deviations": [
+    "replace_R46_soft_Gaussian_outcome_with_the_exact_destination_arrival_event",
+    "retain_R48_planner_models_graph_fields_candidates_and_prior_weight"
+  ],
+  "oracle_inputs": [],
+  "online_outcome": "binary_arrival_within_landing_sigma_of_graph_destination",
+  "landing_scale_source": "deployed_consequence_model_held_out_landing_precision",
+  "online_similarity": "unchanged_R48_gaussian_in_standardized_full_state_and_absolute_command_space",
+  "offline_prior_effective_count_global": 1.0,
+  "evaluation": {
+    "claim_level": "single_consumed_development_task_component_audit",
+    "task_id": 3,
+    "episodes": 5,
+    "executor": "frozen_Farama_18m_open_plane",
+    "base_artifacts": "frozen_R48_full15_current_manifest_artifacts",
+    "confirmation_panel_accessed": false
+  },
+  "stalled_pair_evaluation": {
+    "claim_level": "two_consumed_development_tasks_component_audit",
+    "task_ids": [
+      2,
+      13
+    ],
+    "selection_rule": "frozen_R48_failed_tasks_tied_for_most_sub_0p03m_commands_22_of_50",
+    "episodes": 5,
+    "executor": "frozen_Farama_18m_open_plane",
+    "base_artifacts": "frozen_R48_full15_current_manifest_artifacts",
+    "confirmation_panel_accessed": false
+  },
+  "pointmaze_shared_implementation": false,
+  "pointmaze_r11_changed": false
+}

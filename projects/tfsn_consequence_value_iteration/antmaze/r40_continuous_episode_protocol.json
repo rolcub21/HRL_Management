@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r39_continuous_50_command_diagnostic_r40",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R40_CONTINUOUS_EPISODE_DIAGNOSTIC_REFERENCE.md",
+  "method_revision": "antmaze_r39_continuous_50_command_diagnostic_r40",
+  "base_method_revision": "antmaze_live_posterior_passage_r39",
+  "claim_level": "consumed_development_episode_structure_diagnostic_only",
+  "declared_deviations": [
+    "physical_episode_is_5000_steps_instead_of_the_1000_step_benchmark_episode",
+    "return_is_not_evaluated_because_there_is_only_one_physical_episode"
+  ],
+  "oracle_inputs": [],
+  "gate_task_ids": [3, 5],
+  "physical_episodes_per_task": 1,
+  "commands_per_physical_episode": 50,
+  "planner_horizon_commands": 10,
+  "primitive_steps_per_command": 100,
+  "total_commands_per_task": 50,
+  "total_primitive_steps_per_task": 5000,
+  "baseline_physical_episodes_per_task": 5,
+  "baseline_commands_per_physical_episode": 10,
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}

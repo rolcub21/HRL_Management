@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_r11_fresh_supplied_goal_confirmation_seed0_r1",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/METHOD_REFERENCE.md",
+  "method_revision": "tfsn_continuous_reference_r11_fresh_supplied_goal_confirmation_seed0_r1",
+  "base_method_revision": "tfsn_continuous_reference_r11",
+  "claim_level": "prospective_fresh_twenty_six_goal_supplied_goal_control_single_preparation_seed",
+  "declared_deviations": [
+    "the_goal_coordinate_is_supplied_at_episode_start",
+    "each_episode_is_standalone_and_online_task_memory_is_reset",
+    "only_frozen_preparation_seed_0_is_evaluated",
+    "no_baseline_is_reported_until_a_baseline_uses_the_same_fresh_episode_rows"
+  ],
+  "oracle_inputs": [
+    "supplied_goal_coordinate_at_episode_start",
+    "frozen_start_coordinate"
+  ],
+  "confirmation_panel_accessed": true,
+  "r11_freeze": {
+    "path": "projects/tfsn_consequence_value_iteration/pointmaze/R11_FREEZE.json",
+    "sha256": "93d9719c25f536df2cf8dc64925c28554c89d62e791c6702ff389bbb799e1c45"
+  },
+  "panel": {
+    "goals": "projects/tfsn_consequence_value_iteration/pointmaze/panels/fresh_confirmation_r1/goals.csv",
+    "goals_sha256": "4f53fe4802b6eff120311952db12ee7b8d8df88c3b771d96d2f8e62e38efc149",
+    "starts": "projects/tfsn_consequence_value_iteration/pointmaze/panels/fresh_confirmation_r1/starts.csv",
+    "starts_sha256": "70822a4cdedaed1c41e4f1c68bf45f64b93bc7ac530ef24bd20fe31b2463de59",
+    "environment": "PointMaze_Medium-v3",
+    "environment_seeds": [61],
+    "goals_count": 26,
+    "source_episodes_per_goal": 8,
+    "episodes_per_goal_seed": 8,
+    "evaluation_episodes_per_goal": 2,
+    "rows": 52,
+    "episode_primitive_steps": 2000,
+    "success_radius_m_evaluator_only": 0.4
+  },
+  "r11_artifacts": {
+    "models": "projects/tfsn_consequence_value_iteration/results/pointmaze/situation_density_aligned_factorized_r6",
+    "factorized_consequence_sha256": "135d68323759c087fac4ceec9077ca155d6000edd1d44e59e16b7437b9132c5a",
+    "roadmap": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_roadmap_r11",
+    "recorded_graph_sha256": "63d693e8eb9906ddfed397316492ef8a91b20c47a40ab6dc48941d3b0a930115",
+    "planner": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_planner_r11",
+    "bridges_sha256": "d56f809661fa6f512098973de16e8b6ec2640ef7dd77d19de1d250fae461dedf"
+  },
+  "reward_free_budget": {
+    "r11_planner_preparation_transitions": 3600000,
+    "r11_executor_training_transitions": 500000,
+    "r11_total_transitions": 4100000,
+    "preparation_seeds": 1
+  }
+}

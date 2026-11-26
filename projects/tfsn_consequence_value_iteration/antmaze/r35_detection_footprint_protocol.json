@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_detection_footprint_acquisition_r35",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R35_DETECTION_FOOTPRINT_REFERENCE.md",
+  "method_revision": "antmaze_detection_footprint_acquisition_r35",
+  "base_method_revision": "antmaze_posterior_consistent_acquisition_r34",
+  "claim_level": "consumed_development_hidden_goal_detection_footprint_gate",
+  "declared_deviations": [
+    "consumed_development_goals",
+    "known_reward_contact_radius_used_as_negative_observation_footprint",
+    "landing_precision_retained_for_aliasing_hypothesis_routing_and_return"
+  ],
+  "oracle_inputs": [],
+  "task_observation_model_inputs": ["reward_contact_radius_m"],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_preparation": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "acquisition_search_scale": "benchmark_reward_contact_radius",
+  "return_field_scale": "deployed_consequence_model_landing_precision",
+  "gate_task_ids": [3, 5],
+  "development_task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "episodes_per_task": 5
+}

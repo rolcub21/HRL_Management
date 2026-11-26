@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_sigma_vs_latent_passage_gain_goal4_r14",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/R14_SIGMA_LATENT5_GOAL4_REFERENCE.md",
+  "method_revision": "pointmaze_sigma_vs_latent_passage_gain_goal4_r14",
+  "method_manifest": "projects/tfsn_consequence_value_iteration/pointmaze/method_manifest_factorial_r12.json",
+  "claim_level": "consumed_development_truncated_horizon_memory_comparison_only",
+  "declared_deviations": [
+    "all_four_goals_are_consumed_development_cases",
+    "planning_and_evaluation_are_truncated_from_twenty_to_five_commands",
+    "the_sigma_arm_uses_the_R11_observation_kernel_inside_the_same_R12_local_passage_search_as_the_latent_arm_and_is_not_a_bitwise_R11_global_backup_rerun",
+    "nearest_recorded_passage_gain_is_held_fixed_in_both_arms",
+    "results_must_not_be_pooled_with_the_R12_factorial_or_R13_region_screen"
+  ],
+  "oracle_inputs": [],
+  "corner_goal_names": [
+    "spatial_diagnostic_native_goal_r01_c06",
+    "spatial_diagnostic_native_goal_r06_c06"
+  ],
+  "ordinary_goal_names": [
+    "spatial_diagnostic_native_goal_r03_c03",
+    "spatial_diagnostic_native_goal_r05_c03"
+  ],
+  "ordinary_goal_selection_rule": "two_nonselected_exposed_development_goals_nearest_the_unique_recorded_R11_roadmap_xy_support_mean_without_consulting_outcomes",
+  "goal_names": [
+    "spatial_diagnostic_native_goal_r01_c06",
+    "spatial_diagnostic_native_goal_r06_c06",
+    "spatial_diagnostic_native_goal_r03_c03",
+    "spatial_diagnostic_native_goal_r05_c03"
+  ],
+  "episodes_per_goal": 8,
+  "benchmark_horizon_commands": 20,
+  "evaluation_command_cap": 5,
+  "factorial_arms": [
+    "sigma_kernel__nearest_recorded",
+    "latent_radius__nearest_recorded"
+  ],
+  "planner_inputs": {
+    "success_radius": "forbidden",
+    "task_reward_function": "forbidden",
+    "hidden_goal_coordinate": "forbidden",
+    "observed_binary_reward_after_each_primitive_state": "allowed_task_consequence"
+  },
+  "conformance_audit": [
+    {
+      "item": "fixed_sigma_control",
+      "status": "pass",
+      "implementation": "R11 Gaussian-complement observation at learned landing sigma over the exact recorded support"
+    },
+    {
+      "item": "latent_radius_treatment",
+      "status": "pass",
+      "implementation": "analytic one-over-rho posterior with data-derived sigma-to-support-diameter bounds"
+    },
+    {
+      "item": "passage_gain",
+      "status": "pass",
+      "implementation": "both arms use the identical frozen R11 nearest-recorded passage realization"
+    },
+    {
+      "item": "factor_isolation",
+      "status": "pass",
+      "implementation": "only observation memory differs; candidates, passage, connection, local depth-two top-four search, executor, goals, starts, seeds, episodes, and command cap are shared"
+    },
+    {
+      "item": "regions",
+      "status": "pass",
+      "implementation": "command-region gain and its artifacts are not loaded"
+    },
+    {
+      "item": "ordinary_goal_selection",
+      "status": "pass",
+      "implementation": "the two goals closest to the reward-free roadmap support mean are selected without task outcomes"
+    },
+    {
+      "item": "truncated_horizon_disclosure",
+      "status": "pass",
+      "implementation": "every result records five evaluation commands against the twenty-command benchmark horizon"
+    },
+    {
+      "item": "task_reward_knowledge",
+      "status": "pass",
+      "implementation": "planner sees realized binary consequences only"
+    }
+  ]
+}

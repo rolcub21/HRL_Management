@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_posterior_consistent_acquisition_r34",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R34_POSTERIOR_CONSISTENCY_REFERENCE.md",
+  "method_revision": "antmaze_posterior_consistent_acquisition_r34",
+  "base_method_revision": "antmaze_posterior_sampled_acquisition_r33",
+  "claim_level": "consumed_development_hidden_goal_posterior_consistency_gate",
+  "declared_deviations": [
+    "consumed_development_goals",
+    "posterior_particle_survival_resampling_after_each_realized_command",
+    "fresh_posterior_particle_at_each_physical_reset"
+  ],
+  "oracle_inputs": [],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_preparation": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "posterior_prior": "uniform_over_unique_reward_free_reachable_landing_precision_cells",
+  "posterior_likelihood": "residual_search_field_from_actual_visited_states",
+  "within_episode_retention": "exact_ratio_of_current_to_previous_residual_likelihood_at_sampled_hypothesis",
+  "gate_task_ids": [3, 5],
+  "development_task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "episodes_per_task": 5
+}

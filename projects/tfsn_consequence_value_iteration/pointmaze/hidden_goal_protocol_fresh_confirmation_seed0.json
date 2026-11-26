@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_r11_fresh_hidden_goal_confirmation_seed0_r1",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/METHOD_REFERENCE.md",
+  "method_revision": "pointmaze_continuous_reference_r11_fresh_confirmation_seed0_r1",
+  "base_method_revision": "tfsn_continuous_reference_r11",
+  "claim_level": "prospective_fresh_twenty_six_goal_hidden_goal_confirmation_single_preparation_seed",
+  "declared_deviations": [
+    "only_frozen_preparation_seed_0_is_evaluated"
+  ],
+  "oracle_inputs": [],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_learning": false,
+  "task_gradient_updates": 0,
+  "task_memory_persisted_across_physical_resets": true,
+  "confirmation_panel_accessed": true,
+  "r11_freeze": {
+    "path": "projects/tfsn_consequence_value_iteration/pointmaze/R11_FREEZE.json",
+    "sha256": "93d9719c25f536df2cf8dc64925c28554c89d62e791c6702ff389bbb799e1c45"
+  },
+  "panel": {
+    "goals": "projects/tfsn_consequence_value_iteration/pointmaze/panels/fresh_confirmation_r1/goals.csv",
+    "goals_sha256": "4f53fe4802b6eff120311952db12ee7b8d8df88c3b771d96d2f8e62e38efc149",
+    "starts": "projects/tfsn_consequence_value_iteration/pointmaze/panels/fresh_confirmation_r1/starts.csv",
+    "starts_sha256": "70822a4cdedaed1c41e4f1c68bf45f64b93bc7ac530ef24bd20fe31b2463de59",
+    "environment": "PointMaze_Medium-v3",
+    "environment_seed": 61,
+    "episode_primitive_steps": 2000,
+    "success_radius_m_evaluator_only": 0.4
+  },
+  "evaluation_set": {
+    "selection": "all_twenty_six_native_free_cells_with_fresh_coordinates_frozen_before_evaluation",
+    "outcomes_consulted_for_selection": false,
+    "tasks": 26,
+    "episodes_per_goal": 8,
+    "rows": 208,
+    "goal_names": [
+      "native_goal_r01_c01",
+      "native_goal_r01_c02",
+      "native_goal_r01_c05",
+      "native_goal_r01_c06",
+      "native_goal_r02_c01",
+      "native_goal_r02_c02",
+      "native_goal_r02_c04",
+      "native_goal_r02_c05",
+      "native_goal_r02_c06",
+      "native_goal_r03_c02",
+      "native_goal_r03_c03",
+      "native_goal_r03_c04",
+      "native_goal_r04_c01",
+      "native_goal_r04_c02",
+      "native_goal_r04_c04",
+      "native_goal_r04_c05",
+      "native_goal_r04_c06",
+      "native_goal_r05_c01",
+      "native_goal_r05_c03",
+      "native_goal_r05_c04",
+      "native_goal_r05_c06",
+      "native_goal_r06_c01",
+      "native_goal_r06_c02",
+      "native_goal_r06_c03",
+      "native_goal_r06_c05",
+      "native_goal_r06_c06"
+    ]
+  },
+  "r11_artifacts": {
+    "models": "projects/tfsn_consequence_value_iteration/results/pointmaze/situation_density_aligned_factorized_r6",
+    "factorized_consequence_sha256": "135d68323759c087fac4ceec9077ca155d6000edd1d44e59e16b7437b9132c5a",
+    "roadmap": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_roadmap_r11",
+    "recorded_graph_sha256": "63d693e8eb9906ddfed397316492ef8a91b20c47a40ab6dc48941d3b0a930115",
+    "planner": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_planner_r11",
+    "bridges_sha256": "d56f809661fa6f512098973de16e8b6ec2640ef7dd77d19de1d250fae461dedf"
+  }
+}

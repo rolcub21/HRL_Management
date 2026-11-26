@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r52_reset_specific_reach_weighted_hubs_r66",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R66_R52_RESET_SPECIFIC_HUB_REFERENCE.md",
+  "method_revision": "antmaze_r52_reset_specific_reach_weighted_hubs_r66",
+  "claim_level": "consumed_development_reset_specific_hub_diagnostic_only",
+  "declared_deviations": [
+    "only_the_first_20_R65_area_ranked_hubs_are_reranked_for_this_cheap_diagnostic",
+    "the_environment_is_reset_but_never_stepped",
+    "development_goal_coordinates_are_post_selection_plot_overlays_only"
+  ],
+  "oracle_inputs": [
+    "consumed_development_task_reset_seeds_for_reset_specific_reachability",
+    "consumed_development_goal_coordinates_for_post_selection_overlay_only"
+  ],
+  "preparation_revision": "antmaze_e549_5m_preparation_r52",
+  "base_hub_revision": "antmaze_r52_area_weighted_hub_ranking_r65",
+  "task_ids": [1, 2, 8],
+  "reset_state_graph_association": "nearest_R52_node_in_R52_consequence_standardized_state_coordinates",
+  "ranking": "greedy_area_weighted_marginal_coverage_times_reset_specific_ten_command_reachability",
+  "reachability_cutoff": null,
+  "candidate_scope": "first_20_R65_hubs_diagnostic_only",
+  "hidden_goal_episodes_executed": false,
+  "task_reward_used": false,
+  "confirmation_panel_accessed": false
+}

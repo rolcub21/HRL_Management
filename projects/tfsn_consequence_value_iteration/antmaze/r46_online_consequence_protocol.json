@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r39_online_consequence_correction_r46",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R46_ONLINE_CONSEQUENCE_CORRECTION_REFERENCE.md",
+  "method_revision": "antmaze_r39_online_consequence_correction_r46",
+  "base_method_revision": "antmaze_live_posterior_passage_r39",
+  "claim_level": "consumed_development_online_consequence_component_gate_only",
+  "declared_deviations": [
+    "add_reward_free_online_bayesian_correction_to_live_connection_estimates",
+    "retain_online_consequence_memory_across_physical_resets_within_each_task",
+    "do_not_retrain_models_or_end_episodes_early"
+  ],
+  "oracle_inputs": [],
+  "task_observation_model_inputs": [
+    "reward_contact_radius_m"
+  ],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_online_correction": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "online_outcome": "continuous_landing_kernel_at_observed_endpoint",
+  "online_similarity": "gaussian_in_frozen_standardized_full_state_and_absolute_command_space",
+  "offline_prior_effective_count_global": 1.0,
+  "memory_scope": "one_task_across_physical_episode_resets",
+  "early_episode_termination": false,
+  "gate_task_ids": [
+    3,
+    5
+  ],
+  "episodes_per_task": 5
+}

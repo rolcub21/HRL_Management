@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "method_revision": "pointmaze_latent_detection_passage_factorial_r12_development",
+  "base_revision": "pointmaze_continuous_reference_hidden_goal_r11",
+  "claim_level": "consumed_development_factorial_only",
+  "categories": {
+    "global_computational": {
+      "command_steps": 100,
+      "mixture_components": 5,
+      "ensemble_size": 3,
+      "hidden_dimension": 256,
+      "hidden_layers": 3,
+      "batch_size": 256,
+      "epochs": 200,
+      "early_stopping_patience": 10,
+      "early_stopping_relative_improvement": 0.0001,
+      "progress_every_epochs": 1,
+      "learning_rate": 0.0003,
+      "validation_fraction": 0.1,
+      "std_floor": 0.0001,
+      "bridge_candidates": 128,
+      "passage_bins": 16,
+      "consumptive_lookahead_depth": 2,
+      "consumptive_lookahead_beam_width": 4,
+      "pair_inference_batch": 4096,
+      "field_evaluation_batch": 4096,
+      "random_seed": 12049
+    },
+    "data_derived": {
+      "rho_min": "held_out_landing_sigma_of_the_deployed_consequence_model",
+      "rho_max": "exact_euclidean_diameter_of_recorded_roadmap_state_xy_support",
+      "candidate_goal_support": "unique_recorded_roadmap_state_xy_with_uniform_prior_mass",
+      "passage_supervision": "reward_free_primitive_xy_trajectory_for_each_recorded_command",
+      "horizon": "benchmark_episode_primitive_steps_divided_by_global_command_steps"
+    },
+    "global_decision_principles": {
+      "radius_prior": "log_uniform_density_p_rho_proportional_to_one_over_rho",
+      "reward_model": "deterministic_isotropic_distance_threshold_in_adapter_phi_xy",
+      "posterior_representation": "analytic_per_goal_radius_interval_no_radius_bins",
+      "posterior_exhaustion": "fatal_model_falsification_no_fallback",
+      "passage_model_class": "shared.learned_passage.PassageMLP",
+      "passage_loss": "mean_squared_error_on_sigma_normalized_relative_passage_bins",
+      "passage_training": "grouped_holdout_independent_initializations_adam_manifest_cap_validation_early_stopping",
+      "passage_ensemble_reduction": "pessimistic_minimum_contact_probability"
+    },
+    "task_knowledge": {
+      "state_and_action_schema": "environment_adapter_only",
+      "phi": "adapter_declared_achieved_xy_projection",
+      "distance_threshold_reward_isotropic_and_deterministic": "declared_shared_task_class_assumption",
+      "success_radius": "unknown_to_planner_models_and_preparation",
+      "task_reward_function": "forbidden_to_planner_models_and_preparation",
+      "hidden_goal_coordinate": "forbidden_to_planner_executor_and_models"
+    }
+  },
+  "factorial": {
+    "factors": {
+      "observation_memory": ["r11_sigma_kernel", "r12_latent_radius"],
+      "passage_prediction": ["r11_nearest_recorded", "r12_shared_learned"]
+    },
+    "pointmaze_goal_names": [
+      "spatial_diagnostic_native_goal_r01_c06",
+      "spatial_diagnostic_native_goal_r06_c06"
+    ],
+    "episodes_per_goal": 3
+  }
+}

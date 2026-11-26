@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_reachable_posterior_acquisition_r36_extended_10ep",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R36_REACHABLE_POSTERIOR_REFERENCE.md",
+  "method_revision": "antmaze_reachable_posterior_acquisition_r36",
+  "base_evaluation_protocol": "antmaze_reachable_posterior_acquisition_r36",
+  "claim_level": "consumed_development_extended_budget_diagnostic",
+  "declared_deviations": [
+    "consumed_development_goals",
+    "physical_episode_budget_doubled_from_five_to_ten",
+    "report_acquisition_at_five_and_ten_separately"
+  ],
+  "oracle_inputs": [],
+  "task_observation_model_inputs": ["reward_contact_radius_m"],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_preparation": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "development_task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "episodes_per_task": 10,
+  "commands_per_episode": 10,
+  "primitive_steps_per_episode": 1000
+}

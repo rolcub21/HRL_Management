@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "freeze_status": "frozen_reference",
+  "frozen_on": "2026-11-24",
+  "method_reference": "projects/tfsn_consequence_value_iteration/METHOD_REFERENCE.md",
+  "domain_reference": "projects/tfsn_consequence_value_iteration/pointmaze/METHOD_REFERENCE.md",
+  "method_revision": "tfsn_continuous_reference_r11",
+  "shared_method_manifest": "projects/tfsn_consequence_value_iteration/shared/method_manifest.json",
+  "shared_method_manifest_sha256": "e4a02bc70371d20d4dd42e58f77789ba0bd9a2150a1ad2b92eb91d6c5095fed8",
+  "detection_radius_decision": {
+    "planner_reads_benchmark_detection_radius": false,
+    "benchmark_success_radius_m": 0.4,
+    "benchmark_success_radius_role": "evaluator_only",
+    "acquisition_search_scale": "data_derived_landing_scale",
+    "deployed_landing_scale_m": 0.08113273233175278,
+    "future_detection_model_ablation_changes_method_revision": true
+  },
+  "settings_inventory": {
+    "classification": [
+      "data_derived",
+      "global",
+      "task_knowledge"
+    ],
+    "global_numbers_source": "categories.global_computational in the shared method manifest",
+    "data_derived_source": "categories.data_derived in the shared method manifest",
+    "task_knowledge_source": "categories.task_knowledge in the shared method manifest",
+    "domain_local_policy_numbers_allowed": false
+  },
+  "frozen_artifacts": {
+    "recorded_graph_sha256": "63d693e8eb9906ddfed397316492ef8a91b20c47a40ab6dc48941d3b0a930115",
+    "bridges_sha256": "d56f809661fa6f512098973de16e8b6ec2640ef7dd77d19de1d250fae461dedf",
+    "factorized_consequence_sha256": "135d68323759c087fac4ceec9077ca155d6000edd1d44e59e16b7437b9132c5a",
+    "mobility_sha256": "7f6b19dfcb3bd8c85935706d7d78aea6a5643abdfb9b2183d44483c9dbab3901"
+  },
+  "development_result": {
+    "tasks": 9,
+    "episodes_per_task": 8,
+    "acquisition_at_horizon": 0.7777777777777778,
+    "conditional_return": 1.0,
+    "mean_e2e": 0.75,
+    "confirmation_panel_accessed": false
+  },
+  "known_failures": {
+    "status": "stable_across_r8_and_r11",
+    "goal_names": [
+      "spatial_diagnostic_native_goal_r01_c06",
+      "spatial_diagnostic_native_goal_r06_c06"
+    ],
+    "failure_mode": "no_contact_within_eight_development_episodes",
+    "interpretation": "frozen_version_limitation_not_noise; retained_as_future_detection_model_test_cases"
+  },
+  "development_evidence": [
+    {
+      "revision": "pointmaze_density_movement_reach_r8",
+      "path": "projects/tfsn_consequence_value_iteration/results/pointmaze/density_movement_reach_development_r8/summary.json",
+      "sha256": "b615fbb58f2d980ef6417cd91864ae931667ca5cd70609ada8726c8d4479f638"
+    },
+    {
+      "revision": "tfsn_continuous_reference_r11",
+      "path": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_development_r11/summary.json",
+      "sha256": "87baa67c0e16c485618c0b145081122aa92a582edaf848e523b53a177046dc2c"
+    }
+  ],
+  "verification": {
+    "command": "bash projects/tfsn_consequence_value_iteration/pointmaze/run.sh audit",
+    "verified_on": "2026-11-24",
+    "manifest_audit_passed": true,
+    "unit_tests_passed": 19,
+    "audit_report": "projects/tfsn_consequence_value_iteration/results/pointmaze/part_a_audit.json",
+    "audit_report_sha256": "a903c2d3b61c606285d3b922294b7f1a1d10b5fef15767198cb13cae46e4d869"
+  }
+}

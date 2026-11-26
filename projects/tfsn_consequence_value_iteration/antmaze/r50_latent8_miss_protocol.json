@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_latent_radius_nearest_miss8_r50",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R50_LATENT8_MISS_REFERENCE.md",
+  "method_revision": "antmaze_latent_radius_nearest_miss8_r50",
+  "shared_method_manifest": "projects/tfsn_consequence_value_iteration/shared/method_manifest_r12.json",
+  "shared_method_revision": "tfsn_latent_detection_passage_r12_development",
+  "claim_level": "consumed_development_miss_extension_only",
+  "declared_deviations": [
+    "tasks_0_and_2_are_consumed_development_cases_that_R48_did_not_acquire",
+    "task_selection_uses_the_lowest_two_R48_miss_ids_after_predeclared_exclusion_of_tasks_1_and_4",
+    "only_the_latent_radius_nearest_recorded_arm_is_run",
+    "eight_episodes_per_task_extends_the_short_three_episode_factorial_screen",
+    "R39_immediate_adaptive_greedy_search_is_retained",
+    "R46_online_consequence_target_semantics_are_retained",
+    "results_must_not_be_pooled_with_the_four_arm_factorial"
+  ],
+  "oracle_inputs": [],
+  "task_ids": [0, 2],
+  "selection_source": "R48_full15_first_contact_episode_is_null",
+  "selection_evidence": [
+    {
+      "task_id": 0,
+      "relative_path": "evaluation_all15/task_000.json",
+      "sha256": "4dbd1eaee832e3a2ad6e4544fc1d2f92c1c9aeb3aa15e9a63380c3ad034be59d"
+    },
+    {
+      "task_id": 2,
+      "relative_path": "evaluation_all15/task_002.json",
+      "sha256": "4e2975246371031eb419baaaad989b95b5b5470676b11eda8ddfd4decf72b6b7"
+    }
+  ],
+  "excluded_task_ids": [1, 4],
+  "episodes_per_task": 8,
+  "horizon_commands": 10,
+  "factorial_arms": [
+    "latent_radius__nearest_recorded"
+  ],
+  "planner_inputs": {
+    "success_radius": "forbidden",
+    "task_reward_function": "forbidden",
+    "hidden_goal_coordinate": "forbidden",
+    "observed_binary_reward_after_each_primitive_state": "allowed_task_consequence"
+  },
+  "conformance_audit": [
+    {
+      "item": "candidate_goal_set",
+      "status": "pass",
+      "implementation": "unique exact recorded roadmap node xy; no grid or spacing"
+    },
+    {
+      "item": "candidate_goal_prior",
+      "status": "pass",
+      "implementation": "uniform over unique recorded support"
+    },
+    {
+      "item": "rho_bounds_and_prior",
+      "status": "pass",
+      "implementation": "data-derived sigma-to-support-diameter bounds with analytic one-over-rho marginal"
+    },
+    {
+      "item": "posterior_exhaustion",
+      "status": "pass",
+      "implementation": "fatal PosteriorFalsifiedError with no fallback"
+    },
+    {
+      "item": "factor_isolation",
+      "status": "pass",
+      "implementation": "latent-radius memory and frozen nearest-recorded passage only"
+    },
+    {
+      "item": "task_reward_knowledge",
+      "status": "pass",
+      "implementation": "planner sees realized binary consequences only"
+    },
+    {
+      "item": "coverage_growth_diagnostic",
+      "status": "pass",
+      "implementation": "maximum distance of actual command endpoints from each observed episode start is report-only and never enters planning"
+    }
+  ]
+}

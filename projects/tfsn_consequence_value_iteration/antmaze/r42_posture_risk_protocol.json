@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r30_posture_risk_audit_r42",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R42_POSTURE_RISK_AUDIT_REFERENCE.md",
+  "method_revision": "antmaze_r30_posture_risk_audit_r42",
+  "claim_level": "consumed_development_consequence_model_diagnostic_only",
+  "declared_deviations": [
+    "R40_task3_reset_seed_and_first_two_commands_are_used_only_to_reconstruct_the_known_flip",
+    "inversion_is_a_diagnostic_label_and_is_not_available_to_the_planner"
+  ],
+  "oracle_inputs": [
+    "R40_task3_reset_seed",
+    "R40_task3_first_two_recorded_commands",
+    "R40_task3_observed_command_endpoints"
+  ],
+  "held_out_samples_per_member": 128,
+  "command_samples_per_member": 32768,
+  "task_reward_used": false,
+  "hidden_goal_used": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}
+

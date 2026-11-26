@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r40_task3_stall_posture_replay_r41",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R41_STALL_POSTURE_REPLAY_REFERENCE.md",
+  "method_revision": "antmaze_r40_task3_stall_posture_replay_r41",
+  "claim_level": "consumed_development_posture_diagnostic_only",
+  "declared_deviations": [
+    "commands_are_replayed_post_hoc_from_the_existing_R40_task3_trace",
+    "posture_is_logged_for_diagnosis_but_is_not_available_to_the_planner"
+  ],
+  "oracle_inputs": [
+    "R40_task3_reset_seed",
+    "R40_task3_first_four_recorded_commands"
+  ],
+  "source_task_id": 3,
+  "commands_replayed": 4,
+  "primitive_steps_per_command": 100,
+  "task_reward_used": false,
+  "hidden_goal_used": false,
+  "confirmation_panel_accessed": false
+}
+

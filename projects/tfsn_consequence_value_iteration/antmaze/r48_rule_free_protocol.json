@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r39_r46_rule_removal_r48",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R48_RULE_FREE_R39_REFERENCE.md",
+  "method_revision": "antmaze_r39_r46_rule_removal_r48",
+  "base_search_revision": "antmaze_live_posterior_passage_r39",
+  "base_online_revision": "antmaze_r39_online_consequence_correction_r46",
+  "shared_method_manifest": "projects/tfsn_consequence_value_iteration/shared/method_manifest.json",
+  "shared_method_revision": "tfsn_continuous_reference_r11",
+  "claim_level": "consumed_development_rules_only_removal_gate",
+  "declared_deviations": [
+    "consumed_development_gate_tasks",
+    "retain_R39_immediate_adaptive_greedy_search_for_rules_only_comparison",
+    "retain_R46_online_target_semantics_for_rules_only_comparison",
+    "retain_empirical_passage_matching_precision_pending_separate_audit"
+  ],
+  "oracle_inputs": [],
+  "planner_inputs": {
+    "success_radius": "forbidden",
+    "hidden_goal_coordinate": "forbidden",
+    "task_reward_before_evaluator_contact": "forbidden"
+  },
+  "evaluator": {
+    "episode_primitive_steps": 1000,
+    "success_radius_m_evaluator_only": 0.8,
+    "contact_semantics": "finish_current_100_step_command_then_end_episode_as_success",
+    "environment_reward_ignored": true,
+    "environment_goal_hidden": true
+  },
+  "derived_horizon_commands": 10,
+  "gate_task_ids": [3, 5],
+  "development_task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "episodes_per_task": 5,
+  "evaluation_sets": {
+    "gate2": {
+      "claim_level": "consumed_development_rules_only_removal_gate",
+      "declared_deviations": [
+        "consumed_development_gate_tasks",
+        "retain_R39_immediate_adaptive_greedy_search_for_rules_only_comparison",
+        "retain_R46_online_target_semantics_for_rules_only_comparison",
+        "retain_empirical_passage_matching_precision_pending_separate_audit"
+      ]
+    },
+    "all15": {
+      "claim_level": "consumed_development_full_panel",
+      "declared_deviations": [
+        "all_15_tasks_have_historical_development_exposure_and_are_not_confirmation",
+        "retain_R39_immediate_adaptive_greedy_search_for_rules_only_comparison",
+        "retain_R46_online_target_semantics_for_rules_only_comparison",
+        "passage_matching_precision_is_reported_by_a_separate_reward_free_diagnostic"
+      ]
+    }
+  },
+  "conformance_audit": [
+    {
+      "item": "contact_radius",
+      "status": "pass",
+      "implementation": "radius is read only by the evaluator from this task contract; posterior and passages use learned sigma"
+    },
+    {
+      "item": "mobility",
+      "status": "pass",
+      "implementation": "minimum ensemble of one minus exact E[kappa_sigma(endpoint,start)] over exact nonidentity movement requests"
+    },
+    {
+      "item": "pseudocounts",
+      "status": "pass",
+      "implementation": "recorded and online estimators both import recorded_evidence_prior_weight from the shared manifest"
+    },
+    {
+      "item": "reliability_neighbor_cap",
+      "status": "pass",
+      "implementation": "imports recorded_reliability_neighbors from the shared manifest"
+    },
+    {
+      "item": "mixture_integration",
+      "status": "pass",
+      "implementation": "enumerates all joint spatial and posture component means and weights; no endpoint sampling"
+    },
+    {
+      "item": "reach_bank",
+      "status": "pass",
+      "implementation": "shared representative reach with continuous requested-advance times realized-advance weights and no cutoff"
+    },
+    {
+      "item": "posterior_exhaustion",
+      "status": "pass",
+      "implementation": "zero residual mass produces zero gain and an explicit posterior_exhausted diagnostic"
+    },
+    {
+      "item": "horizon",
+      "status": "pass",
+      "implementation": "finite_horizon(evaluator episode primitive steps) using shared command_steps"
+    },
+    {
+      "item": "candidate_budgets",
+      "status": "pass",
+      "implementation": "shared bridge_candidates value is used as the per-family budget for bridge, recorded, and advance candidates"
+    }
+  ]
+}

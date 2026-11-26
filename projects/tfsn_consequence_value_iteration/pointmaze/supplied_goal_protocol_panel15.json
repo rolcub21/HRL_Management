@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_r11_supplied_goal_disjoint15_r1",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/METHOD_REFERENCE.md",
+  "method_revision": "tfsn_continuous_reference_r11_supplied_goal_control_r1",
+  "base_method_revision": "tfsn_continuous_reference_r11",
+  "claim_level": "exact_E373_supplied_goal_descriptive_cross_evaluation",
+  "declared_deviations": [
+    "the_goal_coordinate_is_supplied_at_episode_start",
+    "each_episode_is_standalone_and_online_task_memory_is_reset",
+    "comparison_with_existing_MEGA_is_not_equal_budget_because_R11_uses_4p1m_and_MEGA_uses_2p9m_reward_free_transitions"
+  ],
+  "oracle_inputs": [
+    "supplied_goal_coordinate_at_episode_start",
+    "canonical_E373_start_coordinate"
+  ],
+  "r11_freeze": {
+    "path": "projects/tfsn_consequence_value_iteration/pointmaze/R11_FREEZE.json",
+    "sha256": "93d9719c25f536df2cf8dc64925c28554c89d62e791c6702ff389bbb799e1c45"
+  },
+  "panel": {
+    "goals": "projects/tfsn_supplied_goal_pointmaze/baseline_panel/goals.csv",
+    "goals_sha256": "eeb217763f65239baae8f28624ba79ec7d8cd10137ad604befd9b084778febb4",
+    "starts": "projects/tfsn_supplied_goal_pointmaze/baseline_panel/starts.csv",
+    "starts_sha256": "be77d38e541a344e214a5c79eed21cffec9bf7d86e3d3d25986b6876080d35d5",
+    "environment": "PointMaze_Medium-v3",
+    "environment_seeds": [40, 41, 42, 43, 44],
+    "goals_count": 26,
+    "episodes_per_goal_seed": 20,
+    "rows": 2600,
+    "episode_primitive_steps": 2000,
+    "success_radius_m_evaluator_only": 0.4
+  },
+  "development_subset": {
+    "selection": "fifteen_of_seventeen_goals_disjoint_from_the_first_nine_selected_from_coordinates_only",
+    "selection_algorithm": "lexicographically_maximize_minimum_then_p10_then_mean_pairwise_Euclidean_goal_separation_over_all_15_of_17_subsets",
+    "outcomes_consulted_for_selection": false,
+    "environment_seed": 41,
+    "episodes_per_goal": 8,
+    "rows": 120,
+    "claim_level": "exposed_disjoint_fifteen_goal_supplied_goal_development_comparison",
+    "declared_deviations": [
+      "only_the_frozen_120_episode_disjoint_development_subset_is_used",
+      "the_two_remaining_unused_goal_cells_are_not_evaluated"
+    ],
+    "goal_names": [
+      "native_goal_r01_c02",
+      "native_goal_r01_c05",
+      "native_goal_r02_c01",
+      "native_goal_r02_c04",
+      "native_goal_r02_c06",
+      "native_goal_r03_c02",
+      "native_goal_r03_c04",
+      "native_goal_r04_c02",
+      "native_goal_r04_c06",
+      "native_goal_r05_c01",
+      "native_goal_r05_c04",
+      "native_goal_r05_c06",
+      "native_goal_r06_c02",
+      "native_goal_r06_c03",
+      "native_goal_r06_c05"
+    ],
+    "remaining_unused_goal_names": [
+      "native_goal_r02_c05",
+      "native_goal_r04_c04"
+    ],
+    "first_panel_goal_names": [
+      "native_goal_r01_c01",
+      "native_goal_r01_c06",
+      "native_goal_r02_c02",
+      "native_goal_r03_c03",
+      "native_goal_r04_c01",
+      "native_goal_r04_c05",
+      "native_goal_r05_c03",
+      "native_goal_r06_c01",
+      "native_goal_r06_c06"
+    ]
+  },
+  "r11_artifacts": {
+    "models": "projects/tfsn_consequence_value_iteration/results/pointmaze/situation_density_aligned_factorized_r6",
+    "factorized_consequence_sha256": "135d68323759c087fac4ceec9077ca155d6000edd1d44e59e16b7437b9132c5a",
+    "roadmap": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_roadmap_r11",
+    "recorded_graph_sha256": "63d693e8eb9906ddfed397316492ef8a91b20c47a40ab6dc48941d3b0a930115",
+    "planner": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_planner_r11",
+    "bridges_sha256": "d56f809661fa6f512098973de16e8b6ec2640ef7dd77d19de1d250fae461dedf"
+  },
+  "reward_free_budget": {
+    "r11_planner_preparation_transitions": 3600000,
+    "r11_executor_training_transitions": 500000,
+    "r11_total_transitions": 4100000,
+    "mega_total_transitions": 2900000,
+    "equalized": false
+  },
+  "mega_comparator": {
+    "training_seed": 0,
+    "aggregate": "projects/tfsn_supplied_goal_pointmaze/results/e373_equal_budget_2p9m_r1/evaluation/mega/seed0/aggregate.json",
+    "aggregate_sha256": "703f0b4f2503bd1c88de0020494e9c4668ebe5ea677bd391061e4ee771f93241",
+    "episodes": "projects/tfsn_supplied_goal_pointmaze/results/e373_equal_budget_2p9m_r1/evaluation/mega/seed0/episodes.csv",
+    "episodes_sha256": "f19c0386e0be39d87775ee706879e991ee2c56aa84c1f1854ab21a6a6ab6197b",
+    "verified_gate": "projects/tfsn_supplied_goal_pointmaze/results/e373_equal_budget_2p9m_r1/gates/mega_seed0.json",
+    "verified_gate_sha256": "325ef10cc4602fea780e8cb2e441c86c214371f9289dbae3c460a0a60ad9f8ac"
+  }
+}

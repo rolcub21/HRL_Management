@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_r11_independent_multiseed_bootstrap_r1",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/METHOD_REFERENCE.md",
+  "method_revision": "tfsn_continuous_reference_r11",
+  "claim_level": "reward_free_executor_specific_bootstrap_preparation_only",
+  "declared_deviations": [],
+  "oracle_inputs": [],
+  "environment": {
+    "env_id": "PointMaze_Medium-v3",
+    "hidden_environment_goal_exposed": false,
+    "task_reward_used": false
+  },
+  "collection": {
+    "behavior_distribution": "uniform_over_exact_set_of_coordinates_observed_so_far_after_reset_bootstrap",
+    "chains": 80,
+    "commands_per_chain": 75,
+    "fixed_command_duration": 100,
+    "primitive_transitions_per_preparation_seed": 600000,
+    "reset_seed_base_rule": "560000_plus_100000_times_preparation_seed",
+    "store_primitive_trajectories": true
+  },
+  "preparation_seeds": {
+    "1": {
+      "reset_seed_base": 660000,
+      "executor_checkpoint": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed1/gc_sac/model.zip",
+      "executor_checkpoint_sha256": "11d68b23eb400ef6ceaaa741e50fae9036c25fcc2854f9071955b5c8ac8bc27b",
+      "executor_manifest": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed1/gc_sac/manifest.json",
+      "executor_manifest_sha256": "efb84cee77911aee1639afb2e20e3c20a0f495bc970c12346e523b5b2b6ccb3c"
+    },
+    "2": {
+      "reset_seed_base": 760000,
+      "executor_checkpoint": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed2/gc_sac/model.zip",
+      "executor_checkpoint_sha256": "930b8eec256dcc6d5af277b78a39d10efef356630903133cfc370b3b015aa679",
+      "executor_manifest": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed2/gc_sac/manifest.json",
+      "executor_manifest_sha256": "488468d3f22a69ef83568e5d232c17a3b59a148f4c523b739110fc0e88c53776"
+    }
+  },
+  "downstream_status": {
+    "acquisition_alignment": "paused_until_shared_search_memory_definition_is_settled",
+    "return_alignment": "paused_because_the_current_return_collector_uses_search_before_synthetic_contact",
+    "safe_to_reuse_after_search_memory_change": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r43_orientation_deployment_r45",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R45_ORIENTATION_DEPLOYMENT_REFERENCE.md",
+  "method_revision": "antmaze_r43_orientation_deployment_r45",
+  "base_method_revision": "antmaze_live_posterior_passage_r39",
+  "claim_level": "consumed_development_orientation_consequence_component_gate_only",
+  "declared_deviations": [
+    "replace_the_R30_full_endpoint_consequence_ensemble_with_reward_free_R43_orientation_factorization",
+    "recompute_only_model_bridge_weights_and_live_consequence_values",
+    "reuse_the_frozen_R31_graph_landmarks_mobility_and_empirical_passage_geometry"
+  ],
+  "oracle_inputs": [],
+  "task_observation_model_inputs": [
+    "reward_contact_radius_m"
+  ],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_preparation": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "gate_task_ids": [
+    3,
+    5
+  ],
+  "episodes_per_task": 5
+}

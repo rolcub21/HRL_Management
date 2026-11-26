@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_chained_sac_executor_e549",
+  "method_revision": "antmaze_chained_sac_executor_e549",
+  "claim_level": "from_scratch_executor_development_only",
+  "question": "Does Farama SAC trained from scratch inside AntMaze on TF-SN's exact 100-step chained command contract reduce transfer failures without degrading command reach?",
+  "pinned_farama_repository": "https://github.com/Farama-Foundation/minari-dataset-generation-scripts",
+  "pinned_farama_commit": "f4579c7760369b106115bdafbcd00e549e850434",
+  "pinned_farama_training_source_sha256": "b1cc7de1a50d482ffb23856bfc46d00bfc66f5729be2405fc679db0acf6bf800",
+  "pinned_farama_environment_source_sha256_without_terminal_newline": "119ad63879514451a2e98265453597ffd21bd6e8c8da03a47a21640be894ac14",
+  "declared_method_changes": [
+    "replace_the_open_plane_XML_with_AntMaze_Medium_Diverse_GR-v4_geometry_and_reset_distribution",
+    "replace_unbounded_goal_duration_with_goal_switch_on_contact_or_after_exactly_100_primitive_steps_without_physical_reset",
+    "sample_goal_distance_from_the_frozen_reward_free_R47_TF_SN_requested_distance_distribution_and_retain_Farama_uniform_direction_sampling"
+  ],
+  "declared_operational_deviations": [
+    "disable_RecordVideo_and_WandB_without_changing_training_data_or_updates",
+    "save_local_model_and_replay_checkpoints_every_500000_steps_for_the_requested_early_gates",
+    "support_explicit_local_checkpoint_and_replay_buffer_resume"
+  ],
+  "oracle_inputs": [],
+  "environment": "AntMaze_Medium_Diverse_GR-v4",
+  "training_seed": 42,
+  "fixed_command_horizon": 100,
+  "physical_episode_horizon": 1000,
+  "goal_switch_on_contact": true,
+  "goal_switch_on_horizon": true,
+  "physical_reset_on_goal_switch": false,
+  "goal_threshold_m": 0.2,
+  "command_distance_source": "completed_reward_free_R47_current_TF_SN_behavior",
+  "command_distance_rows": 2000,
+  "command_direction_distribution": "Farama_uniform_angle",
+  "goal_endpoint_constraint": "benchmark_goal_noise_support_inside_every_AntMaze_free_cell",
+  "algorithm": "Stable_Baselines3_SAC",
+  "training_from_scratch": true,
+  "farama_total_training_target_steps": 30000000,
+  "early_evaluation_steps": [500000, 1000000],
+  "executor_training_steps_count_toward_method_budget": true,
+  "executor_training_reward_used": true,
+  "task_reward_used": false,
+  "hidden_goals_used": false,
+  "confirmation_panel_accessed": false
+}

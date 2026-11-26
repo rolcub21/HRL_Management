@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_continuous_reference_r11",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/METHOD_REFERENCE.md",
+  "method_revision": "tfsn_continuous_reference_r11",
+  "claim_level": "reference_method_development_protocol",
+  "declared_deviations": [
+    "historical_reward_free_aligned_rows_initialize_the_first_factorized_model_before_current_planner_alignment",
+    "all_recorded_endpoints_are_data_derived_landmarks_matching_literal_AntMaze_R22_R28"
+  ],
+  "oracle_inputs": [],
+  "environment": {
+    "id": "PointMaze_Medium-v3",
+    "continuing_task": true,
+    "reset_target": false,
+    "state": ["x", "y", "vx", "vy"],
+    "position_indices": [0, 1]
+  },
+  "evaluator": {
+    "episode_primitive_steps": 2000,
+    "success_radius_m_evaluator_only": 0.4,
+    "contact_semantics": "finish_current_100_step_command_then_end_episode_as_success",
+    "environment_reward_ignored": true,
+    "environment_goal_hidden": true
+  },
+  "shared_method_manifest": "projects/tfsn_consequence_value_iteration/shared/method_manifest.json",
+  "executor": {
+    "development_seed": 0,
+    "input": {
+      "observation": "PointMaze observation[4]",
+      "achieved_goal": "observed achieved xy[2]",
+      "desired_goal": "commanded xy[2]"
+    },
+    "training": {
+      "objective": "goal_conditioned_SAC_future_HER",
+      "shared_reward_free_environment_transitions": 500000,
+      "gradient_updates": 250000,
+      "additional_environment_transitions": 0
+    },
+    "seeds": {
+      "0": {
+        "checkpoint": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed0/gc_sac/model.zip",
+        "checkpoint_sha256": "d15ed97e10fd11037a000ffeb9a065c8b527202a5b13844dfea2fa7b315e359a",
+        "manifest": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed0/gc_sac/manifest.json",
+        "manifest_sha256": "270b22587cd57db0da5625a2c7508b25297675b242cb5bb9719860def5391677"
+      },
+      "1": {
+        "checkpoint": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed1/gc_sac/model.zip",
+        "checkpoint_sha256": "11d68b23eb400ef6ceaaa741e50fae9036c25fcc2854f9071955b5c8ac8bc27b",
+        "manifest": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed1/gc_sac/manifest.json",
+        "manifest_sha256": "efb84cee77911aee1639afb2e20e3c20a0f495bc970c12346e523b5b2b6ccb3c"
+      },
+      "2": {
+        "checkpoint": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed2/gc_sac/model.zip",
+        "checkpoint_sha256": "930b8eec256dcc6d5af277b78a39d10efef356630903133cfc370b3b015aa679",
+        "manifest": "/home/ai_diagnosis/SG/sn/results/experiments/105_pointmaze_rnd_gc_sac/seed2/gc_sac/manifest.json",
+        "manifest_sha256": "488468d3f22a69ef83568e5d232c17a3b59a148f4c523b739110fc0e88c53776"
+      }
+    }
+  },
+  "initial_reward_free_sources_seed0": [
+    {
+      "name": "space_uniform_bootstrap",
+      "schema": "bootstrap_chain",
+      "path": "projects/tfsn_current_definition/results/pointmaze/reward_free_collection_v2_set_bootstrap",
+      "summary_sha256": "f14ad2657cafdbd1dfe583d6fb1914a62c456bcfe470ffefc3ffa2532c7d231d",
+      "rows": 6000
+    },
+    {
+      "name": "historical_acquisition_alignment_r1",
+      "schema": "aligned_rollout",
+      "path": "projects/tfsn_acquisition_aligned_preparation/results/pointmaze/acquisition_aligned_round1",
+      "summary_sha256": "2c75dc551709c1fd6ac16f80d622d3df820ea066111ffdff989b204e3220bc7d",
+      "rows": 6000
+    },
+    {
+      "name": "historical_acquisition_alignment_r2",
+      "schema": "aligned_rollout",
+      "path": "projects/tfsn_acquisition_aligned_preparation/results/pointmaze/acquisition_aligned_round2_full_state_policy",
+      "summary_sha256": "668e40c76ea0490de783d374d25266ba632426313f4a8155ba676c84ffb2c798",
+      "rows": 6000
+    },
+    {
+      "name": "historical_return_alignment_r7",
+      "schema": "aligned_rollout",
+      "path": "projects/tfsn_acquisition_aligned_preparation/results/pointmaze/return_aligned_r7",
+      "summary_sha256": "fad40ac059ddbc8ee481345ef00e2a6ea3dc283de4d154c07692ec962ff494e2",
+      "rows": 6000
+    }
+  ],
+  "development_panel": {
+    "kind": "exposed_nine_goal_spatial_panel",
+    "protocol": "projects/tfsn_acquisition_aligned_preparation/joint_evaluation_protocol.json",
+    "protocol_sha256": "259ec2862c7c19d0abd88e425f4ccbdbb8b0d74d4dd553145535bab2246aa183",
+    "tasks": 9,
+    "source_goal_seed": 41
+  },
+  "confirmation_panel": {
+    "status": "sealed_for_current_method",
+    "kind": "exact_E373",
+    "paper_protocol": "projects/tfsn_acquisition_aligned_preparation/paper_panel_protocol.json",
+    "paper_protocol_sha256": "c415cdb270731fb1830117410f4386d4fb3f7ee9d546ddf2e70ce523e67e9671",
+    "goals": 26,
+    "environment_seeds": [40, 41, 42, 43, 44],
+    "executor_seeds": [0, 1, 2],
+    "episodes_per_goal": 20
+  }
+}

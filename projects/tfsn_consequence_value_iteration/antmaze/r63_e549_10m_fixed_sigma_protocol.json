@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_e549_10m_fixed_sigma_hidden_goal_original9_r63",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R63_E549_10M_FIXED_SIGMA_REFERENCE.md",
+  "method_revision": "antmaze_e549_10m_fixed_sigma_hidden_goal_original9_r63",
+  "base_preparation_revision": "antmaze_e549_10m_preparation_r54",
+  "online_correction_revision": "antmaze_destination_arrival_online_correction_r51",
+  "claim_level": "original_nine_consumed_development_tasks_10m_executor_fixed_sigma_panel",
+  "declared_deviations": [
+    "the_original_nine_goals_are_consumed_development_tasks_and_not_confirmation_evidence",
+    "the_E549_10M_R54_R51_stack_was_selected_after_prior_consumed_development",
+    "the_10M_executor_duration_comparison_was_selected_after_the_5M_executor_and_R52_results",
+    "all_nine_tasks_execute_fresh_and_no_5M_trajectory_is_reused"
+  ],
+  "oracle_inputs": [],
+  "task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  "fresh_execution_task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  "selection_rule": "same_frozen_original_nine_goal_development_panel_as_R59",
+  "episodes": 5,
+  "commands_per_episode": 10,
+  "fixed_command_duration": 100,
+  "evaluation_seed": 607,
+  "executor": "frozen_E549_10M_chained_AntMaze_SAC",
+  "executor_checkpoint_sha256": "d966bd714c5d25edaaf1db89ee9c870065d6d92c09fbf3f2b40f8ca4dd3c65f0",
+  "online_outcome": "binary_arrival_within_deployed_landing_sigma_of_selected_graph_destination",
+  "acquisition_observation_memory": "fixed_R54_landing_scale_soft_Gaussian_complement",
+  "acquisition_search_sigma": "deployed_R54_landing_sigma_fixed_within_evaluation",
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "success_radius_read_by_planner": false,
+  "task_reward_used": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}

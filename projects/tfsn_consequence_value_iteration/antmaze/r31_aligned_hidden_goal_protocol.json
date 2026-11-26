@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r30_aligned_hidden_goal_r31",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R31_ALIGNED_HIDDEN_GOAL_REFERENCE.md",
+  "method_revision": "antmaze_r30_aligned_hidden_goal_r31",
+  "claim_level": "consumed_development_hidden_goal_aligned_model_gate",
+  "declared_deviations": [
+    "consumed_development_goals",
+    "one_reward_free_R28_behavior_alignment_round",
+    "R30_aligned_consequence_replaces_R8",
+    "all_model_and_sigma_dependent_roadmap_artifacts_are_rebuilt"
+  ],
+  "oracle_inputs": [],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_preparation": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "gate_task_ids": [3, 5],
+  "development_task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "episodes_per_task": 5
+}
+

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "method_revision": "antmaze_factorized_r8_bandwidth_measurement_r1",
+  "claim_level": "held_out_deployed_model_bandwidth_measurement",
+  "declared_deviations": [],
+  "oracle_inputs": [],
+  "deployed_model_revision": "antmaze_factorized_consequence_r8",
+  "deployed_checkpoint": "/home/ai_diagnosis/SG/e377/models/factorized_consequence_r8/consequence.pt",
+  "deployed_checkpoint_sha256": "4cc067e899e2feb379bf225640fa3a708143abf7d836ff0a8cd1c0fdb101de8e",
+  "training_sources": [
+    "/home/ai_diagnosis/SG/e377/preparation/round0",
+    "/home/ai_diagnosis/SG/e377/preparation/round1",
+    "/home/ai_diagnosis/SG/e377/preparation/round2"
+  ],
+  "training_commands": 27000,
+  "validation_commands": 3000,
+  "split_seed": 377,
+  "split": "same_indices_as_frozen_round2_joint_consequence",
+  "ensemble_members": 3,
+  "spatial_components_per_member": 5,
+  "ensemble_prior": "uniform",
+  "endpoint_dispersion_estimator": "held_out_median_posterior_expected_within_mode_xy_error",
+  "endpoint_dispersion_m": 0.09150784158775013,
+  "within_mode_xy_error_mean_m": 0.4604058703031616,
+  "within_mode_xy_error_rms_m": 0.9932341840147131,
+  "closest_mode_xy_error_mean_m": 0.3274361167253959,
+  "closest_mode_xy_error_median_m": 0.06578129904270014,
+  "member_metrics": [
+    {
+      "member": 0,
+      "within_mode_xy_error_mean_m": 0.4819955571647745,
+      "within_mode_xy_error_median_m": 0.09951209670720329
+    },
+    {
+      "member": 1,
+      "within_mode_xy_error_mean_m": 0.4895681167359246,
+      "within_mode_xy_error_median_m": 0.10415714807528167
+    },
+    {
+      "member": 2,
+      "within_mode_xy_error_mean_m": 0.47892685792515,
+      "within_mode_xy_error_median_m": 0.10298270060501516
+    }
+  ],
+  "current_runtime_sigma_m": 0.2504,
+  "deployed_to_current_sigma_ratio": 0.3654466517082673,
+  "current_to_deployed_sigma_ratio": 2.7363775131760977,
+  "task_reward_used": false,
+  "task_gradient_updates": 0
+}

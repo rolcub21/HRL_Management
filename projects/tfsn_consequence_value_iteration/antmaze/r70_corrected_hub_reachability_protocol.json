@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r69_task8_corrected_hub_reachability_replay_r70",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R70_CORRECTED_HUB_REACHABILITY_REFERENCE.md",
+  "method_revision": "antmaze_r69_task8_corrected_hub_reachability_replay_r70",
+  "claim_level": "consumed_development_single_task_mechanism_replay",
+  "declared_deviations": [
+    "task8_only",
+    "full_29_dimensional_command_boundary_states_logged",
+    "hub_reachability_recomputed_from_R51_corrected_model_bridge_weights",
+    "maze_geometry_used_for_diagnostic_wall_intersection_labels_only"
+  ],
+  "oracle_inputs": [],
+  "base_preparation_revision": "antmaze_e549_5m_preparation_r52",
+  "online_correction_revision": "antmaze_destination_arrival_online_correction_r51",
+  "base_evaluation_revision": "antmaze_e549_5m_dynamic_hub_long_budget_development_r69",
+  "task_ids": [8],
+  "episodes": 10,
+  "commands_per_episode": 20,
+  "fixed_command_duration": 100,
+  "evaluation_seed": 607,
+  "corrected_hub_selection": "exact_global_argmax_by_coverage_upper_bound_branch_and_bound",
+  "hub_evaluation_cutoff": null,
+  "graph_links_corrected": "model_bridges_only",
+  "recorded_edges": "unchanged_exact_preparation_transitions",
+  "online_observation": "binary_arrival_within_landing_sigma_of_graph_destination",
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "success_radius_read_by_planner": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}

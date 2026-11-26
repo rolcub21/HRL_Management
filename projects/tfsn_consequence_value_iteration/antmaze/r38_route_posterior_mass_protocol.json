@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_route_posterior_mass_r38",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R38_ROUTE_POSTERIOR_MASS_REFERENCE.md",
+  "method_revision": "antmaze_route_posterior_mass_r38",
+  "base_method_revision": "antmaze_exact_detection_posterior_r37",
+  "claim_level": "consumed_development_hidden_goal_route_posterior_mass_gate",
+  "declared_deviations": [
+    "consumed_development_goals",
+    "posterior_hypotheses_ranked_by_expected_exact_detection_mass_of_frozen_R22_route"
+  ],
+  "oracle_inputs": [],
+  "task_observation_model_inputs": ["reward_contact_radius_m"],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_preparation": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "posterior_likelihood": "hard_indicator_outside_union_of_realized_detection_footprints",
+  "posterior_hypotheses_per_selection_global": 16,
+  "hypothesis_selection_value": "expected_residual_posterior_mass_first_covered_by_frozen_R22_greedy_route_empirical_detection_tubes",
+  "gate_task_ids": [3, 5],
+  "development_task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "episodes_per_task": 5
+}

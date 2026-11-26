@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_latent_radius_nearest_recorded_five_command_smoke_r12",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/R12_LATENT5_SMOKE_REFERENCE.md",
+  "method_revision": "pointmaze_latent_radius_nearest_recorded_five_command_smoke_r12",
+  "method_manifest": "projects/tfsn_consequence_value_iteration/pointmaze/method_manifest_factorial_r12.json",
+  "claim_level": "exploratory_truncated_horizon_smoke_only",
+  "declared_deviations": [
+    "both_corner_goals_are_consumed_development_cases",
+    "only_the_latent_radius_nearest_recorded_arm_is_run",
+    "planning_and_evaluation_are_truncated_from_twenty_to_five_commands",
+    "three_episodes_per_goal_is_a_short_behavior_check",
+    "results_must_not_be_pooled_with_the_full_factorial"
+  ],
+  "oracle_inputs": [],
+  "goal_names": [
+    "spatial_diagnostic_native_goal_r01_c06",
+    "spatial_diagnostic_native_goal_r06_c06"
+  ],
+  "episodes_per_goal": 3,
+  "benchmark_horizon_commands": 20,
+  "evaluation_command_cap": 5,
+  "factorial_arms": [
+    "latent_radius__nearest_recorded"
+  ],
+  "planner_inputs": {
+    "success_radius": "forbidden",
+    "task_reward_function": "forbidden",
+    "hidden_goal_coordinate": "forbidden",
+    "observed_binary_reward_after_each_primitive_state": "allowed_task_consequence"
+  },
+  "conformance_audit": [
+    {
+      "item": "factor_isolation",
+      "status": "pass",
+      "implementation": "latent-radius memory and frozen nearest-recorded passage only"
+    },
+    {
+      "item": "truncated_horizon_disclosure",
+      "status": "pass",
+      "implementation": "five-command planning and execution cap recorded in every result"
+    },
+    {
+      "item": "task_reward_knowledge",
+      "status": "pass",
+      "implementation": "planner sees realized binary consequences only"
+    }
+  ]
+}

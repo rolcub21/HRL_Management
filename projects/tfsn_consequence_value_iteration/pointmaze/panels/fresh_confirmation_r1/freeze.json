@@ -1,0 +1,30 @@
+{
+  "environment": "PointMaze_Medium-v3",
+  "episodes_per_goal": 8,
+  "exact_prior_goal_coordinate_matches": {
+    "E373": 0,
+    "E441": 0
+  },
+  "experiment_id": "pointmaze_fresh_confirmation_r1",
+  "goal_or_controller_outcomes_used": false,
+  "goals": "projects/tfsn_consequence_value_iteration/pointmaze/panels/fresh_confirmation_r1/goals.csv",
+  "goals_sha256": "4f53fe4802b6eff120311952db12ee7b8d8df88c3b771d96d2f8e62e38efc149",
+  "hidden_goal_episode_rows_per_preparation_seed": 208,
+  "native_goal_cells": 26,
+  "panel_generation": "one_independently_jittered_coordinate_per_native_free_cell",
+  "preparation_seeds_planned": [
+    0,
+    1,
+    2
+  ],
+  "same_goal_and_start_rows_for_every_method_and_preparation_seed": true,
+  "schema_version": 1,
+  "split_seed": 202611240026,
+  "start_block_seed": 61,
+  "starts": "projects/tfsn_consequence_value_iteration/pointmaze/panels/fresh_confirmation_r1/starts.csv",
+  "starts_sha256": "70822a4cdedaed1c41e4f1c68bf45f64b93bc7ac530ef24bd20fe31b2463de59",
+  "status": "frozen_before_any_current_method_or_baseline_evaluation",
+  "supplied_goal_episode_rows_per_preparation_seed": 52,
+  "supplied_goal_episodes_per_goal": 2,
+  "task_reward_used": false
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_current_planner_aligned_factorized_r3",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/METHOD_REFERENCE.md",
+  "method_revision": "pointmaze_current_planner_aligned_factorized_r3",
+  "base_method_revision": "pointmaze_initial_factorized_consequence_r1",
+  "alignment_method_revision": "pointmaze_current_planner_alignment_r2",
+  "claim_level": "reward_free_current_planner_aligned_model_preparation_only",
+  "declared_deviations": [],
+  "oracle_inputs": [],
+  "hidden_goals_accessed": false,
+  "task_reward_used": false,
+  "environment_reward_consumed": false,
+  "confirmation_panel_accessed": false,
+  "alignment_round": 1,
+  "maximum_alignment_rounds": 4,
+  "alignment_relative_tolerance": 0.1,
+  "alignment_rows": 12000,
+  "alignment_acquisition_summary_sha256": "c540d7a60efc40d05982369775d6b184fe8202baec5dda27931765ce5eaa4627",
+  "alignment_return_summary_sha256": "53cb05cda66b288959556892da55fff4e4971c1928bcf80aea326d73584cfe7c",
+  "base_checkpoint_sha256": "1944164b167136ab5a988e9819dea6945bcde130208c113e93a036fe91bdef78"
+}

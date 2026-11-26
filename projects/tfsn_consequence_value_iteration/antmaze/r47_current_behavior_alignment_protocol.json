@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r39_r46_current_behavior_alignment_r47",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R47_CURRENT_BEHAVIOR_ALIGNMENT_REFERENCE.md",
+  "method_revision": "antmaze_r39_r46_current_behavior_alignment_r47",
+  "base_method_revision": "antmaze_r39_online_consequence_correction_r46",
+  "claim_level": "reward_free_current_behavior_alignment_data_only",
+  "declared_deviations": [
+    "one_component_alignment_round_after_the_consumed_R46_gate",
+    "alignment_data_are_not_hidden_goal_evaluation_evidence"
+  ],
+  "oracle_inputs": [],
+  "hidden_goals_accessed": false,
+  "task_reward_used": false,
+  "environment_reward_consumed": false,
+  "task_gradient_updates": 0,
+  "planner": "frozen_R39_acquisition_with_R46_online_correction",
+  "executor": "frozen_Farama_GoalReachAnt_SAC",
+  "fixed_command_duration": 100,
+  "commands_per_physical_episode": 10,
+  "preparation_tasks": 40,
+  "commands_per_preparation_task": 50,
+  "seed_base": 3470000,
+  "task_memory_reset_per_preparation_task": true,
+  "task_memory_persisted_across_physical_resets": true,
+  "physical_reset_seed_reused_within_preparation_task": true,
+  "continuation_target": "one_minus_gaussian_no_movement_kernel_at_next_executed_command",
+  "confirmation_panel_accessed": false
+}

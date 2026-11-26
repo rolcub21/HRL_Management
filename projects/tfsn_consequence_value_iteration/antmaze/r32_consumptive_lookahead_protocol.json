@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_consumptive_lookahead_r32",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R32_CONSUMPTIVE_LOOKAHEAD_REFERENCE.md",
+  "method_revision": "antmaze_consumptive_lookahead_r32",
+  "claim_level": "consumed_development_hidden_goal_consumptive_lookahead_gate",
+  "declared_deviations": [
+    "consumed_development_goals",
+    "two_command_consumptive_acquisition_lookahead",
+    "value_iteration_tail_after_consuming_first_passage"
+  ],
+  "oracle_inputs": [],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_preparation": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "base_method_revision": "antmaze_r30_aligned_hidden_goal_r31",
+  "gate_task_ids": [3, 5],
+  "episodes_per_task": 5,
+  "lookahead_depth_global": 2,
+  "lookahead_beam_width_global": 4
+}

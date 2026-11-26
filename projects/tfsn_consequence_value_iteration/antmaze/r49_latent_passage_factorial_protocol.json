@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_latent_detection_passage_factorial_r49",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R49_LATENT_PASSAGE_FACTORIAL_REFERENCE.md",
+  "method_revision": "antmaze_latent_detection_passage_factorial_r49",
+  "shared_method_manifest": "projects/tfsn_consequence_value_iteration/shared/method_manifest_r12.json",
+  "shared_method_revision": "tfsn_latent_detection_passage_r12_development",
+  "claim_level": "consumed_development_factorial_only",
+  "declared_deviations": [
+    "AntMaze_tasks_1_and_4_are_consumed_development_cases",
+    "three_episodes_per_task_is_a_short_causal_development_screen",
+    "R39_immediate_adaptive_greedy_search_is_retained",
+    "R46_online_consequence_target_semantics_are_retained",
+    "advance_family_prefilter_is_observation_neutral_maximum_reliability_so_old_Gaussian_memory_cannot_leak_into_latent_radius_arms",
+    "sigma_kernel_factor_is_a_discrete_recorded_support_control_not_a_bitwise_reproduction_of_R48s_continuous_lattice"
+  ],
+  "oracle_inputs": [],
+  "task_ids": [1, 4],
+  "episodes_per_task": 3,
+  "factorial_arms": [
+    "sigma_kernel__nearest_recorded",
+    "latent_radius__nearest_recorded",
+    "sigma_kernel__shared_learned",
+    "latent_radius__shared_learned"
+  ],
+  "planner_inputs": {
+    "success_radius": "forbidden",
+    "task_reward_function": "forbidden",
+    "hidden_goal_coordinate": "forbidden",
+    "observed_binary_reward_after_each_primitive_state": "allowed_task_consequence"
+  },
+  "conformance_audit": [
+    {
+      "item": "candidate_goal_set",
+      "status": "pass",
+      "implementation": "np.unique over exact recorded roadmap node xy; no grid or spacing"
+    },
+    {
+      "item": "candidate_goal_prior",
+      "status": "pass",
+      "implementation": "uniform over unique recorded support rather than collection frequency"
+    },
+    {
+      "item": "rho_bounds",
+      "status": "pass",
+      "implementation": "rho_min is deployed held-out landing sigma and rho_max is exact support diameter"
+    },
+    {
+      "item": "rho_prior_and_marginal",
+      "status": "pass",
+      "implementation": "one-over-rho prior with analytic log interval mass and no radius bins"
+    },
+    {
+      "item": "posterior_exhaustion",
+      "status": "pass",
+      "implementation": "raises PosteriorFalsifiedError and writes MODEL_FALSIFIED artifact; no fallback"
+    },
+    {
+      "item": "passage_model",
+      "status": "pass",
+      "implementation": "shared.learned_passage.PassageMLP, shared passage_loss, and shared trainer only"
+    },
+    {
+      "item": "task_reward_knowledge",
+      "status": "pass",
+      "implementation": "planner sees realized binary consequences only; evaluator radius and hidden coordinate remain outside planner"
+    }
+  ]
+}

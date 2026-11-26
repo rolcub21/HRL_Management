@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_live_posterior_passage_r39",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R39_LIVE_POSTERIOR_PASSAGE_REFERENCE.md",
+  "method_revision": "antmaze_live_posterior_passage_r39",
+  "base_method_revision": "antmaze_exact_detection_posterior_r37",
+  "claim_level": "consumed_development_hidden_goal_live_posterior_passage_gate",
+  "declared_deviations": [
+    "consumed_development_goals",
+    "acquisition_argmax_uses_expected_exact_posterior_mass_of_actual_live_candidate_passage"
+  ],
+  "oracle_inputs": [],
+  "task_observation_model_inputs": ["reward_contact_radius_m"],
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "task_reward_used_for_preparation": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "posterior_likelihood": "hard_indicator_outside_union_of_realized_detection_footprints",
+  "acquisition_value": "pessimistic_live_connection_probability_times_exact_residual_posterior_mass_in_empirical_detection_tube",
+  "gate_task_ids": [3, 5],
+  "development_task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+  "episodes_per_task": 5
+}

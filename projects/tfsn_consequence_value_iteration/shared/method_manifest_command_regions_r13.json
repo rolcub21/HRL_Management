@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "method_revision": "tfsn_command_region_acquisition_r13_development",
+  "claim_level": "cross_domain_rule_declaration_for_development_screen",
+  "data_derived": {
+    "region_scale": "weighted_median_of_recorded_achieved_command_displacement",
+    "movement_weight": "one_minus_kappa_sigma_requested_times_one_minus_kappa_sigma_achieved",
+    "candidate_support": "unique_recorded_roadmap_state_phi",
+    "region_count": "farthest_point_centres_until_every_candidate_is_within_one_region_scale"
+  },
+  "global_decision_principles": {
+    "first_centre": "candidate_nearest_the_candidate_support_mean",
+    "subsequent_centres": "candidate_farthest_from_its_nearest_existing_centre",
+    "cover_radius_semantics": "every_candidate_is_within_one_command_reach_of_a_centre_but_a_region_can_span_two_reaches",
+    "assignment": "directed_outward_multi_source_shortest_path_on_recorded_and_bridge_links",
+    "link_cost": "one_over_continuous_reliability_with_zero_reliability_equal_to_infinite_cost",
+    "duplicate_link_rule": "maximum_reliability_equivalently_minimum_retry_cost",
+    "alias_resolution": "each_initially_unreachable_exact_state_gets_at_most_one_zero_command_attachment_from_its_nearest_originally_reachable_candidate_within_sigma_then_only_roadmap_links_propagate",
+    "alias_chaining": "forbidden_to_prevent_dense_samples_from_percolating_across_space",
+    "remaining_unassigned_candidates": "remain_in_goal_posterior_but_are_excluded_from_targetable_regions_and_their_current_mass_is_reported",
+    "unreachable_assignment": "no_euclidean_fallback",
+    "candidate_probability_alignment": "exact_coordinate_identity_required",
+    "region_weight": "sum_of_current_goal_posterior_probability_inside_region",
+    "candidate_gain": "posterior_weight_of_region_containing_candidate_target",
+    "within_region_node": "maximum_node_local_latent_contact_probability_times_consequence_connection",
+    "imagined_consumption": "condition_goal_posterior_only_on_no_contact_at_selected_target_node",
+    "two_step_no_contact_weight": "one_minus_selected_node_local_latent_contact_probability",
+    "execution": "retain_node_level_commands_and_consequence_weights",
+    "fixed_distance_thresholds": []
+  }
+}

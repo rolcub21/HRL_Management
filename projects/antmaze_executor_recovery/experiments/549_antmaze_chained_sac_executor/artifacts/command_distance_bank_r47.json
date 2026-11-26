@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "artifact": "/home/ai_diagnosis/HRL_Management/projects/antmaze_executor_recovery/experiments/549_antmaze_chained_sac_executor/artifacts/command_distance_bank_r47.npz",
+  "artifact_sha256": "858e2a83a88bbed7b4d3a7579d7b84a01aa3e3416eb2fcaf7f5b377ee778f1ea",
+  "source": "/home/ai_diagnosis/HRL_Management/projects/tfsn_consequence_value_iteration/results/antmaze/current_behavior_alignment_r47",
+  "source_summary_sha256": "0a007cbb8f9af97b9e02cde9aad35723336176b56fcba3075cdef70840219bfe",
+  "rows": 2000,
+  "requested_distance_mean_m": 3.6080820560455322,
+  "requested_distance_quantiles_m": {
+    "0.0": 0.010504129342734814,
+    "0.1": 0.3118435740470886,
+    "0.25": 0.6947877407073975,
+    "0.5": 3.5071187019348145,
+    "0.75": 5.620785713195801,
+    "0.9": 7.146204471588135,
+    "0.95": 8.145235061645508,
+    "0.99": 13.319857597351074,
+    "1.0": 22.78928565979004
+  },
+  "task_reward_used": false,
+  "hidden_goals_used": false
+}

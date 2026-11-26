@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_orientation_factorized_consequence_r43",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R43_ORIENTATION_FACTORIZED_REFERENCE.md",
+  "method_revision": "antmaze_orientation_factorized_consequence_r43",
+  "claim_level": "reward_free_orientation_factorized_consequence_component_only",
+  "declared_deviations": [
+    "R30_spatial_head_is_frozen_instead_of_retrained",
+    "planner_mobility_and_bridge_artifacts_are_not_rebuilt_at_this_stage"
+  ],
+  "oracle_inputs": [],
+  "alignment_tasks": 80,
+  "held_out_alignment_tasks": 16,
+  "split_seed": 33029,
+  "training_schedule": {
+    "epochs": 200,
+    "batch_size": 256,
+    "learning_rate": 0.0003
+  },
+  "validation_samples_per_member": 128,
+  "hidden_goals_accessed": false,
+  "task_reward_used": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}
+

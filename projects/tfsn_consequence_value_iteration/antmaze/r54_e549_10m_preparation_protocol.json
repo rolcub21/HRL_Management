@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_e549_10m_preparation_r54",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R54_E549_10M_PREPARATION_REFERENCE.md",
+  "method_revision": "antmaze_e549_10m_preparation_r54",
+  "claim_level": "reward_free_executor_matched_preparation_only",
+  "declared_deviations": [
+    "the_frozen_R51_Farama_planner_is_used_only_to_propose_reward_free_collection_commands",
+    "all_deployed_consequence_and_graph_artifacts_are_refit_exclusively_on_E549_10M_transitions",
+    "this_is_an_isolated_executor_training_duration_comparison_to_R52_and_does_not_replace_it"
+  ],
+  "oracle_inputs": [],
+  "hidden_goals_accessed": false,
+  "task_reward_used": false,
+  "environment_reward_consumed": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "executor": "frozen_E549_10M_chained_AntMaze_SAC",
+  "executor_checkpoint_sha256": "d966bd714c5d25edaaf1db89ee9c870065d6d92c09fbf3f2b40f8ca4dd3c65f0",
+  "executor_training_steps": 10000000,
+  "executor_training_seed": 42,
+  "fixed_command_duration": 100,
+  "commands_per_physical_episode": 10,
+  "base_graph_tasks": 400,
+  "alignment_tasks": 80,
+  "commands_per_preparation_task": 75,
+  "base_graph_commands": 30000,
+  "alignment_commands": 6000,
+  "held_out_alignment_tasks": 16,
+  "training_commands": 34800,
+  "validation_commands": 1200,
+  "collection_seed_base": 3520000,
+  "split_seed": 33052,
+  "command_proposal_revision": "antmaze_destination_arrival_online_correction_r51",
+  "command_proposal_artifacts": "frozen_R48_full15_current_manifest_artifacts",
+  "training_schedule": {
+    "epochs": 200,
+    "batch_size": 256,
+    "learning_rate": 0.0003
+  }
+}

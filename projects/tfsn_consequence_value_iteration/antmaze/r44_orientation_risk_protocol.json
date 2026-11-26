@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r43_orientation_risk_audit_r44",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R44_ORIENTATION_RISK_AUDIT_REFERENCE.md",
+  "method_revision": "antmaze_r43_orientation_risk_audit_r44",
+  "claim_level": "consumed_development_orientation_model_diagnostic_only",
+  "declared_deviations": [
+    "R40_task3_reset_seed_and_first_two_commands_are_used_only_for_diagnosis",
+    "the_R31_mobility_model_is_read_only_and_has_not_yet_been_retrained_for_R43"
+  ],
+  "oracle_inputs": [
+    "R40_task3_reset_seed",
+    "R40_task3_first_two_recorded_commands",
+    "R40_task3_observed_command_endpoints"
+  ],
+  "command_samples_per_member": 32768,
+  "task_reward_used": false,
+  "hidden_goal_used": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}
+

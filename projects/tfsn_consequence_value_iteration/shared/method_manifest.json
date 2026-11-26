@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "method_revision": "tfsn_continuous_reference_r11",
+  "categories": {
+    "global_computational": {
+      "command_steps": 100,
+      "mixture_components": 5,
+      "ensemble_size": 3,
+      "hidden_dimension": 256,
+      "hidden_layers": 3,
+      "batch_size": 256,
+      "epochs": 200,
+      "learning_rate": 0.0003,
+      "validation_fraction": 0.1,
+      "std_floor": 0.0001,
+      "bridge_candidates": 128,
+      "maximum_alignment_rounds": 4,
+      "alignment_relative_tolerance": 0.1,
+      "alignment_tasks_per_phase": 80,
+      "alignment_commands_per_task": 75,
+      "gaussian_circle_quadrature_points": 32,
+      "passage_bins": 16,
+      "consumptive_lookahead_depth": 2,
+      "consumptive_lookahead_beam_width": 4,
+      "recorded_reliability_neighbors": 256,
+      "recorded_evidence_prior_weight": 1.0,
+      "situation_density_truncation_sigmas": 3.0,
+      "pair_inference_batch": 4096,
+      "artifact_node_shard": 128,
+      "field_evaluation_batch": 4096
+    },
+    "data_derived": {
+      "landing_scale": "held_out_mixture_weighted_within_mode_spatial_spread_of_deployed_consequence_model",
+      "acquisition_search_scale": "landing_scale",
+      "reach_measure": "empirical_realized_displacements_weighted_by_requested_advance_times_realized_advance",
+      "reach_weight": "(1-kappa_sigma(command,start))*(1-kappa_sigma(endpoint,start))",
+      "stall_probability": "E[kappa_sigma(endpoint,start)]",
+      "alias_weight": "kappa_sigma(distance)",
+      "state_scale": "landing_scale_for_xy_and_training_standard_deviation_for_remaining_state",
+      "bridge_outcomes": "all_spatial_and_posture_mixture_component_means_weighted_by_joint_probability",
+      "horizon": "benchmark_episode_primitive_steps_divided_by_global_command_steps"
+    },
+    "global_decision_principles": {
+      "ensemble_reduction": "pessimistic_minimum",
+      "online_memory_scope": "one_task_across_physical_resets",
+      "recorded_evidence_prior": "one_conservative_unobserved_pseudo_observation"
+    },
+    "task_knowledge": {
+      "state_and_action_schema": "environment_adapter_only",
+      "episode_primitive_steps": "benchmark_contract_used_only_through_the_horizon_formula",
+      "success_radius": "evaluator_only_and_forbidden_to_the_planner",
+      "detection_radius": "not_a_planner_input; benchmark_success_radius_is_evaluator_only",
+      "hidden_goal_coordinate": "forbidden_to_planner_executor_and_models"
+    }
+  }
+}

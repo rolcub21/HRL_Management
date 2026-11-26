@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_chained_sac_executor_e549",
+  "pinned_farama_commit": "f4579c7760369b106115bdafbcd00e549e850434",
+  "pinned_farama_sources_verified": true,
+  "config_audit": {
+    "only_training_environment_config_changed": true,
+    "official_env_id": "GoalReachAnt-v0",
+    "modified_env_id": "GoalReachAntMazeChained-v0",
+    "sac_model_kwargs_identical": true
+  },
+  "interface_audit": {
+    "observation_shape": [
+      29
+    ],
+    "observation_dtype": "float64",
+    "action_shape": [
+      8
+    ],
+    "reward_exact_on_audit_input": true,
+    "semantic_ant_proprioception_assertion_executed": true
+  },
+  "contract_audit": {
+    "fixed_command_horizon": 100,
+    "command_horizon_asserted": true
+  },
+  "declared_method_changes": [
+    "replace_the_open_plane_XML_with_AntMaze_Medium_Diverse_GR-v4_geometry_and_reset_distribution",
+    "replace_unbounded_goal_duration_with_goal_switch_on_contact_or_after_exactly_100_primitive_steps_without_physical_reset",
+    "sample_goal_distance_from_the_frozen_reward_free_R47_TF_SN_requested_distance_distribution_and_retain_Farama_uniform_direction_sampling"
+  ],
+  "declared_operational_deviations": [
+    "disable_RecordVideo_and_WandB_without_changing_training_data_or_updates",
+    "save_local_model_and_replay_checkpoints_every_500000_steps_for_the_requested_early_gates",
+    "support_explicit_local_checkpoint_and_replay_buffer_resume"
+  ],
+  "passed": true
+}

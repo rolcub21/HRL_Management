@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_e549_r56_task13_posture_replay_r57",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R57_E549_TASK13_POSTURE_REFERENCE.md",
+  "method_revision": "antmaze_e549_r56_task13_posture_replay_r57",
+  "claim_level": "consumed_development_posture_diagnostic_only",
+  "declared_deviations": [
+    "commands_are_replayed_post_hoc_from_the_existing_R56_task13_trace",
+    "posture_is_logged_for_diagnosis_but_is_not_available_to_the_planner"
+  ],
+  "oracle_inputs": [
+    "R56_task13_reset_seed",
+    "R56_task13_recorded_command_sequence"
+  ],
+  "source_task_id": 13,
+  "commands_replayed": 10,
+  "decisive_command_index_zero_based": 7,
+  "primitive_steps_per_command": 100,
+  "executor_checkpoint_sha256": "3318bf1ea6e30811285a1e92a0beb7824201b27466e18412359a22131b474b6b",
+  "task_reward_used": false,
+  "hidden_goal_used": false,
+  "confirmation_panel_accessed": false
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r29_aligned_factorized_consequence_r30",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R30_ALIGNED_CONSEQUENCE_REFERENCE.md",
+  "method_revision": "antmaze_r29_aligned_factorized_consequence_r30",
+  "claim_level": "reward_free_selected_command_consequence_alignment_component_only",
+  "declared_deviations": [
+    "the_frozen_R28_runtime_is_not_replaced_at_this_stage",
+    "the_6m_long_command_split_is_diagnostic_only_and_never_enters_the_method"
+  ],
+  "oracle_inputs": [],
+  "hidden_goals_accessed": false,
+  "task_reward_used": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false,
+  "alignment_source": "projects/tfsn_consequence_value_iteration/results/antmaze/r28_alignment_r29",
+  "alignment_source_revision": "antmaze_r28_reward_free_consequence_alignment_r29",
+  "alignment_tasks": 80,
+  "held_out_alignment_tasks": 16,
+  "split_seed": 33029,
+  "frozen_comparison_sigma_m": 0.09150784158775013,
+  "long_command_definition_m_diagnostic_only": 6.0,
+  "training_schedule": {
+    "epochs": 200,
+    "batch_size": 256,
+    "learning_rate": 0.0003
+  }
+}
+

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_e549_5m_r51_supplied_goal_original9_r58",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R58_E549_SUPPLIED_GOAL_ALL9_REFERENCE.md",
+  "method_revision": "antmaze_e549_5m_supplied_goal_original9_r58",
+  "base_preparation_revision": "antmaze_e549_5m_preparation_r52",
+  "online_correction_revision": "antmaze_destination_arrival_online_correction_r51",
+  "claim_level": "original_nine_consumed_development_tasks_supplied_goal_component_panel",
+  "declared_deviations": [
+    "the_goal_is_supplied_to_the_planner_at_time_zero_so_this_is_not_hidden_goal_evidence",
+    "the_original_nine_goals_are_consumed_development_tasks_and_not_confirmation_evidence",
+    "one_episode_per_goal_tests_deterministic_routing_and_execution_not_a_per_goal_success_probability"
+  ],
+  "oracle_inputs": [],
+  "task_ids": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  "selection_rule": "frozen_original_nine_goal_development_panel_goal_indices_2_through_10",
+  "episodes_per_task": 1,
+  "commands_per_episode": 10,
+  "fixed_command_duration": 100,
+  "evaluation_seed": 607,
+  "executor": "frozen_E549_5M_chained_AntMaze_SAC",
+  "executor_checkpoint_sha256": "3318bf1ea6e30811285a1e92a0beb7824201b27466e18412359a22131b474b6b",
+  "goal_visible_to_planner_at_time_zero": true,
+  "goal_visible_to_executor_or_models": false,
+  "success_radius_read_by_planner": false,
+  "task_reward_used": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}

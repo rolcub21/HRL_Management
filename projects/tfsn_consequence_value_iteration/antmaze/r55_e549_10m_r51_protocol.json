@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_e549_10m_r51_stalled_pair_r55",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R55_E549_10M_R51_REFERENCE.md",
+  "method_revision": "antmaze_e549_10m_destination_arrival_r55",
+  "base_preparation_revision": "antmaze_e549_10m_preparation_r54",
+  "online_correction_revision": "antmaze_destination_arrival_online_correction_r51",
+  "claim_level": "two_consumed_development_tasks_executor_matched_component_audit",
+  "declared_deviations": [
+    "the_two_tasks_were_selected_by_the_prior_R48_stall_outcome_and_are_not_a_performance_panel",
+    "this_is_the_10M_executor_duration_counterpart_to_the_5M_R53_audit"
+  ],
+  "oracle_inputs": [],
+  "task_ids": [2, 13],
+  "selection_rule": "frozen_R48_failed_tasks_tied_for_most_sub_0p03m_commands_22_of_50",
+  "episodes": 5,
+  "evaluation_seed": 607,
+  "executor": "frozen_E549_10M_chained_AntMaze_SAC",
+  "executor_checkpoint_sha256": "d966bd714c5d25edaaf1db89ee9c870065d6d92c09fbf3f2b40f8ca4dd3c65f0",
+  "online_outcome": "binary_arrival_within_deployed_landing_sigma_of_selected_graph_destination",
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "success_radius_read_by_planner": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}

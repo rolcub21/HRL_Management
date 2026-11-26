@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r52_offline_latent_coverage_hub_ranking_r64",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R64_R52_OFFLINE_HUB_RANKING_REFERENCE.md",
+  "method_revision": "antmaze_r52_offline_latent_coverage_hub_ranking_r64",
+  "claim_level": "reward_free_offline_hub_feasibility_audit_only",
+  "declared_deviations": [
+    "the_first_20_hubs_are_materialized_for_visual_audit_only_and_are_not_a_deployed_hub_count",
+    "candidate_hubs_are_alias_deduplicated_at_the_data_derived_R52_landing_scale",
+    "reachability_is_reported_separately_and_does_not_change_the_coverage_ranking"
+  ],
+  "oracle_inputs": [],
+  "preparation_revision": "antmaze_e549_5m_preparation_r52",
+  "goal_prior": "uniform_over_unique_recorded_roadmap_xy",
+  "rho_prior": "log_uniform",
+  "rho_min": "deployed_R52_landing_sigma",
+  "rho_max": "exact_unique_recorded_support_diameter",
+  "hub_candidate_source": "one_recorded_node_per_R52_landing_scale_alias_cell",
+  "ranking": "greedy_exact_marginal_expected_contact_probability",
+  "reported_prefix_length": 20,
+  "deployed_hub_count": null,
+  "reachability_horizon": "commands_per_physical_episode_from_R52_collection_contract",
+  "reachability_initial_states": "all_command_index_zero_states_in_R52_base_graph_collection",
+  "hidden_goals_accessed": false,
+  "task_reward_used": false,
+  "environment_created_or_stepped": false,
+  "confirmation_panel_accessed": false
+}

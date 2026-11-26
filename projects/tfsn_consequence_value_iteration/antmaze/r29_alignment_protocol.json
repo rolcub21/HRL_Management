@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "experiment_id": "antmaze_r28_reward_free_consequence_alignment_r29",
+  "method_reference": "projects/tfsn_consequence_value_iteration/antmaze/R29_ALIGNMENT_REFERENCE.md",
+  "method_revision": "antmaze_r28_reward_free_consequence_alignment_r29",
+  "claim_level": "reward_free_R28_behavior_alignment_data_only",
+  "declared_deviations": [
+    "one_behavior_alignment_round_after_the_frozen_R28_gate",
+    "alignment_data_are_not_hidden_goal_evaluation_evidence"
+  ],
+  "oracle_inputs": [],
+  "environment": "AntMaze_Medium_Diverse_GR-v4",
+  "hidden_goals_accessed": false,
+  "task_reward_used": false,
+  "task_gradient_updates": 0,
+  "planner": "frozen_antmaze_hidden_goal_bounded_consumption_r28_acquisition",
+  "executor": "frozen_Farama_GoalReachAnt_SAC",
+  "fixed_command_duration": 100,
+  "commands_per_physical_episode": 10,
+  "preparation_tasks": 80,
+  "commands_per_preparation_task": 75,
+  "seed_base": 2810000,
+  "task_memory_reset_per_preparation_task": true,
+  "task_memory_persisted_across_physical_resets": true,
+  "physical_reset_seed_reused_within_preparation_task": true,
+  "confirmation_panel_accessed": false
+}
