@@ -29,6 +29,9 @@ from projects.tfsn_consequence_value_iteration.shared.settings import (
     CONSUMPTIVE_LOOKAHEAD_DEPTH,
     finite_horizon,
 )
+from projects.tfsn_consequence_value_iteration.shared.frozen_hub_method import (
+    posterior_probability,
+)
 
 
 class ConsumedSearchField:
@@ -98,6 +101,12 @@ class PointMazeRoadmapPlanner:
         self.bridge_gain = None
         self.acquisition_active = None
         self._field_cache_token = None
+        self.destination_arrival_correction = False
+        self.reset_task_memory()
+
+    def enable_destination_arrival_correction(self):
+        """Install the frozen R74 link outcome without changing preparation."""
+        self.destination_arrival_correction = True
         self.reset_task_memory()
 
     def reset_task_memory(self):
@@ -110,16 +119,42 @@ class PointMazeRoadmapPlanner:
         self.pending_online_record = None
         self._last_online_command_support = None
         self._last_online_endpoint_support = None
+        self.arrival_starts = []
+        self.arrival_commands = []
+        self.arrival_destinations = []
+        self.arrival_outcomes = []
+        self.pending_arrival = None
+        self._arrival_bridge_support = None
+        self._arrival_bridge_outcome_mass = None
+        self._arrival_bridge_processed = 0
 
     def begin_episode(self):
         """Keep task memory but do not connect evidence across a physical reset."""
         self.pending_online_record = None
+        self.pending_arrival = None
 
     def observe_transition(self, start_state, command, endpoint_state):
         """Record movement now and endpoint mobility on the next command."""
         start = np.asarray(start_state, np.float32).reshape(4)
         command = np.asarray(command, np.float32).reshape(2)
         endpoint = np.asarray(endpoint_state, np.float32).reshape(4)
+        if getattr(self, "destination_arrival_correction", False):
+            if self.pending_arrival is None:
+                raise RuntimeError("selected link destination was not recorded")
+            pending_start, pending_command, destination = self.pending_arrival
+            if not np.array_equal(pending_start, start) or not np.array_equal(
+                pending_command, command
+            ):
+                raise RuntimeError("executed command differs from selected link")
+            outcome = float(
+                np.linalg.norm(endpoint[:2] - destination) <= self.sigma
+            )
+            self.arrival_starts.append(start.copy())
+            self.arrival_commands.append(command.copy())
+            self.arrival_destinations.append(destination.copy())
+            self.arrival_outcomes.append(outcome)
+            self.pending_arrival = None
+            return
         movement = float(
             1.0 - alias_kernel(
                 np.linalg.norm(endpoint[:2] - start[:2]), self.sigma
@@ -137,6 +172,83 @@ class PointMazeRoadmapPlanner:
         self.online_movement.append(movement)
         self.online_endpoint_mobility.append(np.nan)
         self.pending_online_record = len(self.online_starts) - 1
+
+    def _arrival_mass(self, state, commands, destinations):
+        commands = np.asarray(commands, np.float32).reshape(-1, 2)
+        destinations = np.asarray(destinations, np.float32).reshape(-1, 2)
+        if not self.arrival_starts:
+            zeros = np.zeros(len(commands), np.float32)
+            return zeros, zeros
+        observed_start = np.asarray(self.arrival_starts, np.float32)[:, :2]
+        observed_command = np.asarray(self.arrival_commands, np.float32)
+        observed_destination = np.asarray(
+            self.arrival_destinations, np.float32
+        )
+        outcome = np.asarray(self.arrival_outcomes, np.float32)
+        source_distance = np.square(
+            (observed_start - np.asarray(state, np.float32)[None, :2])
+            / self.sigma
+        ).sum(axis=1, dtype=np.float64)
+        command_distance = np.square(
+            (observed_command[:, None] - commands[None]) / self.sigma
+        ).sum(axis=2, dtype=np.float64)
+        destination_distance = np.square(
+            (observed_destination[:, None] - destinations[None]) / self.sigma
+        ).sum(axis=2, dtype=np.float64)
+        similarity = np.exp(-0.5 * (
+            source_distance[:, None] + command_distance + destination_distance
+        ))
+        return (
+            similarity.sum(axis=0).astype(np.float32),
+            (similarity * outcome[:, None]).sum(axis=0).astype(np.float32),
+        )
+
+    def corrected_bridge_weight(self):
+        """R71 link evidence generalized to all modeled graph bridges."""
+        if not getattr(self, "destination_arrival_correction", False) or not self.arrival_starts:
+            return self.weight
+        if self._arrival_bridge_support is None:
+            self._arrival_bridge_support = np.zeros(
+                self.weight.shape, np.float32
+            )
+            self._arrival_bridge_outcome_mass = np.zeros(
+                self.weight.shape, np.float32
+            )
+        node_xy = self.graph.nodes[:, :2].astype(np.float64)
+        target_xy = node_xy[self.targets]
+        denominator = float(self.sigma) ** 2
+        for index in range(
+            self._arrival_bridge_processed, len(self.arrival_starts)
+        ):
+            start = self.arrival_starts[index]
+            command = self.arrival_commands[index]
+            destination = self.arrival_destinations[index]
+            outcome = self.arrival_outcomes[index]
+            source_distance = np.square(
+                node_xy - np.asarray(start, np.float64)[None, :2]
+            ).sum(axis=1) / denominator
+            command_distance = np.square(
+                target_xy - np.asarray(command, np.float64)[None, None]
+            ).sum(axis=2) / denominator
+            destination_distance = np.square(
+                target_xy - np.asarray(destination, np.float64)[None, None]
+            ).sum(axis=2) / denominator
+            similarity = np.exp(-0.5 * (
+                source_distance[:, None]
+                + command_distance
+                + destination_distance
+            )).astype(np.float32)
+            self._arrival_bridge_support += similarity
+            if float(outcome) != 0.0:
+                self._arrival_bridge_outcome_mass += (
+                    similarity * float(outcome)
+                )
+        self._arrival_bridge_processed = len(self.arrival_starts)
+        return posterior_probability(
+            self.weight,
+            self._arrival_bridge_support,
+            self._arrival_bridge_outcome_mass,
+        ).astype(np.float32)
 
     def _online_state_similarity(self, states):
         states = np.asarray(states, np.float32).reshape(-1, 4)
@@ -297,6 +409,14 @@ class PointMazeRoadmapPlanner:
                 fields.reward_rate(commands) + previous[target_index]
             )
         probability = member_connection * execution_weight[:, None]
+        if getattr(self, "destination_arrival_correction", False):
+            destinations = self.graph.nodes[target_index, :2]
+            support, outcome_mass = self._arrival_mass(
+                state, commands, destinations
+            )
+            probability = posterior_probability(
+                probability, support[:, None], outcome_mass[:, None]
+            ).astype(np.float32)
         member_q = (
             probability * success[:, None]
             + (1.0 - probability) * failure
@@ -534,6 +654,15 @@ class PointMazeRoadmapPlanner:
             winner = baseline_winner
             selected_score = float(score[winner])
             score_median = float(np.median(score))
+        selected_destination = (
+            command[winner].copy()
+            if str(kind[winner]) == "online_positive_evidence"
+            else self.graph.nodes[target_all[winner], :2].copy()
+        )
+        if getattr(self, "destination_arrival_correction", False):
+            self.pending_arrival = (
+                state.copy(), command[winner].copy(), selected_destination.copy()
+            )
         return command[winner].copy(), {
             "phase": "acquisition" if self.acquisition_active else "return",
             "remaining": int(remaining),
@@ -546,6 +675,10 @@ class PointMazeRoadmapPlanner:
             "selected_alias_association": float(association_all[winner]),
             "selected_alias_offline_score": float(offline_all[winner]),
             "selected_advance_factor": float(advance_all[winner]),
+            "selected_target_index": int(target_all[winner]),
+            "selected_link_destination_xy": (
+                selected_destination.astype(float).tolist()
+            ),
             "candidate_score_maximum": selected_score,
             "candidate_score_median": score_median,
             "search_value_maximum": (

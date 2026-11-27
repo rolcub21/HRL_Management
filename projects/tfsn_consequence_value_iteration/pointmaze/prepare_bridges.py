@@ -329,9 +329,10 @@ def main():
     movement_reach = roadmeta["method_revision"] == (
         "pointmaze_movement_conditioned_reach_roadmap_r7"
     )
-    reference = roadmeta["method_revision"] == (
-        "pointmaze_continuous_reference_roadmap_r11"
-    )
+    # The reference property is semantic, not tied to one historical revision
+    # name.  Multiseed rebuilds retain continuous reach weighting under their
+    # own preparation revision.
+    reference = bool(roadmeta.get("continuous_reach_weighting", False))
     aligned = reference or movement_reach or roadmeta["method_revision"] == (
         "pointmaze_current_aligned_recorded_roadmap_r4"
     )

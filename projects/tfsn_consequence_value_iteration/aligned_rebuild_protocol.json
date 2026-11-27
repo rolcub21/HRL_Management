@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "experiment_id": "tfsn_frozen_r74_aligned_multiseed_rebuild_r16",
+  "method_reference": "projects/tfsn_consequence_value_iteration/FROZEN_R74_METHOD_SPECIFICATION.md",
+  "method_reference_sha256": "6b5fed190a375914ac6004358a576bf479d338ff6777b58e906e03856cefaff8",
+  "rebuild_reference": "projects/tfsn_consequence_value_iteration/ALIGNED_REBUILD_REFERENCE.md",
+  "rebuild_reference_sha256": "672aac911e7b926834d49f6e62787772d15ad479b6305f1b380e8cbfc8a09301",
+  "method_revision": "tfsn_frozen_r74_aligned_multiseed_rebuild_r16",
+  "claim_level": "reward_free_cross_domain_multiseed_preparation_rebuild_only",
+  "declared_deviations": [],
+  "oracle_inputs": [],
+  "preparation_seeds": [0, 1, 2],
+  "fixed_command_duration": 100,
+  "episode_primitive_steps": 2000,
+  "commands_per_physical_episode": 20,
+  "commands_per_preparation_task": 75,
+  "total_commands_per_seed": 36000,
+  "bootstrap": {
+    "tasks": 320,
+    "commands": 24000,
+    "behavior": "uniform_over_exact_set_of_xy_coordinates_observed_so_far"
+  },
+  "alignment": {
+    "tasks_per_phase": 80,
+    "commands_per_phase": 6000,
+    "phases": ["acquisition", "return"],
+    "acquisition_consequence_stream": "all_negative_no_hidden_goal",
+    "return_anchor": "uniform_over_occupied_landing_sigma_cells_of_reward_free_frozen_support"
+  },
+  "seed_rules": {
+    "collection_seed_base": "7400000 + 100000 * preparation_seed",
+    "split_seed": "74000 + preparation_seed",
+    "training_seed": "75000 + preparation_seed"
+  },
+  "training_schedule": {
+    "ensemble_members": 3,
+    "mixture_components": 5,
+    "hidden_layers": 3,
+    "hidden_dimension": 256,
+    "epochs": 200,
+    "batch_size": 256,
+    "learning_rate": 0.0003,
+    "validation_fraction": 0.1,
+    "split": "whole_preparation_tasks_stratified_by_collection_phase"
+  },
+  "pointmaze": {
+    "environment": "PointMaze_Medium-v3",
+    "alignment_controller_revision": "pointmaze_frozen_antmaze_r74_port_r15",
+    "executor_seed_matches_preparation_seed": true,
+    "current_models": "projects/tfsn_consequence_value_iteration/results/pointmaze/situation_density_aligned_factorized_r6",
+    "current_roadmap": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_roadmap_r11",
+    "current_planner": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_planner_r11"
+  },
+  "antmaze": {
+    "environment": "AntMaze_Medium_Diverse_GR-v4",
+    "alignment_controller_revision": "antmaze_e549_5m_reach_scale_hub_route_correction_r74",
+    "executor": "frozen_E549_5M_chained_AntMaze_SAC",
+    "executor_checkpoint_sha256": "3318bf1ea6e30811285a1e92a0beb7824201b27466e18412359a22131b474b6b",
+    "current_preparation": "projects/tfsn_consequence_value_iteration/results/antmaze/e549_5m_preparation_r52",
+    "task6_false_shortcut": {
+      "source_xy": [9.695846557617188, -1.2592291831970215],
+      "target_xy": [9.77649974822998, 4.735189914703369],
+      "current_source_node": 28210,
+      "current_target_node": 28305,
+      "current_bridge_weight": 0.45089057087898254,
+      "maze_geometry_role": "diagnostic_only_not_planner_input"
+    }
+  },
+  "graph_includes_all_collection_phases": true,
+  "hidden_goals_accessed": false,
+  "task_reward_used": false,
+  "environment_reward_consumed": false,
+  "task_gradient_updates": 0,
+  "success_radius_read_by_planner_or_preparation": false,
+  "confirmation_panel_accessed": false
+}

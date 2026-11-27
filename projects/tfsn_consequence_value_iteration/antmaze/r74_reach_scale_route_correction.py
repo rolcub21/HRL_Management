@@ -426,20 +426,15 @@ def command_audit(args) -> dict:
     transfer_summary = {
         key: value for key, value in transfer.items() if key != "rows"
     }
-    table_report = implementation.r69._audit(
-        implementation._r69_args(args)
-    )
+    table_args = implementation._r69_args(args)
+    table_report = implementation.r69._audit(table_args)
     paths = r52.output_paths(args.preparation)
     required = [
         paths["consequence"],
         paths["graph"],
         paths["runtime"] / "planner/bridges.npz",
-        implementation.r68._artifact_paths(
-            implementation.r69.DEFAULT_OUTPUT
-        )["table"],
-        implementation.r68._artifact_paths(
-            implementation.r69.DEFAULT_OUTPUT
-        )["metadata"],
+        implementation.r68._artifact_paths(table_args.output)["table"],
+        implementation.r68._artifact_paths(table_args.output)["metadata"],
     ]
     equivalence_path, equivalence, equivalence_ok = (
         _inherited_equivalence_report()
@@ -453,6 +448,14 @@ def command_audit(args) -> dict:
             "reach_scale_support_strictly_exceeds_sigma_count"
         ] > 0
     )
+    transfer_applicable = bool(
+        Path(args.preparation).resolve() == Path(r52.DEFAULT_OUTPUT).resolve()
+    )
+    # The R72 log is evidence from the historical R52 preparation.  Replaying
+    # it under another seed's empirical covariance is not a valid gate for a
+    # rebuilt preparation; the frozen implementation/equivalence certificate
+    # remains required, while the rebuilt covariance is checked directly.
+    transfer_gate_ok = transfer_ok if transfer_applicable else True
     report = {
         "schema_version": 1,
         "method_reference": str(REFERENCE),
@@ -517,6 +520,10 @@ def command_audit(args) -> dict:
             transfer_rows_path
         ),
         "offline_route_evidence_transfer_observed": transfer_ok,
+        "offline_route_evidence_transfer_applicable_to_preparation": (
+            transfer_applicable
+        ),
+        "offline_route_evidence_transfer_gate_passed": transfer_gate_ok,
         "required_artifacts": [
             {"path": str(path), "exists": path.is_file()}
             for path in required
@@ -526,7 +533,7 @@ def command_audit(args) -> dict:
             and all(path.is_file() for path in required)
             and equivalence_ok
             and covariance_ok
-            and transfer_ok
+            and transfer_gate_ok
         ),
         "hidden_goal_visible_to_planner_executor_or_models": False,
         "success_radius_read_by_planner": False,
@@ -563,6 +570,10 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--seed", type=int, default=607)
     value.add_argument("--episodes", type=int, default=EPISODES)
     value.add_argument("--preparation", type=Path, default=r52.DEFAULT_OUTPUT)
+    value.add_argument(
+        "--hub-table", type=Path,
+        help="R69 exact dynamic-hub table built for --preparation",
+    )
     value.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     value.add_argument("--graph", type=Path)
     commands = value.add_subparsers(dest="command", required=True)

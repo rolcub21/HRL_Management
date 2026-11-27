@@ -1,0 +1,300 @@
+{
+  "schema_version": 1,
+  "specification_revision": "tfsn_frozen_cross_domain_r74_point_r15",
+  "canonical_specification": "projects/tfsn_consequence_value_iteration/FROZEN_R74_METHOD_SPECIFICATION.md",
+  "source_method_revisions": {
+    "antmaze": "antmaze_e549_5m_reach_scale_hub_route_correction_r74",
+    "antmaze_budget_record": "antmaze_e549_5m_r74_twenty_episode_r75",
+    "pointmaze": "pointmaze_frozen_antmaze_r74_port_r15"
+  },
+  "setting_classes": [
+    "global_computational",
+    "global_decision_principle",
+    "data_derived",
+    "task_or_evaluation_contract",
+    "domain_adapter"
+  ],
+  "global_computational": {
+    "command_duration_tau_primitive_steps": {
+      "value": 100,
+      "source": "shared/method_manifest.json:categories.global_computational.command_steps",
+      "policy_effect": true
+    },
+    "consequence_ensemble_members": {
+      "value": 3,
+      "source": "shared/method_manifest.json:categories.global_computational.ensemble_size",
+      "policy_effect": true
+    },
+    "mixture_components_per_head": {
+      "value": 5,
+      "source": "shared/method_manifest.json:categories.global_computational.mixture_components",
+      "policy_effect": true
+    },
+    "consequence_hidden_dimension": {
+      "value": 256,
+      "source": "shared/method_manifest.json:categories.global_computational.hidden_dimension",
+      "policy_effect": false
+    },
+    "consequence_hidden_layers": {
+      "value": 3,
+      "source": "shared/method_manifest.json:categories.global_computational.hidden_layers",
+      "policy_effect": false
+    },
+    "training_batch_size": {
+      "value": 256,
+      "source": "shared/method_manifest.json:categories.global_computational.batch_size",
+      "policy_effect": false
+    },
+    "training_epochs": {
+      "value": 200,
+      "source": "shared/method_manifest.json:categories.global_computational.epochs",
+      "policy_effect": false
+    },
+    "training_learning_rate": {
+      "value": 0.0003,
+      "source": "shared/method_manifest.json:categories.global_computational.learning_rate",
+      "policy_effect": false
+    },
+    "validation_fraction": {
+      "value": 0.1,
+      "source": "shared/method_manifest.json:categories.global_computational.validation_fraction",
+      "policy_effect": false
+    },
+    "standard_deviation_floor": {
+      "value": 0.0001,
+      "source": "shared/method_manifest.json:categories.global_computational.std_floor",
+      "policy_effect": true
+    },
+    "bridge_candidates_per_node": {
+      "value": 128,
+      "source": "shared/method_manifest.json:categories.global_computational.bridge_candidates",
+      "policy_effect": true
+    },
+    "maximum_alignment_rounds": {
+      "value": 4,
+      "source": "shared/method_manifest.json:categories.global_computational.maximum_alignment_rounds",
+      "policy_effect": false
+    },
+    "alignment_relative_stop_tolerance": {
+      "value": 0.1,
+      "source": "shared/method_manifest.json:categories.global_computational.alignment_relative_tolerance",
+      "policy_effect": false
+    },
+    "alignment_tasks_per_phase": {
+      "value": 80,
+      "source": "shared/method_manifest.json:categories.global_computational.alignment_tasks_per_phase",
+      "policy_effect": false
+    },
+    "alignment_commands_per_task": {
+      "value": 75,
+      "source": "shared/method_manifest.json:categories.global_computational.alignment_commands_per_task",
+      "policy_effect": false
+    },
+    "gaussian_circle_quadrature_points": {
+      "value": 32,
+      "source": "shared/method_manifest.json:categories.global_computational.gaussian_circle_quadrature_points",
+      "policy_effect": false
+    },
+    "passage_bins": {
+      "value": 16,
+      "source": "shared/method_manifest.json:categories.global_computational.passage_bins",
+      "policy_effect": true
+    },
+    "consumptive_lookahead_depth": {
+      "value": 2,
+      "source": "shared/method_manifest.json:categories.global_computational.consumptive_lookahead_depth",
+      "policy_effect": false,
+      "frozen_method_status": "inactive; acquisition selects a posterior hub and acquisition/return use supplied-goal routing"
+    },
+    "consumptive_lookahead_beam_width": {
+      "value": 4,
+      "source": "shared/method_manifest.json:categories.global_computational.consumptive_lookahead_beam_width",
+      "policy_effect": false,
+      "frozen_method_status": "inactive; acquisition selects a posterior hub and acquisition/return use supplied-goal routing"
+    },
+    "recorded_reliability_neighbors": {
+      "value": 256,
+      "source": "shared/method_manifest.json:categories.global_computational.recorded_reliability_neighbors",
+      "policy_effect": true
+    },
+    "online_evidence_prior_weight": {
+      "value": 1.0,
+      "source": "shared/method_manifest.json:categories.global_computational.recorded_evidence_prior_weight",
+      "policy_effect": true
+    },
+    "situation_density_truncation_sigmas": {
+      "value": 3.0,
+      "source": "shared/method_manifest.json:categories.global_computational.situation_density_truncation_sigmas",
+      "policy_effect": false
+    },
+    "pair_inference_batch": {
+      "value": 4096,
+      "source": "shared/method_manifest.json:categories.global_computational.pair_inference_batch",
+      "policy_effect": false
+    },
+    "artifact_node_shard": {
+      "value": 128,
+      "source": "shared/method_manifest.json:categories.global_computational.artifact_node_shard",
+      "policy_effect": false
+    },
+    "field_evaluation_batch": {
+      "value": 4096,
+      "source": "shared/method_manifest.json:categories.global_computational.field_evaluation_batch",
+      "policy_effect": false
+    },
+    "exact_hub_target_batch": {
+      "value": 64,
+      "source": "frozen R72 CUDA-equivalent exact batched realization; pointmaze/frozen_r74_port_protocol.json:hub_target_batch_computational",
+      "policy_effect": false
+    },
+    "preparation_commands_per_seed": {
+      "value": 36000,
+      "source": "shared frozen preparation budget; preserves the 36,000 recorded-edge budget realized by both frozen domains",
+      "policy_effect": false
+    },
+    "bootstrap_tasks_per_seed": {
+      "value": 320,
+      "source": "derived as (36000 - 2 * 80 * 75) / 75",
+      "policy_effect": false
+    },
+    "bootstrap_commands_per_task": {
+      "value": 75,
+      "source": "shared/method_manifest.json:categories.global_computational.alignment_commands_per_task",
+      "policy_effect": false
+    }
+  },
+  "global_decision_principles": {
+    "bootstrap_behavior": "uniform over the exact set of xy coordinates observed so far",
+    "aligned_acquisition_behavior": "frozen hub controller under an all-negative consequence stream",
+    "aligned_return_behavior": "frozen supplied-goal router to a uniformly sampled occupied-sigma-cell support anchor",
+    "ensemble_reduction": "minimum member value",
+    "bridge_outcome_integration": "all joint mixture-component means weighted by their probabilities",
+    "goal_location_prior": "equal mass per occupied landing-scale cell of unique recorded support",
+    "latent_radius_prior": "log-uniform on [landing sigma, exact support diameter]",
+    "hub_bank": "one recorded node per occupied landing-scale cell",
+    "hub_choice": "exact global argmax of posterior contact coverage times corrected finite-horizon reachability",
+    "link_outcome": "arrived within landing sigma of the selected graph destination",
+    "link_kernel": "continuous Gaussian over source, command, and destination, each scaled by landing sigma",
+    "route_outcome": "arrived within landing sigma of the selected hub before the attempt horizon expired",
+    "route_kernel": "continuous two-sided Mahalanobis Gaussian using the empirical reach covariance for both source and hub",
+    "route_horizon_transfer": "evidence transfers only at the exact remaining-command horizon",
+    "online_posterior": "one offline prediction counted as one prior observation plus continuously weighted online outcomes",
+    "online_memory_scope": "one task across physical resets; reset between tasks",
+    "return_controller": "frozen supplied-goal return planner with destination-arrival link correction only",
+    "cutoffs": {
+      "link_similarity": null,
+      "route_similarity": null,
+      "hub_evaluation": null,
+      "movement_request": null,
+      "wall_crossing": null
+    }
+  },
+  "data_derived_rules": {
+    "landing_sigma": "held-out ensemble-and-mixture-weighted within-mode radial spatial spread of the deployed consequence model",
+    "reach_weight": "(1-exp(-||command-start||^2/(2 sigma^2)))*(1-exp(-||endpoint-start||^2/(2 sigma^2)))",
+    "reach_covariance": "weighted central second moment of realized one-command displacement",
+    "rho_min": "landing sigma",
+    "rho_max": "exact Euclidean diameter of unique recorded xy support",
+    "planning_horizon": "H = T / tau, requiring exact divisibility",
+    "state_scale": "landing sigma for xy and reward-free training standard deviation for remaining state",
+    "alias_and_advance": "continuous Gaussian similarity at landing sigma; advance is one minus similarity"
+  },
+  "domain_realizations": {
+    "antmaze": {
+      "domain_adapter": "Ant state/action schema and E549-5M goal-conditioned executor",
+      "executor_checkpoint_sha256": "3318bf1ea6e30811285a1e92a0beb7824201b27466e18412359a22131b474b6b",
+      "preparation_revision": "antmaze_e549_5m_preparation_r52",
+      "recorded_graph_sha256": "6a41cc9d8a540e9685429e6565eb34f57a895d4c7f439656beb705055f023806",
+      "factorized_consequence_sha256": "ee1c49b9bcb9179ee8b1cb8236e8cc5af262a12e6c6d1c897c64bf2c35c4de8d",
+      "mobility_sha256": "3e32c8bfe5c27ea2bb61e4bc4bf57463c89edf634dc310ad084ebf25b03a8806",
+      "bridges_sha256": "8ae4d9e246871ce9d934219cb57df6debe7d11e060dbbb4789fbe68152ead9d7",
+      "landing_sigma_m": 0.3021572530269623,
+      "unique_recorded_xy": 28598,
+      "occupied_sigma_cells_and_hubs": 2883,
+      "rho_min_m": 0.3021572530269623,
+      "rho_max_m": 31.077280960063096,
+      "reach_mean_displacement_m": [
+        0.03565170943535887,
+        -0.12032320226408563
+      ],
+      "reach_covariance_m2": [
+        [3.3473523867760435, -0.046586071295977347],
+        [-0.046586071295977347, 3.285194276675965]
+      ],
+      "reach_principal_standard_deviation_m": [
+        1.805622279590521,
+        1.836375464576441
+      ],
+      "reach_radial_rms_m": 2.5753731115028766,
+      "recorded_nodes": 29814,
+      "recorded_edges": 30000,
+      "evaluation_T_primitive_steps": 2000,
+      "derived_H_commands": 20,
+      "development_episodes_per_task": 20,
+      "evaluation_seed": 607,
+      "success_radius_role": "evaluator only; value is not a planner input"
+    },
+    "pointmaze": {
+      "domain_adapter": "PointMaze [x,y,vx,vy] schema and frozen goal-conditioned SAC executor",
+      "executor_checkpoint_sha256": "d15ed97e10fd11037a000ffeb9a065c8b527202a5b13844dfea2fa7b315e359a",
+      "preparation_revision": "tfsn_continuous_reference_r11",
+      "recorded_graph_sha256": "63d693e8eb9906ddfed397316492ef8a91b20c47a40ab6dc48941d3b0a930115",
+      "factorized_consequence_sha256": "135d68323759c087fac4ceec9077ca155d6000edd1d44e59e16b7437b9132c5a",
+      "mobility_sha256": "7f6b19dfcb3bd8c85935706d7d78aea6a5643abdfb9b2183d44483c9dbab3901",
+      "bridges_sha256": "d56f809661fa6f512098973de16e8b6ec2640ef7dd77d19de1d250fae461dedf",
+      "landing_sigma_m": 0.08113273233175278,
+      "unique_recorded_xy": 22741,
+      "occupied_sigma_cells_and_hubs": 2286,
+      "rho_min_m": 0.08113273233175278,
+      "rho_max_m": 7.880790222140203,
+      "reach_mean_displacement_m": [
+        -0.008991591892721014,
+        -0.0014048186360393529
+      ],
+      "reach_covariance_m2": [
+        [1.513383367052503, 0.02477047515025636],
+        [0.02477047515025636, 1.5280080589039875]
+      ],
+      "reach_principal_standard_deviation_m": [
+        1.2226481353958953,
+        1.243592764119119
+      ],
+      "reach_radial_rms_m": 1.7439585505270734,
+      "recorded_nodes": 36960,
+      "recorded_edges": 36000,
+      "evaluation_T_primitive_steps": 2000,
+      "derived_H_commands": 20,
+      "development_episodes_per_task": 8,
+      "planner_seed": 4101,
+      "success_radius_role": "0.4 m evaluator-only contact test; forbidden to planner"
+    }
+  },
+  "task_or_evaluation_contract": {
+    "T": "declared primitive-step episode budget",
+    "H": "derived exactly as T/tau",
+    "episodes_per_task": "declared evaluation budget, not a planner rule",
+    "success_radius": "evaluator-only contact semantics",
+    "task_reward": "binary evidence and acquisition/return phase switch only; never a gradient target",
+    "hidden_goal_coordinate": "forbidden to planner, executor, consequence model, graph, and proposal mechanism"
+  },
+  "prohibited_planner_inputs": [
+    "maze wall geometry",
+    "environment-specific coordinates or regions",
+    "benchmark success/contact radius",
+    "hidden goal coordinate",
+    "oracle shortest paths",
+    "task gradients",
+    "domain-local distance thresholds",
+    "domain-local candidate caps",
+    "domain-local fallback rules"
+  ],
+  "environment_specific_policy_rules": [],
+  "evidence": {
+    "antmaze_freeze": "projects/tfsn_consequence_value_iteration/antmaze/R74_FREEZE.json",
+    "pointmaze_cross_domain_gate": "projects/tfsn_consequence_value_iteration/results/pointmaze/frozen_r74_port_r15/gate.json",
+    "pointmaze_gate_acquired": 24,
+    "pointmaze_gate_tasks": 24,
+    "pointmaze_conditional_return": 1.0,
+    "confirmation_panel_accessed": false
+  }
+}

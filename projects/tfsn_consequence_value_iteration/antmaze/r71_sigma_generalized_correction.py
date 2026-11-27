@@ -256,7 +256,9 @@ def _bind_r71_contract() -> None:
 
 def _r69_args(args):
     value = copy.copy(args)
-    value.output = r69.DEFAULT_OUTPUT
+    value.output = Path(
+        getattr(args, "hub_table", None) or r69.DEFAULT_OUTPUT
+    ).resolve()
     return value
 
 
@@ -270,8 +272,8 @@ def command_audit(args) -> dict:
         paths["consequence"],
         paths["graph"],
         paths["runtime"] / "planner/bridges.npz",
-        r68._artifact_paths(r69.DEFAULT_OUTPUT)["table"],
-        r68._artifact_paths(r69.DEFAULT_OUTPUT)["metadata"],
+        r68._artifact_paths(table_args.output)["table"],
+        r68._artifact_paths(table_args.output)["metadata"],
     ]
     report = {
         "schema_version": 1,

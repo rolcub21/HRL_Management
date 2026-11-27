@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "freeze_date": "2026-11-27",
+  "freeze_status": "cross_domain_development_reference",
+  "specification_revision": "tfsn_frozen_cross_domain_r74_point_r15",
+  "canonical_specification": "projects/tfsn_consequence_value_iteration/FROZEN_R74_METHOD_SPECIFICATION.md",
+  "canonical_specification_sha256": "6b5fed190a375914ac6004358a576bf479d338ff6777b58e906e03856cefaff8",
+  "settings_inventory": "projects/tfsn_consequence_value_iteration/shared/frozen_r74_settings.json",
+  "settings_inventory_sha256": "e115cf946d3bed612700bf20cce80a456e3ed4e3fc959d961f20b47f31fbd326",
+  "shared_implementation": "projects/tfsn_consequence_value_iteration/shared/frozen_hub_method.py",
+  "shared_implementation_sha256": "9dfbbddffe42f37ad6485bf322c9b4507bc81af0dc2249404a4c1c61aa527ff3",
+  "domain_implementations": {
+    "antmaze": {
+      "method_revision": "antmaze_e549_5m_reach_scale_hub_route_correction_r74",
+      "implementation": "projects/tfsn_consequence_value_iteration/antmaze/r74_reach_scale_route_correction.py",
+      "implementation_sha256": "c11459b83f5bddd91b56b28c40b25ad1442b09d4c112700d96ac26acedaad96c",
+      "source_freeze": "projects/tfsn_consequence_value_iteration/antmaze/R74_FREEZE.json",
+      "source_freeze_sha256": "23b2992da439af0591aa6d21f6cdaceb1d714084d3b362a6db8ef93e1c2373f4",
+      "evidence_status": "consumed_development_not_confirmation"
+    },
+    "pointmaze": {
+      "method_revision": "pointmaze_frozen_antmaze_r74_port_r15",
+      "implementation": "projects/tfsn_consequence_value_iteration/pointmaze/frozen_r74_planner.py",
+      "implementation_sha256": "e8fa8c1082d5052545283f599442cc2c4127e3cb7bdb2546ce53f9633e95219e",
+      "development_gate": "projects/tfsn_consequence_value_iteration/results/pointmaze/frozen_r74_port_r15/gate.json",
+      "development_gate_sha256": "fbd2cf9bef02a9a5d968cd93f1e0530d17fdcd3b273662c53d39ded497942c60",
+      "development_tasks_acquired": 24,
+      "development_tasks": 24,
+      "conditional_return": 1.0,
+      "confirmation_panel_accessed": false
+    }
+  },
+  "environment_specific_policy_rules": [],
+  "verification": {
+    "command": "PYTHONPATH=/home/ai_diagnosis/SG/sn:$PWD /home/ai_diagnosis/SG/.venv/bin/python -m projects.tfsn_consequence_value_iteration.shared.audit_frozen_r74_spec",
+    "passed": true
+  }
+}

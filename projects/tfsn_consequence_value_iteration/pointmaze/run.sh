@@ -18,7 +18,89 @@ reference_audit() {
     projects.tfsn_consequence_value_iteration.pointmaze.test_pointmaze
 }
 
+frozen_r74_port_audit() {
+  reference_audit
+  "$PYTHON_BIN" -m \
+    projects.tfsn_consequence_value_iteration.shared.audit_frozen_r74_spec
+  "$PYTHON_BIN" -m unittest \
+    projects.tfsn_consequence_value_iteration.pointmaze.test_frozen_r74_port
+}
+
+run_aligned_rebuild() {
+  local preparation_seed="$1"
+  local profile="$2"
+  shift 2
+  "$PYTHON_BIN" -m \
+    projects.tfsn_consequence_value_iteration.pointmaze.aligned_rebuild_r16 \
+    --preparation-seed "$preparation_seed" --profile "$profile" \
+    --device "$DEVICE" "$@"
+}
+
+prepare_aligned_rebuild_planner() {
+  local preparation_seed="$1"
+  local profile="$2"
+  local root="$RESULTS/aligned_rebuild_r16/pointmaze/seed${preparation_seed}/${profile}"
+  run_aligned_rebuild "$preparation_seed" "$profile" prepare-roadmap
+  "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.prepare_bridges \
+    all --schedule "$profile" --device "$DEVICE" \
+    --models "$root/models" --roadmap "$root/roadmap" \
+    --output "$root/planner"
+}
+
 case "$MODE" in
+  audit-aligned-rebuild-seed0|audit-aligned-rebuild-seed1|audit-aligned-rebuild-seed2)
+    preparation_seed="${MODE#audit-aligned-rebuild-seed}"
+    run_aligned_rebuild "$preparation_seed" full audit
+    ;;
+  collect-aligned-rebuild-bootstrap-seed0|collect-aligned-rebuild-bootstrap-seed1|collect-aligned-rebuild-bootstrap-seed2)
+    preparation_seed="${MODE#collect-aligned-rebuild-bootstrap-seed}"
+    run_aligned_rebuild "$preparation_seed" full audit
+    run_aligned_rebuild "$preparation_seed" full collect-bootstrap
+    ;;
+  collect-aligned-rebuild-controller-seed0|collect-aligned-rebuild-controller-seed1|collect-aligned-rebuild-controller-seed2)
+    preparation_seed="${MODE#collect-aligned-rebuild-controller-seed}"
+    run_aligned_rebuild "$preparation_seed" full audit
+    run_aligned_rebuild "$preparation_seed" full collect-alignment
+    ;;
+  train-aligned-rebuild-seed0|train-aligned-rebuild-seed1|train-aligned-rebuild-seed2)
+    preparation_seed="${MODE#train-aligned-rebuild-seed}"
+    run_aligned_rebuild "$preparation_seed" full train-consequence
+    ;;
+  prepare-aligned-rebuild-seed0|prepare-aligned-rebuild-seed1|prepare-aligned-rebuild-seed2)
+    preparation_seed="${MODE#prepare-aligned-rebuild-seed}"
+    prepare_aligned_rebuild_planner "$preparation_seed" full
+    ;;
+  rebuild-aligned-seed0|rebuild-aligned-seed1|rebuild-aligned-seed2)
+    preparation_seed="${MODE#rebuild-aligned-seed}"
+    run_aligned_rebuild "$preparation_seed" full audit
+    run_aligned_rebuild "$preparation_seed" full collect-bootstrap
+    run_aligned_rebuild "$preparation_seed" full collect-alignment
+    run_aligned_rebuild "$preparation_seed" full train-consequence
+    prepare_aligned_rebuild_planner "$preparation_seed" full
+    ;;
+  smoke-aligned-rebuild-seed0)
+    run_aligned_rebuild 0 smoke audit
+    run_aligned_rebuild 0 smoke collect-bootstrap
+    run_aligned_rebuild 0 smoke collect-alignment
+    run_aligned_rebuild 0 smoke train-consequence
+    prepare_aligned_rebuild_planner 0 smoke
+    ;;
+  evaluate-aligned-rebuild-seed0)
+    rebuilt="$RESULTS/aligned_rebuild_r16/pointmaze/seed0/full"
+    frozen_r74_port_audit
+    "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.evaluate_development \
+      --device "$DEVICE" --frozen-r74-port \
+      --models "$rebuilt/models" --roadmap "$rebuilt/roadmap" \
+      --planner "$rebuilt/planner" --output "$rebuilt/evaluation/original9"
+    "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.evaluate_development \
+      --device "$DEVICE" --frozen-r74-port \
+      --panel-protocol "$ROOT/projects/tfsn_consequence_value_iteration/pointmaze/hidden_goal_protocol_panel15.json" \
+      --models "$rebuilt/models" --roadmap "$rebuilt/roadmap" \
+      --planner "$rebuilt/planner" --output "$rebuilt/evaluation/disjoint15"
+    "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.shared.audit_aligned_rebuild_seed0 \
+      --domain pointmaze --rebuilt "$rebuilt" \
+      --output "$rebuilt/audit/seed0_comparison.json"
+    ;;
   freeze-fresh-confirmation-panel)
     "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.prepare_fresh_confirmation_panel
     ;;
@@ -458,6 +540,45 @@ case "$MODE" in
       --planner "$RESULTS/continuous_reference_planner_r11" \
       --output "$RESULTS/fresh_confirmation_r11_seed0/hidden"
     ;;
+  audit-frozen-r74-port)
+    frozen_r74_port_audit
+    ;;
+  evaluate-frozen-r74-port-smoke)
+    frozen_r74_port_audit
+    "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.evaluate_development \
+      --device "$DEVICE" --frozen-r74-port \
+      --max-tasks 1 --max-episodes-per-task 1 \
+      --models "$RESULTS/situation_density_aligned_factorized_r6" \
+      --roadmap "$RESULTS/continuous_reference_roadmap_r11" \
+      --planner "$RESULTS/continuous_reference_planner_r11" \
+      --output "$RESULTS/frozen_r74_port_r15_smoke/original1"
+    ;;
+  evaluate-frozen-r74-port-original9)
+    frozen_r74_port_audit
+    "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.evaluate_development \
+      --device "$DEVICE" --frozen-r74-port \
+      --models "$RESULTS/situation_density_aligned_factorized_r6" \
+      --roadmap "$RESULTS/continuous_reference_roadmap_r11" \
+      --planner "$RESULTS/continuous_reference_planner_r11" \
+      --output "$RESULTS/frozen_r74_port_r15/original9"
+    ;;
+  evaluate-frozen-r74-port-disjoint15)
+    frozen_r74_port_audit
+    "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.evaluate_development \
+      --device "$DEVICE" --frozen-r74-port \
+      --panel-protocol "$ROOT/projects/tfsn_consequence_value_iteration/pointmaze/hidden_goal_protocol_panel15.json" \
+      --models "$RESULTS/situation_density_aligned_factorized_r6" \
+      --roadmap "$RESULTS/continuous_reference_roadmap_r11" \
+      --planner "$RESULTS/continuous_reference_planner_r11" \
+      --output "$RESULTS/frozen_r74_port_r15/disjoint15"
+    ;;
+  gate-frozen-r74-port)
+    frozen_r74_port_audit
+    "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.gate_frozen_r74_port \
+      --original9 "$RESULTS/frozen_r74_port_r15/original9/summary.json" \
+      --disjoint15 "$RESULTS/frozen_r74_port_r15/disjoint15/summary.json" \
+      --output "$RESULTS/frozen_r74_port_r15/gate.json"
+    ;;
   evaluate-supplied-smoke)
     reference_audit
     "$PYTHON_BIN" -m projects.tfsn_consequence_value_iteration.pointmaze.evaluate_supplied_goal \
@@ -507,7 +628,7 @@ case "$MODE" in
       --root "$RESULTS/continuous_reference_supplied_goal_r11"
     ;;
   *)
-    echo "usage: $0 {freeze-fresh-confirmation-panel|collect-bootstrap-seed1|collect-bootstrap-seed2|audit|prepare-reference-roadmap-smoke|prepare-reference-planner-smoke|evaluate-reference-smoke|prepare-reference-roadmap|prepare-reference-planner|evaluate-reference-gate2|evaluate-reference-development|evaluate-reference-hidden-development15|evaluate-reference-fresh-confirmation-hidden-seed0|evaluate-reference-fresh-confirmation-supplied-seed0|evaluate-supplied-smoke|evaluate-supplied-development|evaluate-supplied-development15|evaluate-supplied-seed40|evaluate-supplied-seed41|evaluate-supplied-seed42|evaluate-supplied-seed43|evaluate-supplied-seed44|evaluate-supplied-full|summarize-supplied|...historical modes...}" >&2
+    echo "usage: $0 {freeze-fresh-confirmation-panel|collect-bootstrap-seed1|collect-bootstrap-seed2|audit|prepare-reference-roadmap-smoke|prepare-reference-planner-smoke|evaluate-reference-smoke|prepare-reference-roadmap|prepare-reference-planner|evaluate-reference-gate2|evaluate-reference-development|evaluate-reference-hidden-development15|audit-frozen-r74-port|evaluate-frozen-r74-port-smoke|evaluate-frozen-r74-port-original9|evaluate-frozen-r74-port-disjoint15|gate-frozen-r74-port|evaluate-reference-fresh-confirmation-hidden-seed0|evaluate-reference-fresh-confirmation-supplied-seed0|evaluate-supplied-smoke|evaluate-supplied-development|evaluate-supplied-development15|evaluate-supplied-seed40|evaluate-supplied-seed41|evaluate-supplied-seed42|evaluate-supplied-seed43|evaluate-supplied-seed44|evaluate-supplied-full|summarize-supplied|...historical modes...}" >&2
     exit 2
     ;;
 esac

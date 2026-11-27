@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pointmaze_frozen_antmaze_r74_port_development24_r15",
+  "method_reference": "projects/tfsn_consequence_value_iteration/pointmaze/FROZEN_R74_PORT_REFERENCE.md",
+  "method_revision": "pointmaze_frozen_antmaze_r74_port_r15",
+  "frozen_source_method": "antmaze_e549_5m_reach_scale_hub_route_correction_r74",
+  "claim_level": "consumed_pointmaze_development_cross_domain_conformance_gate",
+  "declared_deviations": [
+    "domain_adapter_uses_PointMaze_state_action_schema_executor_and_R11_reward_free_preparation",
+    "benchmark_episode_horizon_is_derived_as_2000_primitive_steps_divided_by_shared_tau_100"
+  ],
+  "oracle_inputs": [],
+  "development_panels": {
+    "original9": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_development_r11/summary.json",
+    "disjoint15": "projects/tfsn_consequence_value_iteration/results/pointmaze/continuous_reference_hidden_goal_r11_disjoint15_e120/summary.json",
+    "acceptance_floor_acquired_of_24": 22
+  },
+  "link_outcome": "binary_arrival_within_landing_sigma_of_selected_graph_destination",
+  "link_similarity": "continuous_gaussian_over_source_xy_command_xy_and_destination_xy_each_scaled_by_deployed_landing_sigma",
+  "link_similarity_scale": "deployed_landing_sigma",
+  "link_similarity_cutoff": null,
+  "latent_radius_prior": "log_uniform_between_deployed_landing_sigma_and_exact_recorded_support_diameter",
+  "goal_location_prior": "equal_mass_per_occupied_landing_sigma_cell_of_recorded_support",
+  "hub_source": "one_recorded_node_per_occupied_landing_sigma_cell",
+  "hub_selection": "exact_global_argmax_of_latent_contact_coverage_times_link_and_route_corrected_reachability",
+  "route_outcome": "binary_arrival_within_landing_sigma_before_selected_attempt_horizon_expires",
+  "route_source_scale": "empirical_reach_covariance",
+  "route_hub_scale": "empirical_reach_covariance",
+  "route_similarity_cutoff": null,
+  "route_horizon_matching": "exact_remaining_command_count",
+  "hub_evaluation_cutoff": null,
+  "hub_target_batch_computational": 64,
+  "recorded_evidence_prior_weight": 1.0,
+  "hidden_goal_visible_to_planner_executor_or_models": false,
+  "success_radius_read_by_planner": false,
+  "wall_geometry_used_by_planner": false,
+  "task_gradient_updates": 0,
+  "confirmation_panel_accessed": false
+}

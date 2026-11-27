@@ -416,6 +416,19 @@ run_r78_soft_return_route_audit() {
     "$@"
 }
 
+run_aligned_rebuild() {
+  local preparation_seed="$1"
+  local profile="$2"
+  shift 2
+  cd "$MANAGEMENT_ROOT"
+  MPLCONFIGDIR="${MPLCONFIGDIR:-/tmp/matplotlib-aligned-rebuild}" \
+  PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+    "$PYTHON_BIN" -m \
+    projects.tfsn_consequence_value_iteration.antmaze.aligned_rebuild_r16 \
+    --root "$RUNTIME_ROOT" --preparation-seed "$preparation_seed" \
+    --profile "$profile" --device "$DEVICE" "$@"
+}
+
 run_r48_passage_gain_cause_audit() {
   cd "$MANAGEMENT_ROOT"
   "$PYTHON_BIN" \
@@ -741,6 +754,63 @@ run_expanded_arm() {
 }
 
 case "$MODE" in
+  audit-aligned-rebuild-seed0|audit-aligned-rebuild-seed1|audit-aligned-rebuild-seed2)
+    preparation_seed="${MODE#audit-aligned-rebuild-seed}"
+    run_aligned_rebuild "$preparation_seed" full audit
+    ;;
+  collect-aligned-rebuild-bootstrap-seed0|collect-aligned-rebuild-bootstrap-seed1|collect-aligned-rebuild-bootstrap-seed2)
+    preparation_seed="${MODE#collect-aligned-rebuild-bootstrap-seed}"
+    run_aligned_rebuild "$preparation_seed" full audit
+    run_aligned_rebuild "$preparation_seed" full collect-bootstrap
+    ;;
+  collect-aligned-rebuild-controller-seed0|collect-aligned-rebuild-controller-seed1|collect-aligned-rebuild-controller-seed2)
+    preparation_seed="${MODE#collect-aligned-rebuild-controller-seed}"
+    run_aligned_rebuild "$preparation_seed" full audit
+    run_aligned_rebuild "$preparation_seed" full collect-alignment
+    ;;
+  train-aligned-rebuild-seed0|train-aligned-rebuild-seed1|train-aligned-rebuild-seed2)
+    preparation_seed="${MODE#train-aligned-rebuild-seed}"
+    run_aligned_rebuild "$preparation_seed" full train-consequence
+    ;;
+  prepare-aligned-rebuild-seed0|prepare-aligned-rebuild-seed1|prepare-aligned-rebuild-seed2)
+    preparation_seed="${MODE#prepare-aligned-rebuild-seed}"
+    run_aligned_rebuild "$preparation_seed" full prepare-all
+    ;;
+  rebuild-aligned-seed0|rebuild-aligned-seed1|rebuild-aligned-seed2)
+    preparation_seed="${MODE#rebuild-aligned-seed}"
+    run_aligned_rebuild "$preparation_seed" full audit
+    run_aligned_rebuild "$preparation_seed" full collect-bootstrap
+    run_aligned_rebuild "$preparation_seed" full collect-alignment
+    run_aligned_rebuild "$preparation_seed" full train-consequence
+    run_aligned_rebuild "$preparation_seed" full prepare-all
+    ;;
+  smoke-aligned-rebuild-seed0)
+    run_aligned_rebuild 0 smoke audit
+    run_aligned_rebuild 0 smoke collect-bootstrap
+    run_aligned_rebuild 0 smoke collect-alignment
+    run_aligned_rebuild 0 smoke train-consequence
+    run_aligned_rebuild 0 smoke prepare-all
+    ;;
+  prepare-aligned-rebuild-hubs-seed0)
+    rebuilt="$MANAGEMENT_ROOT/projects/tfsn_consequence_value_iteration/results/aligned_rebuild_r16/antmaze/seed0/full"
+    run_r69_e549_dynamic_hub_long_budget \
+      --preparation "$rebuilt" --output "$rebuilt/evaluation/hub_table" prepare
+    ;;
+  evaluate-aligned-rebuild-seed0)
+    rebuilt="$MANAGEMENT_ROOT/projects/tfsn_consequence_value_iteration/results/aligned_rebuild_r16/antmaze/seed0/full"
+    hub_table="$rebuilt/evaluation/hub_table"
+    run_r69_e549_dynamic_hub_long_budget \
+      --preparation "$rebuilt" --output "$hub_table" prepare
+    run_r75_r74_twenty_episode \
+      --preparation "$rebuilt" --hub-table "$hub_table" \
+      --output "$rebuilt/evaluation/original9" evaluate
+    cd "$MANAGEMENT_ROOT"
+    PYTHONPATH="${PYTHONPATH:-}:$SN_ROOT:$MANAGEMENT_ROOT" \
+      "$PYTHON_BIN" -m \
+      projects.tfsn_consequence_value_iteration.shared.audit_aligned_rebuild_seed0 \
+      --domain antmaze --rebuilt "$rebuilt" \
+      --output "$rebuilt/audit/seed0_comparison_and_task6_shortcut.json"
+    ;;
   prepare) run prepare --round 2 ;;
   evaluate) run evaluate --round 2 ;;
   all)

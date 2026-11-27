@@ -1,5 +1,11 @@
 # Frozen AntMaze method: R74
 
+The canonical cross-domain equations, setting provenance, and rebuild
+procedure are in
+[`../FROZEN_R74_METHOD_SPECIFICATION.md`](../FROZEN_R74_METHOD_SPECIFICATION.md).
+The machine-readable inventory is
+[`../shared/frozen_r74_settings.json`](../shared/frozen_r74_settings.json).
+
 The frozen AntMaze TF-SN method is **R74**, method revision
 `antmaze_e549_5m_reach_scale_hub_route_correction_r74`.
 

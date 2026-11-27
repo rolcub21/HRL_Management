@@ -326,6 +326,10 @@ def parser() -> argparse.ArgumentParser:
     value.add_argument("--seed", type=int, default=607)
     value.add_argument("--episodes", type=int, default=EPISODES)
     value.add_argument("--preparation", type=Path, default=r52.DEFAULT_OUTPUT)
+    value.add_argument(
+        "--hub-table", type=Path,
+        help="R69 exact dynamic-hub table built for --preparation",
+    )
     value.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     value.add_argument("--graph", type=Path)
     commands = value.add_subparsers(dest="command", required=True)

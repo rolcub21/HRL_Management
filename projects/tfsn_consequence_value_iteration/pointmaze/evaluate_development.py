@@ -20,6 +20,12 @@ from .core import atomic_json, load_json, protocol, resolve_repository, sha256
 from .fields import TaskFields
 from .panel import load_development_panel, load_frozen_hidden_goal_panel
 from .planner import load_planner
+from .frozen_r74_planner import (
+    METHOD_REVISION as FROZEN_R74_PORT_METHOD_REVISION,
+    PROTOCOL as FROZEN_R74_PORT_PROTOCOL,
+    load_protocol as load_frozen_r74_port_protocol,
+    load_frozen_r74_planner,
+)
 from projects.tfsn_consequence_value_iteration.shared.settings import (
     COMMAND_STEPS,
     CONSUMPTIVE_LOOKAHEAD_BEAM_WIDTH,
@@ -143,6 +149,8 @@ def evaluate_task(
                 np.asarray(primitive_xy, np.float32),
                 np.asarray(primitive_reward, np.float32),
             )
+            if hasattr(planner, "observe_passage"):
+                planner.observe_passage(primitive_xy, primitive_reward)
             endpoint_state = observation_vector(env.raw_obs)[:4].astype(
                 np.float32
             )
@@ -193,6 +201,8 @@ def evaluate_task(
                 unsearched_after.sum()
             ),
         })
+        if hasattr(planner, "end_episode"):
+            planner.end_episode(fields.contacted, xy)
         print(
             f"point_current {goal_name} ep={episode + 1}/{len(frame)} "
             f"start_post={int(started_post_contact)} success={int(success)} "
@@ -200,13 +210,16 @@ def evaluate_task(
             flush=True,
         )
 
-    return {
+    result = {
         "goal_name": goal_name,
         "goal_xy": goal.tolist(),
         "episodes": episodes,
         "decisions": decisions,
         "metrics": summarize_task(episodes),
     }
+    if hasattr(planner, "diagnostics"):
+        result["planner_diagnostics"] = planner.diagnostics()
+    return result
 
 
 def main():
@@ -223,10 +236,15 @@ def main():
     parser.add_argument("--goal-name", action="append", default=[])
     parser.add_argument("--consumptive-lookahead", action="store_true")
     parser.add_argument("--panel-protocol", type=Path)
+    parser.add_argument("--frozen-r74-port", action="store_true")
     args = parser.parse_args()
     started = time.time()
 
     if args.reference_method:
+        args.advance_weighting = True
+        args.consumptive_lookahead = True
+    if args.frozen_r74_port:
+        args.reference_method = True
         args.advance_weighting = True
         args.consumptive_lookahead = True
 
@@ -283,16 +301,27 @@ def main():
         for key, value in artifact_hashes.items():
             if value != expected_artifacts[key]:
                 raise ValueError(f"hidden-goal R11 artifact changed: {key}")
-    roadmap_planner = load_planner(
-        args.models,
-        args.roadmap,
-        args.planner,
-        args.device,
-        seed=4101,
-        advance_weighting=args.advance_weighting,
-        consumptive_lookahead=args.consumptive_lookahead,
-    )
-    if panel_contract is not None:
+    if args.frozen_r74_port:
+        roadmap_planner = load_frozen_r74_planner(
+            models=args.models,
+            roadmap=args.roadmap,
+            planner=args.planner,
+            device=args.device,
+            seed=4101,
+        )
+    else:
+        roadmap_planner = load_planner(
+            args.models,
+            args.roadmap,
+            args.planner,
+            args.device,
+            seed=4101,
+            advance_weighting=args.advance_weighting,
+            consumptive_lookahead=args.consumptive_lookahead,
+        )
+    if args.frozen_r74_port:
+        method_revision = FROZEN_R74_PORT_METHOD_REVISION
+    elif panel_contract is not None:
         method_revision = panel_contract["method_revision"]
     elif args.reference_method:
         method_revision = REFERENCE_METHOD_REVISION
@@ -359,7 +388,18 @@ def main():
         values = [task["metrics"][name] for task in tasks if task["metrics"][name] is not None]
         summary_metrics[name] = float(np.mean(values)) if values else None
     used_panel_subset = len(names) < full_panel_tasks or len(panel) < full_panel_rows
-    if panel_contract is not None:
+    if args.frozen_r74_port:
+        port_contract = load_frozen_r74_port_protocol()
+        claim_level = port_contract["claim_level"]
+        declared_deviations = list(port_contract["declared_deviations"])
+        if used_panel_subset:
+            claim_level = f"{claim_level}_subset"
+            declared_deviations.append(
+                "only_a_subset_of_the_declared_development_gate_is_used"
+            )
+        oracle_inputs = list(port_contract["oracle_inputs"])
+        experiment_id = port_contract["experiment_id"]
+    elif panel_contract is not None:
         claim_level = panel_contract["claim_level"]
         declared_deviations = list(panel_contract["declared_deviations"])
         if used_panel_subset:
@@ -394,7 +434,14 @@ def main():
     report = {
         "schema_version": 1,
         "experiment_id": experiment_id,
-        "method_reference": contract["method_reference"],
+        "method_reference": (
+            load_frozen_r74_port_protocol()["method_reference"]
+            if args.frozen_r74_port else contract["method_reference"]
+        ),
+        "method_protocol_sha256": (
+            sha256(FROZEN_R74_PORT_PROTOCOL)
+            if args.frozen_r74_port else None
+        ),
         "method_revision": method_revision,
         "claim_level": claim_level,
         "declared_deviations": declared_deviations,
@@ -417,13 +464,18 @@ def main():
         "episode_primitive_steps": episode_steps,
         "success_radius_evaluator_only_m": float(evaluator["success_radius_m_evaluator_only"]),
         "success_radius_read_by_acquisition_planner": False,
-        "acquisition_search_posterior": "gaussian_complement_at_landing_precision",
+        "acquisition_search_posterior": (
+            "area_weighted_latent_radius_exact_posterior"
+            if args.frozen_r74_port
+            else "gaussian_complement_at_landing_precision"
+        ),
         "acquisition_detection_radius_m": None,
         "return_field_sigma_m": float(roadmap_planner.sigma),
         "consumptive_lookahead": bool(args.consumptive_lookahead),
         "reward_free_online_consequence_correction": bool(
             args.reference_method
         ),
+        "frozen_r74_cross_domain_port": bool(args.frozen_r74_port),
         "consumptive_lookahead_depth_global": (
             int(CONSUMPTIVE_LOOKAHEAD_DEPTH)
             if args.consumptive_lookahead else None
@@ -436,6 +488,13 @@ def main():
         "metrics": summary_metrics,
         "task_metrics": [
             {"goal_name": task["goal_name"], **task["metrics"]} for task in tasks
+        ],
+        "task_planner_diagnostics": [
+            {
+                "goal_name": task["goal_name"],
+                **task.get("planner_diagnostics", {}),
+            }
+            for task in tasks
         ],
         "maze_cell_coverage_by_episode": [
             {
