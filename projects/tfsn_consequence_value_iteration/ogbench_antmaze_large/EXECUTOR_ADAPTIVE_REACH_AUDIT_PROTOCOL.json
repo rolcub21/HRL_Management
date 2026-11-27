@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "protocol_id": "tfsn_ogbench_antmaze_large_official_crl_adaptive_reach_audit_r21",
+  "status": "frozen_before_adaptive_reach_audit_execution",
+  "parent_development_protocol": "projects/tfsn_consequence_value_iteration/ogbench_antmaze_large/DEVELOPMENT_PROTOCOL.json",
+  "parent_development_protocol_sha256": "67b7b63f4fa75c7aa7469ef4ed7d776409a31b60192c6c809e58c7437a2f3919",
+  "claim_level": "executor_only_development_gate_no_tfsn_planner_or_native_task_evaluation",
+  "source_executor": {
+    "algorithm": "official_OGBench_CRL",
+    "checkpoint_sha256": "3c8cdfcae99399d70ff5de0407f5b641b6b7fc8cb4c9d33ce8edb1326de187cd",
+    "offline_training_steps": 1000000,
+    "training_seed": 0
+  },
+  "audit_contract": {
+    "command_duration_primitive_steps": 100,
+    "physical_episode_primitive_steps": 1000,
+    "commands_per_chain": 10,
+    "fresh_reset_chains": "all_complete_held_out_validation_trajectories",
+    "candidate_commands": "every_exact_100_step_source_endpoint_transition_in_the_complete_held_out_validation_dataset",
+    "selection_at_each_handoff": "nearest_candidate_source_to_the_actual_current_native_observation",
+    "source_metric": "euclidean_after_per_coordinate_standardization_by_the_complete_candidate_source_bank_with_constant_coordinates_removed",
+    "executor_goal": "copy_actual_command_start_native_observation_and_replace_only_xy_with_the_selected_recorded_endpoint_xy",
+    "distance_cutoffs_m": [],
+    "fixed_metric_distance_band": null,
+    "reset_after_command_failure": false,
+    "reset_after_command_success": false,
+    "policy_temperature": 0.0,
+    "task_reward_used": false,
+    "native_task_rows_accessed": false,
+    "native_task_goals_accessed": false
+  },
+  "decision": {
+    "maximum_chain_inversion_rate": 0.05,
+    "threshold_source": "the_predeclared_executor_gate_used_for_R19_and_R20_before_their_training",
+    "pass": "use_the_official_1M_CRL_checkpoint_without_finetuning_for_TF_SN_preparation",
+    "fail": "do_not_design_a_third_CRL_finetuning_variant;_use_a_separately_budgeted_E549_style_online_executor_recipe",
+    "command_quality_metrics": [
+      "contact_rate_at_evaluator_radius",
+      "positive_progress_rate",
+      "endpoint_error",
+      "displacement",
+      "source_match_standardized_distance"
+    ]
+  },
+  "rationale": {
+    "gymnasium_reach_rms_m": 2.6,
+    "gymnasium_reach_role": "reported_context_only_and_not_used_by_this_audit",
+    "ogbench_training_exact_100_step_reach_rms_m": 9.23365009240994,
+    "ogbench_training_reach_role": "diagnostic_only;_the_audit_uses_the_complete_empirical_transition_bank_instead_of_a_radius",
+    "prior_frozen_audit_first_command_mean_m": 9.501220773458481,
+    "prior_frozen_audit_overall_mean_after_drift_m": 9.525773524045944,
+    "reason_for_adaptive_reselection": "match_TF_SN_replanning_from_the_actual_state_and_prevent_later_commands_from_inheriting_a_stale_nominal_trajectory_target"
+  },
+  "declared_deviations": [
+    "this_executor_only_audit_reselects_a_held_out_recorded_100_step_command_after_each_actual_handoff_instead_of_following_one_nominal_validation_trajectory"
+  ],
+  "oracle_inputs": [],
+  "native_evaluation_panel_accessed": false,
+  "task_reward_used": false
+}

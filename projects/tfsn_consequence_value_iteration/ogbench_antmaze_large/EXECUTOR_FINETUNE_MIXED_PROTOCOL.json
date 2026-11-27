@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "protocol_id": "tfsn_ogbench_antmaze_large_crl_chained_mixed_finetune_r20",
+  "status": "frozen_after_r19_data_contract_audit_before_r20_training",
+  "parent_development_protocol": "projects/tfsn_consequence_value_iteration/ogbench_antmaze_large/DEVELOPMENT_PROTOCOL.json",
+  "parent_development_protocol_sha256": "67b7b63f4fa75c7aa7469ef4ed7d776409a31b60192c6c809e58c7437a2f3919",
+  "claim_level": "executor_finetuning_development_only_no_native_task_evaluation",
+  "source_executor": {
+    "algorithm": "official_OGBench_CRL",
+    "checkpoint_sha256": "3c8cdfcae99399d70ff5de0407f5b641b6b7fc8cb4c9d33ce8edb1326de187cd",
+    "offline_training_steps": 1000000,
+    "training_seed": 0
+  },
+  "continuation": {
+    "learner": "unchanged_vendored_OGBench_CRLAgent_update",
+    "actor_sampling_temperature": 1.0,
+    "batch_size": 1024,
+    "offline_dataset_fraction_per_update_batch": 0.5,
+    "online_replay_fraction_per_update_batch": 0.5,
+    "online_goal_relabel_boundary": "physical_episode",
+    "gradient_updates_per_environment_step": 1,
+    "update_schedule": "after_each_complete_100_step_command",
+    "command_duration_primitive_steps": 100,
+    "physical_episode_primitive_steps": 1000,
+    "commands_per_physical_episode": 10,
+    "reset_after_command_failure": false,
+    "reset_after_command_success": false,
+    "target_source": "exact_100_step_achieved_displacements_from_reward_free_training_trajectories",
+    "target_support": "proposed_live_xy_plus_sampled_displacement_snapped_to_nearest_recorded_training_xy",
+    "distance_cutoffs": [],
+    "offline_replay": "official_complete_OGBench_training_dataset_with_original_CRL_goal_relabeling",
+    "online_replay": "all_real_finetuning_commands_with_CRL_future_goal_relabeling_within_the_physical_1000_step_episode",
+    "restart_from_original_offline_checkpoint": true,
+    "task_reward_used": false,
+    "native_task_rows_accessed": false,
+    "native_evaluation_panel_accessed": false
+  },
+  "checkpoints": [
+    500000,
+    1000000
+  ],
+  "gate": {
+    "bank": "frozen_complete_validation_chained_audit_bank",
+    "maximum_chain_inversion_rate": 0.05,
+    "minimum_per_command_contact_rate": 0.376,
+    "baseline_per_command_contact_rate": 0.376,
+    "baseline_chain_inversion_rate": 0.15,
+    "decision": "stop_at_the_first_passing_checkpoint; if_500000_fails_audit_the_mixed_data_contract_before_more_training",
+    "next_action_after_500000_failure": "audit_the_mixed_data_contract_before_any_more_training"
+  },
+  "budget_accounting": {
+    "reported_executor_budget": "1000000_offline_steps_plus_all_r20_chained_finetuning_environment_steps",
+    "discarded_r19_development_steps": "excluded_from_selected_executor_budget_but_reported_as_failed_development",
+    "preparation_starts_only_after_gate_passes": true
+  },
+  "r19_failure_diagnosis": {
+    "offline_rows_per_update_batch": 0,
+    "online_rows_per_update_batch": 1024,
+    "commanded_target_distance_median_m": 7.0785486698150635,
+    "online_actor_relabel_goal_distance_median_m": 0.2894793748855591,
+    "online_actor_relabel_goal_fraction_within_1m": 0.930526,
+    "resulting_500k_contact_rate": 0.002,
+    "resulting_500k_chain_inversion_rate": 0.0
+  },
+  "declared_deviations": [
+    "the_official_offline_CRL_checkpoint_is_continued_with_the_same_CRL_loss_on_equal_offline_and_online_batches",
+    "online_future_goals_use_the_physical_episode_boundary_instead_of_an_artificial_command_boundary"
+  ],
+  "oracle_inputs": [],
+  "hidden_goals_used": false,
+  "task_reward_used": false
+}

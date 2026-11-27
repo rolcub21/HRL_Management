@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "protocol_id": "tfsn_ogbench_antmaze_large_crl_chained_finetune_r19",
+  "status": "frozen_before_chained_executor_finetuning",
+  "parent_development_protocol": "projects/tfsn_consequence_value_iteration/ogbench_antmaze_large/DEVELOPMENT_PROTOCOL.json",
+  "parent_development_protocol_sha256": "67b7b63f4fa75c7aa7469ef4ed7d776409a31b60192c6c809e58c7437a2f3919",
+  "claim_level": "executor_finetuning_development_only_no_native_task_evaluation",
+  "source_executor": {
+    "algorithm": "official_OGBench_CRL",
+    "checkpoint_sha256": "3c8cdfcae99399d70ff5de0407f5b641b6b7fc8cb4c9d33ce8edb1326de187cd",
+    "offline_training_steps": 1000000,
+    "training_seed": 0
+  },
+  "continuation": {
+    "learner": "unchanged_vendored_OGBench_CRLAgent_update",
+    "actor_sampling_temperature": 1.0,
+    "batch_size": 1024,
+    "gradient_updates_per_environment_step": 1,
+    "update_schedule": "after_each_complete_100_step_command",
+    "command_duration_primitive_steps": 100,
+    "physical_episode_primitive_steps": 1000,
+    "commands_per_physical_episode": 10,
+    "reset_after_command_failure": false,
+    "reset_after_command_success": false,
+    "target_source": "exact_100_step_achieved_displacements_from_reward_free_training_trajectories",
+    "target_support": "proposed_live_xy_plus_sampled_displacement_snapped_to_nearest_recorded_training_xy",
+    "distance_cutoffs": [],
+    "online_replay": "all_real_finetuning_commands_with_original_CRL_future_goal_relabeling",
+    "task_reward_used": false,
+    "native_task_rows_accessed": false,
+    "native_evaluation_panel_accessed": false
+  },
+  "checkpoints": [
+    500000,
+    1000000
+  ],
+  "gate": {
+    "bank": "frozen_complete_validation_chained_audit_bank",
+    "maximum_chain_inversion_rate": 0.05,
+    "minimum_per_command_contact_rate": 0.376,
+    "baseline_per_command_contact_rate": 0.376,
+    "baseline_chain_inversion_rate": 0.15,
+    "decision": "stop_at_the_first_passing_checkpoint; if inversion_has_not_materially_improved_by_1000000_steps_audit_the_data_contract_before_more_training"
+  },
+  "budget_accounting": {
+    "reported_executor_budget": "1000000_offline_steps_plus_all_chained_finetuning_environment_steps",
+    "preparation_starts_only_after_gate_passes": true
+  },
+  "declared_deviations": [
+    "the_official_offline_CRL_checkpoint_is_continued_with_the_same_CRL_loss_on_online_chained_command_data"
+  ],
+  "oracle_inputs": [],
+  "hidden_goals_used": false,
+  "task_reward_used": false
+}

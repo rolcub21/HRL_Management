@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "protocol_id": "tfsn_ogbench_antmaze_large_e549_style_executor_r22",
+  "status": "frozen_before_training",
+  "claim_level": "from_scratch_executor_development_only_no_tfsn_or_native_task_verdict",
+  "parent_development_protocol": "projects/tfsn_consequence_value_iteration/ogbench_antmaze_large/DEVELOPMENT_PROTOCOL.json",
+  "parent_development_protocol_sha256": "67b7b63f4fa75c7aa7469ef4ed7d776409a31b60192c6c809e58c7437a2f3919",
+  "parent_audit_protocol": "projects/tfsn_consequence_value_iteration/ogbench_antmaze_large/EXECUTOR_ADAPTIVE_REACH_AUDIT_PROTOCOL.json",
+  "parent_audit_protocol_sha256": "a0c4bb6da28db7ec88edc2c69e7b16ea70cf2a04350ece6e7cf340e8bc62831d",
+  "e549_reference": {
+    "protocol": "projects/antmaze_executor_recovery/experiments/549_antmaze_chained_sac_executor/protocol.json",
+    "protocol_sha256": "0b2b91be8fefa6ffdb8082771fdd769696337d0a9b20a5b832cb79c269ec0f26",
+    "environment_source": "projects/antmaze_executor_recovery/experiments/549_antmaze_chained_sac_executor/farama_modified/reach_goal_ant.py",
+    "environment_source_sha256": "d15268e5c0dd31fc15b84f9bc7fc98521486772f38f915bd8cff9814b2389979",
+    "training_source": "projects/antmaze_executor_recovery/experiments/549_antmaze_chained_sac_executor/farama_modified/train_ant.py",
+    "training_source_sha256": "19a75d78bb08245eb4c6701c0ef84c5be5b065a3486009c7c0322d811b5c21bc"
+  },
+  "training": {
+    "initialization": "from_scratch",
+    "algorithm": "Stable_Baselines3_SAC",
+    "training_seed": 42,
+    "environment": "OGBench_1.2.1_antmaze-large-v0",
+    "reward": "E549_dense_directional_velocity_plus_control_cost_plus_survival",
+    "executor_training_reward_used": true,
+    "task_reward_used": false,
+    "native_task_rows_accessed": false,
+    "observation": "exact_native_OGBench_29D_observation_concatenated_with_2D_relative_command_target",
+    "observation_dimension": 31,
+    "action_dimension": 8,
+    "fixed_command_horizon": 100,
+    "physical_episode_horizon": 1000,
+    "goal_switch_on_contact": true,
+    "goal_switch_on_horizon": true,
+    "physical_reset_on_goal_switch": false,
+    "goal_threshold_m": 0.2,
+    "command_distance_source": "every_exact_100_step_displacement_in_the_complete_reward_free_OGBench_training_dataset",
+    "command_direction_distribution": "E549_uniform_angle",
+    "physical_reset_source": "trajectory_start_cells_in_the_complete_reward_free_OGBench_training_dataset",
+    "distance_cutoffs_m": [],
+    "native_success_radius_used": false,
+    "checkpoints_environment_steps": [
+      1000000,
+      2000000,
+      5000000
+    ],
+    "all_environment_steps_count_toward_executor_budget": true
+  },
+  "sac_configuration": {
+    "source": "literal_E549_configuration_verified_programmatically",
+    "policy_type": "MlpPolicy",
+    "n_envs": 16,
+    "batch_size": 256,
+    "buffer_size": 1000000,
+    "ent_coef": "auto_0.1",
+    "gamma": 0.991,
+    "gradient_steps": 1,
+    "learning_rate": 0.0003,
+    "learning_starts": 10000,
+    "network": "4x256_ReLU",
+    "tau": 0.03,
+    "train_freq": 1,
+    "use_sde": false,
+    "normal_action_noise_mean": 0.0,
+    "normal_action_noise_sigma": 0.3
+  },
+  "declared_environment_adapter_changes_from_E549": [
+    "replace_Gymnasium_AntMaze_Medium_Diverse_GR-v4_with_OGBench_1.2.1_AntMaze_Large_geometry_dynamics_and_resets",
+    "replace_R47_Gymnasium_requested_distance_bank_with_complete_reward_free_OGBench_training_100_step_displacement_bank",
+    "replace_E549_27D_proprioception_plus_2D_goal_adapter_with_exact_OGBench_29D_native_observation_plus_the_same_2D_relative_goal",
+    "derive_physical_reset_cells_from_reward_free_OGBench_training_trajectory_starts_so_native_evaluation_task_rows_remain_unopened"
+  ],
+  "declared_operational_deviations_from_E549": [
+    "checkpoint_and_replay_pairs_are_saved_at_1M_intervals_and_at_each_requested_gate",
+    "video_and_external_logging_are_disabled"
+  ],
+  "gate": {
+    "bank": "frozen_R21_adaptive_empirical_reach_bank",
+    "maximum_chain_inversion_rate": 0.05,
+    "minimum_contact_rate_at_evaluator_radius": 0.381,
+    "contact_floor_source": "official_1M_CRL_checkpoint_observed_on_R21_before_R22_training",
+    "checkpoint_order": [
+      1000000,
+      2000000,
+      5000000
+    ],
+    "stopping_rule": "stop_at_the_first_checkpoint_passing_both_inversion_and_contact_gates"
+  },
+  "declared_deviations": [
+    "executor_is_separately_trained_from_scratch_and_its_full_environment_step_budget_is_reported"
+  ],
+  "oracle_inputs": [],
+  "hidden_goals_used": false,
+  "native_evaluation_panel_accessed": false,
+  "task_reward_used": false
+}
