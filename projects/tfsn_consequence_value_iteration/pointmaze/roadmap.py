@@ -26,6 +26,7 @@ class RecordedRoadmap:
     primitive_xy: np.ndarray
     state_scale: np.ndarray
     edge_reliability: np.ndarray | None = None
+    goal_dim: int = 2
 
     def __post_init__(self):
         self.nodes = np.asarray(self.nodes, np.float32)
@@ -39,8 +40,11 @@ class RecordedRoadmap:
             if self.edge_reliability is None
             else np.asarray(self.edge_reliability, np.float32)
         )
-        if self.nodes.ndim != 2 or self.nodes.shape[1] != 4:
-            raise ValueError("PointMaze roadmap nodes must be [N,4]")
+        self.goal_dim = int(self.goal_dim)
+        if self.nodes.ndim != 2 or self.nodes.shape[1] < self.goal_dim:
+            raise ValueError("roadmap nodes must be [N,state_dim >= goal_dim]")
+        if not 1 <= self.goal_dim <= self.nodes.shape[1]:
+            raise ValueError("roadmap goal dimension is invalid")
         edge_count = len(self.source_index)
         if not (
             len(self.endpoint_index) == edge_count
@@ -49,8 +53,18 @@ class RecordedRoadmap:
             and len(self.edge_reliability) == edge_count
         ):
             raise ValueError("roadmap edge arrays are not aligned")
-        if self.primitive_xy.ndim != 3 or self.primitive_xy.shape[2] != 2:
-            raise ValueError("primitive paths must be [edge,step,xy]")
+        if (
+            self.commands.ndim != 2
+            or self.commands.shape[1] != self.goal_dim
+        ):
+            raise ValueError("commands must be [edge,goal_dim]")
+        if (
+            self.primitive_xy.ndim != 3
+            or self.primitive_xy.shape[2] != self.goal_dim
+        ):
+            raise ValueError("primitive paths must be [edge,step,goal_dim]")
+        if self.state_scale.shape != (self.nodes.shape[1],):
+            raise ValueError("state scale must match roadmap state dimension")
         if np.any(self.source_index < 0) or np.any(self.endpoint_index < 0):
             raise ValueError("roadmap indices must be nonnegative")
         if np.any(self.source_index >= len(self.nodes)) or np.any(
@@ -82,7 +96,7 @@ class RecordedRoadmap:
         return int(len(self.source_index))
 
     def project(self, states):
-        states = np.asarray(states, np.float32).reshape(-1, 4)
+        states = np.asarray(states, np.float32).reshape(-1, self.nodes.shape[1])
         distance, index = self._tree.query(
             states / self.state_scale[None], k=1, workers=-1
         )
@@ -100,6 +114,7 @@ class RecordedRoadmap:
             primitive_xy=self.primitive_xy,
             state_scale=self.state_scale,
             edge_reliability=self.edge_reliability,
+            goal_dim=np.asarray(self.goal_dim, np.int16),
         )
 
     @classmethod
@@ -114,6 +129,7 @@ def graph_from_dataset(dataset, sigma):
     node_rows, source_rows, endpoint_rows = [], [], []
     command_rows, primitive_rows = [], []
     node_offset = 0
+    goal_dim = int(np.asarray(dataset.commands).shape[1])
     for trajectory in np.unique(dataset.trajectory_id):
         index = np.flatnonzero(dataset.trajectory_id == trajectory)
         starts = dataset.starts[index]
@@ -131,11 +147,11 @@ def graph_from_dataset(dataset, sigma):
             node_offset + 1 + np.arange(len(index), dtype=np.int32)
         )
         command_rows.append(dataset.commands[index])
-        primitive_rows.append(dataset.primitives[index, :, :2])
+        primitive_rows.append(dataset.primitives[index, :, :goal_dim])
         node_offset += len(nodes)
     nodes = np.concatenate(node_rows).astype(np.float32)
     scale = np.maximum(dataset.starts.std(axis=0), 1e-6).astype(np.float32)
-    scale[:2] = float(sigma)
+    scale[:goal_dim] = float(sigma)
     reliability, _agreement, _support = recorded_transition_reliability(
         np.concatenate(
             [nodes[source] for nodes, source in zip(
@@ -157,6 +173,7 @@ def graph_from_dataset(dataset, sigma):
         primitive_xy=np.concatenate(primitive_rows),
         state_scale=scale,
         edge_reliability=reliability,
+        goal_dim=goal_dim,
     )
 
 
@@ -167,15 +184,16 @@ def reach_targets(
     continuous_weighting=False,
 ):
     displacement = (
-        graph.nodes[graph.endpoint_index, :2]
-        - graph.nodes[graph.source_index, :2]
+        graph.nodes[graph.endpoint_index, : graph.goal_dim]
+        - graph.nodes[graph.source_index, : graph.goal_dim]
     ).astype(np.float32)
     sample_weight = None
     if continuous_weighting:
         if sigma is None or float(sigma) <= 0.0:
             raise ValueError("movement reach requires a positive sigma")
         requested = np.linalg.norm(
-            graph.commands - graph.nodes[graph.source_index, :2], axis=1
+            graph.commands
+            - graph.nodes[graph.source_index, : graph.goal_dim], axis=1
         )
         achieved = np.linalg.norm(displacement, axis=1)
         denominator = 2.0 * float(sigma) ** 2
@@ -186,8 +204,12 @@ def reach_targets(
         displacement, int(count), sample_weight=sample_weight
     )
     landmark_index = np.unique(graph.endpoint_index).astype(np.int32)
-    query = EmpiricalReachQuery(graph.nodes[landmark_index, :2], offsets)
-    distance, local = query.query(graph.nodes[:, :2], workers=-1)
+    query = EmpiricalReachQuery(
+        graph.nodes[landmark_index, : graph.goal_dim], offsets
+    )
+    distance, local = query.query(
+        graph.nodes[:, : graph.goal_dim], workers=-1
+    )
     targets = landmark_index[local].astype(np.int32)
     return landmark_index, targets, distance, offsets
 

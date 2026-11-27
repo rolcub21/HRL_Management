@@ -11,10 +11,13 @@ from projects.tfsn_consequence_value_iteration.shared.settings import (
 
 
 class TaskFields:
-    def __init__(self, sigma):
+    def __init__(self, sigma, goal_dim=2):
         self.sigma = float(sigma)
+        self.goal_dim = int(goal_dim)
         if self.sigma <= 0.0:
             raise ValueError("landing precision must be positive")
+        if self.goal_dim < 1:
+            raise ValueError("goal dimension must be positive")
         self.coords = []
         self.rewards = []
         self._tree = None
@@ -26,7 +29,7 @@ class TaskFields:
         return bool(self.rewards and np.max(self.rewards) > 0.0)
 
     def extend(self, coords, rewards):
-        coords = np.asarray(coords, np.float32).reshape(-1, 2)
+        coords = np.asarray(coords, np.float32).reshape(-1, self.goal_dim)
         rewards = np.asarray(rewards, np.float32).reshape(-1)
         if len(coords) != len(rewards):
             raise ValueError("task coordinates and rewards must align")
@@ -39,7 +42,7 @@ class TaskFields:
     def search(self, points):
         points = np.asarray(points, np.float32)
         shape = points.shape[:-1]
-        flat = points.reshape(-1, 2)
+        flat = points.reshape(-1, self.goal_dim)
         if self._tree is None:
             return np.ones(shape, np.float32)
         distance = self._tree.query(flat, k=1, workers=-1)[0]
@@ -49,7 +52,7 @@ class TaskFields:
     def reward_rate(self, points, batch_size=FIELD_EVALUATION_BATCH):
         points = np.asarray(points, np.float32)
         shape = points.shape[:-1]
-        flat = points.reshape(-1, 2)
+        flat = points.reshape(-1, self.goal_dim)
         if self._coord_array is None:
             return np.zeros(shape, np.float32)
         result = []
@@ -75,14 +78,14 @@ class SuppliedGoalField:
 
     def __init__(self, sigma, goal_xy):
         self.sigma = float(sigma)
-        self.goal_xy = np.asarray(goal_xy, np.float32).reshape(2)
+        self.goal_xy = np.asarray(goal_xy, np.float32).reshape(-1)
+        if not len(self.goal_xy):
+            raise ValueError("a supplied goal must have at least one coordinate")
+        self.goal_dim = int(len(self.goal_xy))
         self.coords = [self.goal_xy.tolist()]
         self.rewards = [1.0]
         self.planner_cache_token = (
-            "supplied_goal",
-            float(self.goal_xy[0]),
-            float(self.goal_xy[1]),
-            self.sigma,
+            "supplied_goal", *map(float, self.goal_xy), self.sigma,
         )
 
     @property

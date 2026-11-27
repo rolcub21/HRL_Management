@@ -39,13 +39,14 @@ class ConsumedSearchField:
 
     def __init__(self, base, passage):
         self.base = base
-        self.points = np.asarray(passage, np.float32).reshape(-1, 2)
+        self.goal_dim = int(np.asarray(passage).shape[-1])
+        self.points = np.asarray(passage, np.float32).reshape(-1, self.goal_dim)
         self.tree = cKDTree(self.points)
 
     def search(self, points):
         points = np.asarray(points, np.float32)
         shape = points.shape[:-1]
-        flat = points.reshape(-1, 2)
+        flat = points.reshape(-1, self.goal_dim)
         residual = np.asarray(self.base.search(flat), np.float32)
         distance = self.tree.query(flat, k=1, workers=-1)[0]
         newly_unsearched = 1.0 - np.exp(
@@ -56,6 +57,32 @@ class ConsumedSearchField:
 
 class PointMazeRoadmapPlanner:
     """R22 road map plus R28 bounded acquisition and R14 aliasing."""
+
+    @property
+    def state_dim(self):
+        # The fallback preserves small diagnostic fixtures that construct the
+        # planner with ``__new__`` and attach only a graph.
+        if hasattr(self, "_state_dim"):
+            return int(self._state_dim)
+        if hasattr(self, "graph"):
+            return int(self.graph.nodes.shape[1])
+        return 4
+
+    @state_dim.setter
+    def state_dim(self, value):
+        self._state_dim = int(value)
+
+    @property
+    def goal_dim(self):
+        if hasattr(self, "_goal_dim"):
+            return int(self._goal_dim)
+        if hasattr(self, "graph"):
+            return int(getattr(self.graph, "goal_dim", 2))
+        return 2
+
+    @goal_dim.setter
+    def goal_dim(self, value):
+        self._goal_dim = int(value)
 
     def __init__(
         self,
@@ -72,8 +99,11 @@ class PointMazeRoadmapPlanner:
         seed,
         advance_weighting=False,
         consumptive_lookahead=False,
+        positive_evidence_goal_space_projection=False,
     ):
         self.graph = graph
+        self.state_dim = int(graph.nodes.shape[1])
+        self.goal_dim = int(graph.goal_dim)
         self.landmarks = np.asarray(landmarks, np.int32)
         self.targets = np.asarray(targets, np.int32)
         self.member_weight = np.asarray(member_weight, np.float32)
@@ -86,9 +116,13 @@ class PointMazeRoadmapPlanner:
         self.seed = int(seed)
         self.advance_weighting = bool(advance_weighting)
         self.consumptive_lookahead = bool(consumptive_lookahead)
-        self.reach_query = EmpiricalReachQuery(
-            graph.nodes[self.landmarks, :2], reach_offsets
+        self.positive_evidence_goal_space_projection = bool(
+            positive_evidence_goal_space_projection
         )
+        self.reach_query = EmpiricalReachQuery(
+            graph.nodes[self.landmarks, : self.goal_dim], reach_offsets
+        )
+        self.goal_tree = cKDTree(graph.nodes[:, : self.goal_dim])
         order = np.argsort(graph.source_index, kind="stable")
         counts = np.bincount(graph.source_index, minlength=graph.node_count)
         self.outgoing_order = order.astype(np.int32)
@@ -135,9 +169,9 @@ class PointMazeRoadmapPlanner:
 
     def observe_transition(self, start_state, command, endpoint_state):
         """Record movement now and endpoint mobility on the next command."""
-        start = np.asarray(start_state, np.float32).reshape(4)
-        command = np.asarray(command, np.float32).reshape(2)
-        endpoint = np.asarray(endpoint_state, np.float32).reshape(4)
+        start = np.asarray(start_state, np.float32).reshape(self.state_dim)
+        command = np.asarray(command, np.float32).reshape(self.goal_dim)
+        endpoint = np.asarray(endpoint_state, np.float32).reshape(self.state_dim)
         if getattr(self, "destination_arrival_correction", False):
             if self.pending_arrival is None:
                 raise RuntimeError("selected link destination was not recorded")
@@ -147,7 +181,8 @@ class PointMazeRoadmapPlanner:
             ):
                 raise RuntimeError("executed command differs from selected link")
             outcome = float(
-                np.linalg.norm(endpoint[:2] - destination) <= self.sigma
+                np.linalg.norm(endpoint[: self.goal_dim] - destination)
+                <= self.sigma
             )
             self.arrival_starts.append(start.copy())
             self.arrival_commands.append(command.copy())
@@ -157,7 +192,9 @@ class PointMazeRoadmapPlanner:
             return
         movement = float(
             1.0 - alias_kernel(
-                np.linalg.norm(endpoint[:2] - start[:2]), self.sigma
+                np.linalg.norm(
+                    endpoint[: self.goal_dim] - start[: self.goal_dim]
+                ), self.sigma
             )
         )
         if self.pending_online_record is not None:
@@ -174,19 +211,23 @@ class PointMazeRoadmapPlanner:
         self.pending_online_record = len(self.online_starts) - 1
 
     def _arrival_mass(self, state, commands, destinations):
-        commands = np.asarray(commands, np.float32).reshape(-1, 2)
-        destinations = np.asarray(destinations, np.float32).reshape(-1, 2)
+        commands = np.asarray(commands, np.float32).reshape(-1, self.goal_dim)
+        destinations = np.asarray(destinations, np.float32).reshape(
+            -1, self.goal_dim
+        )
         if not self.arrival_starts:
             zeros = np.zeros(len(commands), np.float32)
             return zeros, zeros
-        observed_start = np.asarray(self.arrival_starts, np.float32)[:, :2]
+        observed_start = np.asarray(
+            self.arrival_starts, np.float32
+        )[:, : self.goal_dim]
         observed_command = np.asarray(self.arrival_commands, np.float32)
         observed_destination = np.asarray(
             self.arrival_destinations, np.float32
         )
         outcome = np.asarray(self.arrival_outcomes, np.float32)
         source_distance = np.square(
-            (observed_start - np.asarray(state, np.float32)[None, :2])
+            (observed_start - np.asarray(state, np.float32)[None, : self.goal_dim])
             / self.sigma
         ).sum(axis=1, dtype=np.float64)
         command_distance = np.square(
@@ -214,7 +255,7 @@ class PointMazeRoadmapPlanner:
             self._arrival_bridge_outcome_mass = np.zeros(
                 self.weight.shape, np.float32
             )
-        node_xy = self.graph.nodes[:, :2].astype(np.float64)
+        node_xy = self.graph.nodes[:, : self.goal_dim].astype(np.float64)
         target_xy = node_xy[self.targets]
         denominator = float(self.sigma) ** 2
         for index in range(
@@ -225,7 +266,8 @@ class PointMazeRoadmapPlanner:
             destination = self.arrival_destinations[index]
             outcome = self.arrival_outcomes[index]
             source_distance = np.square(
-                node_xy - np.asarray(start, np.float64)[None, :2]
+                node_xy
+                - np.asarray(start, np.float64)[None, : self.goal_dim]
             ).sum(axis=1) / denominator
             command_distance = np.square(
                 target_xy - np.asarray(command, np.float64)[None, None]
@@ -251,7 +293,7 @@ class PointMazeRoadmapPlanner:
         ).astype(np.float32)
 
     def _online_state_similarity(self, states):
-        states = np.asarray(states, np.float32).reshape(-1, 4)
+        states = np.asarray(states, np.float32).reshape(-1, self.state_dim)
         if not self.online_starts:
             return np.zeros((len(states), 0), np.float32)
         observed = np.asarray(self.online_starts, np.float32)
@@ -263,8 +305,8 @@ class PointMazeRoadmapPlanner:
         ).astype(np.float32)
 
     def _online_command_similarity(self, states, commands, known):
-        states = np.asarray(states, np.float32).reshape(-1, 4)
-        commands = np.asarray(commands, np.float32).reshape(-1, 2)
+        states = np.asarray(states, np.float32).reshape(-1, self.state_dim)
+        commands = np.asarray(commands, np.float32).reshape(-1, self.goal_dim)
         observed_state = np.asarray(self.online_starts, np.float32)[known]
         observed_command = np.asarray(self.online_commands, np.float32)[known]
         state_difference = (
@@ -283,7 +325,7 @@ class PointMazeRoadmapPlanner:
         prior = np.asarray(prior, np.float32)
         if not self.online_starts:
             return prior, np.zeros(prior.shape, np.float32)
-        flat = endpoints.reshape(-1, 4)
+        flat = endpoints.reshape(-1, self.state_dim)
         similarity = self._online_state_similarity(flat)
         corrected, support = posterior_mean(
             prior.reshape(-1),
@@ -325,7 +367,9 @@ class PointMazeRoadmapPlanner:
             return
         if fields.contacted:
             self.acquisition_active = False
-            self.node_field = fields.reward_rate(self.graph.nodes[:, :2])
+            self.node_field = fields.reward_rate(
+                self.graph.nodes[:, : self.goal_dim]
+            )
             self.values = persistent_values(
                 self.graph,
                 self.targets,
@@ -336,7 +380,9 @@ class PointMazeRoadmapPlanner:
             self.recorded_gain = self.bridge_gain = None
         else:
             self.acquisition_active = True
-            self.node_field = fields.search(self.graph.nodes[:, :2])
+            self.node_field = fields.search(
+                self.graph.nodes[:, : self.goal_dim]
+            )
             self.recorded_gain, self.bridge_gain = self.passages.graph_gains(fields)
             self.values = bounded_search_values(
                 self.graph,
@@ -349,8 +395,8 @@ class PointMazeRoadmapPlanner:
         self._field_cache_token = cache_token
 
     def _member_connection(self, state, commands):
-        state = np.asarray(state, np.float32).reshape(4)
-        commands = np.asarray(commands, np.float32).reshape(-1, 2)
+        state = np.asarray(state, np.float32).reshape(self.state_dim)
+        commands = np.asarray(commands, np.float32).reshape(-1, self.goal_dim)
         source = np.repeat(state[None], len(commands), axis=0)
         rows = []
         command_support = []
@@ -362,13 +408,13 @@ class PointMazeRoadmapPlanner:
                 )
             )
             distance = np.linalg.norm(
-                endpoint_state[..., :2] - commands[:, None], axis=2
+                endpoint_state[..., : self.goal_dim] - commands[:, None], axis=2
             )
             landing = np.exp(
                 -np.square(distance) / (2.0 * self.sigma**2)
             )
             endpoint_mobility_prior = self.mobility.predict(
-                endpoint_state.reshape(-1, 4)
+                endpoint_state.reshape(-1, self.state_dim)
             ).reshape(endpoint_state.shape[:2])
             endpoint_mobility, local_endpoint_support = (
                 self._correct_endpoint_mobility(
@@ -394,7 +440,7 @@ class PointMazeRoadmapPlanner:
     def _candidate_q(
         self, state, commands, target_index, remaining, execution_weight, fields
     ):
-        commands = np.asarray(commands, np.float32).reshape(-1, 2)
+        commands = np.asarray(commands, np.float32).reshape(-1, self.goal_dim)
         target_index = np.asarray(target_index, np.int32).reshape(-1)
         execution_weight = np.asarray(execution_weight, np.float32).reshape(-1)
         member_connection = self._member_connection(state, commands)
@@ -402,7 +448,9 @@ class PointMazeRoadmapPlanner:
         source_index = int(self.graph.project(np.asarray(state)[None])[0][0])
         failure = float(previous[source_index])
         if self.acquisition_active:
-            gain = self.passages.live_gains(state[:2], commands, fields)
+            gain = self.passages.live_gains(
+                state[: self.goal_dim], commands, fields
+            )
             success = gain + (1.0 - gain) * previous[target_index]
         else:
             success = (
@@ -410,7 +458,7 @@ class PointMazeRoadmapPlanner:
             )
         probability = member_connection * execution_weight[:, None]
         if getattr(self, "destination_arrival_correction", False):
-            destinations = self.graph.nodes[target_index, :2]
+            destinations = self.graph.nodes[target_index, : self.goal_dim]
             support, outcome_mass = self._arrival_mass(
                 state, commands, destinations
             )
@@ -434,8 +482,8 @@ class PointMazeRoadmapPlanner:
         else:
             success = self.node_field[model_target] + previous[model_target]
         model_distance = np.linalg.norm(
-            self.graph.nodes[model_target, :2]
-            - self.graph.nodes[node_index, None, :2],
+            self.graph.nodes[model_target, : self.goal_dim]
+            - self.graph.nodes[node_index, None, : self.goal_dim],
             axis=2,
         )
         model_advance = (
@@ -451,7 +499,7 @@ class PointMazeRoadmapPlanner:
         choice = np.argmax(model_q, axis=1)
         row = np.arange(len(node_index))
         target = model_target[row, choice].astype(np.int32)
-        command = self.graph.nodes[target, :2].copy()
+        command = self.graph.nodes[target, : self.goal_dim].copy()
         score = model_q[row, choice].astype(np.float32)
         advance = model_advance[row, choice].astype(np.float32)
         reliability = self.weight[node_index, choice].astype(np.float32)
@@ -471,7 +519,7 @@ class PointMazeRoadmapPlanner:
                 edge_success = self.node_field[endpoints] + previous[endpoints]
             edge_distance = np.linalg.norm(
                 self.graph.commands[edges]
-                - self.graph.nodes[node, :2],
+                - self.graph.nodes[node, : self.goal_dim],
                 axis=1,
             )
             edge_advance = (
@@ -501,11 +549,13 @@ class PointMazeRoadmapPlanner:
         remaining = self.horizon - int(command_index)
         if remaining <= 0:
             raise ValueError("command index exceeds the physical episode horizon")
-        state = np.asarray(state, np.float32).reshape(4)
+        state = np.asarray(state, np.float32).reshape(self.state_dim)
         self._set_field(fields)
-        distance, local = self.reach_query.query(state[:2], workers=-1)
+        distance, local = self.reach_query.query(
+            state[: self.goal_dim], workers=-1
+        )
         bridge_target = self.landmarks[np.asarray(local, np.int64)]
-        bridge_command = self.graph.nodes[bridge_target, :2]
+        bridge_command = self.graph.nodes[bridge_target, : self.goal_dim]
         association = alias_kernel(distance, self.sigma)
         bridge_q, bridge_connection, _ = self._candidate_q(
             state,
@@ -553,11 +603,23 @@ class PointMazeRoadmapPlanner:
             reward = np.asarray(fields.rewards, np.float32) > 0.0
             evidence = np.unique(np.asarray(fields.coords, np.float32)[reward], axis=0)
             if len(evidence):
-                target = self.graph.project(
-                    np.concatenate(
-                        (evidence, np.zeros((len(evidence), 2), np.float32)), axis=1
-                    )
-                )[0]
+                if self.positive_evidence_goal_space_projection:
+                    target = self.goal_tree.query(
+                        evidence, k=1, workers=-1
+                    )[1]
+                    target = np.asarray(target, np.int32)
+                else:
+                    # Preserve the frozen PointMaze implementation exactly:
+                    # evidence supplies position and the canonical zero
+                    # velocity fills its non-goal state coordinates.
+                    missing = self.state_dim - self.goal_dim
+                    target = self.graph.project(np.concatenate(
+                        (
+                            evidence,
+                            np.zeros((len(evidence), missing), np.float32),
+                        ),
+                        axis=1,
+                    ))[0]
                 value, connection, _ = self._candidate_q(
                     state,
                     evidence,
@@ -594,10 +656,10 @@ class PointMazeRoadmapPlanner:
             beam = np.argpartition(score, -beam_count)[-beam_count:]
             beam = beam[np.argsort(score[beam])[::-1]]
             first_gain = self.passages.live_gains(
-                state[:2], command[beam], fields
+                state[: self.goal_dim], command[beam], fields
             )
             passages = self.passages.live_passage_samples(
-                state[:2], command[beam]
+                state[: self.goal_dim], command[beam]
             )
             member_probability = self._member_connection(
                 state, command[beam]
@@ -628,7 +690,9 @@ class PointMazeRoadmapPlanner:
                 "selected_baseline_score": float(score[winner]),
                 "baseline_selected_kind": str(kind[baseline_winner]),
                 "baseline_selected_command_distance_m": float(
-                    np.linalg.norm(command[baseline_winner] - state[:2])
+                    np.linalg.norm(
+                        command[baseline_winner] - state[: self.goal_dim]
+                    )
                 ),
                 "selected_first_passage_gain": float(
                     first_gain[local_winner]
@@ -657,7 +721,9 @@ class PointMazeRoadmapPlanner:
         selected_destination = (
             command[winner].copy()
             if str(kind[winner]) == "online_positive_evidence"
-            else self.graph.nodes[target_all[winner], :2].copy()
+            else self.graph.nodes[
+                target_all[winner], : self.goal_dim
+            ].copy()
         )
         if getattr(self, "destination_arrival_correction", False):
             self.pending_arrival = (
@@ -670,7 +736,7 @@ class PointMazeRoadmapPlanner:
             "selected_kind": str(kind[winner]),
             "selected_connection_weight": float(connection[winner]),
             "selected_command_distance_m": float(
-                np.linalg.norm(command[winner] - state[:2])
+                np.linalg.norm(command[winner] - state[: self.goal_dim])
             ),
             "selected_alias_association": float(association_all[winner]),
             "selected_alias_offline_score": float(offline_all[winner]),

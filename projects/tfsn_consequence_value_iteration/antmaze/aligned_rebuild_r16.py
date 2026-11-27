@@ -29,10 +29,19 @@ from projects.tfsn_consequence_value_iteration.antmaze import (
     r52_e549_preparation as r52,
 )
 from projects.tfsn_consequence_value_iteration.antmaze import (
+    r53_e549_r51_evaluation as r53,
+)
+from projects.tfsn_consequence_value_iteration.antmaze import (
     r56_e549_supplied_goal as r56,
 )
 from projects.tfsn_consequence_value_iteration.antmaze import (
     r67_e549_hub_routed_exploration as r67,
+)
+from projects.tfsn_consequence_value_iteration.antmaze import (
+    r68_e549_dynamic_hubs as r68,
+)
+from projects.tfsn_consequence_value_iteration.antmaze import (
+    r71_sigma_generalized_correction as r71,
 )
 from projects.tfsn_consequence_value_iteration.antmaze import (
     r74_reach_scale_route_correction as r74,
@@ -312,8 +321,58 @@ def command_collect_bootstrap(args) -> dict:
     return report
 
 
+class _OnDemandOfflineReachability:
+    """Exact R69 table columns without materializing the historical table.
+
+    R74 reads the frozen R69 table only before a task has online link
+    evidence.  Its active corrected scorer already contains the equivalent
+    exact batched Bellman solver.  This compatibility view evaluates the one
+    ``[:, remaining, current_node]`` column requested by R74 and caches it.
+    It therefore preserves the R69 recursion while avoiding a large,
+    disposable preparation artifact in the independent rebuild.
+    """
+
+    def __init__(self, scorer, hub_nodes):
+        self.scorer = scorer
+        self.hub_nodes = np.asarray(hub_nodes, np.int64).reshape(-1)
+        self._cache_key = None
+        self._cache_value = None
+
+    def _column(self, remaining: int, current_node: int) -> np.ndarray:
+        key = (int(remaining), int(current_node))
+        if key == self._cache_key:
+            return self._cache_value
+        solver = self.scorer.batched_reachability
+        if solver is None:
+            raise RuntimeError(
+                "the frozen R74 exact batched reachability solver is absent"
+            )
+        solver.set_bridge_weight(self.scorer.bridge_weight)
+        chunks = []
+        for begin in range(0, len(self.hub_nodes), solver.target_batch):
+            targets = self.hub_nodes[begin:begin + solver.target_batch]
+            chunks.append(solver.solve(targets, key[0], key[1]))
+        value = np.concatenate(chunks).astype(np.float32, copy=False)
+        if value.shape != self.hub_nodes.shape:
+            raise RuntimeError("on-demand R74 reachability shape changed")
+        self._cache_key = key
+        self._cache_value = value
+        return value
+
+    def __getitem__(self, key):
+        if not isinstance(key, tuple) or len(key) != 3:
+            raise IndexError(
+                "reachability must be indexed as hubs, remaining, node"
+            )
+        hub_index, remaining, current_node = key
+        return self._column(remaining, current_node)[hub_index]
+
+
 def _current_r74_runtime(args):
-    current = (MANAGEMENT_ROOT / PROTOCOL_VALUE["antmaze"]["current_preparation"]).resolve()
+    current = (
+        MANAGEMENT_ROOT
+        / PROTOCOL_VALUE["antmaze"]["current_preparation"]
+    ).resolve()
     r74.configure_implementation()
     runtime_args = SimpleNamespace(
         root=args.root,
@@ -323,7 +382,45 @@ def _current_r74_runtime(args):
         output=r74.DEFAULT_OUTPUT,
         graph=None,
     )
-    return r74._load_runtime(runtime_args)
+    # R74's historical loader enters through R69 and consequently requires
+    # the complete cached (hub, horizon, node) table.  The table is merely a
+    # computational cache: after the first task-local observation, R74 uses
+    # its exact batched solver.  Build the identical runtime directly and
+    # expose exact first-decision columns lazily instead of requiring that
+    # cleaned historical artifact.
+    r71.r69._install_contract()
+    planner, executor, env = r53._load_runtime(runtime_args)
+    planner.horizon = r74.HORIZON
+    _contract, hub_nodes, hub_xy, arrays = r68._candidate_contract(
+        runtime_args
+    )
+
+    r71._bind_r71_contract()
+    planner.__class__ = r71.SigmaGeneralizedDestinationArrivalPlanner
+    planner.method_revision = r71.METHOD_REVISION
+    planner.planner_name = (
+        "E549_R51_destination_arrival_sigma_link_generalization"
+    )
+
+    r74.implementation._bind_r72_contract()
+    reach = r74.empirical_reach_covariance(current)
+    planner.method_revision = r74.METHOD_REVISION
+    planner.planner_name = (
+        "E549_R51_sigma_link_and_empirical_reach_route_correction"
+    )
+    scorer = r74.ReachScaleHubRouteCorrectedScorer(
+        planner,
+        arrays,
+        hub_nodes,
+        reach["covariance_m2"],
+        args.device,
+    )
+    planner.hub_score_override = scorer
+    planner.hub_attempt_observer = scorer
+    reachability = _OnDemandOfflineReachability(scorer, hub_nodes)
+    return (
+        planner, executor, env, hub_nodes, hub_xy, arrays[2], reachability,
+    )
 
 
 def _reset_planner_task(planner, seed: int) -> None:

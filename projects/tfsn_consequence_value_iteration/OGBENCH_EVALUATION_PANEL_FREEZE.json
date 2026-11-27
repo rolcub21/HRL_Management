@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "freeze_id": "tfsn_ogbench_centered_evaluation_panel_v1",
+  "frozen_on": "2026-11-27",
+  "status": "frozen_before_evaluation",
+  "method_reference": "projects/tfsn_consequence_value_iteration/FROZEN_R74_METHOD_SPECIFICATION.md",
+  "scope": "Evaluation matrix only. Each executable protocol must separately freeze exact environment IDs, task rows, seeds, budgets, checkpoints, and statistical estimands before accessing its evaluation tasks.",
+  "domains": [
+    {
+      "id": "antmaze_large",
+      "display_name": "AntMaze large",
+      "benchmark_family": "OGBench",
+      "schedule": "primary"
+    },
+    {
+      "id": "antmaze_giant",
+      "display_name": "AntMaze giant",
+      "benchmark_family": "OGBench",
+      "schedule": "conditional_on_antmaze_large_gate"
+    },
+    {
+      "id": "humanoidmaze_medium",
+      "display_name": "HumanoidMaze medium",
+      "benchmark_family": "OGBench",
+      "schedule": "primary"
+    },
+    {
+      "id": "fetchpush",
+      "display_name": "FetchPush",
+      "benchmark_family": "Gymnasium Robotics transfer",
+      "schedule": "primary"
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "hidden_goal_tfsn_vs_mega",
+      "setting": "hidden_goal",
+      "target_claim": "TF-SN is clearly better than MEGA",
+      "systems": [
+        {
+          "name": "TF-SN",
+          "evidence": "run"
+        },
+        {
+          "name": "MEGA",
+          "evidence": "run"
+        }
+      ],
+      "domains": {
+        "antmaze_large": "run",
+        "antmaze_giant": "run_conditionally",
+        "humanoidmaze_medium": "run",
+        "fetchpush": "run"
+      }
+    },
+    {
+      "id": "supplied_goal_tfsn_vs_sgm_hiql",
+      "setting": "supplied_goal",
+      "target_claim": "TF-SN is better than SGM and competitive with reported HIQL",
+      "executor_matching": "TF-SN and SGM must use the same executor within each run domain",
+      "systems": [
+        {
+          "name": "TF-SN",
+          "evidence": "run"
+        },
+        {
+          "name": "SGM",
+          "evidence": "run"
+        },
+        {
+          "name": "HIQL",
+          "evidence": "reported"
+        }
+      ],
+      "domains": {
+        "antmaze_large": "run_tfsn_and_sgm_compare_to_reported_hiql",
+        "antmaze_giant": "run_tfsn_and_sgm_conditionally_compare_to_reported_hiql",
+        "humanoidmaze_medium": "run_tfsn_and_sgm_compare_to_reported_hiql",
+        "fetchpush": "not_applicable"
+      }
+    },
+    {
+      "id": "direct_executor_ablation",
+      "setting": "ablation",
+      "target_claim": "The direct executor isolates the contribution of TF-SN planning",
+      "systems": [
+        {
+          "name": "direct_executor",
+          "evidence": "run"
+        }
+      ],
+      "domains": {
+        "antmaze_large": "run",
+        "antmaze_giant": "run_conditionally",
+        "humanoidmaze_medium": "run",
+        "fetchpush": "run"
+      }
+    }
+  ],
+  "baseline_decisions": {
+    "run_sgm": true,
+    "run_sorb": false,
+    "sorb_reason": "Removed to reduce training cost; SGM is the closer edge-correcting comparison.",
+    "train_hiql": false,
+    "hiql_reason": "Use the published reported result as the single representative of the strongest maze baseline family; do not present it as a matched rerun.",
+    "train_crl_or_qrl_separately": false
+  },
+  "scheduling_rules": {
+    "antmaze_giant_gate": "Do not start AntMaze giant until the predeclared AntMaze large success gate passes.",
+    "no_parallel_giant_speculation": true,
+    "same_task_rows_for_matched_runs": true,
+    "same_executor_for_tfsn_sgm_and_direct_executor": true
+  },
+  "discontinued_work": {
+    "program": "Gymnasium PointMaze and AntMaze aligned multi-seed freeze/rebuild r16",
+    "status": "stopped_and_superseded_for_the_main_evaluation_campaign",
+    "commands_not_to_continue": [
+      "projects/tfsn_consequence_value_iteration/pointmaze/run.sh rebuild-aligned-seed0",
+      "projects/tfsn_consequence_value_iteration/pointmaze/run.sh evaluate-aligned-rebuild-seed0",
+      "projects/tfsn_consequence_value_iteration/pointmaze/run.sh rebuild-aligned-seed1",
+      "projects/tfsn_consequence_value_iteration/pointmaze/run.sh rebuild-aligned-seed2",
+      "projects/tfsn_consequence_value_iteration/antmaze/run.sh evaluate-aligned-rebuild-seed0",
+      "projects/tfsn_consequence_value_iteration/antmaze/run.sh rebuild-aligned-seed1",
+      "projects/tfsn_consequence_value_iteration/antmaze/run.sh rebuild-aligned-seed2"
+    ],
+    "artifact_policy": "Preserve completed artifacts as development history until an explicit reviewed cleanup; they are not evidence for the frozen OGBench-centered panel.",
+    "method_status": "The R74 method specification remains the implementation reference. Discontinuing the old benchmark campaign does not change the method."
+  },
+  "reporting_constraints": [
+    "Keep hidden-goal and supplied-goal results separate.",
+    "Label HIQL values as reported rather than matched reruns.",
+    "Do not report AntMaze giant unless its large-domain gate was declared and passed.",
+    "Report the direct-executor ablation on exactly the matched task rows used for TF-SN.",
+    "Do not merge the discontinued Gymnasium maze rebuild evidence into this panel.",
+    "FetchPush remains in the panel as an explicit non-OGBench transfer domain."
+  ]
+}

@@ -542,6 +542,45 @@ def command_train_consequence(args) -> dict:
     return report
 
 
+def _verified_runtime_identity(summary: dict) -> tuple[Path, str, str]:
+    """Validate the immutable method identity recorded by a preparation.
+
+    R52 historically configured every consumer with R52's module constants.
+    Independent aligned rebuilds retain the same runtime layout but declare a
+    different, frozen preparation identity.  Runtime consumers must therefore
+    bind the identity carried by the verified preparation rather than silently
+    relabeling its graph as historical R52.
+    """
+    required = ("method_reference", "method_reference_sha256",
+                "method_revision", "claim_level")
+    missing = [name for name in required if not summary.get(name)]
+    if missing:
+        raise ValueError(
+            "preparation summary lacks runtime identity: "
+            + ", ".join(missing)
+        )
+    reference = Path(summary["method_reference"])
+    if not reference.is_absolute():
+        reference = (MANAGEMENT_ROOT / reference).resolve()
+    else:
+        reference = reference.resolve()
+    if not reference.is_file():
+        raise FileNotFoundError(
+            f"preparation method reference is absent: {reference}"
+        )
+    if summary["method_reference_sha256"] != sha256(reference):
+        raise ValueError("preparation method reference changed")
+
+    revision = str(summary["method_revision"])
+    claim_level = str(summary["claim_level"])
+    if revision == METHOD_REVISION:
+        if reference != REFERENCE.resolve():
+            raise ValueError("historical R52 preparation has another reference")
+        if claim_level != CLAIM_LEVEL:
+            raise ValueError("historical R52 preparation has another claim level")
+    return reference, revision, claim_level
+
+
 def configure_r52_runtime(output: Path) -> dict:
     paths = output_paths(output)
     if not paths["consequence_summary"].is_file():
@@ -549,9 +588,10 @@ def configure_r52_runtime(output: Path) -> dict:
     summary = json.loads(paths["consequence_summary"].read_text())
     if summary.get("checkpoint_sha256") != sha256(paths["consequence"]):
         raise ValueError("R52 consequence checkpoint changed")
-    r48.REFERENCE = REFERENCE
-    r48.METHOD_REVISION = METHOD_REVISION
-    r48.PREPARATION_CLAIM_LEVEL = CLAIM_LEVEL
+    reference, revision, claim_level = _verified_runtime_identity(summary)
+    r48.REFERENCE = reference
+    r48.METHOD_REVISION = revision
+    r48.PREPARATION_CLAIM_LEVEL = claim_level
     r48.R30_CHECKPOINT = paths["consequence"]
     r48.R30_SUMMARY = paths["consequence_summary"]
     r48.SIGMA = float(summary["landing_sigma_m"])

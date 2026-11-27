@@ -19,8 +19,12 @@ from torch import nn
 
 MODEL_CLASS = "shared.learned_passage.PassageMLP"
 LOSS_NAME = "mean_squared_error_on_sigma_normalized_relative_passage_bins"
-FEATURE_RULE = "concat(adapter_state,command_xy,command_xy-phi_xy(adapter_state))"
-TARGET_RULE = "primitive_time_groups_mean_xy_minus_start_xy_divided_by_landing_sigma"
+FEATURE_RULE = (
+    "concat(adapter_state,command_goal,command_goal-phi_goal(adapter_state))"
+)
+TARGET_RULE = (
+    "primitive_time_groups_mean_goal_minus_start_goal_divided_by_landing_sigma"
+)
 TRAINING_RULE = (
     "grouped_holdout_independent_initializations_adam_manifest_cap_"
     "validation_early_stopping"
@@ -37,11 +41,18 @@ def sha256_file(path: Path) -> str:
 
 def passage_features(states: np.ndarray, commands: np.ndarray) -> np.ndarray:
     states = np.asarray(states, np.float32)
-    commands = np.asarray(commands, np.float32).reshape(-1, 2)
-    if states.ndim != 2 or len(states) != len(commands) or states.shape[1] < 2:
-        raise ValueError("adapter states and xy commands must be aligned")
+    commands = np.asarray(commands, np.float32)
+    if (
+        states.ndim != 2
+        or commands.ndim != 2
+        or commands.shape[1] < 1
+        or len(states) != len(commands)
+        or states.shape[1] < commands.shape[1]
+    ):
+        raise ValueError("adapter states and goal commands must be aligned")
+    goal_dim = int(commands.shape[1])
     return np.concatenate(
-        (states, commands, commands - states[:, :2]), axis=1
+        (states, commands, commands - states[:, :goal_dim]), axis=1
     ).astype(np.float32)
 
 
@@ -53,9 +64,10 @@ def passage_targets(
 ) -> np.ndarray:
     states = np.asarray(states, np.float32)
     primitive = np.asarray(primitive_xy, np.float32)
-    if primitive.ndim != 3 or primitive.shape[2] != 2:
-        raise ValueError("primitive passages must have shape [N,steps,2]")
-    if len(states) != len(primitive) or states.shape[1] < 2:
+    if primitive.ndim != 3 or primitive.shape[2] < 1:
+        raise ValueError("primitive passages must have shape [N,steps,D]")
+    goal_dim = int(primitive.shape[2])
+    if len(states) != len(primitive) or states.shape[1] < goal_dim:
         raise ValueError("adapter states and primitive passages must align")
     if int(passage_bins) <= 0 or int(passage_bins) > primitive.shape[1]:
         raise ValueError("passage bin count must lie within primitive length")
@@ -63,7 +75,9 @@ def passage_targets(
         raise ValueError("landing sigma must be finite and positive")
     groups = np.array_split(np.arange(primitive.shape[1]), int(passage_bins))
     centers = np.stack([primitive[:, group].mean(axis=1) for group in groups], 1)
-    return ((centers - states[:, None, :2]) / float(sigma)).astype(np.float32)
+    return (
+        (centers - states[:, None, :goal_dim]) / float(sigma)
+    ).astype(np.float32)
 
 
 def grouped_split(
@@ -94,6 +108,7 @@ class PassageMLP(nn.Module):
         passage_bins: int,
         hidden_dimension: int,
         hidden_layers: int,
+        goal_dim: int = 2,
     ):
         super().__init__()
         layers: list[nn.Module] = []
@@ -101,12 +116,15 @@ class PassageMLP(nn.Module):
         for _ in range(int(hidden_layers)):
             layers.extend((nn.Linear(width, int(hidden_dimension)), nn.SiLU()))
             width = int(hidden_dimension)
-        layers.append(nn.Linear(width, int(passage_bins) * 2))
+        layers.append(nn.Linear(width, int(passage_bins) * int(goal_dim)))
         self.network = nn.Sequential(*layers)
         self.passage_bins = int(passage_bins)
+        self.goal_dim = int(goal_dim)
 
     def forward(self, features: torch.Tensor) -> torch.Tensor:
-        return self.network(features).reshape(-1, self.passage_bins, 2)
+        return self.network(features).reshape(
+            -1, self.passage_bins, self.goal_dim
+        )
 
 
 def passage_loss(prediction: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
@@ -157,6 +175,7 @@ def train_passage_ensemble(
 
     feature = passage_features(states, commands)
     target = passage_targets(states, primitive_xy, sigma, config.passage_bins)
+    goal_dim = int(np.asarray(commands).shape[1])
     training, validation = grouped_split(
         group_id, config.validation_fraction, config.seed
     )
@@ -184,7 +203,7 @@ def train_passage_ensemble(
             torch.cuda.manual_seed_all(member_seed)
         model = PassageMLP(
             feature.shape[1], config.passage_bins,
-            config.hidden_dimension, config.hidden_layers,
+            config.hidden_dimension, config.hidden_layers, goal_dim,
         ).to(device_value)
         optimizer = torch.optim.Adam(model.parameters(), lr=config.learning_rate)
         rng = np.random.default_rng(member_seed)
@@ -276,6 +295,7 @@ def train_passage_ensemble(
         "model_class": MODEL_CLASS,
         "input_dim": feature.shape[1],
         "state_dim": np.asarray(states).shape[1],
+        "goal_dim": goal_dim,
         "passage_bins": int(config.passage_bins),
         "hidden_dimension": int(config.hidden_dimension),
         "hidden_layers": int(config.hidden_layers),
@@ -391,6 +411,7 @@ class LearnedPassageEnsemble:
         if payload.get("model_class") != MODEL_CLASS:
             raise ValueError("passage artifact uses another model class")
         self.state_dim = int(payload["state_dim"])
+        self.goal_dim = int(payload.get("goal_dim", 2))
         self.passage_bins = int(payload["passage_bins"])
         self.sigma = float(payload["landing_sigma"])
         self.device = torch.device(device)
@@ -401,6 +422,7 @@ class LearnedPassageEnsemble:
             model = PassageMLP(
                 payload["input_dim"], self.passage_bins,
                 payload["hidden_dimension"], payload["hidden_layers"],
+                self.goal_dim,
             ).to(self.device)
             model.load_state_dict(state)
             model.eval()
@@ -408,15 +430,17 @@ class LearnedPassageEnsemble:
 
     def predict(self, states: np.ndarray, commands: np.ndarray) -> np.ndarray:
         states = np.asarray(states, np.float32).reshape(-1, self.state_dim)
-        commands = np.asarray(commands, np.float32).reshape(-1, 2)
+        commands = np.asarray(commands, np.float32).reshape(-1, self.goal_dim)
         feature = (passage_features(states, commands) - self.feature_mean) / self.feature_std
         value = torch.as_tensor(feature, dtype=torch.float32, device=self.device)
         rows = []
         with torch.no_grad():
             for model in self.members:
                 relative = model(value).cpu().numpy() * self.sigma
-                path = states[:, None, :2] + relative
-                rows.append(np.concatenate((states[:, None, :2], path), axis=1))
-        # [ensemble,candidate,passage_point,xy]
+                path = states[:, None, : self.goal_dim] + relative
+                rows.append(np.concatenate(
+                    (states[:, None, : self.goal_dim], path), axis=1
+                ))
+        # [ensemble,candidate,passage_point,goal_dim]
         return np.stack(rows).astype(np.float32)
 

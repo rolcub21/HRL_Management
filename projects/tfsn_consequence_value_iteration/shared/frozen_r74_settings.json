@@ -164,7 +164,9 @@
     }
   },
   "global_decision_principles": {
-    "bootstrap_behavior": "uniform over the exact set of xy coordinates observed so far",
+    "task_space": "phi(s) is exactly the executor goal/command space; its dimension is supplied by the domain adapter",
+    "distance_metric": "Euclidean distance in native executor-goal-space units; reach-normalized distance is not part of this revision",
+    "bootstrap_behavior": "uniform over the exact set of executor-goal coordinates observed so far",
     "aligned_acquisition_behavior": "frozen hub controller under an all-negative consequence stream",
     "aligned_return_behavior": "frozen supplied-goal router to a uniformly sampled occupied-sigma-cell support anchor",
     "ensemble_reduction": "minimum member value",
@@ -194,9 +196,9 @@
     "reach_weight": "(1-exp(-||command-start||^2/(2 sigma^2)))*(1-exp(-||endpoint-start||^2/(2 sigma^2)))",
     "reach_covariance": "weighted central second moment of realized one-command displacement",
     "rho_min": "landing sigma",
-    "rho_max": "exact Euclidean diameter of unique recorded xy support",
+    "rho_max": "exact Euclidean diameter of unique recorded executor-goal-space support",
     "planning_horizon": "H = T / tau, requiring exact divisibility",
-    "state_scale": "landing sigma for xy and reward-free training standard deviation for remaining state",
+    "state_scale": "landing sigma for executor-goal coordinates and reward-free training standard deviation for remaining state",
     "alias_and_advance": "continuous Gaussian similarity at landing sigma; advance is one minus similarity"
   },
   "domain_realizations": {

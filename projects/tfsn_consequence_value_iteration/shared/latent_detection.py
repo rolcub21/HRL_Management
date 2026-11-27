@@ -17,15 +17,27 @@ class PosteriorFalsifiedError(RuntimeError):
     """Raised when no hypothesis remains under the declared observation model."""
 
 
+def _goal_matrix(values: np.ndarray, label: str) -> np.ndarray:
+    points = np.asarray(values, np.float64)
+    if points.ndim != 2 or not len(points) or points.shape[1] < 1:
+        raise ValueError(f"{label} must have shape [N,D] with D >= 1")
+    if not np.isfinite(points).all():
+        raise ValueError(f"{label} must be finite")
+    return points
+
+
 def exact_support_diameter(points_xy: np.ndarray) -> float:
-    """Return the exact Euclidean diameter of a finite two-dimensional set."""
-    points = np.asarray(points_xy, np.float64).reshape(-1, 2)
-    if not len(points) or not np.isfinite(points).all():
-        raise ValueError("reachable support must be finite and nonempty")
+    """Return the exact Euclidean diameter of a finite goal-space set."""
+    points = _goal_matrix(points_xy, "reachable support")
     points = np.unique(points, axis=0)
     if len(points) < 2:
         return 0.0
+    if points.shape[1] == 1:
+        return float(points[:, 0].max() - points[:, 0].min())
     try:
+        # A finite set's diameter is attained by convex-hull vertices in any
+        # dimension.  Restricting pdist to those vertices is exact, not an
+        # approximation, and retains the old two-dimensional calculation.
         boundary = points[ConvexHull(points).vertices]
     except QhullError:
         boundary = points
@@ -44,11 +56,7 @@ class PosteriorSummary:
 
 
 def _unique_recorded_support(recorded_goal_xy: np.ndarray) -> np.ndarray:
-    goals = np.asarray(recorded_goal_xy, np.float64)
-    if goals.ndim != 2 or goals.shape[1] != 2 or not len(goals):
-        raise ValueError("recorded goal candidates must have shape [N,2]")
-    if not np.isfinite(goals).all():
-        raise ValueError("recorded goal candidates must be finite")
+    goals = _goal_matrix(recorded_goal_xy, "recorded goal candidates")
     # A support is a set, not a collection-frequency distribution.
     return np.unique(goals, axis=0)
 
@@ -65,6 +73,7 @@ class LatentRadiusPosterior:
         if not np.isfinite(sigma) or float(sigma) <= 0.0:
             raise ValueError("landing sigma must be finite and positive")
         self.goal_xy = _unique_recorded_support(recorded_goal_xy)
+        self.goal_dim = int(self.goal_xy.shape[1])
         self.rho_min = float(sigma)
         self.rho_max = exact_support_diameter(self.goal_xy)
         if not self.rho_max > self.rho_min:
@@ -80,6 +89,7 @@ class LatentRadiusPosterior:
     def copy(self) -> "LatentRadiusPosterior":
         other = object.__new__(type(self))
         other.goal_xy = self.goal_xy.copy()
+        other.goal_dim = self.goal_dim
         other.rho_min = self.rho_min
         other.rho_max = self.rho_max
         other._prior_per_goal = self._prior_per_goal
@@ -131,7 +141,7 @@ class LatentRadiusPosterior:
             )
 
     def update(self, observed_xy: np.ndarray, reward: np.ndarray) -> None:
-        xy = np.asarray(observed_xy, np.float64).reshape(-1, 2)
+        xy = np.asarray(observed_xy, np.float64).reshape(-1, self.goal_dim)
         outcome = np.asarray(reward).reshape(-1)
         if len(xy) != len(outcome):
             raise ValueError("observations and rewards must be aligned")
@@ -155,7 +165,9 @@ class LatentRadiusPosterior:
         self.assert_not_exhausted("before candidate scoring")
         passage = np.asarray(passage_xy, np.float64)
         single = passage.ndim == 2
-        passage = passage.reshape(-1, passage.shape[-2], 2)
+        if passage.shape[-1] != self.goal_dim:
+            raise ValueError("predicted passages use the wrong goal dimension")
+        passage = passage.reshape(-1, passage.shape[-2], self.goal_dim)
         if not np.isfinite(passage).all():
             raise ValueError("predicted passages must be finite")
         output = np.zeros(len(passage), np.float64)
@@ -176,7 +188,7 @@ class LatentRadiusPosterior:
         return output[0] if single else output
 
     def imagined_no_contact(self, passage_xy: np.ndarray) -> "LatentRadiusPosterior":
-        path = np.asarray(passage_xy, np.float64).reshape(-1, 2)
+        path = np.asarray(passage_xy, np.float64).reshape(-1, self.goal_dim)
         other = self.copy()
         d = np.linalg.norm(
             path[:, None, :] - other.goal_xy[None, :, :], axis=2
@@ -195,6 +207,7 @@ class SigmaKernelPosterior:
         if not np.isfinite(sigma) or float(sigma) <= 0.0:
             raise ValueError("landing sigma must be finite and positive")
         self.goal_xy = _unique_recorded_support(recorded_goal_xy)
+        self.goal_dim = int(self.goal_xy.shape[1])
         self.sigma = float(sigma)
         self.goal_probability = np.full(
             len(self.goal_xy), 1.0 / len(self.goal_xy), np.float64
@@ -205,6 +218,7 @@ class SigmaKernelPosterior:
     def copy(self) -> "SigmaKernelPosterior":
         other = object.__new__(type(self))
         other.goal_xy = self.goal_xy.copy()
+        other.goal_dim = self.goal_dim
         other.sigma = self.sigma
         other.goal_probability = self.goal_probability.copy()
         other.positive_observations = self.positive_observations
@@ -227,7 +241,7 @@ class SigmaKernelPosterior:
         return np.exp(-0.5 * np.square(np.asarray(distance_value) / self.sigma))
 
     def update(self, observed_xy: np.ndarray, reward: np.ndarray) -> None:
-        xy = np.asarray(observed_xy, np.float64).reshape(-1, 2)
+        xy = np.asarray(observed_xy, np.float64).reshape(-1, self.goal_dim)
         outcome = np.asarray(reward).reshape(-1)
         if len(xy) != len(outcome):
             raise ValueError("observations and rewards must be aligned")
@@ -249,7 +263,9 @@ class SigmaKernelPosterior:
         self.assert_not_exhausted("before candidate scoring")
         passage = np.asarray(passage_xy, np.float64)
         single = passage.ndim == 2
-        passage = passage.reshape(-1, passage.shape[-2], 2)
+        if passage.shape[-1] != self.goal_dim:
+            raise ValueError("predicted passages use the wrong goal dimension")
+        passage = passage.reshape(-1, passage.shape[-2], self.goal_dim)
         output = np.zeros(len(passage), np.float64)
         for index, path in enumerate(passage):
             d = np.linalg.norm(
@@ -260,7 +276,7 @@ class SigmaKernelPosterior:
         return output[0] if single else output
 
     def imagined_no_contact(self, passage_xy: np.ndarray) -> "SigmaKernelPosterior":
-        path = np.asarray(passage_xy, np.float64).reshape(-1, 2)
+        path = np.asarray(passage_xy, np.float64).reshape(-1, self.goal_dim)
         other = self.copy()
         d = np.linalg.norm(
             path[:, None, :] - other.goal_xy[None, :, :], axis=2

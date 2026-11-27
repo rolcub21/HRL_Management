@@ -37,9 +37,15 @@ def situation_density_weights(
     estimated without rewards or environment geometry.
     """
     states = np.asarray(states, np.float32)
-    commands = np.asarray(commands, np.float32).reshape(-1, 2)
+    commands = np.asarray(commands, np.float32)
     training_index = np.asarray(training_index, np.int64)
-    if states.ndim != 2 or len(states) != len(commands):
+    if (
+        states.ndim != 2
+        or commands.ndim != 2
+        or commands.shape[1] < 1
+        or states.shape[1] < commands.shape[1]
+        or len(states) != len(commands)
+    ):
         raise ValueError("states and commands must be aligned")
     if not len(training_index):
         raise ValueError("density correction needs training rows")
@@ -47,13 +53,14 @@ def situation_density_weights(
     if position_scale <= 0.0:
         raise ValueError("position scale must be positive")
 
+    goal_dim = int(commands.shape[1])
     extra_scale = np.maximum(
-        states[training_index, 2:].std(axis=0), 1e-6
+        states[training_index, goal_dim:].std(axis=0), 1e-6
     ).astype(np.float32)
     situation = np.concatenate(
         (
-            states[:, :2] / position_scale,
-            states[:, 2:] / extra_scale[None],
+            states[:, :goal_dim] / position_scale,
+            states[:, goal_dim:] / extra_scale[None],
             commands / position_scale,
         ),
         axis=1,

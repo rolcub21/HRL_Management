@@ -53,8 +53,10 @@ class MobilityNetwork(torch.nn.Module):
 class MobilityModel:
     def __init__(self, checkpoint, device):
         payload = torch.load(Path(checkpoint), map_location="cpu", weights_only=False)
-        if payload.get("artifact_type") != "pointmaze_endpoint_mobility":
-            raise ValueError("not a PointMaze mobility checkpoint")
+        if payload.get("artifact_type") not in (
+            "pointmaze_endpoint_mobility", "executor_goal_endpoint_mobility"
+        ):
+            raise ValueError("not an endpoint-mobility checkpoint")
         self.device = torch.device(device)
         self.mean = np.asarray(payload["state_mean"], np.float32)
         self.std = np.asarray(payload["state_std"], np.float32)
@@ -130,8 +132,10 @@ def prepare_mobility_labels(
         target = targets[begin:stop]
         states = np.repeat(
             graph.nodes[begin:stop, None], target.shape[1], axis=1
-        ).reshape(-1, 4)
-        commands = graph.nodes[target, :2].reshape(-1, 2)
+        ).reshape(-1, graph.nodes.shape[1])
+        commands = graph.nodes[
+            target, : graph.goal_dim
+        ].reshape(-1, graph.goal_dim)
         rows = []
         for pair_begin in range(0, len(states), PAIR_INFERENCE_BATCH):
             pair_stop = min(pair_begin + PAIR_INFERENCE_BATCH, len(states))
@@ -161,7 +165,7 @@ def prepare_mobility_labels(
 
 def train_mobility(
     graph, labels, output, device, schedule, method_revision=METHOD_REVISION,
-    seed=947,
+    seed=947, artifact_type="pointmaze_endpoint_mobility",
 ):
     paths = artifact_paths(output)
     epochs = 2 if schedule == "smoke" else EPOCHS
@@ -174,7 +178,7 @@ def train_mobility(
     x = torch.as_tensor((graph.nodes - mean) / std, dtype=torch.float32)
     y = torch.as_tensor(labels, dtype=torch.float32)
     torch.manual_seed(seed + 1)
-    network = MobilityNetwork(4).to(device)
+    network = MobilityNetwork(graph.nodes.shape[1]).to(device)
     optimizer = torch.optim.Adam(network.parameters(), lr=LEARNING_RATE)
     best_loss, best_state, history = float("inf"), None, []
     for epoch in range(epochs):
@@ -209,7 +213,7 @@ def train_mobility(
                 f"validation_mae={validation_mae:.6f}", flush=True
             )
     payload = {
-        "artifact_type": "pointmaze_endpoint_mobility",
+        "artifact_type": str(artifact_type),
         "method_revision": method_revision,
         "state_mean": mean,
         "state_std": std,
@@ -239,18 +243,22 @@ def train_mobility(
     return model, report
 
 
-def bridge_member_weight(model, mobility, source, command, sigma):
+def bridge_member_weight(
+    model, mobility, source, command, sigma, goal_dim=None
+):
+    goal_dim = int(command.shape[1] if goal_dim is None else goal_dim)
+    state_dim = int(source.shape[1])
     member_rows = []
     for member in range(len(model.spatial_members)):
         weights, endpoint_state = model.component_mean_endpoint_outcomes(
             source, command, member
         )
         distance = np.linalg.norm(
-            endpoint_state[..., :2] - command[:, None], axis=2
+            endpoint_state[..., :goal_dim] - command[:, None], axis=2
         )
         connection = np.exp(-np.square(distance) / (2.0 * float(sigma) ** 2))
         endpoint_mobility = mobility.predict(
-            endpoint_state.reshape(-1, 4)
+            endpoint_state.reshape(-1, state_dim)
         ).reshape(endpoint_state.shape[:2])
         member_rows.append(
             (weights * connection * endpoint_mobility).sum(axis=1)
@@ -275,8 +283,10 @@ def prepare_bridge_weights(
         target = targets[begin:stop]
         source = np.repeat(
             graph.nodes[begin:stop, None], target.shape[1], axis=1
-        ).reshape(-1, 4)
-        command = graph.nodes[target, :2].reshape(-1, 2)
+        ).reshape(-1, graph.nodes.shape[1])
+        command = graph.nodes[
+            target, : graph.goal_dim
+        ].reshape(-1, graph.goal_dim)
         rows = []
         for pair_begin in range(0, len(source), PAIR_INFERENCE_BATCH):
             pair_stop = min(pair_begin + PAIR_INFERENCE_BATCH, len(source))
@@ -285,7 +295,7 @@ def prepare_bridge_weights(
                 mobility,
                 source[pair_begin:pair_stop],
                 command[pair_begin:pair_stop],
-                sigma,
+                sigma, graph.goal_dim,
             ))
         member_weight = np.concatenate(rows).reshape(expected_shape)
         atomic_npz(path, member_weight=member_weight)

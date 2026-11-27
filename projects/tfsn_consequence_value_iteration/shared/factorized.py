@@ -124,11 +124,12 @@ def diagonal_gaussian_kernel_expectation(means, stds, centers, sigma):
     means = np.asarray(means, np.float32)
     stds = np.asarray(stds, np.float32)
     centers = np.asarray(centers, np.float32)
-    if means.shape != stds.shape or means.shape[-1] != 2:
-        raise ValueError("kernel expectation requires aligned 2-D Gaussians")
-    if centers.shape == means.shape[:-2] + (2,):
+    if means.shape != stds.shape or means.ndim < 2 or means.shape[-1] < 1:
+        raise ValueError("kernel expectation requires aligned D-D Gaussians")
+    dimension = int(means.shape[-1])
+    if centers.shape == means.shape[:-2] + (dimension,):
         centers = centers[..., None, :]
-    if centers.shape != means.shape[:-1] + (2,):
+    if centers.shape != means.shape[:-1] + (dimension,):
         centers = np.broadcast_to(centers, means.shape)
     kernel_variance = float(sigma) ** 2
     combined = kernel_variance + np.square(stds)
@@ -139,10 +140,16 @@ def diagonal_gaussian_kernel_expectation(means, stds, centers, sigma):
 
 def consequence_features(states, commands):
     states = np.asarray(states, np.float32)
-    commands = np.asarray(commands, np.float32).reshape(-1, 2)
-    if states.ndim != 2 or len(states) != len(commands):
+    commands = np.asarray(commands, np.float32)
+    if commands.ndim != 2 or commands.shape[1] < 1:
+        raise ValueError("commands must have shape [N,D] with D >= 1")
+    if (
+        states.ndim != 2
+        or len(states) != len(commands)
+        or states.shape[1] < commands.shape[1]
+    ):
         raise ValueError("states and commands must be aligned matrices")
-    delta = commands - states[:, :2]
+    delta = commands - states[:, : commands.shape[1]]
     distance = np.linalg.norm(delta, axis=1, keepdims=True)
     return np.concatenate((states, commands, delta, distance), axis=1).astype(
         np.float32
@@ -305,7 +312,12 @@ class FactorizedConsequenceEnsemble:
         self.payload = payload
         self.device = torch.device(device)
         self.state_dim = int(payload["state_dim"])
-        self.posture_dim = self.state_dim - 2
+        # Old PointMaze/AntMaze checkpoints predate this explicit field and
+        # are exactly two-dimensional, so the default preserves them.
+        self.position_dim = int(payload.get("position_dim", 2))
+        if not 1 <= self.position_dim <= self.state_dim:
+            raise ValueError("invalid executor goal-space dimension")
+        self.posture_dim = self.state_dim - self.position_dim
         self.input_mean = np.asarray(payload["base_input_mean"], np.float32)
         self.input_std = np.asarray(payload["base_input_std"], np.float32)
         self.spatial_target_mean = np.asarray(
@@ -419,7 +431,9 @@ class FactorizedConsequenceEnsemble:
         """Joint component means without averaging spatial or posture modes."""
 
         states = np.asarray(states, np.float32)
-        commands = np.asarray(commands, np.float32).reshape(-1, 2)
+        commands = np.asarray(commands, np.float32).reshape(
+            -1, self.position_dim
+        )
         features = consequence_features(states, commands)
         spatial_weight, residual, _spatial_std = self.spatial_parameters(
             features, member
@@ -445,7 +459,10 @@ class FactorizedConsequenceEnsemble:
         )
         means = commands[:, None] + residual
         component = diagonal_gaussian_kernel_expectation(
-            means, spatial_std, np.asarray(states, np.float32)[:, :2], sigma
+            means,
+            spatial_std,
+            np.asarray(states, np.float32)[:, : self.position_dim],
+            sigma,
         )
         return (weights * component).sum(axis=1)
 
@@ -461,7 +478,7 @@ def landing_precision(payload, validation_features, device):
             weights, _means, stds = model.spatial_parameters(
                 validation_features, member
             )
-            radial = np.sqrt(0.5 * np.square(stds).sum(axis=2))
+            radial = np.sqrt(np.square(stds).mean(axis=2))
             member_values.append((weights * radial).sum(axis=1))
         return float(np.stack(member_values).mean())
     finally:

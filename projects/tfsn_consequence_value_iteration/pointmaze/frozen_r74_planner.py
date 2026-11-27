@@ -60,16 +60,25 @@ PROTOCOL_VALUE = load_protocol()
 class FrozenR74PointPlanner:
     """Latent hubs plus sigma-link and empirical-reach route correction."""
 
-    def __init__(self, base, device):
+    def __init__(
+        self, base, device, *, method_revision=METHOD_REVISION,
+        protocol_value=None,
+    ):
         self.base = base
         self.graph = base.graph
+        self.goal_dim = int(self.graph.goal_dim)
         self.sigma = float(base.sigma)
         self.horizon = int(base.horizon)
-        self.method_revision = METHOD_REVISION
+        self.method_revision = str(method_revision)
+        self.protocol_value = (
+            PROTOCOL_VALUE if protocol_value is None else dict(protocol_value)
+        )
         self.device = device
         self.base.enable_destination_arrival_correction()
 
-        support = np.unique(self.graph.nodes[:, :2].astype(np.float64), axis=0)
+        support = np.unique(
+            self.graph.nodes[:, : self.goal_dim].astype(np.float64), axis=0
+        )
         prior, occupied, origin = area_weights(support, self.sigma)
         self.support_xy = support
         self.area_prior = prior
@@ -77,11 +86,13 @@ class FrozenR74PointPlanner:
         self.area_origin = origin
 
         self.hub_nodes, _inverse, self.hub_origin = alias_hub_candidates(
-            self.graph.nodes[:, :2], self.sigma
+            self.graph.nodes[:, : self.goal_dim], self.sigma
         )
-        self.hub_xy = self.graph.nodes[self.hub_nodes, :2].astype(np.float64)
+        self.hub_xy = self.graph.nodes[
+            self.hub_nodes, : self.goal_dim
+        ].astype(np.float64)
         reach = empirical_reach_covariance(
-            self.graph.nodes[:, :2],
+            self.graph.nodes[:, : self.goal_dim],
             self.graph.source_index,
             self.graph.endpoint_index,
             self.graph.commands,
@@ -96,7 +107,7 @@ class FrozenR74PointPlanner:
             self.base.targets,
             device,
             target_batch=int(
-                PROTOCOL_VALUE["hub_target_batch_computational"]
+                self.protocol_value["hub_target_batch_computational"]
             ),
         )
         self.reset_task_memory()
@@ -159,7 +170,9 @@ class FrozenR74PointPlanner:
     def _sync_negative_observations(self, fields):
         if fields.contacted:
             return
-        coords = np.asarray(fields.coords, np.float64).reshape(-1, 2)
+        coords = np.asarray(fields.coords, np.float64).reshape(
+            -1, self.goal_dim
+        )
         rewards = np.asarray(fields.rewards, np.float32).reshape(-1)
         if self.posterior_field_rows > len(coords):
             raise RuntimeError("task field shrank within one task")
@@ -186,12 +199,14 @@ class FrozenR74PointPlanner:
             self.posterior,
             self.hub_xy,
             self.device,
-            chunk_size=int(PROTOCOL_VALUE["hub_target_batch_computational"]),
+            chunk_size=int(
+                self.protocol_value["hub_target_batch_computational"]
+            ),
         )
         current_node = int(self.graph.project(np.asarray(state)[None])[0][0])
         route_support, route_arrivals = route_mass(
             self.route_records,
-            np.asarray(state, np.float64)[:2],
+            np.asarray(state, np.float64)[: self.goal_dim],
             self.hub_xy,
             int(remaining),
             self.reach_inverse,
@@ -206,7 +221,9 @@ class FrozenR74PointPlanner:
             bridge_weight,
             route_support,
             route_arrivals,
-            prior=float(PROTOCOL_VALUE["recorded_evidence_prior_weight"]),
+            prior=float(
+                self.protocol_value["recorded_evidence_prior_weight"]
+            ),
         )
         selected = int(decision["selected"])
         evaluated = decision["evaluated_indices"]
@@ -216,7 +233,9 @@ class FrozenR74PointPlanner:
             raise RuntimeError("selected hub was not exactly evaluated")
         selected_reach = float(reaches[int(selected_position[0])])
         self.active_attempt = {
-            "source_xy": np.asarray(state, np.float32)[:2].tolist(),
+            "source_xy": np.asarray(
+                state, np.float32
+            )[: self.goal_dim].tolist(),
             "hub_bank_index": selected,
             "hub_node_index": int(self.hub_nodes[selected]),
             "hub_xy": self.hub_xy[selected].astype(float).tolist(),
@@ -241,7 +260,7 @@ class FrozenR74PointPlanner:
         if fields.contacted:
             command, diagnostic = self.base.choose(state, command_index, fields)
             diagnostic.update({
-                "method_revision": METHOD_REVISION,
+                "method_revision": self.method_revision,
                 "acquisition_controller": "inactive_after_contact",
             })
             return command, diagnostic
@@ -257,7 +276,7 @@ class FrozenR74PointPlanner:
         )
         diagnostic.update({
             "phase": "acquisition",
-            "method_revision": METHOD_REVISION,
+            "method_revision": self.method_revision,
             "acquisition_controller": (
                 "area_weighted_latent_radius_dynamic_hub_route"
             ),
@@ -268,7 +287,7 @@ class FrozenR74PointPlanner:
     def observe_passage(self, xy, rewards):
         if self.active_attempt is None:
             return
-        path = np.asarray(xy, np.float32).reshape(-1, 2)
+        path = np.asarray(xy, np.float32).reshape(-1, self.goal_dim)
         rewards = np.asarray(rewards, np.float32).reshape(-1)
         hub = np.asarray(self.active_attempt["hub_xy"], np.float32)
         arrived = bool(np.any(np.linalg.norm(path - hub[None], axis=1) <= self.sigma))

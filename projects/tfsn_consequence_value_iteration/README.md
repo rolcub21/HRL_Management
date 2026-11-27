@@ -1,5 +1,12 @@
 # TF-SN consequence value iteration
 
+> **Active evaluation campaign:** the comparison matrix is frozen in
+> [`OGBENCH_EVALUATION_PANEL_FREEZE.md`](OGBENCH_EVALUATION_PANEL_FREEZE.md)
+> and its machine-readable
+> [`JSON record`](OGBENCH_EVALUATION_PANEL_FREEZE.json). The former Gymnasium
+> PointMaze/AntMaze aligned multi-seed rebuild is stopped and retained only as
+> development history. The R74 method definition itself remains frozen.
+
 > **Current method:** the cross-domain continuous reference is
 > [`METHOD_REFERENCE.md`](METHOD_REFERENCE.md), with all fixed settings in
 > [`shared/method_manifest.json`](shared/method_manifest.json). The PointMaze

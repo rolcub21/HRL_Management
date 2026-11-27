@@ -1,8 +1,8 @@
 """Domain-independent computations used by the frozen R74 hub method.
 
 The module contains no maze geometry, reward radius, or domain coordinates.
-Adapters supply a recorded graph, learned link probabilities, and the xy
-projection used by the common continuous method.
+Adapters supply a recorded graph, learned link probabilities, and the
+executor-goal-space projection used by the common continuous method.
 """
 
 from __future__ import annotations
@@ -11,9 +11,19 @@ import numpy as np
 import torch
 
 
+def _goal_matrix(values, label):
+    """Validate a nonempty finite matrix in an executor goal space."""
+    matrix = np.asarray(values, np.float64)
+    if matrix.ndim != 2 or not len(matrix) or matrix.shape[1] < 1:
+        raise ValueError(f"{label} must have shape [N,D] with D >= 1")
+    if not np.isfinite(matrix).all():
+        raise ValueError(f"{label} must be finite")
+    return matrix
+
+
 def alias_hub_candidates(node_xy: np.ndarray, sigma: float):
     """Choose one recorded state per data-derived landing-scale cell."""
-    xy = np.asarray(node_xy, np.float64).reshape(-1, 2)
+    xy = _goal_matrix(node_xy, "node goal coordinates")
     sigma = float(sigma)
     if not np.isfinite(sigma) or sigma <= 0.0:
         raise ValueError("landing sigma must be positive and finite")
@@ -27,7 +37,9 @@ def alias_hub_candidates(node_xy: np.ndarray, sigma: float):
 
 def area_weights(goal_xy: np.ndarray, sigma: float):
     """Give every occupied landing-scale cell equal prior area mass."""
-    xy = np.asarray(goal_xy, np.float64).reshape(-1, 2)
+    xy = _goal_matrix(goal_xy, "goal support")
+    if not np.isfinite(sigma) or float(sigma) <= 0.0:
+        raise ValueError("landing sigma must be positive and finite")
     origin = xy.min(axis=0)
     cell = np.floor((xy - origin) / float(sigma)).astype(np.int32)
     _, inverse, count = np.unique(
@@ -42,7 +54,7 @@ def area_weights(goal_xy: np.ndarray, sigma: float):
 
 def weighted_central_covariance(displacement, sample_weight):
     """Empirical reach covariance, with no fitted scale or regularizer."""
-    displacement = np.asarray(displacement, np.float64).reshape(-1, 2)
+    displacement = _goal_matrix(displacement, "reach displacements")
     sample_weight = np.asarray(sample_weight, np.float64).reshape(-1)
     if len(displacement) != len(sample_weight):
         raise ValueError("displacements and weights have different lengths")
@@ -70,10 +82,14 @@ def empirical_reach_covariance(
     node_xy, source, endpoint, commands, sigma,
 ):
     """R74 reach estimator applied to an adapter's recorded transitions."""
-    node_xy = np.asarray(node_xy, np.float64).reshape(-1, 2)
-    source = np.asarray(source, np.int64)
-    endpoint = np.asarray(endpoint, np.int64)
-    commands = np.asarray(commands, np.float64).reshape(-1, 2)
+    node_xy = _goal_matrix(node_xy, "node goal coordinates")
+    source = np.asarray(source, np.int64).reshape(-1)
+    endpoint = np.asarray(endpoint, np.int64).reshape(-1)
+    commands = _goal_matrix(commands, "commands")
+    if commands.shape[1] != node_xy.shape[1]:
+        raise ValueError("commands and node goals must have the same dimension")
+    if len(source) != len(endpoint) or len(source) != len(commands):
+        raise ValueError("recorded transition arrays must be aligned")
     start = node_xy[source]
     finish = node_xy[endpoint]
     denominator = 2.0 * float(sigma) ** 2
@@ -110,7 +126,12 @@ def route_similarity(
     hub_delta = np.asarray(hub_xy, np.float64) - np.asarray(
         observed_hub_xy, np.float64
     )
-    inverse = np.asarray(inverse_covariance, np.float64).reshape(2, 2)
+    if source_delta.shape[-1] != hub_delta.shape[-1]:
+        raise ValueError("route source and hub coordinates must have one dimension")
+    dimension = int(source_delta.shape[-1])
+    inverse = np.asarray(inverse_covariance, np.float64)
+    if inverse.shape != (dimension, dimension):
+        raise ValueError("inverse reach covariance has the wrong shape")
     source_distance = np.einsum(
         "...i,ij,...j->...", source_delta, inverse, source_delta
     )
@@ -124,7 +145,7 @@ def route_mass(
     records, source_xy, hub_xy, remaining, inverse_covariance,
 ):
     """Transfer uncensored route outcomes at the exact decision horizon."""
-    hubs = np.asarray(hub_xy, np.float64).reshape(-1, 2)
+    hubs = _goal_matrix(hub_xy, "hub coordinates")
     support = np.zeros(len(hubs), np.float64)
     arrivals = np.zeros(len(hubs), np.float64)
     for record in records:
@@ -159,7 +180,9 @@ def posterior_probability(prior_probability, support, outcome_mass, prior=1.0):
 def latent_hub_coverage(posterior, hub_xy, chunk_size=64):
     """Exact latent-radius hub coverage in bounded numpy chunks."""
     posterior.assert_not_exhausted("before frozen hub scoring")
-    hubs = np.asarray(hub_xy, np.float64).reshape(-1, 2)
+    hubs = _goal_matrix(hub_xy, "hub coordinates")
+    if hubs.shape[1] != posterior.goal_xy.shape[1]:
+        raise ValueError("hubs and posterior support must share a goal space")
     output = np.empty(len(hubs), np.float64)
     log_width = np.zeros(len(posterior.goal_xy), np.float64)
     log_width[posterior.feasible] = np.log(
@@ -193,7 +216,9 @@ def latent_hub_coverage(posterior, hub_xy, chunk_size=64):
 def latent_hub_coverage_torch(posterior, hub_xy, device, chunk_size=64):
     """The same exact coverage computation in bounded GPU chunks."""
     posterior.assert_not_exhausted("before frozen batched hub scoring")
-    hubs = np.asarray(hub_xy, np.float64).reshape(-1, 2)
+    hubs = _goal_matrix(hub_xy, "hub coordinates")
+    if hubs.shape[1] != posterior.goal_xy.shape[1]:
+        raise ValueError("hubs and posterior support must share a goal space")
     device = torch.device(device)
     goal = torch.as_tensor(
         posterior.goal_xy, dtype=torch.float64, device=device

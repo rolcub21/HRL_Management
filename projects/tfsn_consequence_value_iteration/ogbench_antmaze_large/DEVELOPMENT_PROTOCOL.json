@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "protocol_id": "tfsn_r74_ogbench_antmaze_large_development_v1",
+  "status": "frozen_before_executor_training_or_behavioral_development",
+  "method_reference": "projects/tfsn_consequence_value_iteration/FROZEN_R74_METHOD_SPECIFICATION.md",
+  "method_reference_sha256": "32e1da229df4b2bf2e3c1c0a85411272766e0c50a0ed282a536212582fb54f69",
+  "method_revision": "tfsn_frozen_cross_domain_r74_point_r15",
+  "panel_reference": "projects/tfsn_consequence_value_iteration/OGBENCH_EVALUATION_PANEL_FREEZE.json",
+  "panel_reference_sha256": "953227c474ed5c3adbf1bcdbb8ae549f0f4fa4b15ab4a7abf043b8831f9d1188",
+  "claim_level": "ogbench_antmaze_large_executor_and_tfsn_development_gate_only",
+  "declared_deviations": [],
+  "oracle_inputs": [],
+  "benchmark": {
+    "package": "OGBench",
+    "version": "1.2.1",
+    "git_commit": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+    "dataset": "antmaze-large-navigate-v0",
+    "environment": "antmaze-large-v0",
+    "observation_dimension": 29,
+    "action_dimension": 8,
+    "primitive_episode_steps": 1000,
+    "success_radius_m": 0.5,
+    "success_radius_role": "evaluator_only"
+  },
+  "adapter": {
+    "task_projection": "first_two_native_observation_coordinates",
+    "executor_command": "two_dimensional_xy_waypoint",
+    "waypoint_goal_observation": "copy_the_command_start_native_observation_and_replace_only_xy",
+    "task_goal_visible_during_development": false,
+    "native_task_rows_accessed_during_development": false,
+    "environment_geometry_visible_to_planner": false
+  },
+  "executor": {
+    "algorithm": "official_OGBench_CRL",
+    "reference_entrypoint": "impls/main.py",
+    "reference_agent": "impls/agents/crl.py",
+    "reference_main_sha256": "375fad6375047ff59f3baea408ab7197784c1ec1457588a78a631025e434faee",
+    "reference_agent_sha256": "05a9faaa8348a16154a03004b54a7eff90ec58eae2588fe7b2bedef2bfcc48af",
+    "training_steps": 1000000,
+    "training_seed": 0,
+    "alpha": 0.1,
+    "alpha_source": "official_OGBench_1.2.1_AntMaze_Large_CRL_command",
+    "discount": 0.99,
+    "checkpoint_initialization": "from_scratch",
+    "task_evaluation_during_training": false,
+    "use_after_freeze": "identical_checkpoint_for_TF_SN_SGM_and_direct_executor"
+  },
+  "frozen_method_instantiation": {
+    "command_duration_primitive_steps": 100,
+    "episode_commands": 10,
+    "episode_commands_derivation": "1000_primitive_steps_divided_by_100",
+    "preparation_commands": 36000,
+    "preparation_seed": 0,
+    "landing_sigma": "held_out_within_mode_spread",
+    "reach_covariance": "continuously_weighted_empirical_command_reach",
+    "rho_prior_lower": "landing_sigma",
+    "rho_prior_upper": "exact_recorded_support_diameter",
+    "hub_bank": "one_recorded_node_per_occupied_sigma_cell",
+    "link_correction_scale": "landing_sigma",
+    "route_correction_scale": "empirical_reach_covariance",
+    "environment_specific_planner_constants": []
+  },
+  "development_sequence": [
+    "static_and_runtime_preflight_without_resetting_a_native_task",
+    "download_and_hash_official_reward_free_navigate_dataset",
+    "train_one_official_CRL_executor_seed",
+    "audit_chained_100_step_waypoint_capacity_on_dataset_derived_non_task_waypoints",
+    "build_one_reward_free_R74_preparation_seed",
+    "run_supplied_waypoint_and_all_negative_hidden_search_development_gates_on_non_task_rows",
+    "only_then_freeze_and_access_the_native_evaluation_panel"
+  ],
+  "development_goal_rule": {
+    "source": "held_out_validation_achieved_states",
+    "selection": "deterministic_distance_stratified_rows_frozen_before_behavioral_execution",
+    "exclude_native_task_goals": "without_loading_or_comparing_against_native_task_goal_coordinates",
+    "role": "component_and_wiring_development_only"
+  },
+  "advance_conditions": {
+    "executor": "report chained command success, endpoint error, displacement, and inversion without an environment-specific cutoff",
+    "supplied_goal": "the frozen router must improve over the matched direct executor on the frozen non-task development rows",
+    "hidden_search": "later carried episodes must add new occupied sigma cells rather than collapse around the reset",
+    "conformance": "no native task goal, reward, success radius, maze geometry, or hand-scaled maze constant enters preparation or planning"
+  },
+  "excluded_prior_work": {
+    "experiment": "SG/sn E376",
+    "reason": "Its hand-scaled maze constants, fixed grid, support budget, waypoint annulus, and custom horizons are not the frozen R74 method.",
+    "permitted_reuse": "Pinned upstream OGBench source provenance and official executor training invocation only."
+  },
+  "native_evaluation_panel_accessed": false,
+  "task_reward_used": false,
+  "task_gradient_updates": 0
+}
